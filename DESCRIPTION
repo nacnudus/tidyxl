@@ -1,0 +1,22 @@
+Package: tidyxl
+Title: Read Untidy Excel Files
+Version: 0.0.0.9000
+Authors@R: c(
+    person("First", "Last", email = "first.last@example.com", role = c("aut", 
+      "cre", "cph"), comment = "Copyright holder of all R code and all C/C++ code 
+      without explicit copyright attribution"), 
+    person("Marcin", "Kalicinski", role = c("ctb", "cph"), comment = "Author of 
+      included RapidXML code")
+    )
+Description: Imports Excel files into R without forcing the data into data 
+    frames.  Exposes cell content, position and formatting in a tidy structure 
+    for further manipulation.  Supports '.xlsx' and '.xlsm' via the embedded 
+    'RapidXML' C++ library (http://rapidxml.sourceforge.net).  Does not support 
+    '.xlsb' or '.xls'.
+Depends: R (>= 3.3.0)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+LinkingTo: Rcpp
+Imports: Rcpp,
+    readxl
