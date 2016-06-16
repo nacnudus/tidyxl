@@ -53,4 +53,5 @@ most of the formatting (date formatting is sometimes retained).
 The `tidyxl` package sidesteps the problem by importing the content, position
 and formatting of cells, leaving it up to the user to associate the different
 forms of information, and to re-encode them in tabular form without loss of
+information.  Further packages are planned to assist reconstituting the
 information.
