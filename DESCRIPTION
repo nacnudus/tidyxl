@@ -20,3 +20,5 @@ LazyData: true
 LinkingTo: Rcpp
 Imports: Rcpp,
     readxl
+URL: https://github.com/nacnudus/tidyxl
+BugReports: https://github.com/nacnudus/tidyxl/issues
