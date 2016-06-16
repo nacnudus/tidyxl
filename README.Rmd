@@ -4,10 +4,53 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "README-"
 )
 ```
+
+***This package is in early development.***
+
+# tidyxl
+
+Imports untidy Excel files into R without forcing the data into data frames.
+Exposes cell content, position and formatting in a tidy structure for further
+manipulation.  Supports '.xlsx' and '.xlsm' via the embedded
+[RapidXML](http://rapidxml.sourceforge.net) C++ library.  Does not support
+'.xlsb' or '.xls'. 
+
+## Introduction
+
+Most R packages that import spreadsheets have difficulty unless the layout of
+the spreadsheet conforms to a strict definition of a 'table', e.g. 
+
+* observations in rows
+* variables in columns
+* a single header row
+* all information represented by characters, whether textual, logical, or
+  numeric
+
+These rules are designed to eliminate ambiguity in the interpretation of the
+information.
+
+But most spreadsheeting software relaxes these rules to allow expression of
+information in ways that, though hopefully obvious to humans, seem ambiguous to
+computers.  They are
+
+* proximity (other than headers, i.e. other than being the first value at the
+  top of a column)
+* formatting (colours and borders)
+
+Hence the information in many spreadsheets cannot be readily imported into R.
+
+Most R packages that import spreadsheets force the data into a
+strict tabular form, based on its position in the spreadsheet, and discard
+most of the formatting (date formatting is sometimes retained).
+
+The `tidyxl` package sidesteps the problem by importing the content, position
+and formatting of cells, leaving it up to the user to associate the different
+forms of information, and to re-encode them in tabular form without loss of
+information.
