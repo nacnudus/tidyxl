@@ -22,11 +22,11 @@ xlsxsheet::xlsxsheet(const std::string& bookPath, const int& i) {
     Rcpp::stop("Invalid sheet xml (no <sheetData>)");
 }
 
-Rcpp::List xlsxsheet::information(const int& i) {
+Rcpp::List xlsxsheet::information() {
   // Print a node to a string -- could be good for inline-formatted cell text
   std::string s;
   print(std::back_inserter(s), *sheetData_, 0);
 
-  Rcpp::NumericVector x = Rcpp::NumericVector::create(i);
+  Rcpp::NumericVector x = Rcpp::NumericVector::create(1);
   return Rcpp::List::create(Rcpp::Named("x") = s);
 }

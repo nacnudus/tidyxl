@@ -9,7 +9,7 @@ class xlsxsheet {
 public:
 
   xlsxsheet(const std::string& bookPath, const int& i);
-  Rcpp::List information(const int& i);
+  Rcpp::List information();
 
 };
 
