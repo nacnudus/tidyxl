@@ -8,12 +8,17 @@ class xlsxbook {
 
 rapidxml::xml_document<> bookXml_;
 rapidxml::xml_node<>* rootNode_;
-rapidxml::xml_node<>* sheets_;
+std::vector<std::string> sheets_;
 
 public:
 
-  xlsxbook(const std::string& bookPath);
+  xlsxbook(const std::string& path); // constructor
   Rcpp::List information();
+  const std::vector<std::string>& sheets(); // sheet names
+
+private:
+
+  void cacheSheets(rapidxml::xml_node<>* sheets);
 
 };
 
