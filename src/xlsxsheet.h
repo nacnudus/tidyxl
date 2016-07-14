@@ -6,6 +6,10 @@
 
 class xlsxsheet {
 
+rapidxml::xml_document<> sheetXml_;
+rapidxml::xml_node<>* rootNode_;
+rapidxml::xml_node<>* sheetData_;
+
 public:
 
   xlsxsheet(const std::string& bookPath, const int& i);
@@ -14,5 +18,3 @@ public:
 };
 
 #endif
-
-
