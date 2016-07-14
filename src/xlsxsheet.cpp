@@ -4,14 +4,13 @@
 #include "rapidxml_print.h"
 #include "xlsxsheet.h"
 
-std::string sheet_;
 rapidxml::xml_document<> sheetXml_;
 rapidxml::xml_node<>* rootNode_;
 rapidxml::xml_node<>* sheetData_;
 
 xlsxsheet::xlsxsheet(const std::string& bookPath, const int& i) {
   std::string sheetPath = tfm::format("xl/worksheets/sheet%i.xml", i + 1);
-  sheet_ = zip_buffer(bookPath, sheetPath);
+  std::string sheet_ = zip_buffer(bookPath, sheetPath);
   sheetXml_.parse<0>(&sheet_[0]);
 
   rootNode_ = sheetXml_.first_node("worksheet");
