@@ -14,7 +14,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 List xlsx_read_(std::string path, IntegerVector sheets) {
-  // Read the strings/style/theme
+  // Parse book-level information (e.g. styles, themes, strings, date system)
   /* xlsxbook book(path); */
 
   // Loop through sheets
