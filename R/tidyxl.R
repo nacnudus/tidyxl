@@ -10,14 +10,14 @@ NULL
 #' @export
 #' @examples
 #' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
-#' read_excel(datasets)
+#' tidyxl(datasets)
 #'
 #' # Specific sheet either by position or by name
 #' tidyxl(datasets, 2)
 #' tidyxl(datasets, "mtcars")
 tidyxl <- function(path, sheet = 1) {
   path <- check_file(path)
-  sheet <- standardise_sheet(sheet, xlsx_sheets(path))
+  sheet <- standardise_sheet(sheet, xlsx_sheet_names(path))
 
   xlsx_read_(path, sheet)
 }

@@ -25,7 +25,7 @@ Read xlsx data and formatting
 }}
 \examples{
 datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
-read_excel(datasets)
+tidyxl(datasets)
 
 # Specific sheet either by position or by name
 tidyxl(datasets, 2)
