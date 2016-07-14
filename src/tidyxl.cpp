@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <Rcpp.h>
 #include "xlsxsheet.h"
+#include "xlsxbook.h"
 
 using namespace Rcpp;
 
@@ -15,19 +16,21 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 List xlsx_read_(std::string path, IntegerVector sheets) {
   // Parse book-level information (e.g. styles, themes, strings, date system)
-  /* xlsxbook book(path); */
+  xlsxbook book(path);
 
-  // Loop through sheets
-  List out(sheets.size());
+  List out;
+  out["sheets"] = xlsxbook(path).information();
 
-  IntegerVector::iterator in_it;
-  List::iterator out_it;
+  /* // Loop through sheets */
+  /* List out(sheets.size()); */
 
-  for(in_it = sheets.begin(), out_it = out.begin(); in_it != sheets.end(); 
-      ++in_it, ++out_it) {
-    *out_it = xlsxsheet(path, *in_it).information();
-  }
+  /* IntegerVector::iterator in_it; */
+  /* List::iterator out_it; */
+
+  /* for(in_it = sheets.begin(), out_it = out.begin(); in_it != sheets.end(); */ 
+  /*     ++in_it, ++out_it) { */
+  /*   *out_it = xlsxsheet(path, *in_it).information(); */
+  /* } */
 
   return out;
 }
-
