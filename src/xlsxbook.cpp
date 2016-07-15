@@ -4,29 +4,31 @@
 #include "rapidxml_print.h"
 #include "xlsxbook.h"
 
+using namespace Rcpp;
+
 xlsxbook::xlsxbook(const std::string& path) {
   std::string book_ = zip_buffer(path, "xl/workbook.xml");
   bookXml_.parse<0>(&book_[0]);
 
   rootNode_ = bookXml_.first_node("workbook");
   if (rootNode_ == NULL)
-    Rcpp::stop("Invalid workbook xml (no <workbook>)");
+    stop("Invalid workbook xml (no <workbook>)");
 
   rapidxml::xml_node<>* sheets_;
   sheets_ = rootNode_->first_node("sheets");
   if (sheets_ == NULL)
-    Rcpp::stop("Invalid workbook xml (no <sheets>)");
+    stop("Invalid workbook xml (no <sheets>)");
 
   cacheSheets(sheets_);
 }
 
-Rcpp::List xlsxbook::information() {
+List xlsxbook::information() {
   /* // Print a node to a string -- could be good for inline-formatted cell text */
   /* std::string s; */
   /* print(std::back_inserter(s), *sheets_, 0); */
 
-  Rcpp::NumericVector x = Rcpp::NumericVector::create(1);
-  return Rcpp::List::create(Rcpp::Named("x") = sheets_);
+  NumericVector x = NumericVector::create(1);
+  return List::create(Named("x") = sheets_);
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
