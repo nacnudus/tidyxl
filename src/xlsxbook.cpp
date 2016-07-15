@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 #include "zip.h"
 #include "rapidxml.h"
-#include "rapidxml_print.h"
 #include "xlsxbook.h"
 
 using namespace Rcpp;
@@ -20,15 +19,6 @@ xlsxbook::xlsxbook(const std::string& path) {
     stop("Invalid workbook xml (no <sheets>)");
 
   cacheSheets(sheets_);
-}
-
-List xlsxbook::information() {
-  /* // Print a node to a string -- could be good for inline-formatted cell text */
-  /* std::string s; */
-  /* print(std::back_inserter(s), *sheets_, 0); */
-
-  NumericVector x = NumericVector::create(1);
-  return List::create(Named("x") = sheets_);
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {

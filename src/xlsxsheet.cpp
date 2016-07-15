@@ -1,7 +1,6 @@
 #include <Rcpp.h>
 #include "zip.h"
 #include "rapidxml.h"
-#include "rapidxml_print.h"
 #include "xlsxsheet.h"
 #include "xlsxbook.h"
 
@@ -27,10 +26,6 @@ xlsxsheet::xlsxsheet(
 }
 
 List xlsxsheet::information() {
-  // Print a node to a string -- could be good for inline-formatted cell text
-  std::string s;
-  print(std::back_inserter(s), *sheetData_, 0);
-
   NumericVector x = NumericVector::create(1);
-  return List::create(Named(name_) = s);
+  return List::create(Named(name_) = "Hello");
 }

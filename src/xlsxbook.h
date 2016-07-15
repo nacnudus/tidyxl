@@ -13,7 +13,6 @@ std::vector<std::string> sheets_;
 public:
 
   xlsxbook(const std::string& path); // constructor
-  Rcpp::List information();
   std::vector<std::string> sheets(); // sheet names
 
 private:
