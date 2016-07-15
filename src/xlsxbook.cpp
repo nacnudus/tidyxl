@@ -8,14 +8,14 @@ using namespace Rcpp;
 
 xlsxbook::xlsxbook(const std::string& path) {
   std::string book_ = zip_buffer(path, "xl/workbook.xml");
-  bookXml_.parse<0>(&book_[0]);
+  xml_.parse<0>(&book_[0]);
 
-  rootNode_ = bookXml_.first_node("workbook");
-  if (rootNode_ == NULL)
+  workbook_ = xml_.first_node("workbook");
+  if (workbook_ == NULL)
     stop("Invalid workbook xml (no <workbook>)");
 
   rapidxml::xml_node<>* sheets_;
-  sheets_ = rootNode_->first_node("sheets");
+  sheets_ = workbook_->first_node("sheets");
   if (sheets_ == NULL)
     stop("Invalid workbook xml (no <sheets>)");
 

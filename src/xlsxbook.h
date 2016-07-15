@@ -6,8 +6,8 @@
 
 class xlsxbook {
 
-rapidxml::xml_document<> bookXml_;
-rapidxml::xml_node<>* rootNode_;
+rapidxml::xml_document<> xml_;
+rapidxml::xml_node<>* workbook_;
 std::vector<std::string> sheets_;
 
 public:

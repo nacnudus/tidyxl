@@ -8,8 +8,8 @@
 class xlsxsheet {
 
 std::string name_;
-rapidxml::xml_document<> sheetXml_;
-rapidxml::xml_node<>* rootNode_;
+rapidxml::xml_document<> xml_;
+rapidxml::xml_node<>* worksheet_;
 rapidxml::xml_node<>* sheetData_;
 
 public:
