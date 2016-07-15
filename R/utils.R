@@ -27,18 +27,19 @@ excel_format <- function(path) {
   )
 }
 
-standardise_sheet <- function(sheet, sheet_names) {
-  if (length(sheet) != 1) {
-    stop("`sheet` must have length 1", call. = FALSE)
-  }
-
-  if (is.numeric(sheet)) {
-    floor(sheet) - 1L
-  } else if (is.character(sheet)) {
-    if (!(sheet %in% sheet_names)) {
-      stop("Sheet '", sheet, "' not found", call. = FALSE)
+standardise_sheet <- function(sheets, sheet_names) {
+  if (is.numeric(sheets)) {
+    if (max(sheets) > length(sheet_names)) {
+      stop("Only ", length(sheet_names), " sheet(s) found.", call. = FALSE)
     }
-    match(sheet, sheet_names) - 1L
+    floor(sheets) - 1L
+  } else if (is.character(sheets)) {
+    indices <- match(sheets, sheet_names)
+    if (anyNA(indices)) {
+      stop("Sheet(s) not found: ", paste(sheets[is.na(indices)], collapse = "\", \""),
+           call. = FALSE)
+    }
+    indices - 1L
   } else {
     stop("`sheet` must be either an integer or a string.", call. = FALSE)
   }
