@@ -31,8 +31,13 @@ xlsxsheet::xlsxsheet(
 }
 
 List xlsxsheet::information() {
-  /* return List::create(Named(name_) = std::to_string(cellcount_)); */
-  return List::create(Named(name_) = address_);
+  // Returns a nested data frame of everything, the data frame itself wrapped in
+  // a list.
+  List data = Rcpp::DataFrame::create(
+      Named("address") = address_,
+      Named("row")     = row_,
+      Named("col")     = col_
+      );
 }
 
 void xlsxsheet::cacheCellcount() {
@@ -78,6 +83,8 @@ void xlsxsheet::parseSheetData() {
       xlsxcell cell(c);
 
       address_[i] = cell.address();
+      row_[i] = cell.row();
+      col_[i] = cell.col();
 
       ++i;
     }
