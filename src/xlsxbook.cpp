@@ -36,6 +36,7 @@ void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
   // Most often it will be 3, but two resizes won't matter much, so I don't
   // bother reserving.
   // http://stackoverflow.com/a/7397862/937932 recommends not reserving anyway.
+
   for (rapidxml::xml_node<>* sheet = sheets->first_node();
       sheet; sheet = sheet->next_sibling()) {
     std::string name = sheet->first_attribute("name")->value();
@@ -43,6 +44,6 @@ void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
   }
 }
 
-const std::vector<std::string>& xlsxbook::sheets() {
+std::vector<std::string> xlsxbook::sheets() {
   return sheets_;
 }

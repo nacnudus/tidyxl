@@ -14,7 +14,7 @@ public:
 
   xlsxbook(const std::string& path); // constructor
   Rcpp::List information();
-  const std::vector<std::string>& sheets(); // sheet names
+  std::vector<std::string> sheets(); // sheet names
 
 private:
 

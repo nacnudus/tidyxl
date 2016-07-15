@@ -32,6 +32,11 @@ CharacterVector xlsx_sheet_names(std::string path) {
   if (sheets == NULL)
     Rcpp::stop("Invalid workbook xml (no <sheets>)");
 
+  // ECMA specifies no maximum number of sheets
+  // Most often it will be 3, but two resizes won't matter much, so I don't
+  // bother reserving.
+  // http://stackoverflow.com/a/7397862/937932 recommends not reserving anyway.
+
   std::vector<std::string> names;
 
   for (rapidxml::xml_node<>* sheet = sheets->first_node();
@@ -48,19 +53,19 @@ List xlsx_read_(std::string path, IntegerVector sheets) {
   // Parse book-level information (e.g. styles, themes, strings, date system)
   xlsxbook book(path);
 
-  List out;
-  out["sheets"] = xlsxbook(path).sheets();
+  /* List out; */
+  /* out["sheets"] = xlsxbook(path).sheets(); */
 
-  /* // Loop through sheets */
-  /* List out(sheets.size()); */
+  // Loop through sheets
+  List out(sheets.size());
 
-  /* IntegerVector::iterator in_it; */
-  /* List::iterator out_it; */
+  IntegerVector::iterator in_it;
+  List::iterator out_it;
 
-  /* for(in_it = sheets.begin(), out_it = out.begin(); in_it != sheets.end(); */ 
-  /*     ++in_it, ++out_it) { */
-  /*   *out_it = xlsxsheet(path, *in_it).information(); */
-  /* } */
+  for(in_it = sheets.begin(), out_it = out.begin(); in_it != sheets.end(); 
+      ++in_it, ++out_it) {
+    *out_it = xlsxsheet(path, *in_it, book).information();
+  }
 
   return out;
 }
