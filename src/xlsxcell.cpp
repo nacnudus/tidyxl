@@ -8,7 +8,7 @@ using namespace Rcpp;
 xlsxcell::xlsxcell(rapidxml::xml_node<>* c): c_(c) {
     rapidxml::xml_attribute<>* r = c_->first_attribute("r");
     if (r == NULL)
-      Rcpp::stop("Invalid cell: lacks 'r' attribute");
+      stop("Invalid cell: lacks 'r' attribute");
     address_ = std::string(r->value());
     parseAddress(address_, row_, col_);
 
