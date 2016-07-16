@@ -17,7 +17,7 @@ public:
 
 private:
 
-  void cacheSheets(rapidxml::xml_node<>* sheets);
+  void cacheSheets(rapidxml::xml_node<>* sheets); // sheet names
 
 };
 
