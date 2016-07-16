@@ -31,7 +31,7 @@ inline void parseAddress(std::string& address, int& row, int& col) {
   }
 }
 
-inline void getValueString(Rcpp::String& container,
+inline void getChildValueString(Rcpp::String& container,
     const char* childname, rapidxml::xml_node<>* parent) {
   rapidxml::xml_node<>* child = parent->first_node(childname);
   if (child == NULL) {

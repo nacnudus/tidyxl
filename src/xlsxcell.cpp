@@ -12,7 +12,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c): c_(c) {
     address_ = std::string(r->value());
     parseAddress(address_, row_, col_);
 
-    getValueString(content_, "v", c_);
+    getChildValueString(content_, "v", c_);
 
     /* rapidxml::xml_attribute<>* type = cell_->first_attribute("t"); */
     /* if (type == NULL) { */
