@@ -35,18 +35,8 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c): c_(c) {
 
 }
 
-std::string xlsxcell::address() {
-  return(address_);
-}
-
-int xlsxcell::row() {
-  return(row_);
-}
-
-int xlsxcell::col() {
-  return(col_);
-}
-
-String xlsxcell::content() {
-  return content_;
-}
+std::string xlsxcell::address() {return(address_);}
+int xlsxcell::row() {return(row_);}
+int xlsxcell::col() {return(col_);}
+String xlsxcell::content() {return content_;}
+String xlsxcell::type() {return type_;}
