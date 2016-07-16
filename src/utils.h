@@ -51,4 +51,14 @@ inline void getAttributeValueString(Rcpp::String& container,
   }
 }
 
+inline void getAttributeValueDouble(Rcpp::String& container,
+    const char* attributename, rapidxml::xml_node<>* parent) {
+  rapidxml::xml_attribute<>* attribute = parent->first_attribute(attributename);
+  if (attribute == NULL) {
+    container = NA_REAL;
+  } else {
+    container = atof(attribute->value());
+  }
+}
+
 #endif
