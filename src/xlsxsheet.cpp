@@ -34,8 +34,18 @@ xlsxsheet::xlsxsheet(
 List xlsxsheet::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  List data = List::create(address_, row_, col_, content_);
-  CharacterVector colnames = CharacterVector::create("address", "row", "col", "content_");
+  List data = List::create(
+      address_,
+      row_,
+      col_,
+      content_,
+      type_);
+  CharacterVector colnames = CharacterVector::create(
+      "address",
+      "row",
+      "col",
+      "content",
+      "type");
   makeDataFrame(data, colnames);
   return data;
 }
@@ -86,6 +96,7 @@ void xlsxsheet::parseSheetData() {
       row_[i] = cell.row();
       col_[i] = cell.col();
       content_[i] = cell.content();
+      type_[i] = cell.type();
 
       ++i;
     }

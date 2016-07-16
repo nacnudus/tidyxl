@@ -13,6 +13,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c): c_(c) {
     parseAddress(address_, row_, col_);
 
     getChildValueString(content_, "v", c_);
+    getAttributeValueString(type_, "t", c_);
 
     /* rapidxml::xml_attribute<>* type = cell_->first_attribute("t"); */
     /* if (type == NULL) { */

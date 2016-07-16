@@ -39,6 +39,7 @@ public:
   int row();
   int col();
   Rcpp::String content();
+  Rcpp::String type();
 
 };
 
