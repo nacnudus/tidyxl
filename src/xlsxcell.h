@@ -40,6 +40,7 @@ public:
   int row();
   int col();
   Rcpp::String content();
+  Rcpp::String formula();
   Rcpp::String type();
   double height();
   double width();

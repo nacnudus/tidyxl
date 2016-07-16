@@ -14,6 +14,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c, double& height):
     parseAddress(address_, row_, col_);
 
     getChildValueString(content_, "v", c_);
+    getChildValueString(formula_, "f", c_);
     getAttributeValueString(type_, "t", c_);
 
     /* rapidxml::xml_attribute<>* type = cell_->first_attribute("t"); */
@@ -41,6 +42,7 @@ std::string xlsxcell::address() {return(address_);}
 int xlsxcell::row() {return(row_);}
 int xlsxcell::col() {return(col_);}
 String xlsxcell::content() {return content_;}
+String xlsxcell::formula() {return formula_;}
 String xlsxcell::type() {return type_;}
 double xlsxcell::height() {return height_;}
 double xlsxcell::width() {return width_;}

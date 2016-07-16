@@ -40,6 +40,7 @@ List xlsxsheet::information() {
       row_,
       col_,
       content_,
+      formula_,
       type_,
       height_,
       width_);
@@ -48,6 +49,7 @@ List xlsxsheet::information() {
       "row",
       "col",
       "content",
+      "formula",
       "type",
       "height",
       "width");
@@ -136,6 +138,7 @@ void xlsxsheet::parseSheetData() {
       row_[i] = cell.row();
       col_[i] = cell.col();
       content_[i] = cell.content();
+      formula_[i] = cell.formula();
       type_[i] = cell.type();
       height_[i] = cell.height();
       width_[i] = cell.width();
