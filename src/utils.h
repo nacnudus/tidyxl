@@ -41,4 +41,14 @@ inline void getChildValueString(Rcpp::String& container,
   }
 }
 
+inline void getAttributeValueString(Rcpp::String& container,
+    const char* attributename, rapidxml::xml_node<>* parent) {
+  rapidxml::xml_attribute<>* attribute = parent->first_attribute(attributename);
+  if (attribute == NULL) {
+    container = NA_STRING;
+  } else {
+    container = attribute->value();
+  }
+}
+
 #endif
