@@ -4,6 +4,7 @@
 #include "xlsxcell.h"
 #include "xlsxsheet.h"
 #include "xlsxbook.h"
+#include "utils.h"
 
 using namespace Rcpp;
 
@@ -33,11 +34,10 @@ xlsxsheet::xlsxsheet(
 List xlsxsheet::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  List data = Rcpp::DataFrame::create(
-      Named("address") = address_,
-      Named("row")     = row_,
-      Named("col")     = col_
-      );
+  List data = List::create(address_, row_, col_);
+  CharacterVector colnames = CharacterVector::create("address", "row", "col");
+  makeDataFrame(data, colnames);
+  return data;
 }
 
 void xlsxsheet::cacheCellcount() {

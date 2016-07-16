@@ -36,7 +36,7 @@ public:
 
   xlsxsheet(const std::string& bookPath,
       const int& i, xlsxbook& book);
-  Rcpp::List information();
+  Rcpp::List information();       // Cells contents and styles DF wrapped in list
 
 private:
 
