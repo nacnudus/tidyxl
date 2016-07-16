@@ -14,6 +14,7 @@ rapidxml::xml_node<>* sheetData_;
 unsigned long long int cellcount_;
 double defaultRowHeight_ = 15;
 double defaultColWidth_ = 8.47;
+std::vector<double> colWidths_;
 
 // The remaining variables go to R
 Rcpp::CharacterVector address_;   // Value of node r
@@ -44,6 +45,7 @@ public:
 private:
 
   void cacheDefaultRowColDims();
+  void cacheColWidths();
   void cacheCellcount();
   void initializeColumns();
   void parseSheetData();

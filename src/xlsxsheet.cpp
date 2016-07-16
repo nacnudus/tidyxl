@@ -27,6 +27,7 @@ xlsxsheet::xlsxsheet(
   name_ = book.sheets()[i];
 
   cacheDefaultRowColDims();
+  cacheColWidths();
   cacheCellcount();
   initializeColumns();
   parseSheetData();
@@ -79,6 +80,32 @@ void xlsxsheet::cacheDefaultRowColDims() {
   }
 }
 
+void xlsxsheet::cacheColWidths() {
+  // Having done cacheDefaultRowColDims(), initilize vector to default width,
+  // then update with custom widths.  The number of columns might be available
+  // by parsing <dimension><ref>, but if not then only by parsing the address of
+  // all the cells.  I think it's better just to use the maximum possible number
+  // of columns, 16834.
+
+  rapidxml::xml_node<>* cols = worksheet_->first_node("cols");
+  if (cols == NULL)
+    return; // No point, no cells anyway
+
+  colWidths_.assign(16384, defaultColWidth_);
+
+  for (rapidxml::xml_node<>* col = cols->first_node("col");
+      col; col = col->next_sibling("col")) {
+
+    // <col> applies to columns from a min to a max, which must be iterated over
+    int min  = atoi(col->first_attribute("min")->value());
+    int max  = atoi(col->first_attribute("max")->value());
+    double width = atof(col->first_attribute("width")->value());
+
+    for (int column = min; column <= max; ++column)
+      colWidths_[column - 1] = width;
+  }
+}
+
 void xlsxsheet::cacheCellcount() {
   // Iterate over all rows and cells to count
   cellcount_ = 0;
@@ -122,17 +149,17 @@ void xlsxsheet::parseSheetData() {
       Rcpp::checkUserInterrupt();
 
     // Check for custom row height
-    double rowheight = defaultRowHeight_;
+    double rowHeight = defaultRowHeight_;
     rapidxml::xml_attribute<>* ht = row->first_attribute("ht");
     if (ht != NULL) 
-      rowheight = atof(ht->value());
+      rowHeight = atof(ht->value());
 
-    // Col widths must be looked up among cols->col, which combine multiple cols
-    // of the same properties.  Not yet implemented.
+    // Col widths are looked up among <cols><col>, the passed by reference to
+    // the cell, which looks up its own column
 
     for (rapidxml::xml_node<>* c = row->first_node("c");
         c; c = c->next_sibling("c")) {
-      xlsxcell cell(c, rowheight);
+      xlsxcell cell(c, rowHeight, colWidths_);
 
       address_[i] = cell.address();
       row_[i] = cell.row();

@@ -5,13 +5,15 @@
 
 using namespace Rcpp;
 
-xlsxcell::xlsxcell(rapidxml::xml_node<>* c, double& height): 
+xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
+    double& height, std::vector<double>& colWidths): 
   c_(c), height_(height) {
     rapidxml::xml_attribute<>* r = c_->first_attribute("r");
     if (r == NULL)
       stop("Invalid cell: lacks 'r' attribute");
     address_ = std::string(r->value());
     parseAddress(address_, row_, col_);
+    width_ = colWidths[col_ - 1];
 
     getChildValueString(content_, "v", c_);
     getChildValueString(formula_, "f", c_);
