@@ -16,6 +16,7 @@ std::string  address_;    // Value of node r
 int          row_;        // Parsed address_ (one-based)
 int          col_;        // Parsed address_ (one-based)
 Rcpp::String content_;    // Unparsed value of node v
+Rcpp::String formula_;    // If present
 
 Rcpp::List   value_;      // Parsed value wrapped in unnamed list
 Rcpp::String type_;       // Type of the parsed value

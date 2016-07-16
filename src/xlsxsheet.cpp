@@ -90,11 +90,12 @@ void xlsxsheet::cacheCellcount() {
 }
 
 void xlsxsheet::initializeColumns() {
-  // Having counted the cells, make columns of that length
+  // Having done cacheCellcount(), make columns of that length
   address_   = CharacterVector(cellcount_, NA_STRING);
   row_       = IntegerVector(cellcount_,   NA_INTEGER);
   col_       = IntegerVector(cellcount_,   NA_INTEGER);
   content_   = CharacterVector(cellcount_, NA_STRING);
+  formula_   = CharacterVector(cellcount_, NA_STRING);
   value_     = List(cellcount_);
   type_      = CharacterVector(cellcount_, NA_STRING);
   logical_   = LogicalVector(cellcount_,   NA_LOGICAL);
