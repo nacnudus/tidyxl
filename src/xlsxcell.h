@@ -15,11 +15,12 @@ rapidxml::xml_node<>* c_; // Provided to constructor
 std::string  address_;    // Value of node r
 int          row_;        // Parsed address_ (one-based)
 int          col_;        // Parsed address_ (one-based)
+
 Rcpp::String content_;    // Unparsed value of node v
 Rcpp::String formula_;    // If present
+Rcpp::String type_;       // Type of the parsed value
 
 Rcpp::List   value_;      // Parsed value wrapped in unnamed list
-Rcpp::String type_;       // Type of the parsed value
 
 // The following are NA unless relevant to the cell type, but if NA then
 // they should never be sought, because celltype should flag which is relevant.
