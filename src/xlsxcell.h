@@ -21,7 +21,7 @@ Rcpp::String formula_;    // If present
 Rcpp::List   value_;      // Parsed value wrapped in unnamed list
 Rcpp::String type_;       // Type of the parsed value
 
-// The following are NULL unless relevant to the cell type, but if NULL then
+// The following are NA unless relevant to the cell type, but if NA then
 // they should never be sought, because celltype should flag which is relevant.
 bool         logical_;    // Parsed value
 double       numeric_;    // Parsed value
