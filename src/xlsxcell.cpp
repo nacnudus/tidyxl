@@ -5,7 +5,8 @@
 
 using namespace Rcpp;
 
-xlsxcell::xlsxcell(rapidxml::xml_node<>* c): c_(c) {
+xlsxcell::xlsxcell(rapidxml::xml_node<>* c, double& height): 
+  c_(c), height_(height) {
     rapidxml::xml_attribute<>* r = c_->first_attribute("r");
     if (r == NULL)
       stop("Invalid cell: lacks 'r' attribute");
@@ -41,3 +42,5 @@ int xlsxcell::row() {return(row_);}
 int xlsxcell::col() {return(col_);}
 String xlsxcell::content() {return content_;}
 String xlsxcell::type() {return type_;}
+double xlsxcell::height() {return height_;}
+double xlsxcell::width() {return width_;}

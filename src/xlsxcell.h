@@ -34,12 +34,14 @@ double width_;            // Provided to constructor
 
 public:
 
-  xlsxcell(rapidxml::xml_node<>* c); // constructor: c is the node of the cell
+  xlsxcell(rapidxml::xml_node<>* c, double& rowheight); // c is the node of the cell
   std::string address();
   int row();
   int col();
   Rcpp::String content();
   Rcpp::String type();
+  double height();
+  double width();
 
 };
 
