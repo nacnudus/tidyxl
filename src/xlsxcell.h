@@ -40,10 +40,6 @@ public:
   int col();
   Rcpp::String content();
 
-private:
-
-  void parseAddress(); // convert address to row and column integers
-
 };
 
 #endif

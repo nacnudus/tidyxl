@@ -10,7 +10,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c): c_(c) {
     if (r == NULL)
       Rcpp::stop("Invalid cell: lacks 'r' attribute");
     address_ = std::string(r->value());
-    parseAddress();
+    parseAddress(address_, row_, col_);
 
     rapidxml::xml_node<>* v = c_->first_node("v");
     if (v == NULL) {
@@ -55,24 +55,3 @@ int xlsxcell::col() {
 String xlsxcell::content() {
   return content_;
 }
-
-// Based on hadley/readxl
-// Simple parser: does not check that order of numbers and letters is correct
-// row_ and column_ are one-based
-void xlsxcell::parseAddress() {
-  col_ = 0;
-  row_ = 0;
-
-  // Iterate though std::string character by character
-  for(std::string::const_iterator iter = address_.begin();
-      iter != address_.end(); ++iter) {
-    if (*iter >= '0' && *iter <= '9') { // If it's a number
-      row_ = row_ * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
-    } else if (*iter >= 'A' && *iter <= 'Z') { // If it's a character
-      col_ = 26 * col_ + (*iter - 'A' + 1); // Then do similarly  with columns
-    } else {
-      Rcpp::stop("Invalid character '%s' in cell ref '%s'", *iter, address_);
-    }
-  }
-}
-
