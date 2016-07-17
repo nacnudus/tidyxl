@@ -2,11 +2,12 @@
 #include "zip.h"
 #include "rapidxml.h"
 #include "xlsxbook.h"
+#include "utils.h"
 
 using namespace Rcpp;
 
-xlsxbook::xlsxbook(const std::string& path) {
-  std::string book_ = zip_buffer(path, "xl/workbook.xml");
+xlsxbook::xlsxbook(const std::string& path): path_(path) {
+  std::string book_ = zip_buffer(path_, "xl/workbook.xml");
   xml_.parse<0>(&book_[0]);
 
   workbook_ = xml_.first_node("workbook");
@@ -19,6 +20,19 @@ xlsxbook::xlsxbook(const std::string& path) {
     stop("Invalid workbook xml (no <sheets>)");
 
   cacheSheets(sheets_);
+  cacheStringTable();
+}
+
+std::string xlsxbook::path() {
+  return path_;
+}
+
+std::vector<std::string> xlsxbook::sheets() {
+  return sheets_;
+}
+
+std::vector<std::string> xlsxbook::strings() {
+  return strings_;
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
@@ -34,6 +48,30 @@ void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
   }
 }
 
-std::vector<std::string> xlsxbook::sheets() {
-  return sheets_;
+// Based on hadley/readxl
+void xlsxbook::cacheStringTable() {
+  if (!zip_has_file(path_, "xl/sharedStrings.xml"))
+    return;
+
+  std::string xml = zip_buffer(path_, "xl/sharedStrings.xml");
+  rapidxml::xml_document<> sharedStrings;
+  sharedStrings.parse<0>(&xml[0]);
+
+  rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
+  if (sst == NULL)
+    return;
+
+  rapidxml::xml_attribute<>* count = sst->first_attribute("count");
+  if (count != NULL) {
+    int n = atoi(count->value());
+    strings_.reserve(n);
+  }
+
+  // 18.4.8 si (String Item) [p1725]
+  for (rapidxml::xml_node<>* string = sst->first_node();
+       string; string = string->next_sibling()) {
+    std::string out;
+    parseString(string, out);    // missing strings are treated as empty ""
+    strings_.push_back(out);
+  }
 }

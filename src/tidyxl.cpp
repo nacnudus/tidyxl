@@ -64,7 +64,7 @@ List xlsx_read_(std::string path, IntegerVector sheets) {
 
   for(in_it = sheets.begin(), out_it = out.begin(); in_it != sheets.end(); 
       ++in_it, ++out_it) {
-    *out_it = xlsxsheet(path, *in_it, book).information();
+    *out_it = xlsxsheet(*in_it, book).information();
   }
 
   return out;

@@ -1,13 +1,14 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
+#include "xlsxbook.h"
 #include "xlsxcell.h"
 #include "utils.h"
 
 using namespace Rcpp;
 
 xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
-    double& height, std::vector<double>& colWidths): 
-  c_(c), height_(height) {
+    double& height, std::vector<double>& colWidths, xlsxbook& book): 
+  c_(c), height_(height), book_(book) {
     rapidxml::xml_attribute<>* r = c_->first_attribute("r");
     if (r == NULL)
       stop("Invalid cell: lacks 'r' attribute");

@@ -8,11 +8,9 @@
 
 using namespace Rcpp;
 
-xlsxsheet::xlsxsheet(
-    const std::string& bookPath,
-    const int& i, xlsxbook& book) {
-  std::string sheetPath = tfm::format("xl/worksheets/sheet%i.xml", i + 1);
-  std::string sheet_ = zip_buffer(bookPath, sheetPath);
+xlsxsheet::xlsxsheet(const int& sheetindex, xlsxbook& book): book_(book) {
+  std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex + 1);
+  std::string sheet_ = zip_buffer(book_.path(), sheetpath);
   xml_.parse<0>(&sheet_[0]);
 
   worksheet_ = xml_.first_node("worksheet");
@@ -24,7 +22,7 @@ xlsxsheet::xlsxsheet(
     stop("Invalid sheet xml (no <sheetData>)");
 
   // Look up name among worksheets in book
-  name_ = book.sheets()[i];
+  name_ = book_.sheets()[sheetindex];
 
   cacheDefaultRowColDims();
   cacheColWidths();
@@ -159,7 +157,7 @@ void xlsxsheet::parseSheetData() {
 
     for (rapidxml::xml_node<>* c = row->first_node("c");
         c; c = c->next_sibling("c")) {
-      xlsxcell cell(c, rowHeight, colWidths_);
+      xlsxcell cell(c, rowHeight, colWidths_, book_);
 
       address_[i] = cell.address();
       row_[i] = cell.row();

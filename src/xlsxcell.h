@@ -3,11 +3,12 @@
 
 #include <Rcpp.h>
 #include "rapidxml.h"
+#include "xlsxbook.h"
 
 class xlsxcell {
 
 rapidxml::xml_node<>* c_; // Provided to constructor
-
+xlsxbook& book_;          // Parent workbook
 /* celltype celltype;     // TODO: cell type enumeration */
 
 // The remaining variables go to R.
@@ -36,8 +37,8 @@ double width_;            // Provided to constructor
 
 public:
 
-  xlsxcell(rapidxml::xml_node<>* c,
-      double& height, std::vector<double>& colWidths); // c is the node of the cell
+  xlsxcell(rapidxml::xml_node<>* c, double& height, 
+      std::vector<double>& colWidths, xlsxbook& book); // c is the node of the cell
   std::string address();
   int row();
   int col();
