@@ -21,12 +21,16 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     if (v_ != NULL) {
       vvalue_ = v_->value();
       content_ = vvalue_;
+    } else {
+      content_ = NA_STRING;
     }
 
     t_ = c_->first_attribute("t");
     if (t_ != NULL) {
       tvalue_ = t_->value();
       type_ = tvalue_;
+    } else {
+      type_ = NA_STRING;
     }
 
     // TODO: Formulas are more complicated than this, because they're shared.
