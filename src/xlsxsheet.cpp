@@ -87,11 +87,11 @@ void xlsxsheet::cacheColWidths() {
   // all the cells.  I think it's better just to use the maximum possible number
   // of columns, 16834.
 
+  colWidths_.assign(16384, defaultColWidth_);
+
   rapidxml::xml_node<>* cols = worksheet_->first_node("cols");
   if (cols == NULL)
-    return; // No point, no cells anyway
-
-  colWidths_.assign(16384, defaultColWidth_);
+    return; // No custom widths
 
   for (rapidxml::xml_node<>* col = cols->first_node("col");
       col; col = col->next_sibling("col")) {
