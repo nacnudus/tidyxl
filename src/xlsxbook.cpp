@@ -31,7 +31,7 @@ std::vector<std::string> xlsxbook::sheets() {
   return sheets_;
 }
 
-std::vector<std::string> xlsxbook::strings() {
+std::vector<std::string>& xlsxbook::strings() {
   return strings_;
 }
 

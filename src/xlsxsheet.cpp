@@ -41,6 +41,7 @@ List xlsxsheet::information() {
       content_,
       formula_,
       type_,
+      character_,
       height_,
       width_);
   CharacterVector colnames = CharacterVector::create(
@@ -50,6 +51,7 @@ List xlsxsheet::information() {
       "content",
       "formula",
       "type",
+      "character",
       "height",
       "width");
   makeDataFrame(data, colnames);
@@ -165,6 +167,7 @@ void xlsxsheet::parseSheetData() {
       content_[i] = cell.content();
       formula_[i] = cell.formula();
       type_[i] = cell.type();
+      character_[i] = cell.character();
       height_[i] = cell.height();
       width_[i] = cell.width();
 
