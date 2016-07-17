@@ -20,7 +20,7 @@ xlsxbook::xlsxbook(const std::string& path): path_(path) {
     stop("Invalid workbook xml (no <sheets>)");
 
   cacheSheets(sheets_);
-  cacheStringTable();
+  cacheStrings();
 }
 
 std::string xlsxbook::path() {
@@ -49,7 +49,7 @@ void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
 }
 
 // Based on hadley/readxl
-void xlsxbook::cacheStringTable() {
+void xlsxbook::cacheStrings() {
   if (!zip_has_file(path_, "xl/sharedStrings.xml"))
     return;
 

@@ -34,33 +34,33 @@ inline void parseAddress(std::string& address, int& row, int& col) {
   }
 }
 
-inline void getChildValueString(Rcpp::String& container,
-    const char* childname, rapidxml::xml_node<>* parent) {
-  rapidxml::xml_node<>* child = parent->first_node(childname);
+inline void getChildValueString(
+    // Find node if exists, assign it to the given pointer, and assign it's
+    // value to the given reference.
+    const char* childname, 
+    rapidxml::xml_node<>* parent,
+    rapidxml::xml_node<>* &child,
+    Rcpp::String& value) {
+  child = parent->first_node(childname);
   if (child == NULL) {
-    container = NA_STRING;
+    value = NA_STRING;
   } else {
-    container = child->value();
+    value = child->value();
   }
 }
 
-inline void getAttributeValueString(Rcpp::String& container,
-    const char* attributename, rapidxml::xml_node<>* parent) {
-  rapidxml::xml_attribute<>* attribute = parent->first_attribute(attributename);
+inline void getAttributeValueString(
+    // Find attribute if exists, assign it to the given pointer, and assign it's
+    // value to the given reference.
+    const char* attributename,
+    rapidxml::xml_node<>* node, 
+    rapidxml::xml_attribute<>* &attribute, 
+    Rcpp::String& value) {
+  attribute = node->first_attribute(attributename);
   if (attribute == NULL) {
-    container = NA_STRING;
+    value = NA_STRING;
   } else {
-    container = attribute->value();
-  }
-}
-
-inline void getAttributeValueDouble(Rcpp::String& container,
-    const char* attributename, rapidxml::xml_node<>* parent) {
-  rapidxml::xml_attribute<>* attribute = parent->first_attribute(attributename);
-  if (attribute == NULL) {
-    container = NA_REAL;
-  } else {
-    container = atof(attribute->value());
+    value = attribute->value();
   }
 }
 

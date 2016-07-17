@@ -9,6 +9,16 @@ class xlsxcell {
 
 rapidxml::xml_node<>* c_; // Provided to constructor
 xlsxbook& book_;          // Parent workbook
+
+rapidxml::xml_attribute<>* r_; // Address
+rapidxml::xml_attribute<>* s_; // Style index
+rapidxml::xml_attribute<>* t_; // Data type
+rapidxml::xml_node<>* v_;      // Contents/value
+rapidxml::xml_node<>* f_;      // Formula
+
+const char* vvalue_; // value of v node, optimises cacheString
+const char* tvalue_; // value of t node, optimises cacheString
+
 /* celltype celltype;     // TODO: cell type enumeration */
 
 // The remaining variables go to R.
@@ -19,7 +29,7 @@ int          col_;        // Parsed address_ (one-based)
 
 Rcpp::String content_;    // Unparsed value of node v
 Rcpp::String formula_;    // If present
-Rcpp::String type_;       // Type of the parsed value
+Rcpp::String type_;       // Type of the parsed value, not exactly node t though
 
 Rcpp::List   value_;      // Parsed value wrapped in unnamed list
 
@@ -45,8 +55,13 @@ public:
   Rcpp::String content();
   Rcpp::String formula();
   Rcpp::String type();
+  Rcpp::String character();
   double height();
   double width();
+
+private:
+
+  void cacheString();
 
 };
 
