@@ -55,6 +55,8 @@ void xlsxcell::cacheString() {
   // If an inline string, it must be parsed, if a string in the string table, it
   // must be obtained.
 
+  // We could check for t="inlineString" or the presence of child "is".  We do
+  // the latter, same as hadley/readxl.
   // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
   rapidxml::xml_node<>* is = c_->first_node("is");
   if (is != NULL) {
