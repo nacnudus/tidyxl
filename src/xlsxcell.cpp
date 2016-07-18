@@ -19,7 +19,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
 
     v_ = c_->first_node("v");
     if (v_ != NULL) {
-      vvalue_ = v_->value();
+      vvalue_ = v_->value(); // v_->value() is a char* that we need later for atol
       content_ = vvalue_;
     } else {
       content_ = NA_STRING;
@@ -27,7 +27,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
 
     t_ = c_->first_attribute("t");
     if (t_ != NULL) {
-      tvalue_ = t_->value();
+      tvalue_ = t_->value(); // t_->value() is a char* that we need later for strncmp
       type_ = tvalue_;
     } else {
       type_ = NA_STRING;
