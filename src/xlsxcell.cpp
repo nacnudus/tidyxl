@@ -53,16 +53,16 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     cacheString(); // t_ and v_ must be obtained first
 }
 
-std::string xlsxcell::address() {return(address_);}
-int xlsxcell::row() {return(row_);}
-int xlsxcell::col() {return(col_);}
-String xlsxcell::content() {return content_;}
-String xlsxcell::formula() {return formula_;}
-int xlsxcell::formula_group() {return formula_group_;}
-String xlsxcell::type() {return type_;}
-String xlsxcell::character() {return character_;}
-double xlsxcell::height() {return height_;}
-double xlsxcell::width() {return width_;}
+std::string& xlsxcell::address()       {return address_;}
+int&         xlsxcell::row()           {return row_;}
+int&         xlsxcell::col()           {return col_;}
+String&      xlsxcell::content()       {return content_;}
+String&      xlsxcell::formula()       {return formula_;}
+int&         xlsxcell::formula_group() {return formula_group_;}
+String&      xlsxcell::type()          {return type_;}
+String&      xlsxcell::character()     {return character_;}
+double&      xlsxcell::height()        {return height_;}
+double&      xlsxcell::width()         {return width_;}
 
 // Based on hadley/readxl
 void xlsxcell::cacheString() {

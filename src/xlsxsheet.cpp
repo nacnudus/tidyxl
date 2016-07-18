@@ -31,10 +31,10 @@ xlsxsheet::xlsxsheet(const int& sheetindex, xlsxbook& book): book_(book) {
   parseSheetData();
 }
 
-List xlsxsheet::information() {
+List& xlsxsheet::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  List data = List::create(
+  information_ = List::create(
       address_,
       row_,
       col_,
@@ -56,8 +56,8 @@ List xlsxsheet::information() {
       "character",
       "height",
       "width");
-  makeDataFrame(data, colnames);
-  return data;
+  makeDataFrame(information_, colnames);
+  return information_;
 }
 
 void xlsxsheet::cacheDefaultRowColDims() {

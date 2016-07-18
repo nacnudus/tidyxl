@@ -27,7 +27,7 @@ std::string xlsxbook::path() {
   return path_;
 }
 
-std::vector<std::string> xlsxbook::sheets() {
+std::vector<std::string>& xlsxbook::sheets() {
   return sheets_;
 }
 

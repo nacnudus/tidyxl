@@ -16,7 +16,7 @@ public:
 
   xlsxbook(const std::string& path);    // constructor
   std::string path();                   // workbook path
-  std::vector<std::string> sheets();    // sheet names
+  std::vector<std::string>& sheets();    // sheet names
   std::vector<std::string>& strings();  // strings table
 
 private:

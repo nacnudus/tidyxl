@@ -49,17 +49,17 @@ double width_;            // Provided to constructor
 public:
 
   xlsxcell(rapidxml::xml_node<>* c, double& height, 
-      std::vector<double>& colWidths, xlsxbook& book); // c is the node of the cell
-  std::string address();
-  int row();
-  int col();
-  Rcpp::String content();
-  Rcpp::String formula();
-  int formula_group();
-  Rcpp::String type();
-  Rcpp::String character();
-  double height();
-  double width();
+    std::vector<double>& colWidths, xlsxbook& book); // c is the node of the cell
+  std::string&  address();
+  int&          row();
+  int&          col();
+  Rcpp::String& content();
+  Rcpp::String& formula();
+  int&          formula_group();
+  Rcpp::String& type();
+  Rcpp::String& character();
+  double&       height();
+  double&       width();
 
 private:
 

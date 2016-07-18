@@ -17,6 +17,7 @@ double defaultRowHeight_ = 15;
 double defaultColWidth_ = 8.47;
 std::vector<double> colWidths_;
 xlsxbook& book_; // reference to parent workbook
+Rcpp::List information_; // Wrapper for variables returned to R
 
 // The remaining variables go to R
 Rcpp::CharacterVector address_;   // Value of cell node r
@@ -42,7 +43,7 @@ Rcpp::NumericVector   width_;       // Provided to cell constructor
 public:
 
   xlsxsheet(const int& sheetindex, xlsxbook& book);
-  Rcpp::List information();       // Cells contents and styles DF wrapped in list
+  Rcpp::List& information();       // Cells contents and styles DF wrapped in list
 
 private:
 
