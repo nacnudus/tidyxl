@@ -50,7 +50,7 @@ String xlsxcell::character() {return character_;}
 double xlsxcell::height() {return height_;}
 double xlsxcell::width() {return width_;}
 
-// Based on readxl
+// Based on hadley/readxl
 void xlsxcell::cacheString() {
   // If an inline string, it must be parsed, if a string in the string table, it
   // must be obtained.
