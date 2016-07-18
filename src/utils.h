@@ -35,8 +35,8 @@ inline void parseAddress(std::string& address, int& row, int& col) {
 }
 
 inline void getChildValueString(
-    // Find node if exists, assign it to the given pointer, and assign it's
-    // value to the given reference.
+  // Find node if exists, assign it to the given pointer, and assign its
+  // value to the given reference.
     const char* childname, 
     rapidxml::xml_node<>* parent,
     rapidxml::xml_node<>* &child,
