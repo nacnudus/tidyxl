@@ -34,10 +34,23 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     }
 
     // TODO: Formulas are more complicated than this, because they're shared.
+    // p.1629 'shared' and 'si' attributes
     getChildValueString("f", c_, f_, formula_);
+    rapidxml::xml_node<>* f = c_->first_node("f");
+    if (f_ != NULL) {
+      formula_ = f_->value();
+      rapidxml::xml_attribute<>* si = f_->first_attribute("si");
+      if (si != NULL) {
+        formula_group_ = atoi(si->value());
+      } else {
+        formula_group_ = NA_INTEGER;
+      }
+    } else {
+      formula_ = NA_STRING;
+      formula_group_ = NA_INTEGER;
+    }
 
     cacheString(); // t_ and v_ must be obtained first
-
 }
 
 std::string xlsxcell::address() {return(address_);}
@@ -45,6 +58,7 @@ int xlsxcell::row() {return(row_);}
 int xlsxcell::col() {return(col_);}
 String xlsxcell::content() {return content_;}
 String xlsxcell::formula() {return formula_;}
+int xlsxcell::formula_group() {return formula_group_;}
 String xlsxcell::type() {return type_;}
 String xlsxcell::character() {return character_;}
 double xlsxcell::height() {return height_;}

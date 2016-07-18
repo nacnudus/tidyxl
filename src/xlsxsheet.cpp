@@ -40,6 +40,7 @@ List xlsxsheet::information() {
       col_,
       content_,
       formula_,
+      formula_group_,
       type_,
       character_,
       height_,
@@ -50,6 +51,7 @@ List xlsxsheet::information() {
       "col",
       "content",
       "formula",
+      "formula_group",
       "type",
       "character",
       "height",
@@ -125,6 +127,7 @@ void xlsxsheet::initializeColumns() {
   col_       = IntegerVector(cellcount_,   NA_INTEGER);
   content_   = CharacterVector(cellcount_, NA_STRING);
   formula_   = CharacterVector(cellcount_, NA_STRING);
+  formula_group_ = IntegerVector(cellcount_, NA_INTEGER);
   value_     = List(cellcount_);
   type_      = CharacterVector(cellcount_, NA_STRING);
   logical_   = LogicalVector(cellcount_,   NA_LOGICAL);
@@ -166,6 +169,7 @@ void xlsxsheet::parseSheetData() {
       col_[i] = cell.col();
       content_[i] = cell.content();
       formula_[i] = cell.formula();
+      formula_group_[i] = cell.formula_group();
       type_[i] = cell.type();
       character_[i] = cell.character();
       height_[i] = cell.height();
