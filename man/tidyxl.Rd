@@ -6,7 +6,7 @@
 \alias{tidyxl-package}
 \title{tidyxl.}
 \usage{
-tidyxl(path, sheet = 1)
+tidyxl(path, sheet = NA)
 }
 \arguments{
 \item{path}{Path to the xlsx file}
@@ -25,6 +25,8 @@ Read xlsx data and formatting
 }}
 \examples{
 datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+
+# All sheets
 tidyxl(datasets)
 
 # Specific sheet either by position or by name
