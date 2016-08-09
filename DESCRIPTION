@@ -18,7 +18,12 @@ Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 Imports:
-    Rcpp
+    Rcpp, 
+    magrittr,
+    dplyr,
+    tibble,
+    purrr,
+    xml2
 URL: https://github.com/nacnudus/tidyxl
 BugReports: https://github.com/nacnudus/tidyxl/issues
 RoxygenNote: 5.0.1

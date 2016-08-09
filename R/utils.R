@@ -1,3 +1,7 @@
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
 check_file <- function(path) {
   if (!file.exists(path)) {
     stop("'", path, "' does not exist",
