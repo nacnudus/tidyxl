@@ -31,21 +31,50 @@ excel_format <- function(path) {
   )
 }
 
-standardise_sheet <- function(sheets, sheet_names) {
+xlsx_sheets <- function(path) {
+  Relationships <- 
+    unz(path, "xl/_rels/workbook.xml.rels") %>%
+    xml2::read_xml() %>%
+    xml2::xml_ns_strip() %>%
+    xml2::xml_find_all("Relationship") %>%
+    xml2::xml_attrs() %>%
+    purrr::transpose() %>%
+    purrr::map(unlist) %>% 
+    tibble::as_tibble()
+  Sheets <- 
+    unz(path, "xl/workbook.xml") %>%
+    xml2::read_xml() %>%
+    xml2::xml_ns_strip() %>%
+    xml2::xml_find_all("sheets/sheet") %>%
+    xml2::xml_attrs() %>%
+    purrr::map(as.list) %>%
+    purrr::map(tibble::as_tibble) %>%
+    dplyr::bind_rows()
+  dplyr::inner_join(Relationships, Sheets, by = c("Id" = "id")) %>%
+    dplyr::select(-Type) %>%
+    dplyr::filter(grepl("worksheets/", Target, fixed = TRUE)) %>% # Ignore chartsheets etc.
+    dplyr::arrange(as.integer(sheetId)) %>%
+    dplyr::mutate(index = row_number()) %>%
+    dplyr::select(index, name)
+}
+
+standardise_sheet <- function(sheets, all_sheets) {
   if (is.numeric(sheets)) {
-    if (max(sheets) > length(sheet_names)) {
-      stop("Only ", length(sheet_names), " sheet(s) found.", call. = FALSE)
+    if (max(sheets) > nrow(all_sheets)) {
+      stop("Only ", nrow(all_sheets), " sheet(s) found.", call. = FALSE)
     }
-    floor(sheets) - 1L
+    sheets
   } else if (is.character(sheets)) {
-    indices <- match(sheets, sheet_names)
+    indices <- match(sheets, all_sheets$name)
     if (anyNA(indices)) {
       stop("Sheet(s) not found: ", paste(sheets[is.na(indices)], collapse = "\", \""),
            call. = FALSE)
     }
-    indices - 1L
+    indices <- indices[!is.na(indices)]
+    indices
   } else {
-    stop("`sheet` must be either an integer or a string.", call. = FALSE)
+    stop("Argument `sheet` must be either an integer or a string.",
+         call. = FALSE)
   }
 }
 

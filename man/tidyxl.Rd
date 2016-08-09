@@ -6,7 +6,7 @@
 \alias{tidyxl-package}
 \title{tidyxl.}
 \usage{
-tidyxl(path, sheet = NA)
+tidyxl(path, sheets = NA)
 }
 \arguments{
 \item{path}{Path to the xlsx file}

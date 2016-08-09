@@ -5,17 +5,6 @@
 
 using namespace Rcpp;
 
-// xlsx_sheet_names
-CharacterVector xlsx_sheet_names(std::string path);
-RcppExport SEXP tidyxl_xlsx_sheet_names(SEXP pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    __result = Rcpp::wrap(xlsx_sheet_names(path));
-    return __result;
-END_RCPP
-}
 // xlsx_read_
 List xlsx_read_(std::string path, IntegerVector sheets);
 RcppExport SEXP tidyxl_xlsx_read_(SEXP pathSEXP, SEXP sheetsSEXP) {

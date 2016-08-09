@@ -9,7 +9,7 @@
 using namespace Rcpp;
 
 xlsxsheet::xlsxsheet(const int& sheetindex, xlsxbook& book): book_(book) {
-  std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex + 1);
+  std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex);
   std::string sheet_ = zip_buffer(book_.path(), sheetpath);
   xml_.parse<0>(&sheet_[0]);
 
@@ -22,7 +22,7 @@ xlsxsheet::xlsxsheet(const int& sheetindex, xlsxbook& book): book_(book) {
     stop("Invalid sheet xml (no <sheetData>)");
 
   // Look up name among worksheets in book
-  name_ = book_.sheets()[sheetindex];
+  name_ = book_.sheets()[sheetindex - 1];
 
   cacheDefaultRowColDims();
   cacheColWidths();
