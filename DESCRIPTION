@@ -9,8 +9,11 @@ Authors@R: c(
     )
 Description: Imports non-tabular from Excel files into R.  Exposes cell content,
     position and formatting in a tidy structure for further manipulation.
-    Supports '.xlsx' and '.xlsm' via the embedded 'RapidXML' C++ library
-    (http://rapidxml.sourceforge.net).  Does not support '.xlsb' or '.xls'.
+    Provides functions for selecting cells by position and relative position,
+    and for associating data cells with header cells by proximity in given
+    directions.  Supports '.xlsx' and '.xlsm' via the embedded 'RapidXML' C++
+    library (http://rapidxml.sourceforge.net).  Does not support '.xlsb' or
+    '.xls'.
 Depends:
     R (>= 3.3.0)
 License: GPL-3
@@ -20,9 +23,12 @@ LinkingTo: Rcpp
 Imports:
     Rcpp, 
     magrittr,
+    data.table,
     dplyr,
-    tibble,
+    dtplyr,
     purrr,
+    tidyr,
+    tibble,
     xml2
 URL: https://github.com/nacnudus/tidyxl
 BugReports: https://github.com/nacnudus/tidyxl/issues
