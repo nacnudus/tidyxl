@@ -35,8 +35,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
 
     // TODO: Formulas are more complicated than this, because they're shared.
     // p.1629 'shared' and 'si' attributes
-    getChildValueString("f", c_, f_, formula_);
-    rapidxml::xml_node<>* f = c_->first_node("f");
+    f_ = c_->first_node("f");
     if (f_ != NULL) {
       formula_ = f_->value();
       rapidxml::xml_attribute<>* si = f_->first_attribute("si");
