@@ -44,7 +44,9 @@ List& xlsxsheet::information() {
       type_,
       character_,
       height_,
-      width_);
+      width_,
+      local_format_id_,
+      theme_format_id_);
   CharacterVector colnames = CharacterVector::create(
       "address",
       "row",
@@ -55,7 +57,9 @@ List& xlsxsheet::information() {
       "type",
       "character",
       "height",
-      "width");
+      "width",
+      "local_format_id",
+      "theme_format_id");
   makeDataFrame(information_, colnames);
   return information_;
 }
@@ -122,23 +126,25 @@ void xlsxsheet::cacheCellcount() {
 
 void xlsxsheet::initializeColumns() {
   // Having done cacheCellcount(), make columns of that length
-  address_   = CharacterVector(cellcount_, NA_STRING);
-  row_       = IntegerVector(cellcount_,   NA_INTEGER);
-  col_       = IntegerVector(cellcount_,   NA_INTEGER);
-  content_   = CharacterVector(cellcount_, NA_STRING);
-  formula_   = CharacterVector(cellcount_, NA_STRING);
+  address_         = CharacterVector(cellcount_, NA_STRING);
+  row_             = IntegerVector(cellcount_,   NA_INTEGER);
+  col_             = IntegerVector(cellcount_,   NA_INTEGER);
+  content_         = CharacterVector(cellcount_, NA_STRING);
+  formula_         = CharacterVector(cellcount_, NA_STRING);
   formula_group_ = IntegerVector(cellcount_, NA_INTEGER);
-  value_     = List(cellcount_);
-  type_      = CharacterVector(cellcount_, NA_STRING);
-  logical_   = LogicalVector(cellcount_,   NA_LOGICAL);
-  numeric_   = NumericVector(cellcount_,   NA_REAL);
-  date_      = NumericVector(cellcount_,   NA_REAL);
+  value_           = List(cellcount_);
+  type_            = CharacterVector(cellcount_, NA_STRING);
+  logical_         = LogicalVector(cellcount_,   NA_LOGICAL);
+  numeric_         = NumericVector(cellcount_,   NA_REAL);
+  date_            = NumericVector(cellcount_,   NA_REAL);
     date_.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
     date_.attr("tzone") = "UTC";
-  character_ = CharacterVector(cellcount_, NA_STRING);
-  error_     = CharacterVector(cellcount_, NA_STRING);
-  height_    = NumericVector(cellcount_,   NA_REAL);
-  width_     = NumericVector(cellcount_,   NA_REAL);
+  character_       = CharacterVector(cellcount_, NA_STRING);
+  error_           = CharacterVector(cellcount_, NA_STRING);
+  height_          = NumericVector(cellcount_,   NA_REAL);
+  width_           = NumericVector(cellcount_,   NA_REAL);
+  local_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
+  theme_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
 }
 
 void xlsxsheet::parseSheetData() {
@@ -174,6 +180,8 @@ void xlsxsheet::parseSheetData() {
       character_[i] = cell.character();
       height_[i] = cell.height();
       width_[i] = cell.width();
+      local_format_id_[i] = cell.local_format_id();
+      theme_format_id_[i] = cell.theme_format_id();
 
       ++i;
     }

@@ -45,6 +45,8 @@ Rcpp::String error_;      // Parsed value
 // The following are always used.
 double height_;           // Provided to constructor
 double width_;            // Provided to constructor
+int local_format_id_;      // cell 'c' links to cellXfs entry
+int theme_format_id_;      // cellXfs xfId links to cellStyleXfs entry
 
 public:
 
@@ -60,10 +62,13 @@ public:
   Rcpp::String& character();
   double&       height();
   double&       width();
+  int&          local_format_id();
+  int&          theme_format_id();
 
 private:
 
   void cacheString();
+  void cacheFormat(); // Only the index of the local and theme formats (cellXfs and cellStyleXfs)
 
 };
 

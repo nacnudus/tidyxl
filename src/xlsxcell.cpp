@@ -50,18 +50,21 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     }
 
     cacheString(); // t_ and v_ must be obtained first
+    cacheFormat(); // local and theme format indexes
 }
 
-std::string& xlsxcell::address()       {return address_;}
-int&         xlsxcell::row()           {return row_;}
-int&         xlsxcell::col()           {return col_;}
-String&      xlsxcell::content()       {return content_;}
-String&      xlsxcell::formula()       {return formula_;}
-int&         xlsxcell::formula_group() {return formula_group_;}
-String&      xlsxcell::type()          {return type_;}
-String&      xlsxcell::character()     {return character_;}
-double&      xlsxcell::height()        {return height_;}
-double&      xlsxcell::width()         {return width_;}
+std::string& xlsxcell::address()         {return address_;}
+int&         xlsxcell::row()             {return row_;}
+int&         xlsxcell::col()             {return col_;}
+String&      xlsxcell::content()         {return content_;}
+String&      xlsxcell::formula()         {return formula_;}
+int&         xlsxcell::formula_group()   {return formula_group_;}
+String&      xlsxcell::type()            {return type_;}
+String&      xlsxcell::character()       {return character_;}
+double&      xlsxcell::height()          {return height_;}
+double&      xlsxcell::width()           {return width_;}
+int&         xlsxcell::local_format_id() {return local_format_id_;}
+int&         xlsxcell::theme_format_id() {return theme_format_id_;}
 
 // Based on hadley/readxl
 void xlsxcell::cacheString() {
@@ -98,3 +101,13 @@ void xlsxcell::cacheString() {
   }
   character_ = NA_STRING;
 }
+
+void xlsxcell::cacheFormat() {
+    s_ = c_->first_attribute("s");
+    if (s_ != NULL) {
+      local_format_id_ = atoi(s_->value());
+    } else {
+      local_format_id_ = 0;
+    }
+    theme_format_id_ = book_.cellXfs_xfId()[local_format_id_];
+  }

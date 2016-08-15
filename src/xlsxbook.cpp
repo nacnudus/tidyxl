@@ -21,6 +21,7 @@ xlsxbook::xlsxbook(const std::string& path): path_(path) {
 
   cacheSheets(sheets_);
   cacheStrings();
+  cacheCellXfsXfId();
 }
 
 std::string xlsxbook::path() {
@@ -33,6 +34,10 @@ std::vector<std::string>& xlsxbook::sheets() {
 
 std::vector<std::string>& xlsxbook::strings() {
   return strings_;
+}
+
+std::vector<int>& xlsxbook::cellXfs_xfId() {
+  return cellXfs_xfId_;
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
@@ -73,5 +78,37 @@ void xlsxbook::cacheStrings() {
     std::string out;
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
+  }
+}
+
+// Create a vector of the theme id of each cell style.
+// Cells have cell styles, which link to theme styles.  The cell style id is
+// given in the cell itself (in the worksheet xml), but the linked theme id is
+// only given in the cell's style record, so go via that.
+void xlsxbook::cacheCellXfsXfId() {
+  if (!zip_has_file(path_, "xl/styles.xml"))
+    return;
+
+  std::string xml = zip_buffer(path_, "xl/styles.xml");
+  rapidxml::xml_document<> styles;
+  styles.parse<0>(&xml[0]);
+
+  rapidxml::xml_node<>* styleSheet = styles.first_node("styleSheet");
+  if (styleSheet == NULL)
+    return;
+
+  rapidxml::xml_node<>* cellXfs = styleSheet->first_node("cellXfs");
+  if (cellXfs == NULL)
+    return;
+
+  rapidxml::xml_attribute<>* count = cellXfs->first_attribute("count");
+  if (count != NULL) {
+    int n = atoi(count->value());
+    cellXfs_xfId_.reserve(n);
+    for (rapidxml::xml_node<>* xf = cellXfs->first_node();
+         xf; xf = xf->next_sibling()) {
+      rapidxml::xml_attribute<>* xfId = xf->first_attribute("xfId");
+      cellXfs_xfId_.push_back(atoi(xfId->value()));
+    }
   }
 }
