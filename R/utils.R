@@ -56,7 +56,7 @@ xlsx_sheets <- function(path) {
   dplyr::inner_join(Relationships, Sheets, by = c("Id" = "id")) %>%
     dplyr::select(-Type) %>%
     dplyr::filter(grepl("worksheets/", Target, fixed = TRUE)) %>% # Ignore chartsheets etc.
-    dplyr::arrange(as.integer(sheetId)) %>%
+    dplyr::arrange(as.integer(gsub("rId", "", Id))) %>%
     dplyr::mutate(index = row_number()) %>%
     dplyr::select(index, name)
 }
