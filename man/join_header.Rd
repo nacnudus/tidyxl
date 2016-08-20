@@ -2,11 +2,21 @@
 % Please edit documentation in R/join_header.R
 \name{join_header}
 \alias{ABOVE}
+\alias{BELOW}
+\alias{E}
+\alias{ENE}
+\alias{ESE}
 \alias{LEFT}
 \alias{N}
+\alias{NNE}
 \alias{NNW}
+\alias{RIGHT}
+\alias{S}
+\alias{SSE}
+\alias{SSW}
 \alias{W}
 \alias{WNW}
+\alias{WSW}
 \alias{join_header}
 \title{Join a bag of data cells to some header, by proximity in a given direction, e.g. NNW is up and up-left.}
 \usage{
@@ -14,15 +24,35 @@ join_header(bag, header, direction, colname = "newheader")
 
 N(bag, header, colname = "newheader")
 
+E(bag, header, colname = "newheader")
+
+S(bag, header, colname = "newheader")
+
 W(bag, header, colname = "newheader")
 
 NNW(bag, header, colname = "newheader")
+
+NNE(bag, header, colname = "newheader")
+
+ENE(bag, header, colname = "newheader")
+
+ESE(bag, header, colname = "newheader")
+
+SSE(bag, header, colname = "newheader")
+
+SSW(bag, header, colname = "newheader")
+
+WSW(bag, header, colname = "newheader")
 
 WNW(bag, header, colname = "newheader")
 
 ABOVE(bag, header, colname = "newheader")
 
+BELOW(bag, header, colname = "newheader")
+
 LEFT(bag, header, colname = "newheader")
+
+RIGHT(bag, header, colname = "newheader")
 }
 \arguments{
 \item{bag}{Data frame. A bag of data cells including at least the columns
@@ -61,7 +91,7 @@ side of the table.  There can be a tie in the directions 'ABOVE', 'BELOW',
 'LEFT' and 'RIGHT' (for headers that are not aligned to the edge of the data
 cells that they refer to), and currently ties will cause the affected cells
 not to be returned at all.  The full list of available directions is 'N',
-'E', 'S', 'W', 'NE', 'NE', 'SE', 'SW', 'NNW', 'NNE', 'ENE', 'ESE', 'SSE',
+'E', 'S', 'W', 'NNW', 'NNE', 'ENE', 'ESE', 'SSE',
 'SSW', 'WSW', 'WNW'.  For convenience, these directions are provided as their
 own functions, wrapping the concept of 'join_header'.
 }
@@ -69,14 +99,34 @@ own functions, wrapping the concept of 'join_header'.
 \itemize{
 \item \code{N}: Join nearest header in the 'N' direction.
 
+\item \code{E}: Join nearest header in the 'E' direction.
+
+\item \code{S}: Join nearest header in the 'S' direction.
+
 \item \code{W}: Join nearest header in the 'W' direction.
 
 \item \code{NNW}: Join nearest header in the 'NNW' direction.
+
+\item \code{NNE}: Join nearest header in the 'NNE' direction.
+
+\item \code{ENE}: Join nearest header in the 'ENE' direction.
+
+\item \code{ESE}: Join nearest header in the 'ESE' direction.
+
+\item \code{SSE}: Join nearest header in the 'SSE' direction.
+
+\item \code{SSW}: Join nearest header in the 'SSW' direction.
+
+\item \code{WSW}: Join nearest header in the 'WSW' direction.
 
 \item \code{WNW}: Join nearest header in the 'WNW' direction.
 
 \item \code{ABOVE}: Join nearest header in the 'ABOVE' direction.
 
+\item \code{BELOW}: Join nearest header in the 'BELOW' direction.
+
 \item \code{LEFT}: Join nearest header in the 'LEFT' direction.
+
+\item \code{RIGHT}: Join nearest header in the 'RIGHT' direction.
 }}
 

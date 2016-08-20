@@ -29,7 +29,7 @@
 #' 'LEFT' and 'RIGHT' (for headers that are not aligned to the edge of the data
 #' cells that they refer to), and currently ties will cause the affected cells
 #' not to be returned at all.  The full list of available directions is 'N',
-#' 'E', 'S', 'W', 'NE', 'NE', 'SE', 'SW', 'NNW', 'NNE', 'ENE', 'ESE', 'SSE',
+#' 'E', 'S', 'W', 'NNW', 'NNE', 'ENE', 'ESE', 'SSE',
 #' 'SSW', 'WSW', 'WNW'.  For convenience, these directions are provided as their
 #' own functions, wrapping the concept of 'join_header'.
 #' @name join_header
@@ -76,6 +76,48 @@ N <- function(bag, header, colname = "newheader") {
   get_header(bag, domains, colname)
 }
 
+#' @describeIn join_header Join nearest header in the 'E' direction.
+#' @export
+E <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(col) %>%
+    # x1 and y1 are the cell itself, y2 is the same row as the cell itself
+    mutate(x2 = as.numeric(col),
+           y2 = as.numeric(row),
+           y1 = as.numeric(row)) %>%
+    # x1 goes back to just after the previous header in any row
+    group_by(col) %>%
+    nest %>%
+    mutate(x1 = lag(as.numeric(col) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'S' direction.
+#' @export
+S <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(row) %>%
+    # x1 and y2 are the cell itself, x2 is the same column as the cell itself
+    mutate(x1 = as.numeric(col),
+           y2 = as.numeric(row),
+           x2 = as.numeric(col)) %>%
+    # y1 goes back to just after the previous header in any column
+    group_by(row) %>%
+    nest %>%
+    mutate(y1 = lag(as.numeric(row) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
 #' @describeIn join_header Join nearest header in the 'W' direction.
 #' @export
 W <- function(bag, header, colname = "newheader") {
@@ -114,6 +156,140 @@ NNW <- function(bag, header, colname = "newheader") {
     # y2 goes up to just before the next header in any column
     nest %>%
     mutate(y2 = lead(as.numeric(row) - 1, default = Inf)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'NNE' direction.
+#' @export
+NNE <- function(bag, header, colname = "newheader") {
+  bag <- datacells
+  header <- col_headers[[1]]
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(row, col) %>%
+    # x2 and y1 are the cell itself
+    mutate(x2 = as.numeric(col),
+           y1 = as.numeric(row)) %>%
+    # x1 goes back to just after the previous header in the row
+    group_by(row) %>%
+    mutate(x1 = lag(as.numeric(col) + 1, default = 1)) %>%
+    # y2 goes up to just before the next header in any column
+    nest %>%
+    mutate(y2 = lead(as.numeric(row) - 1, default = Inf)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'ENE' direction.
+#' @export
+ENE <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(col, row) %>%
+    # x2 and y1 are the cell itself
+    mutate(x2 = as.numeric(col),
+           y1 = as.numeric(row)) %>%
+    # y2 goes up to just before the next header in the column
+    group_by(col) %>%
+    mutate(y2 = lead(as.numeric(row) - 1, default = Inf)) %>%
+    # x1 goes back to just after the previous header in any row
+    nest %>%
+    mutate(x1 = lag(as.numeric(col) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'ESE' direction.
+#' @export
+ESE <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(col, row) %>%
+    # x2 and y2 are the cell itself
+    mutate(x2 = as.numeric(col),
+           y2 = as.numeric(row)) %>%
+    # y1 goes back to just after the previous header in the column
+    group_by(col) %>%
+    mutate(y1 = lag(as.numeric(row) + 1, default = 1)) %>%
+    # x1 goes back to just after the previous header in any row
+    nest %>%
+    mutate(x1 = lag(as.numeric(col) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'SSE' direction.
+#' @export
+SSE <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(row, col) %>%
+    # x2 and y2 are the cell itself
+    mutate(x2 = as.numeric(col),
+           y2 = as.numeric(row)) %>%
+    # x1 goes back to just after the previous header in any row
+    group_by(row) %>%
+    mutate(x1 = lag(as.numeric(col) + 1, default = 1)) %>%
+    # y1 goes back to just after the previous header in the column
+    nest %>%
+    mutate(y1 = lag(as.numeric(row) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'SSW' direction.
+#' @export
+SSW <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(row, col) %>%
+    # x1 and y2 are the cell itself
+    mutate(x1 = as.numeric(col),
+           y2 = as.numeric(row)) %>%
+    # x2 goes up to just before the next header in any row
+    group_by(row) %>%
+    mutate(x2 = lead(as.numeric(col) - 1, default = Inf)) %>%
+    # y1 goes back to just after the previous header in the column
+    nest %>%
+    mutate(y1 = lag(as.numeric(row) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'WSW' direction.
+#' @export
+WSW <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(col, row) %>%
+    # x1 and y2 are the cell itself
+    mutate(x1 = as.numeric(col),
+           y2 = as.numeric(row)) %>%
+    # y1 goes back to just after the previous header in the column
+    group_by(col) %>%
+    mutate(y1 = lag(as.numeric(row) + 1, default = 1)) %>%
+    # x2 goes up to just before the next header in any row
+    nest %>%
+    mutate(x2 = lead(as.numeric(col) - 1, default = Inf)) %>%
     unnest %>%
     ungroup
   get_header(bag, domains, colname)
@@ -164,6 +340,29 @@ ABOVE <- function(bag, header, colname = "newheader") {
   get_header(bag, domains, colname)
 }
 
+#' @describeIn join_header Join nearest header in the 'BELOW' direction.
+#' @export
+BELOW <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(row, col) %>%
+    # y2 is the cell itself
+    mutate(y2 = as.numeric(row)) %>%
+    # x1 and x2 are half-way (rounded down) from the cell to headers either
+    # side in the same row
+    group_by(row) %>%
+    mutate(x1 = floor((col + lag(as.numeric(col), default = -Inf) + 2)/2),
+           x2 = ceiling((col + lead(as.numeric(col), default = Inf) - 2)/2)) %>%
+    # y1 goes back to just after the previous header in any column
+    nest %>%
+    mutate(y1 = lag(as.numeric(row) + 1, default = 1)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
 #' @describeIn join_header Join nearest header in the 'LEFT' direction.
 #' @export
 LEFT <- function(bag, header, colname = "newheader") {
@@ -174,7 +373,7 @@ LEFT <- function(bag, header, colname = "newheader") {
     arrange(col, row) %>%
     # x1 is the cell itself
     mutate(x1 = as.numeric(col)) %>%
-    # r1 and y2 are half-way (rounded down) from the cell to headers either
+    # y1 and y2 are half-way (rounded down) from the cell to headers either
     # side in the same column
     group_by(col) %>%
     mutate(y1 = floor((row + lag(as.numeric(row), default = -Inf) + 2)/2),
@@ -182,6 +381,29 @@ LEFT <- function(bag, header, colname = "newheader") {
     # x2 goes up to just before the next header in any row
     nest %>%
     mutate(x2 = lead(as.numeric(col) - 1, default = Inf)) %>%
+    unnest %>%
+    ungroup
+  get_header(bag, domains, colname)
+}
+
+#' @describeIn join_header Join nearest header in the 'RIGHT' direction.
+#' @export
+RIGHT <- function(bag, header, colname = "newheader") {
+  # Join header to cells by proximity
+  # First, the domain of each header
+  domains <- 
+    header %>%
+    arrange(col, row) %>%
+    # x2 is the cell itself
+    mutate(x2 = as.numeric(col)) %>%
+    # y1 and y2 are half-way (rounded down) from the cell to headers either
+    # side in the same column
+    group_by(col) %>%
+    mutate(y1 = floor((row + lag(as.numeric(row), default = -Inf) + 2)/2),
+           y2 = ceiling((row + lead(as.numeric(row), default = Inf) - 2)/2)) %>%
+    # x1 goes back to just after the previous header in any row
+    nest %>%
+    mutate(x1 = lag(as.numeric(col) + 1, default = 1)) %>%
     unnest %>%
     ungroup
   get_header(bag, domains, colname)
