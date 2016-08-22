@@ -105,9 +105,9 @@ void xlsxcell::cacheString() {
 void xlsxcell::cacheFormat() {
     s_ = c_->first_attribute("s");
     if (s_ != NULL) {
-      local_format_id_ = atoi(s_->value());
+      local_format_id_ = atoi(s_->value()) + 1;
     } else {
-      local_format_id_ = 0;
+      local_format_id_ = 1;
     }
-    theme_format_id_ = book_.cellXfs_xfId()[local_format_id_];
+    style_format_id_ = book_.cellXfs_xfId()[local_format_id_ - 1];
   }

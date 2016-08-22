@@ -108,7 +108,7 @@ void xlsxbook::cacheCellXfsXfId() {
     for (rapidxml::xml_node<>* xf = cellXfs->first_node();
          xf; xf = xf->next_sibling()) {
       rapidxml::xml_attribute<>* xfId = xf->first_attribute("xfId");
-      cellXfs_xfId_.push_back(atoi(xfId->value()));
+      cellXfs_xfId_.push_back(atoi(xfId->value()) + 1);
     }
   }
 }
