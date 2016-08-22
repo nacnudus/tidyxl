@@ -1,35 +1,17 @@
-#' Read xlsx data and formatting
+#' Import xlsx (Excel) spreadsheet data and formatting into tidy structures.
 #'
-#' @param path Path to the xlsx file
-#' @param sheet Sheet to read. Either a string (the name of a sheet), or
-#'   an integer (the position of the sheet). Defaults to the first sheet.
-#' @name tidyxl
-NULL
-
-#' @describeIn tidyxl Read xlsx data and formatting semantically (not as a table)
-#' @export
-#' @examples
-#' datasets <- system.file("extdata/datasets.xlsx", package = "readxl")
+#' Tidyxl imports data from spreadsheets without coercing it into a rectangle,
+#' and retains information encoded in cell formatting (e.g. font/fill/border).
+#' This data structure is compatible with the 'unpivotr' package for
+#' recognising information expressed by relative cell positions and cell
+#' formatting, and re-expressing it in a tidy way.
 #'
-#' # All sheets
-#' tidyxl(datasets)
+#' Two functions are provided: \code{\link{contents}} for importing cell contents,
+#' and \code{\link{formats}} for importing cell formatting.  To see how to link
+#' contents and formatting, see \code{\link{formats}}.
 #'
-#' # Specific sheet either by position or by name
-#' tidyxl(datasets, 2)
-#' tidyxl(datasets, "mtcars")
-tidyxl <- function(path, sheets = NA) {
-  path <- check_file(path)
-  all_sheets <- xlsx_sheets(path)
-  if (anyNA(sheets)) { # This is no good -- what does it mean if vector length > 1?
-    if (length(sheets) > 1) {
-      warning("Argument 'sheets' included NAs, so every sheet in the workbook will be imported.")
-    }
-    sheets = all_sheets$name
-  }
-  sheets <- standardise_sheet(sheets, all_sheets)
-  if (length(sheets) == 0) {
-    warning("No sheets found.", call. = FALSE)
-    return(list())
-  }
-  xlsx_read_(path, sheets)
-}
+#' The pipe \code{\%>\%} function from the magrittr package is re-exported, and
+#' the tidyr package is attached so that the output of \code{\link{contents}} is
+#' printed nicely (as a tibble rather than a data frame).
+"_PACKAGE"
+#> [1] "_PACKAGE"
