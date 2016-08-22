@@ -203,6 +203,7 @@ philosophy.
 ## Roadmap
 
 - [ ] Write tests
+- [ ] Write vignette
 - [ ] Function to record each border against both adjacent cells.
 - [ ] Import comment text.
 - [ ] Parse shared formulas and propagate to all associated cells.
