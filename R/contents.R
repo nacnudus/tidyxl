@@ -73,18 +73,18 @@
 #' 
 #' @export
 #' @examples
-#' small <- system.file("extdata/small.xlsx", package = "tidyxl")
+#' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #'
 #' # All sheets
-#' contents(small)
+#' contents(examples)
 #'
 #' # Specific sheet either by position or by name
-#' contents(small, 2)
-#' contents(small, "Sheet1")
+#' contents(examples, 2)
+#' contents(examples, "Sheet1")
 #' 
 #' # Note that single sheets are still returned in a list for consistency.
 #' # Extract particular sheets using [[.
-#' contents(small)[[2]]
+#' contents(examples)[[2]]
 contents <- function(path, sheets = NA) {
   path <- check_file(path)
   all_sheets <- xlsx_sheets(path)

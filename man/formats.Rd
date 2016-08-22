@@ -35,18 +35,18 @@ the \code{\link{rgb}} function to convert these to a hexadecimal string.
 formatting.  It is planned to implement \code{formats} in C++ to speed it up.
 }
 \examples{
-small <- system.file("extdata/small.xlsx", package = "tidyxl")
-small_formats <- formats(small)
-str(small_formats)
+examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
+examples_formats <- formats(examples)
+str(examples_formats)
 
 # The formats of particular cells can be retrieved like this:
-sheet1 <- contents(small, "Sheet1")[[1]]
-small_formats$style$font$bold[sheet1$style_format_id]
-small_formats$local$font$bold[sheet1$local_format_id]
+sheet1 <- contents(examples, "Sheet1")[[1]]
+examples_formats$style$font$bold[sheet1$style_format_id]
+examples_formats$local$font$bold[sheet1$local_format_id]
 
 # To filter for cells of a particular format, first filter the formats to get
 # the relevant indices, and then filter the cells by those indices.
-bold_indices <- which(small_formats$local$font$bold)
+bold_indices <- which(examples_formats$local$font$bold)
 sheet1[sheet1$local_format_id \%in\% bold_indices, ]
 }
 
