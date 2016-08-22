@@ -6,8 +6,6 @@ output: github_document
 
 
 
-***This package is in early development.***
-
 # tidyxl
 
 Imports non-tabular from Excel files into R.  Exposes cell content, position and
