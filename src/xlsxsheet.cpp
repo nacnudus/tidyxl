@@ -45,8 +45,8 @@ List& xlsxsheet::information() {
       character_,
       height_,
       width_,
-      local_format_id_,
-      theme_format_id_);
+      style_format_id_,
+      local_format_id_);
   CharacterVector colnames = CharacterVector::create(
       "address",
       "row",
@@ -58,8 +58,8 @@ List& xlsxsheet::information() {
       "character",
       "height",
       "width",
-      "local_format_id",
-      "theme_format_id");
+      "style_format_id",
+      "local_format_id");
   makeDataFrame(information_, colnames);
   return information_;
 }
@@ -143,8 +143,8 @@ void xlsxsheet::initializeColumns() {
   error_           = CharacterVector(cellcount_, NA_STRING);
   height_          = NumericVector(cellcount_,   NA_REAL);
   width_           = NumericVector(cellcount_,   NA_REAL);
+  style_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
   local_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
-  theme_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
 }
 
 void xlsxsheet::parseSheetData() {
@@ -180,8 +180,8 @@ void xlsxsheet::parseSheetData() {
       character_[i] = cell.character();
       height_[i] = cell.height();
       width_[i] = cell.width();
+      style_format_id_[i] = cell.style_format_id();
       local_format_id_[i] = cell.local_format_id();
-      theme_format_id_[i] = cell.theme_format_id();
 
       ++i;
     }

@@ -50,7 +50,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     }
 
     cacheString(); // t_ and v_ must be obtained first
-    cacheFormat(); // local and theme format indexes
+    cacheFormat(); // local and style format indexes
 }
 
 std::string& xlsxcell::address()         {return address_;}
@@ -63,8 +63,8 @@ String&      xlsxcell::type()            {return type_;}
 String&      xlsxcell::character()       {return character_;}
 double&      xlsxcell::height()          {return height_;}
 double&      xlsxcell::width()           {return width_;}
+int&         xlsxcell::style_format_id() {return style_format_id_;}
 int&         xlsxcell::local_format_id() {return local_format_id_;}
-int&         xlsxcell::theme_format_id() {return theme_format_id_;}
 
 // Based on hadley/readxl
 void xlsxcell::cacheString() {
