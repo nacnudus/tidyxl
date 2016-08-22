@@ -23,7 +23,7 @@ LinkingTo: Rcpp
 Imports:
     Rcpp, 
     magrittr,
-    data.table,
+    data.table (>= 1.9.7),
     dplyr,
     dtplyr,
     purrr,
