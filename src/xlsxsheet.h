@@ -25,6 +25,8 @@ Rcpp::IntegerVector   row_;       // Parsed address_ (one-based)
 Rcpp::IntegerVector   col_;       // Parsed address_ (one-based)
 Rcpp::CharacterVector content_;   // Unparsed value of cell node v
 Rcpp::CharacterVector formula_;   // If present
+Rcpp::CharacterVector formula_type_; // If present
+Rcpp::CharacterVector formula_ref_;  // If present
 Rcpp::IntegerVector   formula_group_; // If present
 
 Rcpp::List  value_;               // Parsed values wrapped in unnamed lists

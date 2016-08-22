@@ -35,9 +35,23 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
 
     // TODO: Formulas are more complicated than this, because they're shared.
     // p.1629 'shared' and 'si' attributes
+    // TODO: Array formulas use the ref attribute for their range, and t to
+    // state that they're 'array'.
     f_ = c_->first_node("f");
     if (f_ != NULL) {
       formula_ = f_->value();
+      rapidxml::xml_attribute<>* t = f_->first_attribute("t");
+      if (t != NULL) {
+        formula_type_ = t->value();
+      } else {
+        formula_type_ = NA_STRING;
+      }
+      rapidxml::xml_attribute<>* ref = f_->first_attribute("ref");
+      if (ref != NULL) {
+        formula_ref_ = ref->value();
+      } else {
+        formula_ref_ = NA_STRING;
+      }
       rapidxml::xml_attribute<>* si = f_->first_attribute("si");
       if (si != NULL) {
         formula_group_ = atoi(si->value());
@@ -46,6 +60,8 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
       }
     } else {
       formula_ = NA_STRING;
+      formula_type_ = NA_STRING;
+      formula_ref_ = NA_STRING;
       formula_group_ = NA_INTEGER;
     }
 
@@ -58,6 +74,8 @@ int&         xlsxcell::row()             {return row_;}
 int&         xlsxcell::col()             {return col_;}
 String&      xlsxcell::content()         {return content_;}
 String&      xlsxcell::formula()         {return formula_;}
+String&      xlsxcell::formula_type()    {return formula_type_;}
+String&      xlsxcell::formula_ref()     {return formula_ref_;}
 int&         xlsxcell::formula_group()   {return formula_group_;}
 String&      xlsxcell::type()            {return type_;}
 String&      xlsxcell::character()       {return character_;}

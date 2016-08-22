@@ -29,7 +29,9 @@ int          col_;        // Parsed address_ (one-based)
 
 Rcpp::String content_;    // Unparsed value of node v
 Rcpp::String formula_;    // If present
-int          formula_group_; // Value of node "si", if present, indicates shared formulas
+Rcpp::String formula_type_; // value of attribute "t", if present, indicates 'shared' or 'array'
+Rcpp::String formula_ref_;  // value of attribute "ref", if present, indicates range of shared/array formula
+int          formula_group_; // Value of attribute "si", if present, indicates shared formulas
 Rcpp::String type_;       // Type of the parsed value, not exactly node t though
 
 Rcpp::List   value_;      // Parsed value wrapped in unnamed list
@@ -57,6 +59,8 @@ public:
   int&          col();
   Rcpp::String& content();
   Rcpp::String& formula();
+  Rcpp::String& formula_type();
+  Rcpp::String& formula_ref();
   int&          formula_group();
   Rcpp::String& type();
   Rcpp::String& character();
