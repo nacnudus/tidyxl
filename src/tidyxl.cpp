@@ -11,16 +11,10 @@ using namespace Rcpp;
 // pointer?) to one or more xlsxsheet instances, iterating through them and
 // returning a list of 'sheets'.
 
-// Currently, only one sheet is handled at a time, but it is returned wrapped in
-// a list, to prevent multiple sheets breaking the api.
-
 // [[Rcpp::export]]
 List xlsx_read_(std::string path, IntegerVector sheets) {
   // Parse book-level information (e.g. styles, themes, strings, date system)
   xlsxbook book(path);
-
-  /* List out; */
-  /* out["sheets"] = xlsxbook(path).sheets(); */
 
   // Loop through sheets
   List out(sheets.size());
