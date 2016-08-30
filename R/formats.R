@@ -262,8 +262,8 @@ get_fonts <- function(styleSheet) {
            theme = as.character(NA)) 
     } else {
       list(rgb = xml2::xml_attr(color, "rgb"),
-           indexed = as.integer(xml2::xml_attr(color, "indexed")),
-           theme = as.integer(xml2::xml_attr(color, "theme")))
+           indexed = as.integer(xml2::xml_attr(color, "indexed")) + 1,
+           theme = as.integer(xml2::xml_attr(color, "theme")) + 1)
     }
   }
   font <- function(node) {
@@ -292,8 +292,8 @@ get_fills <- function(styleSheet) {
            theme = as.character(NA))
     } else {
       list(rgb = xml2::xml_attr(xgColor, "rgb"),
-           indexed = as.integer(xml2::xml_attr(xgColor, "indexed")),
-           theme = as.integer(xml2::xml_attr(xgColor, "theme")))
+           indexed = as.integer(xml2::xml_attr(xgColor, "indexed")) + 1,
+           theme = as.integer(xml2::xml_attr(xgColor, "theme")) + 1)
     }
   }
   fill <- function(node) {
@@ -326,8 +326,8 @@ get_borders <- function(styleSheet) {
     color <- xml2::xml_find_first(node, "color")
     list(style = xml2::xml_attr(node, "style"),
          color = list(rgb = xml2::xml_attr(color, "rgb"),
-                      indexed = as.integer(xml2::xml_attr(color, "indexed")),
-                      theme = as.integer(xml2::xml_attr(color, "theme"))))
+                      indexed = as.integer(xml2::xml_attr(color, "indexed")) + 1,
+                      theme = as.integer(xml2::xml_attr(color, "theme")) + 1))
   }
   border <- function(node) {
     list(left = border_position(node, "left"),
