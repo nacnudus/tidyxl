@@ -12,7 +12,7 @@ using namespace Rcpp;
 // returning a list of 'sheets'.
 
 // [[Rcpp::export]]
-List xlsx_read_(std::string path, IntegerVector sheets) {
+List xlsx_read_(std::string path, IntegerVector sheets, CharacterVector names) {
   // Parse book-level information (e.g. styles, themes, strings, date system)
   xlsxbook book(path);
 
@@ -26,6 +26,8 @@ List xlsx_read_(std::string path, IntegerVector sheets) {
       ++in_it, ++out_it) {
     *out_it = xlsxsheet(*in_it, book).information();
   }
+
+  out.attr("names") = names;
 
   return out;
 }

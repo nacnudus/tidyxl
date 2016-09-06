@@ -88,16 +88,18 @@
 contents <- function(path, sheets = NA) {
   path <- check_file(path)
   all_sheets <- xlsx_sheets(path)
-  if (anyNA(sheets)) { # This is no good -- what does it mean if vector length > 1?
+  if (anyNA(sheets)) {
     if (length(sheets) > 1) {
-      warning("Argument 'sheets' included NAs, so every sheet in the workbook will be imported.")
+      warning("Argument 'sheets' included NAs, which were discarded.")
+      sheets = sheets[!is.na(sheets)]
+    } else {
+      sheets = all_sheets$index
     }
-    sheets = all_sheets$name
   }
   sheets <- standardise_sheet(sheets, all_sheets)
-  if (length(sheets) == 0) {
+  if (nrow(sheets) == 0) {
     warning("No sheets found.", call. = FALSE)
     return(list())
   }
-  xlsx_read_(path, sheets)
+  xlsx_read_(path, sheets$index, sheets$name)
 }

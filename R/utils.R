@@ -66,15 +66,14 @@ standardise_sheet <- function(sheets, all_sheets) {
     if (max(sheets) > nrow(all_sheets)) {
       stop("Only ", nrow(all_sheets), " sheet(s) found.", call. = FALSE)
     }
-    sheets
+    all_sheets[sheets, ]
   } else if (is.character(sheets)) {
     indices <- match(sheets, all_sheets$name)
     if (anyNA(indices)) {
       stop("Sheet(s) not found: ", paste(sheets[is.na(indices)], collapse = "\", \""),
            call. = FALSE)
     }
-    indices <- indices[!is.na(indices)]
-    indices
+    all_sheets[indices, ]
   } else {
     stop("Argument `sheet` must be either an integer or a string.",
          call. = FALSE)
