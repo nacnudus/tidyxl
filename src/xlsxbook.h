@@ -11,6 +11,7 @@ rapidxml::xml_document<> xml_;
 rapidxml::xml_node<>* workbook_;
 std::vector<std::string> sheets_;
 std::vector<std::string> strings_;
+long int strings_size_;
 std::vector<int> cellXfs_xfId_;
 
 public:
@@ -19,6 +20,7 @@ public:
   std::string path();                   // workbook path
   std::vector<std::string>& sheets();   // sheet names
   std::vector<std::string>& strings();  // strings table
+  long int& strings_size();             // length of strings table
   std::vector<int>& cellXfs_xfId();     // link from cellXfs from cellStyleXfs
 
 private:

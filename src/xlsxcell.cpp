@@ -108,8 +108,7 @@ void xlsxcell::cacheString() {
     // into the strings table.
     long int v = atol(vvalue_);
     const std::vector<std::string>& strings = book_.strings();
-    long int stringssize = book_.strings().size(); // Not actually that expensive
-    if (v < 0 || v >= stringssize) {
+    if (v < 0 || v >= book_.strings_size()) {
       warning("[%i, %i]: Invalid string id %i", row_, col_, v);
       character_ = NA_STRING;
       return;

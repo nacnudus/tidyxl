@@ -36,6 +36,10 @@ std::vector<std::string>& xlsxbook::strings() {
   return strings_;
 }
 
+long int& xlsxbook::strings_size() {
+  return strings_size_;
+}
+
 std::vector<int>& xlsxbook::cellXfs_xfId() {
   return cellXfs_xfId_;
 }
@@ -79,6 +83,8 @@ void xlsxbook::cacheStrings() {
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
   }
+
+  strings_size_ = strings_.size();
 }
 
 // Create a vector of the theme id of each cell style.
