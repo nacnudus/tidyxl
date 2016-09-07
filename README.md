@@ -15,6 +15,13 @@ supports the xml-based file formats '.xlsx' and '.xlsm' via the embedded
 [RapidXML](http://rapidxml.sourceforge.net) C++ library.  It does not support
 the binary file formats '.xlsb' or '.xls'.
 
+## Installation
+
+
+```r
+devtools::install_github("nacnudus/tidyxl")
+```
+
 ## Examples
 
 
