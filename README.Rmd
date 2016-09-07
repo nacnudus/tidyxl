@@ -14,12 +14,12 @@ knitr::opts_chunk$set(
 
 # tidyxl
 
-Imports non-tabular from Excel files into R.  Exposes cell content, position and
-formatting in a tidy structure for further manipulation.  Provides functions for
-selecting cells by position and relative position, and for associating data
-cells with header cells by proximity in given directions.  Supports '.xlsx' and
-'.xlsm' via the embedded [RapidXML](http://rapidxml.sourceforge.net) C++
-library.  Does not support '.xlsb' or '.xls'.
+[tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular from Excel files into R.  It exposes cell content,
+position, formatting and comments in a tidy structure for further manipulation,
+especialy by the [unpivotr](https://github.com/nacnudus/unpivotr) package.  It
+supports the xml-based file formats '.xlsx' and '.xlsm' via the embedded
+[RapidXML](http://rapidxml.sourceforge.net) C++ library.  It does not support
+the binary file formats '.xlsb' or '.xls'.
 
 ## Examples
 
@@ -36,8 +36,10 @@ spreadsheets does the following:
 read_excel("./inst/extdata/examples.xlsx", "Sheet1")
 ```
 
-The [tidyxl](https://github.com/nacnudus/tidyxl) package imports the same table
-into a format suitable for unpivotr:
+[tidyxl](https://github.com/nacnudus/tidyxl) imports the same table into a
+format suitable for non-tabular processing (see e.g. the
+[unpivotr](https://github.com/nacnudus/unpivotr) package in 'Similar projects'
+below).
 
 ```{r, echo = TRUE}
 (pivoted <- contents("./inst/extdata/examples.xlsx", "Sheet1")[[1]])
@@ -88,11 +90,11 @@ Information is lost when software discards it in order to force the data into
 tabular form.  Sometimes date formatting is retained, but mostly formatting 
 is lost, and position has to be inferred again.
 
-The `tidyxl` package addresses the programmer's problems by not discarding
-information.  It imports the content, position and formatting of cells, leaving
-it up to the user to associate the different forms of information, and to
-re-encode them in tabular form without loss.  Further packages are planned to
-assist with that step.
+[tidyxl](https://github.com/nacnudus/tidyxl) addresses the programmer's problems
+by not discarding information.  It imports the content, position and formatting
+of cells, leaving it up to the user to associate the different forms of
+information, and to re-encode them in tabular form without loss.  Further
+packages are planned to assist with that step.
 
 ## Similar projects
 
@@ -117,7 +119,7 @@ some clever algorithms.
 example), and implementation ([tidyxl](https://github.com/nacnudus/tidyxl) is
 implemented mainly in C++ and is quite fast, only a little slower than
 [readxl](https://github.com/hadley/readxl)).
-[unpivot](https://github.com/nacnudus/unpivotr) is a package related to
+[unpivotr](https://github.com/nacnudus/unpivotr) is a package related to
 [tidyxl](https://github.com/nacnudus/tidyxl) that provides tools for unpivoting
 complex and non-tabular data layouts using I not AI (intelligence, not
 artificial intelligence).  In this way it corresponds to
@@ -127,9 +129,6 @@ philosophy.
 ## Roadmap
 
 - [ ] Write tests
-- [ ] Write vignette
-- [ ] Function to record each border against both adjacent cells.
-- [ ] Import comment text.
 - [ ] Parse shared formulas and propagate to all associated cells.
 - [ ] Propagate array formulas to all associated cells.
 - [ ] Parse dates

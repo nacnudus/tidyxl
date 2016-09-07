@@ -8,12 +8,12 @@ output: github_document
 
 # tidyxl
 
-Imports non-tabular from Excel files into R.  Exposes cell content, position and
-formatting in a tidy structure for further manipulation.  Provides functions for
-selecting cells by position and relative position, and for associating data
-cells with header cells by proximity in given directions.  Supports '.xlsx' and
-'.xlsm' via the embedded [RapidXML](http://rapidxml.sourceforge.net) C++
-library.  Does not support '.xlsb' or '.xls'.
+[tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular from Excel files into R.  It exposes cell content,
+position, formatting and comments in a tidy structure for further manipulation,
+especialy by the [unpivotr](https://github.com/nacnudus/unpivotr) package.  It
+supports the xml-based file formats '.xlsx' and '.xlsm' via the embedded
+[RapidXML](http://rapidxml.sourceforge.net) C++ library.  It does not support
+the binary file formats '.xlsb' or '.xls'.
 
 ## Examples
 
@@ -30,36 +30,20 @@ spreadsheets does the following:
 
 ```r
 read_excel("./inst/extdata/examples.xlsx", "Sheet1")
-#> # A tibble: 27 x 30
-#>           1337            1338       42046
-#>          <chr>           <chr>       <chr>
-#> 1         <NA>            <NA>        <NA>
-#> 2         <NA>            <NA>        <NA>
-#> 3         <NA>            <NA>        <NA>
-#> 4  background1           text1 background2
-#> 5         <NA> text1-lighter50        <NA>
-#> 6         <NA>            <NA>        <NA>
-#> 7         <NA>            <NA>        <NA>
-#> 8            1               2           3
-#> 9         <NA>               1           2
-#> 10        <NA>            <NA>        <NA>
-#> # ... with 17 more rows, and 27 more variables: 42047 <chr>, 42048 <chr>,
-#> #   normal <chr>, italic <chr>, bad <chr>, badboldrightupindent <chr>,
-#> #   standardred <chr>, themeblue <chr>, bluepattern <chr>,
-#> #   stylealign <dbl>, mergedsubscript <chr>, NA <chr>, unprotected <chr>,
-#> #   1338 <chr>, themebackground1 <chr>, in-cell-bold-not-bold <chr>,
-#> #   in-cell-bold-not-bold <chr>, 100 <dbl>, 0.2 <dbl>,
-#> #   1.1000000000000001 <dbl>, 1 <chr>, 0 <chr>, #DIV/0! <chr>, Hello,
-#> #   World! <dbl>, diagonal-up <dbl>, diagonal-down <dbl>, auto-font <dbl>
+#> Error in x[needs_ticks] <- paste0("`", gsub("`", "\\\\`", x[needs_ticks]), : NAs are not allowed in subscripted assignments
 ```
 
-The [tidyxl](https://github.com/nacnudus/tidyxl) package imports the same table
-into a format suitable for unpivotr:
+[tidyxl](https://github.com/nacnudus/tidyxl) imports the same table into a
+format suitable for non-tabular processing (see e.g. the
+[unpivotr](https://github.com/nacnudus/unpivotr) package in 'Similar projects'
+below).
 
 
 ```r
 (pivoted <- contents("./inst/extdata/examples.xlsx", "Sheet1")[[1]])
-#> # A tibble: 105 x 14
+#> Warning in purrr::transpose(.): Element 2 has length 4 (not 3)
+#> Warning in purrr::transpose(.): Element 3 has length 4 (not 3)
+#> # A tibble: 105 × 15
 #>    address   row   col content formula formula_type formula_ref
 #>      <chr> <int> <int>   <chr>   <chr>        <chr>       <chr>
 #> 1       A1     1     1    1337    <NA>         <NA>        <NA>
@@ -72,9 +56,9 @@ into a format suitable for unpivotr:
 #> 8       H1     1     8       2    <NA>         <NA>        <NA>
 #> 9       I1     1     9       6    <NA>         <NA>        <NA>
 #> 10      J1     1    10       4    <NA>         <NA>        <NA>
-#> # ... with 95 more rows, and 7 more variables: formula_group <int>,
+#> # ... with 95 more rows, and 8 more variables: formula_group <int>,
 #> #   type <chr>, character <chr>, height <dbl>, width <dbl>,
-#> #   style_format_id <dbl>, local_format_id <dbl>
+#> #   style_format_id <dbl>, local_format_id <dbl>, comment <chr>
 ```
 
 Formatting is imported separately.
@@ -93,8 +77,8 @@ formats("./inst/extdata/examples.xlsx")$local[1:3] %>% str
 #>   ..$ size     : int [1:75] 11 11 11 11 11 11 11 11 11 11 ...
 #>   ..$ color    :List of 3
 #>   .. ..$ rgb    : chr [1:75] "FFFF0000" "FFFF0000" "FFFF0000" "FFFF0000" ...
-#>   .. ..$ indexed: int [1:75] NA NA NA NA NA NA NA NA NA NA ...
-#>   .. ..$ theme  : chr [1:74] NA NA NA NA ...
+#>   .. ..$ indexed: num [1:75] NA NA NA NA NA NA NA NA NA NA ...
+#>   .. ..$ theme  : chr [1:75] NA NA NA NA ...
 #>   ..$ name     : chr [1:75] "Calibri" "Calibri" "Calibri" "Calibri" ...
 #>   ..$ family   : int [1:75] 2 2 2 2 2 2 2 2 2 2 ...
 #>   ..$ scheme   : chr [1:75] "minor" "minor" "minor" "minor" ...
@@ -102,11 +86,11 @@ formats("./inst/extdata/examples.xlsx")$local[1:3] %>% str
 #>   ..$ patternType: chr [1:75] "none" "none" "none" "none" ...
 #>   ..$ bgColor    :List of 3
 #>   .. ..$ rgb    : chr [1:75] "FFFFFFFF" "FFFFFFFF" "FFFFFFFF" "FFFFFFFF" ...
-#>   .. ..$ indexed: int [1:75] NA NA NA NA NA NA NA NA NA NA ...
+#>   .. ..$ indexed: num [1:75] NA NA NA NA NA NA NA NA NA NA ...
 #>   .. ..$ theme  : chr [1:75] NA NA NA NA ...
 #>   ..$ fgColor    :List of 3
 #>   .. ..$ rgb    : chr [1:75] "FFFFFFFF" "FFFFFFFF" "FFFFFFFF" "FFFFFFFF" ...
-#>   .. ..$ indexed: int [1:75] NA NA NA NA NA NA NA NA NA NA ...
+#>   .. ..$ indexed: num [1:75] NA NA NA NA NA NA NA NA NA NA ...
 #>   .. ..$ theme  : chr [1:75] NA NA NA NA ...
 ```
 
@@ -123,14 +107,14 @@ This enables subsetting of cells by their formats.
 #> [56] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 #> [67] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 pivoted[pivoted$local_format_id %in% which(bold), ]
-#> # A tibble: 2 x 14
+#> # A tibble: 2 × 15
 #>   address   row   col content formula formula_type formula_ref
 #>     <chr> <int> <int>   <chr>   <chr>        <chr>       <chr>
 #> 1      I1     1     9       6    <NA>         <NA>        <NA>
 #> 2      T1     1    20      14    <NA>         <NA>        <NA>
-#> # ... with 7 more variables: formula_group <int>, type <chr>,
+#> # ... with 8 more variables: formula_group <int>, type <chr>,
 #> #   character <chr>, height <dbl>, width <dbl>, style_format_id <dbl>,
-#> #   local_format_id <dbl>
+#> #   local_format_id <dbl>, comment <chr>
 ```
 
 ## Philosophy
@@ -164,11 +148,11 @@ Information is lost when software discards it in order to force the data into
 tabular form.  Sometimes date formatting is retained, but mostly formatting 
 is lost, and position has to be inferred again.
 
-The `tidyxl` package addresses the programmer's problems by not discarding
-information.  It imports the content, position and formatting of cells, leaving
-it up to the user to associate the different forms of information, and to
-re-encode them in tabular form without loss.  Further packages are planned to
-assist with that step.
+[tidyxl](https://github.com/nacnudus/tidyxl) addresses the programmer's problems
+by not discarding information.  It imports the content, position and formatting
+of cells, leaving it up to the user to associate the different forms of
+information, and to re-encode them in tabular form without loss.  Further
+packages are planned to assist with that step.
 
 ## Similar projects
 
@@ -193,7 +177,7 @@ some clever algorithms.
 example), and implementation ([tidyxl](https://github.com/nacnudus/tidyxl) is
 implemented mainly in C++ and is quite fast, only a little slower than
 [readxl](https://github.com/hadley/readxl)).
-[unpivot](https://github.com/nacnudus/unpivotr) is a package related to
+[unpivotr](https://github.com/nacnudus/unpivotr) is a package related to
 [tidyxl](https://github.com/nacnudus/tidyxl) that provides tools for unpivoting
 complex and non-tabular data layouts using I not AI (intelligence, not
 artificial intelligence).  In this way it corresponds to
@@ -203,9 +187,6 @@ philosophy.
 ## Roadmap
 
 - [ ] Write tests
-- [ ] Write vignette
-- [ ] Function to record each border against both adjacent cells.
-- [ ] Import comment text.
 - [ ] Parse shared formulas and propagate to all associated cells.
 - [ ] Propagate array formulas to all associated cells.
 - [ ] Parse dates
