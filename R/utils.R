@@ -35,7 +35,7 @@ excel_format <- function(path) {
 }
 
 xlsx_sheets <- function(path) {
-  Relationships <- 
+  relationships <- 
     unz(path, "xl/_rels/workbook.xml.rels") %>%
     xml2::read_xml() %>%
     xml2::xml_ns_strip() %>%
@@ -44,7 +44,7 @@ xlsx_sheets <- function(path) {
     purrr::transpose() %>%
     purrr::map(unlist) %>% 
     tibble::as_tibble()
-  Sheets <- 
+  sheets <- 
     unz(path, "xl/workbook.xml") %>%
     xml2::read_xml() %>%
     xml2::xml_ns_strip() %>%
@@ -53,12 +53,34 @@ xlsx_sheets <- function(path) {
     purrr::map(as.list) %>%
     purrr::map(tibble::as_tibble) %>%
     dplyr::bind_rows()
-  dplyr::inner_join(Relationships, Sheets, by = c("Id" = "id")) %>%
-    dplyr::select(-Type) %>%
+  comments_path <- function(rels) {
+    if (tidyxl:::zip_has_file(path, rels)) {
+      out <- 
+        unz(path, rels) %>%
+        xml2::read_xml() %>% 
+        xml2::xml_ns_strip() %>%
+        xml2::xml_find_all("Relationship") %>%
+        xml2::xml_attrs() %>%
+        purrr::transpose() %>%
+        purrr::map(unlist) %>%
+        tibble::as_tibble() %>%
+        dplyr::filter(grepl("/comments", Type)) %>%
+        .$Target %>%
+        `substr<-`(1, 2, "xl")
+      if (length(out) > 0) {
+        return(out)
+      }
+    }
+    return(as.character(NA))
+  }
+  dplyr::inner_join(relationships, sheets, by = c("Id" = "id")) %>% # Don't use sheetId -- out of sync with rId
     dplyr::filter(grepl("worksheets/", Target, fixed = TRUE)) %>% # Ignore chartsheets etc.
-    dplyr::arrange(as.integer(gsub("rId", "", Id))) %>%
+    dplyr::mutate(id = as.integer(gsub("rId", "", Id)),
+                  rels = paste0("xl/worksheets/_rels/sheet", id, ".xml.rels"),
+                  comments_path = vapply(rels, comments_path, character(1))) %>%
+    dplyr::arrange(id) %>%
     dplyr::mutate(index = row_number()) %>%
-    dplyr::select(index, name)
+    dplyr::select(index, name, comments_path)
 }
 
 standardise_sheet <- function(sheets, all_sheets) {

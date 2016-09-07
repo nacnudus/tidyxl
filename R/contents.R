@@ -101,5 +101,22 @@ contents <- function(path, sheets = NA) {
     warning("No sheets found.", call. = FALSE)
     return(list())
   }
-  xlsx_read_(path, sheets$index, sheets$name)
+  sheet_data <- xlsx_read_(path, sheets$index, sheets$name)
+  sheet_comments <- lapply(sheets$comments_path, comments, path = path)
+  purrr::map2(sheet_data, sheet_comments, 
+              ~ dplyr::left_join(.x, .y, by = c("address" = "ref")))
+}
+
+# Parse comments (currently uses R, might use C++ in future).
+# Comments are then joined to cell data by cell address (ref).
+comments <- function(comments_path, path) {
+  if (is.na(comments_path)) {
+    return(tibble::tibble(ref = character(), comment = character()))
+  }
+  unz(path, comments_path) %>%
+  xml2::read_xml() %>% 
+  xml2::xml_ns_strip() %>%
+  xml2::xml_find_all("commentList") %>%
+  xml2::xml_find_all("comment") %>%
+  {tibble::tibble(ref = xml2::xml_attr(., "ref"), comment = xml2::xml_text(.))}
 }
