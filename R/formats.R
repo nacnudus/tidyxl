@@ -9,6 +9,8 @@
 #' general 'style', yet also differ from the 'style' by some local modification, 
 #' e.g. by making it bold.
 #'
+#' @param path Path to the xlsx file.
+#'
 #' @details
 #' \code{\link{contents}} Returns, among other things, keys for each cell into
 #' the \code{$style} and \code{$local} substructures of \code{formats}' output.
