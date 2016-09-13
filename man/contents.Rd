@@ -9,8 +9,9 @@ contents(path, sheets = NA)
 \arguments{
 \item{path}{Path to the xlsx file.}
 
-\item{sheet}{Sheet to read. Either a string (the name of a sheet), 
-an integer (the position of the sheet), or NA (default, all sheets).}
+\item{sheets}{Sheets to read. Either a character vector (the names of the
+sheets), an integer vector (the positions of the sheets), or NA (default, all
+sheets).}
 }
 \value{
 A list of data frames, one per sheet.  Each data frame has the following
@@ -50,10 +51,10 @@ A cell has two 'values': its content, and sometimes also a formula.
 
 \subsection{content}{
   Depending on the cell, the content may be a value such as 365 or 365.25, it
-  may represent a date/datetime in one of Excel's date/datetime systems, or 
-  it may be an index into an internal table of strings.  In the last case 
-  (index into strings table), \code{contents} automatically looks up the string 
-  and returns it in the 'character' column.
+  may represent a date/datetime in one of Excel's date/datetime systems, or
+  it may be an index into an internal table of strings.  In the last case
+  (index into strings table), \code{contents} automatically looks up the
+  string and returns it in the 'character' column.
 }
 
 \subsection{formula}{

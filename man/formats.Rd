@@ -6,6 +6,9 @@
 \usage{
 formats(path)
 }
+\arguments{
+\item{path}{Path to the xlsx file.}
+}
 \description{
 \code{formats} imports formatting information from xlsx (Excel) spreadsheets
 into a list structure.  The top level of the list is divided into two parts:
