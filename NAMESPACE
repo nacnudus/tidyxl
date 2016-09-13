@@ -3,8 +3,6 @@
 export("%>%")
 export(contents)
 export(formats)
-import(data.table)
-import(tidyr)
 importFrom(Rcpp,sourceCpp)
 importFrom(magrittr,"%>%")
 useDynLib(tidyxl)

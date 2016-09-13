@@ -23,11 +23,8 @@ LinkingTo: Rcpp
 Imports:
     Rcpp, 
     magrittr,
-    data.table (>= 1.9.7),
     dplyr,
-    dtplyr,
     purrr,
-    tidyr,
     tibble,
     xml2
 URL: https://github.com/nacnudus/tidyxl

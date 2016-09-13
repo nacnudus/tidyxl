@@ -2,9 +2,6 @@
 #' @export
 magrittr::`%>%`
 
-#' @import data.table
-#' @import tidyr
-
 check_file <- function(path) {
   if (!file.exists(path)) {
     stop("'", path, "' does not exist",
