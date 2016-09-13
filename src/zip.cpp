@@ -1,4 +1,4 @@
-// This code was copied from the R package 'readxl' at 
+// This code was adapted from the R package 'readxl' at 
 // https://cran.r-project.org/web/packages/readxl/index.html
 // on 4 July 2016.
 // It was written by Hadley Wickham hadley@rstudio.com.
@@ -12,14 +12,14 @@
 
 using namespace Rcpp;
 
-Function readxl(const std::string& fun){
-  Environment env = Environment::namespace_env("readxl");
+Function tidyxl(const std::string& fun){
+  Environment env = Environment::namespace_env("tidyxl");
   return env[fun];
 }
 
 std::string zip_buffer(const std::string& zip_path,
                        const std::string& file_path) {
-  Rcpp::Function zip_buffer = readxl("zip_buffer");
+  Rcpp::Function zip_buffer = tidyxl("zip_buffer");
 
   Rcpp::RawVector xml = Rcpp::as<Rcpp::RawVector>(zip_buffer(zip_path, file_path));
   std::string buffer(RAW(xml), RAW(xml) + xml.size());
@@ -30,7 +30,7 @@ std::string zip_buffer(const std::string& zip_path,
 
 bool zip_has_file(const std::string& zip_path,
                   const std::string& file_path) {
-  Rcpp::Function zip_has_file = readxl("zip_has_file");
+  Rcpp::Function zip_has_file = tidyxl("zip_has_file");
 
   LogicalVector res = wrap<LogicalVector>(zip_has_file(zip_path, file_path));
   return res[0];
