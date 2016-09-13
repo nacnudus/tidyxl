@@ -40,7 +40,9 @@ unstructured and non-tabular layout. A popular package for importing
 spreadsheets does the following:
 
 ```{r, echo = TRUE}
-read_excel("./inst/extdata/examples.xlsx", "Sheet1")
+# This example is not run because readxl currently (2016-09-14) fails where
+# any 'headers' are missing
+# read_excel("./inst/extdata/examples.xlsx", "Sheet1")
 ```
 
 [tidyxl](https://github.com/nacnudus/tidyxl) imports the same table into a
