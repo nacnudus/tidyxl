@@ -44,7 +44,7 @@ xlsx_sheets <- function(path) {
     purrr::transpose() %>%
     purrr::map(unlist) %>% 
     tibble::as_tibble()
-  sheets <- 
+  sheets <-
     unz(path, "xl/workbook.xml") %>%
     xml2::read_xml() %>%
     xml2::xml_ns_strip() %>%
@@ -54,21 +54,20 @@ xlsx_sheets <- function(path) {
     purrr::map(tibble::as_tibble) %>%
     dplyr::bind_rows()
   comments_path <- function(rels) {
-    if (tidyxl:::zip_has_file(path, rels)) {
-      out <- 
+    if (zip_has_file(path, rels)) {
+      nodes <- 
         unz(path, rels) %>%
         xml2::read_xml() %>% 
         xml2::xml_ns_strip() %>%
         xml2::xml_find_all("Relationship") %>%
-        xml2::xml_attrs() %>%
-        purrr::transpose() %>%
-        purrr::map(unlist) %>%
-        tibble::as_tibble() %>%
-        dplyr::filter(grepl("/comments", Type)) %>%
-        .$Target %>%
-        `substr<-`(1, 2, "xl")
-      if (length(out) > 0) {
-        return(out)
+        .[xml2::xml_has_attr(., "Type")] %>%
+        .[xml2::xml_has_attr(., "Target")]
+      Type <- xml2::xml_attr(nodes, "Type")
+      Target <- xml2::xml_attr(nodes, "Target")
+      Target <- Target[grepl("/comments", Type)]
+      if (length(Target) > 0) {
+        substr(Target, 1, 2) <- "xl"
+        return(Target)
       }
     }
     return(as.character(NA))
