@@ -2,6 +2,16 @@
 #' @export
 magrittr::`%>%`
 
+globalVariables(c(".",
+                  "numFmtId",
+                  "Target",
+                  "Id",
+                  "id",
+                  "rels",
+                  "row_number",
+                  "index",
+                  "name"))
+
 check_file <- function(path) {
   if (!file.exists(path)) {
     stop("'", path, "' does not exist",
