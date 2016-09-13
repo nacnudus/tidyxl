@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 
 # tidyxl
 
+[![Travis-CI Build Status](https://travis-ci.org/nacnudus/unpivotr.svg?branch=master)](https://travis-ci.org/nacnudus/unpivotr)
 [tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular from Excel files into R.  It exposes cell content,
 position, formatting and comments in a tidy structure for further manipulation,
 especialy by the [unpivotr](https://github.com/nacnudus/unpivotr) package.  It
