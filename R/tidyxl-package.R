@@ -1,3 +1,7 @@
+#' @useDynLib tidyxl
+#' @importFrom Rcpp sourceCpp
+NULL
+
 #' Import xlsx (Excel) spreadsheet data and formatting into tidy structures.
 #'
 #' Tidyxl imports data from spreadsheets without coercing it into a rectangle,
