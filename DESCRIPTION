@@ -15,7 +15,7 @@ Description: Imports non-tabular from Excel files into R.  Exposes cell content,
     library (http://rapidxml.sourceforge.net).  Does not support '.xlsb' or
     '.xls'.
 Depends:
-    R (>= 3.3.0)
+    R (>= 3.2.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
