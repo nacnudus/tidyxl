@@ -48,8 +48,6 @@ below).
 
 ```r
 (pivoted <- contents("./inst/extdata/examples.xlsx", "Sheet1")[[1]])
-#> Warning in purrr::transpose(.): Element 2 has length 4 (not 3)
-#> Warning in purrr::transpose(.): Element 3 has length 4 (not 3)
 #> # A tibble: 105 × 15
 #>    address   row   col content formula formula_type formula_ref
 #>      <chr> <int> <int>   <chr>   <chr>        <chr>       <chr>
