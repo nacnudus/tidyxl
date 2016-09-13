@@ -24,6 +24,9 @@ xlsxsheet::xlsxsheet(const int& sheetindex, xlsxbook& book): book_(book) {
   // Look up name among worksheets in book
   name_ = book_.sheets()[sheetindex - 1];
 
+  defaultRowHeight_ = 15;
+  double defaultColWidth_ = 8.47;
+
   cacheDefaultRowColDims();
   cacheColWidths();
   cacheCellcount();

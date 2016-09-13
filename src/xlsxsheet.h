@@ -13,8 +13,8 @@ rapidxml::xml_node<>* worksheet_;
 rapidxml::xml_node<>* sheetData_;
 
 unsigned long long int cellcount_;
-double defaultRowHeight_ = 15;
-double defaultColWidth_ = 8.47;
+double defaultRowHeight_;
+double defaultColWidth_;
 std::vector<double> colWidths_;
 xlsxbook& book_; // reference to parent workbook
 Rcpp::List information_; // Wrapper for variables returned to R
