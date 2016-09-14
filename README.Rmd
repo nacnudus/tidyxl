@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 [![Travis-CI Build Status](https://travis-ci.org/nacnudus/tidyxl.svg?branch=master)](https://travis-ci.org/nacnudus/tidyxl)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nacnudus/tidyxl?branch=master&svg=true)](https://ci.appveyor.com/project/nacnudus/tidyxl)
-[![codecov](https://codecov.io/gh/nacnudus/tidyxl/branch/master/graph/badge.svg)](https://codecov.io/gh/nacnudus/tidyxl)
+[![codecov](https://codecov.io/github/nacnudus/tidyxl/coverage.svg?branch=master)](https://codecov.io/gh/nacnudus/tidyxl)
 
 [tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular from Excel files into R.  It exposes cell content,
 position, formatting and comments in a tidy structure for further manipulation,
