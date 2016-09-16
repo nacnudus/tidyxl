@@ -110,11 +110,20 @@ void xlsxbook::cacheCellXfsXfId() {
   rapidxml::xml_attribute<>* count = cellXfs->first_attribute("count");
   if (count != NULL) {
     int n = atoi(count->value());
+    int i = 0;
     cellXfs_xfId_.reserve(n);
     for (rapidxml::xml_node<>* xf = cellXfs->first_node();
          xf; xf = xf->next_sibling()) {
       rapidxml::xml_attribute<>* xfId = xf->first_attribute("xfId");
-      cellXfs_xfId_.push_back(atoi(xfId->value()) + 1);
+      if (xfId == NULL) {
+        // This happened in ./tests/testthat/iris-google-doc.xlsx a
+        // google-sheets-exported file, where there's no theme1.xml to index
+        // into anyway.
+        cellXfs_xfId_[i] = NA_INTEGER;
+      } else {
+        cellXfs_xfId_[i] = atoi(xfId->value()) + 1;
+      }
+      i++;
     }
   }
 }
