@@ -41,8 +41,8 @@ Rcpp::CharacterVector error_;     // Parsed value
 // The following are always used.
 Rcpp::NumericVector   height_;          // Provided to cell constructor
 Rcpp::NumericVector   width_;           // Provided to cell constructor
-Rcpp::NumericVector   style_format_id_; // cellXfs xfId links to cellStyleXfs entry
-Rcpp::NumericVector   local_format_id_; // cell 'c' links to cellXfs entry
+Rcpp::IntegerVector   style_format_id_; // cellXfs xfId links to cellStyleXfs entry
+Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
 
 public:
 
