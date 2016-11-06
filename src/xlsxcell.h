@@ -71,7 +71,7 @@ public:
 
 private:
 
-  void cacheString();
+  void cacheString(); // Local and style format indexes
   void cacheFormat(); // Only the index of the local and style formats (cellXfs and cellStyleXfs)
 
 };
