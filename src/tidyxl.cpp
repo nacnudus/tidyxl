@@ -7,9 +7,9 @@
 using namespace Rcpp;
 
 // This is the entry-point from R into Rcpp.  The main function, xlsx_read_,
-// instantiates the xlsxbook class, and then passes that (by reference?
-// pointer?) to one or more xlsxsheet instances, iterating through them and
-// returning a list of 'sheets'.
+// instantiates the xlsxbook class, and then passes that by reference to one or
+// more xlsxsheet instances, iterating through them and returning a list of
+// 'sheets'.
 
 // [[Rcpp::export]]
 List xlsx_read_(std::string path, IntegerVector sheets, CharacterVector names) {
