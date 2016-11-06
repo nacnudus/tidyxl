@@ -121,10 +121,6 @@ void xlsxcell::cacheString() {
 
 void xlsxcell::cacheFormat() {
     s_ = c_->first_attribute("s");
-    if (s_ != NULL) {
-      local_format_id_ = atoi(s_->value()) + 1;
-    } else {
-      local_format_id_ = 1;
-    }
+    local_format_id_ = (s_ != NULL) ? atoi(s_->value()) + 1 : 1;
     style_format_id_ = book_.cellXfs_xfId()[local_format_id_ - 1];
   }
