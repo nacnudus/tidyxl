@@ -71,9 +71,9 @@ void xlsxbook::cacheStrings() {
   if (sst == NULL)
     return;
 
-  rapidxml::xml_attribute<>* count = sst->first_attribute("count");
-  if (count != NULL) {
-    int n = atoi(count->value());
+  rapidxml::xml_attribute<>* uniqueCount = sst->first_attribute("uniqueCount");
+  if (uniqueCount != NULL) {
+    unsigned long int n = strtol(uniqueCount->value(), NULL, 10);
     strings_.reserve(n);
   }
 
