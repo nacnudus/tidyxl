@@ -37,7 +37,7 @@ std::vector<std::string>& xlsxbook::strings() {
   return strings_;
 }
 
-long int& xlsxbook::strings_size() {
+std::vector<std::string>::size_type xlsxbook::strings_size() {
   return strings_size_;
 }
 
