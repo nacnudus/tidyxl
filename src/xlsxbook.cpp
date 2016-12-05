@@ -7,19 +7,20 @@
 using namespace Rcpp;
 
 xlsxbook::xlsxbook(const std::string& path): path_(path) {
-  std::string book_ = zip_buffer(path_, "xl/workbook.xml");
-  xml_.parse<0>(&book_[0]);
+  std::string book = zip_buffer(path_, "xl/workbook.xml");
 
-  workbook_ = xml_.first_node("workbook");
-  if (workbook_ == NULL)
+  rapidxml::xml_document<> xml;
+  xml.parse<0>(&book[0]);
+
+  rapidxml::xml_node<>* workbook = xml.first_node("workbook");
+  if (workbook == NULL)
     stop("Invalid workbook xml (no <workbook>)");
 
-  rapidxml::xml_node<>* sheets_;
-  sheets_ = workbook_->first_node("sheets");
-  if (sheets_ == NULL)
+  rapidxml::xml_node<>* sheets = workbook->first_node("sheets");
+  if (sheets == NULL)
     stop("Invalid workbook xml (no <sheets>)");
 
-  cacheSheets(sheets_);
+  cacheSheets(sheets);
   cacheStrings();
   cacheCellXfsXfId();
 }
