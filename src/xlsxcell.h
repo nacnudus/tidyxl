@@ -47,8 +47,8 @@ Rcpp::String error_;      // Parsed value
 // The following are always used.
 double height_;           // Provided to constructor
 double width_;            // Provided to constructor
-int style_format_id_;      // cellXfs xfId links to cellStyleXfs entry
-int local_format_id_;      // cell 'c' links to cellXfs entry
+unsigned long int style_format_id_;      // cellXfs xfId links to cellStyleXfs entry
+unsigned long int local_format_id_;      // cell 'c' links to cellXfs entry
 
 public:
 
@@ -66,8 +66,8 @@ public:
   Rcpp::String& character();
   double&       height();
   double&       width();
-  int&          style_format_id();
-  int&          local_format_id();
+  unsigned long int& style_format_id();
+  unsigned long int& local_format_id();
 
 private:
 

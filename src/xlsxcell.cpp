@@ -54,7 +54,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
       }
       rapidxml::xml_attribute<>* si = f_->first_attribute("si");
       if (si != NULL) {
-        formula_group_ = atoi(si->value());
+        formula_group_ = strtol(si->value(), NULL, 10);
       } else {
         formula_group_ = NA_INTEGER;
       }
@@ -81,8 +81,8 @@ String&      xlsxcell::type()            {return type_;}
 String&      xlsxcell::character()       {return character_;}
 double&      xlsxcell::height()          {return height_;}
 double&      xlsxcell::width()           {return width_;}
-int&         xlsxcell::style_format_id() {return style_format_id_;}
-int&         xlsxcell::local_format_id() {return local_format_id_;}
+unsigned long int& xlsxcell::style_format_id() {return style_format_id_;}
+unsigned long int& xlsxcell::local_format_id() {return local_format_id_;}
 
 // Based on hadley/readxl
 void xlsxcell::cacheString() {
@@ -121,6 +121,6 @@ void xlsxcell::cacheString() {
 
 void xlsxcell::cacheFormat() {
     s_ = c_->first_attribute("s");
-    local_format_id_ = (s_ != NULL) ? atoi(s_->value()) + 1 : 1;
+    local_format_id_ = (s_ != NULL) ? strtol(s_->value(), NULL, 10) + 1 : 1;
     style_format_id_ = book_.cellXfs_xfId()[local_format_id_ - 1];
   }

@@ -41,7 +41,7 @@ unsigned long int xlsxbook::strings_size() {
   return strings_size_;
 }
 
-std::vector<int>& xlsxbook::cellXfs_xfId() {
+std::vector<unsigned long int>& xlsxbook::cellXfs_xfId() {
   return cellXfs_xfId_;
 }
 
@@ -110,8 +110,8 @@ void xlsxbook::cacheCellXfsXfId() {
 
   rapidxml::xml_attribute<>* count = cellXfs->first_attribute("count");
   if (count != NULL) {
-    int n = atoi(count->value());
-    int i = 0;
+    unsigned long int n = strtol(count->value(), NULL, 10);
+    unsigned long int i = 0;
     cellXfs_xfId_.reserve(n);
     for (rapidxml::xml_node<>* xf = cellXfs->first_node();
          xf; xf = xf->next_sibling()) {
@@ -122,7 +122,7 @@ void xlsxbook::cacheCellXfsXfId() {
         // into anyway.
         cellXfs_xfId_[i] = NA_INTEGER;
       } else {
-        cellXfs_xfId_[i] = atoi(xfId->value()) + 1;
+        cellXfs_xfId_[i] = strtol(xfId->value(), NULL, 10) + 1;
       }
       i++;
     }

@@ -110,8 +110,8 @@ void xlsxsheet::cacheColWidths() {
       col; col = col->next_sibling("col")) {
 
     // <col> applies to columns from a min to a max, which must be iterated over
-    int min  = atoi(col->first_attribute("min")->value());
-    int max  = atoi(col->first_attribute("max")->value());
+    unsigned int min  = strtol(col->first_attribute("min")->value(), NULL, 10);
+    unsigned int max  = strtol(col->first_attribute("max")->value(), NULL, 10);
     double width = atof(col->first_attribute("width")->value());
 
     for (int column = min; column <= max; ++column)
