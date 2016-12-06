@@ -91,6 +91,15 @@ void xlsxcell::cacheString(
   // If an inline string, it must be parsed, if a string in the string table, it
   // must be obtained.
 
+  // Try the string table
+  if (v != NULL && t != NULL && strncmp(tvalue_, "s", t->value_size()) == 0) {
+    // the t attribute exists and its value is exactly "s", so v is an index
+    // into the strings table.
+    character_ = book.strings()[strtol(v->value(), NULL, 10)];
+    return;
+  }
+
+  // See if it's an inline string instead
   // We could check for t="inlineString" or the presence of child "is".  We do
   // the latter, same as hadley/readxl.
   // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
@@ -105,14 +114,7 @@ void xlsxcell::cacheString(
     return;
   }
 
-  if (v != NULL && t != NULL && strncmp(tvalue_, "s", t->value_size()) == 0) {
-    // the t attribute exists and its value is exactly "s", so v is an index
-    // into the strings table.
-    unsigned long int vvalue = strtol(v->value(), NULL, 10);
-    const std::vector<std::string>& strings = book.strings();
-    character_ = strings[vvalue];
-    return;
-  }
+  // Neither in the string table, nor an inline string, so not a string at all.
   character_ = NA_STRING;
 }
 
