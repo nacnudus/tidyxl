@@ -92,7 +92,7 @@ void xlsxcell::cacheString(
   // must be obtained.
 
   // Try the string table
-  if (v != NULL && t != NULL && strncmp(tvalue_, "s", t->value_size()) == 0) {
+  if (v != NULL && t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
     // the t attribute exists and its value is exactly "s", so v is an index
     // into the strings table.
     character_ = book.strings()[strtol(v->value(), NULL, 10)];
