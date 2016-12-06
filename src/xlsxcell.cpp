@@ -35,22 +35,22 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
     // p.1629 'shared' and 'si' attributes
     // TODO: Array formulas use the ref attribute for their range, and t to
     // state that they're 'array'.
-    f_ = cell->first_node("f");
-    if (f_ != NULL) {
-      formula_ = f_->value();
-      rapidxml::xml_attribute<>* t = f_->first_attribute("t");
+    rapidxml::xml_node<>* f = cell->first_node("f");
+    if (f != NULL) {
+      formula_ = f->value();
+      rapidxml::xml_attribute<>* t = f->first_attribute("t");
       if (t != NULL) {
         formula_type_ = t->value();
       } else {
         formula_type_ = NA_STRING;
       }
-      rapidxml::xml_attribute<>* ref = f_->first_attribute("ref");
+      rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
       if (ref != NULL) {
         formula_ref_ = ref->value();
       } else {
         formula_ref_ = NA_STRING;
       }
-      rapidxml::xml_attribute<>* si = f_->first_attribute("si");
+      rapidxml::xml_attribute<>* si = f->first_attribute("si");
       if (si != NULL) {
         formula_group_ = strtol(si->value(), NULL, 10);
       } else {
