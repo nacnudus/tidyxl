@@ -7,9 +7,6 @@
 
 class xlsxcell {
 
-const char* vvalue_; // value of v node, optimises cacheString
-const char* tvalue_; // value of t node, optimises cacheString
-
 /* celltype celltype;     // TODO: cell type enumeration */
 
 // The remaining variables go to R.
