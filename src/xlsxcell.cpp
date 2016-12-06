@@ -63,7 +63,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
       formula_group_ = NA_INTEGER;
     }
 
-    cacheString(cell, book, v, t); // t_ and v_ must be obtained first
+    cacheString(cell, book, v, t); 
     cacheFormat(cell, book); // local and style format indexes
 }
 
