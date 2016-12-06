@@ -17,18 +17,16 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
     width_ = colWidths[col_ - 1]; // row height is provided to the constructor
                                   // whereas col widths have to be looked up
 
-    v_ = cell->first_node("v");
-    if (v_ != NULL) {
-      vvalue_ = v_->value(); // v_->value() is a char* that we need later for atol
-      content_ = vvalue_;
+    rapidxml::xml_node<>* v = cell->first_node("v");
+    if (v != NULL) {
+      content_ = v->value();    // holds the value of 'v' that will be returned
     } else {
       content_ = NA_STRING;
     }
 
-    t_ = cell->first_attribute("t");
-    if (t_ != NULL) {
-      tvalue_ = t_->value(); // t_->value() is a char* that we need later for strncmp
-      type_ = tvalue_;
+    rapidxml::xml_attribute<>* t = cell->first_attribute("t");
+    if (t != NULL) {
+      type_ = t->value();       // holds the value of 't' that will be returned
     } else {
       type_ = NA_STRING;
     }
@@ -65,7 +63,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
       formula_group_ = NA_INTEGER;
     }
 
-    cacheString(cell, book); // t_ and v_ must be obtained first
+    cacheString(cell, book, v, t); // t_ and v_ must be obtained first
     cacheFormat(cell, book); // local and style format indexes
 }
 
@@ -85,7 +83,11 @@ unsigned long int& xlsxcell::style_format_id() {return style_format_id_;}
 unsigned long int& xlsxcell::local_format_id() {return local_format_id_;}
 
 // Based on hadley/readxl
-void xlsxcell::cacheString(rapidxml::xml_node<>* cell, xlsxbook& book) {
+void xlsxcell::cacheString(
+    rapidxml::xml_node<>* cell,
+    xlsxbook& book,
+    rapidxml::xml_node<>* v,
+    rapidxml::xml_attribute<>* t) {
   // If an inline string, it must be parsed, if a string in the string table, it
   // must be obtained.
 
@@ -103,17 +105,12 @@ void xlsxcell::cacheString(rapidxml::xml_node<>* cell, xlsxbook& book) {
     return;
   }
 
-  if (v_ != NULL && t_ != NULL && strncmp(tvalue_, "s", t_->value_size()) == 0) {
-    // the t attribute exists and its value is exactly "s", so v_ is an index
+  if (v != NULL && t != NULL && strncmp(tvalue_, "s", t->value_size()) == 0) {
+    // the t attribute exists and its value is exactly "s", so v is an index
     // into the strings table.
-    long int v = atol(vvalue_);
+    unsigned long int vvalue = strtol(v->value(), NULL, 10);
     const std::vector<std::string>& strings = book.strings();
-    if (v < 0 || v >= book.strings_size()) {
-      warning("[%i, %i]: Invalid string id %i", row_, col_, v);
-      character_ = NA_STRING;
-      return;
-    }
-    character_ = strings[v];
+    character_ = strings[vvalue];
     return;
   }
   character_ = NA_STRING;

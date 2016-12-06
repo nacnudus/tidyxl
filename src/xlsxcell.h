@@ -9,10 +9,8 @@ class xlsxcell {
 
 rapidxml::xml_attribute<>* r_; // Address
 rapidxml::xml_attribute<>* s_; // Style index
-rapidxml::xml_attribute<>* t_; // Data type
-rapidxml::xml_node<>* v_;      // Contents/value
 rapidxml::xml_node<>* f_;      // Formula
-
+  
 const char* vvalue_; // value of v node, optimises cacheString
 const char* tvalue_; // value of t node, optimises cacheString
 
@@ -69,7 +67,12 @@ public:
 
 private:
 
-  void cacheString(rapidxml::xml_node<>* cell, xlsxbook& book); // Local and style format indexes
+  void cacheString(
+      rapidxml::xml_node<>* cell,
+      xlsxbook& book, 
+      rapidxml::xml_node<>* v,
+      rapidxml::xml_attribute<>* t
+      ); // Local and style format indexes
   void cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book); // Only the index of the local and style formats (cellXfs and cellStyleXfs)
 
 };
