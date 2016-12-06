@@ -6,10 +6,10 @@
 
 using namespace Rcpp;
 
-xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
+xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
     double& height, std::vector<double>& colWidths, xlsxbook& book): 
-  c_(c), height_(height), book_(book) {
-    r_ = c_->first_attribute("r");
+  height_(height), book_(book) {
+    r_ = cell->first_attribute("r");
     if (r_ == NULL)
       stop("Invalid cell: lacks 'r' attribute");
     address_ = std::string(r_->value());
@@ -17,7 +17,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     width_ = colWidths[col_ - 1]; // row height is provided to the constructor
                                   // whereas col widths have to be looked up
 
-    v_ = c_->first_node("v");
+    v_ = cell->first_node("v");
     if (v_ != NULL) {
       vvalue_ = v_->value(); // v_->value() is a char* that we need later for atol
       content_ = vvalue_;
@@ -25,7 +25,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
       content_ = NA_STRING;
     }
 
-    t_ = c_->first_attribute("t");
+    t_ = cell->first_attribute("t");
     if (t_ != NULL) {
       tvalue_ = t_->value(); // t_->value() is a char* that we need later for strncmp
       type_ = tvalue_;
@@ -37,7 +37,7 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
     // p.1629 'shared' and 'si' attributes
     // TODO: Array formulas use the ref attribute for their range, and t to
     // state that they're 'array'.
-    f_ = c_->first_node("f");
+    f_ = cell->first_node("f");
     if (f_ != NULL) {
       formula_ = f_->value();
       rapidxml::xml_attribute<>* t = f_->first_attribute("t");
@@ -65,8 +65,8 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* c,
       formula_group_ = NA_INTEGER;
     }
 
-    cacheString(); // t_ and v_ must be obtained first
-    cacheFormat(); // local and style format indexes
+    cacheString(cell); // t_ and v_ must be obtained first
+    cacheFormat(cell); // local and style format indexes
 }
 
 std::string& xlsxcell::address()         {return address_;}
@@ -85,14 +85,14 @@ unsigned long int& xlsxcell::style_format_id() {return style_format_id_;}
 unsigned long int& xlsxcell::local_format_id() {return local_format_id_;}
 
 // Based on hadley/readxl
-void xlsxcell::cacheString() {
+void xlsxcell::cacheString(rapidxml::xml_node<>* cell) {
   // If an inline string, it must be parsed, if a string in the string table, it
   // must be obtained.
 
   // We could check for t="inlineString" or the presence of child "is".  We do
   // the latter, same as hadley/readxl.
   // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
-  rapidxml::xml_node<>* is = c_->first_node("is");
+  rapidxml::xml_node<>* is = cell->first_node("is");
   if (is != NULL) {
     std::string inlineString;
     if (!parseString(is, inlineString)) { // value is modified in place
@@ -119,8 +119,8 @@ void xlsxcell::cacheString() {
   character_ = NA_STRING;
 }
 
-void xlsxcell::cacheFormat() {
-    s_ = c_->first_attribute("s");
+void xlsxcell::cacheFormat(rapidxml::xml_node<>* cell) {
+    s_ = cell->first_attribute("s");
     local_format_id_ = (s_ != NULL) ? strtol(s_->value(), NULL, 10) + 1 : 1;
     style_format_id_ = book_.cellXfs_xfId()[local_format_id_ - 1];
   }
