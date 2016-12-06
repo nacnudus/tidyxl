@@ -7,8 +7,6 @@
 
 class xlsxcell {
 
-xlsxbook& book_;          // Parent workbook
-
 rapidxml::xml_attribute<>* r_; // Address
 rapidxml::xml_attribute<>* s_; // Style index
 rapidxml::xml_attribute<>* t_; // Data type
@@ -52,7 +50,8 @@ unsigned long int local_format_id_;      // cell 'c' links to cellXfs entry
 public:
 
   xlsxcell(rapidxml::xml_node<>* cell, double& height, 
-    std::vector<double>& colWidths, xlsxbook& book); // 'cell' is the cell node
+    std::vector<double>& colWidths, xlsxbook& book); // 'cell' is the cell node,
+                                                     // 'book' is the parent workbook
   std::string&  address();
   int&          row();
   int&          col();
@@ -70,8 +69,8 @@ public:
 
 private:
 
-  void cacheString(rapidxml::xml_node<>* cell); // Local and style format indexes
-  void cacheFormat(rapidxml::xml_node<>* cell); // Only the index of the local and style formats (cellXfs and cellStyleXfs)
+  void cacheString(rapidxml::xml_node<>* cell, xlsxbook& book); // Local and style format indexes
+  void cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book); // Only the index of the local and style formats (cellXfs and cellStyleXfs)
 
 };
 

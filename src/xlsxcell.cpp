@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
     double& height, std::vector<double>& colWidths, xlsxbook& book): 
-  height_(height), book_(book) {
+  height_(height) {
     r_ = cell->first_attribute("r");
     if (r_ == NULL)
       stop("Invalid cell: lacks 'r' attribute");
@@ -65,8 +65,8 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
       formula_group_ = NA_INTEGER;
     }
 
-    cacheString(cell); // t_ and v_ must be obtained first
-    cacheFormat(cell); // local and style format indexes
+    cacheString(cell, book); // t_ and v_ must be obtained first
+    cacheFormat(cell, book); // local and style format indexes
 }
 
 std::string& xlsxcell::address()         {return address_;}
@@ -85,7 +85,7 @@ unsigned long int& xlsxcell::style_format_id() {return style_format_id_;}
 unsigned long int& xlsxcell::local_format_id() {return local_format_id_;}
 
 // Based on hadley/readxl
-void xlsxcell::cacheString(rapidxml::xml_node<>* cell) {
+void xlsxcell::cacheString(rapidxml::xml_node<>* cell, xlsxbook& book) {
   // If an inline string, it must be parsed, if a string in the string table, it
   // must be obtained.
 
@@ -107,8 +107,8 @@ void xlsxcell::cacheString(rapidxml::xml_node<>* cell) {
     // the t attribute exists and its value is exactly "s", so v_ is an index
     // into the strings table.
     long int v = atol(vvalue_);
-    const std::vector<std::string>& strings = book_.strings();
-    if (v < 0 || v >= book_.strings_size()) {
+    const std::vector<std::string>& strings = book.strings();
+    if (v < 0 || v >= book.strings_size()) {
       warning("[%i, %i]: Invalid string id %i", row_, col_, v);
       character_ = NA_STRING;
       return;
@@ -119,8 +119,8 @@ void xlsxcell::cacheString(rapidxml::xml_node<>* cell) {
   character_ = NA_STRING;
 }
 
-void xlsxcell::cacheFormat(rapidxml::xml_node<>* cell) {
+void xlsxcell::cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book) {
     s_ = cell->first_attribute("s");
     local_format_id_ = (s_ != NULL) ? strtol(s_->value(), NULL, 10) + 1 : 1;
-    style_format_id_ = book_.cellXfs_xfId()[local_format_id_ - 1];
+    style_format_id_ = book.cellXfs_xfId()[local_format_id_ - 1];
   }
