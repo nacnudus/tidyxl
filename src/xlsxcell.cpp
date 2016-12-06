@@ -119,7 +119,8 @@ void xlsxcell::cacheString(
 }
 
 void xlsxcell::cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book) {
-    s_ = cell->first_attribute("s");
-    local_format_id_ = (s_ != NULL) ? strtol(s_->value(), NULL, 10) + 1 : 1;
+    rapidxml::xml_attribute<>* s = cell->first_attribute("s");
+    // Default the local format id to '1' if not present
+    local_format_id_ = (s != NULL) ? strtol(s->value(), NULL, 10) + 1 : 1;
     style_format_id_ = book.cellXfs_xfId()[local_format_id_ - 1];
   }

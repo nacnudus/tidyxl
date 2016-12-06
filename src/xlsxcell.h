@@ -8,7 +8,6 @@
 class xlsxcell {
 
 rapidxml::xml_attribute<>* r_; // Address
-rapidxml::xml_attribute<>* s_; // Style index
 rapidxml::xml_node<>* f_;      // Formula
   
 const char* vvalue_; // value of v node, optimises cacheString
