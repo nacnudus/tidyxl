@@ -38,9 +38,9 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
     rapidxml::xml_node<>* f = cell->first_node("f");
     if (f != NULL) {
       formula_ = f->value();
-      rapidxml::xml_attribute<>* t = f->first_attribute("t");
-      if (t != NULL) {
-        formula_type_ = t->value();
+      rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
+      if (f_t != NULL) {
+        formula_type_ = f_t->value();
       } else {
         formula_type_ = NA_STRING;
       }
