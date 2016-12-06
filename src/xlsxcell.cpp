@@ -9,10 +9,10 @@ using namespace Rcpp;
 xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
     double& height, std::vector<double>& colWidths, xlsxbook& book): 
   height_(height) {
-    r_ = cell->first_attribute("r");
-    if (r_ == NULL)
+    rapidxml::xml_attribute<>* r = cell->first_attribute("r");
+    if (r == NULL)
       stop("Invalid cell: lacks 'r' attribute");
-    address_ = std::string(r_->value());
+    address_ = std::string(r->value());
     parseAddress(address_, row_, col_);
     width_ = colWidths[col_ - 1]; // row height is provided to the constructor
                                   // whereas col widths have to be looked up
