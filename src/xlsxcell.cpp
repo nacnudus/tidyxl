@@ -31,40 +31,9 @@ xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
       type_ = NA_STRING;
     }
 
-    // TODO: Formulas are more complicated than this, because they're shared.
-    // p.1629 'shared' and 'si' attributes
-    // TODO: Array formulas use the ref attribute for their range, and t to
-    // state that they're 'array'.
-    rapidxml::xml_node<>* f = cell->first_node("f");
-    if (f != NULL) {
-      formula_ = f->value();
-      rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
-      if (f_t != NULL) {
-        formula_type_ = f_t->value();
-      } else {
-        formula_type_ = NA_STRING;
-      }
-      rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
-      if (ref != NULL) {
-        formula_ref_ = ref->value();
-      } else {
-        formula_ref_ = NA_STRING;
-      }
-      rapidxml::xml_attribute<>* si = f->first_attribute("si");
-      if (si != NULL) {
-        formula_group_ = strtol(si->value(), NULL, 10);
-      } else {
-        formula_group_ = NA_INTEGER;
-      }
-    } else {
-      formula_ = NA_STRING;
-      formula_type_ = NA_STRING;
-      formula_ref_ = NA_STRING;
-      formula_group_ = NA_INTEGER;
-    }
-
     cacheString(cell, book, v, t); 
     cacheFormat(cell, book); // local and style format indexes
+    cacheFormula(cell); // local and style format indexes
 }
 
 std::string& xlsxcell::address()         {return address_;}
@@ -124,3 +93,37 @@ void xlsxcell::cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book) {
     local_format_id_ = (s != NULL) ? strtol(s->value(), NULL, 10) + 1 : 1;
     style_format_id_ = book.cellXfs_xfId()[local_format_id_ - 1];
   }
+
+void xlsxcell::cacheFormula(rapidxml::xml_node<>* cell) {
+    // TODO: Formulas are more complicated than this, because they're shared.
+    // p.1629 'shared' and 'si' attributes
+    // TODO: Array formulas use the ref attribute for their range, and t to
+    // state that they're 'array'.
+    rapidxml::xml_node<>* f = cell->first_node("f");
+    if (f != NULL) {
+      formula_ = f->value();
+      rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
+      if (f_t != NULL) {
+        formula_type_ = f_t->value();
+      } else {
+        formula_type_ = NA_STRING;
+      }
+      rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
+      if (ref != NULL) {
+        formula_ref_ = ref->value();
+      } else {
+        formula_ref_ = NA_STRING;
+      }
+      rapidxml::xml_attribute<>* si = f->first_attribute("si");
+      if (si != NULL) {
+        formula_group_ = strtol(si->value(), NULL, 10);
+      } else {
+        formula_group_ = NA_INTEGER;
+      }
+    } else {
+      formula_ = NA_STRING;
+      formula_type_ = NA_STRING;
+      formula_ref_ = NA_STRING;
+      formula_group_ = NA_INTEGER;
+    }
+}

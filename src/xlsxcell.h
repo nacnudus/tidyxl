@@ -67,6 +67,7 @@ private:
       rapidxml::xml_attribute<>* t
       ); // Local and style format indexes
   void cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book); // Only the index of the local and style formats (cellXfs and cellStyleXfs)
+  void cacheFormula(rapidxml::xml_node<>* cell);
 
 };
 
