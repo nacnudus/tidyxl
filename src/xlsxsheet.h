@@ -8,11 +8,7 @@
 class xlsxsheet {
 
 std::string name_;
-rapidxml::xml_document<> xml_;
-rapidxml::xml_node<>* worksheet_;
-rapidxml::xml_node<>* sheetData_;
 
-unsigned long long int cellcount_;
 double defaultRowHeight_;
 double defaultColWidth_;
 std::vector<double> colWidths_;
@@ -51,11 +47,11 @@ public:
 
 private:
 
-  void cacheDefaultRowColDims();
-  void cacheColWidths();
-  void cacheCellcount();
-  void initializeColumns();
-  void parseSheetData();
+  void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);
+  void cacheColWidths(rapidxml::xml_node<>* worksheet);
+  unsigned long long int cacheCellcount(rapidxml::xml_node<>* sheetData);
+  void initializeColumns(rapidxml::xml_node<>* sheetData);
+  void parseSheetData(rapidxml::xml_node<>* sheetData);
 
 };
 
