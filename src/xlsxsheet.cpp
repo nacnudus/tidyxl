@@ -121,7 +121,8 @@ void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
 }
 
 unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData) {
-  // Iterate over all rows and cells to count
+  // Iterate over all rows and cells to count.  The 'dimension' tag is no use
+  // here because it describes a rectangle of cells, many of which may be blank.
   unsigned long long int cellcount = 0;
   for (rapidxml::xml_node<>* row = sheetData->first_node("row");
       row; row = row->next_sibling("row")) {
