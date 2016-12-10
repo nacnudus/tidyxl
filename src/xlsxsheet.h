@@ -7,6 +7,8 @@
 
 class xlsxsheet {
 
+public:
+
 std::string name_;
 
 double defaultRowHeight_;
@@ -40,12 +42,8 @@ Rcpp::NumericVector   width_;           // Provided to cell constructor
 Rcpp::IntegerVector   style_format_id_; // cellXfs xfId links to cellStyleXfs entry
 Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
 
-public:
-
   xlsxsheet(const int& sheetindex, xlsxbook& book);
   Rcpp::List& information();       // Cells contents and styles DF wrapped in list
-
-private:
 
   void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);
   void cacheColWidths(rapidxml::xml_node<>* worksheet);

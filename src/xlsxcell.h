@@ -7,6 +7,8 @@
 
 class xlsxcell {
 
+public:
+
 /* celltype celltype;     // TODO: cell type enumeration */
 
 // The remaining variables go to R.
@@ -38,8 +40,6 @@ double width_;            // Provided to constructor
 unsigned long int style_format_id_;      // cellXfs xfId links to cellStyleXfs entry
 unsigned long int local_format_id_;      // cell 'c' links to cellXfs entry
 
-public:
-
   xlsxcell(rapidxml::xml_node<>* cell, double& height, 
     std::vector<double>& colWidths, xlsxbook& book); // 'cell' is the cell node,
                                                      // 'book' is the parent workbook
@@ -57,8 +57,6 @@ public:
   double&       width();
   unsigned long int& style_format_id();
   unsigned long int& local_format_id();
-
-private:
 
   void cacheString(
       rapidxml::xml_node<>* cell,
