@@ -8,7 +8,10 @@
 
 using namespace Rcpp;
 
-xlsxsheet::xlsxsheet(const int& sheetindex, xlsxbook& book): book_(book) {
+xlsxsheet::xlsxsheet(
+    const int& sheetindex,
+    xlsxbook& book):
+  book_(book) {
   std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex);
   std::string sheet_ = zip_buffer(book_.path(), sheetpath);
 
@@ -87,10 +90,10 @@ void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
       sheetFormatPr_->first_attribute("defaultColWidth");
     if (defaultColWidth != NULL)
       defaultColWidth_ = strtof(defaultColWidth->value(), NULL);
-      // If defaultColWidth not given, ECMA says you can work it out based on
-      // baseColWidth, but that isn't necessarily given either, and the formula
-      // is wrong because the reality is so complicated, see 
-      // https://support.microsoft.com/en-gb/kb/214123.
+    // If defaultColWidth not given, ECMA says you can work it out based on
+    // baseColWidth, but that isn't necessarily given either, and the formula
+    // is wrong because the reality is so complicated, see 
+    // https://support.microsoft.com/en-gb/kb/214123.
   }
 }
 
@@ -150,8 +153,8 @@ void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
   logical_         = LogicalVector(cellcount,   NA_LOGICAL);
   numeric_         = NumericVector(cellcount,   NA_REAL);
   date_            = NumericVector(cellcount,   NA_REAL);
-    date_.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
-    date_.attr("tzone") = "UTC";
+  date_.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+  date_.attr("tzone") = "UTC";
   character_       = CharacterVector(cellcount, NA_STRING);
   error_           = CharacterVector(cellcount, NA_STRING);
   height_          = NumericVector(cellcount,   NA_REAL);

@@ -79,7 +79,7 @@ void xlsxbook::cacheStrings() {
 
   // 18.4.8 si (String Item) [p1725]
   for (rapidxml::xml_node<>* string = sst->first_node();
-       string; string = string->next_sibling()) {
+      string; string = string->next_sibling()) {
     std::string out;
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
@@ -114,7 +114,7 @@ void xlsxbook::cacheCellXfsXfId() {
     unsigned long int i = 0;
     cellXfs_xfId_.reserve(n);
     for (rapidxml::xml_node<>* xf = cellXfs->first_node();
-         xf; xf = xf->next_sibling()) {
+        xf; xf = xf->next_sibling()) {
       rapidxml::xml_attribute<>* xfId = xf->first_attribute("xfId");
       if (xfId == NULL) {
         // This happened in ./tests/testthat/iris-google-doc.xlsx a

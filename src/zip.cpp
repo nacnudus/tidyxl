@@ -17,8 +17,9 @@ Function tidyxl(const std::string& fun){
   return env[fun];
 }
 
-std::string zip_buffer(const std::string& zip_path,
-                       const std::string& file_path) {
+std::string zip_buffer(
+    const std::string& zip_path,
+    const std::string& file_path) {
   Rcpp::Function zip_buffer = tidyxl("zip_buffer");
 
   Rcpp::RawVector xml = Rcpp::as<Rcpp::RawVector>(zip_buffer(zip_path, file_path));
@@ -28,8 +29,9 @@ std::string zip_buffer(const std::string& zip_path,
   return buffer;
 }
 
-bool zip_has_file(const std::string& zip_path,
-                  const std::string& file_path) {
+bool zip_has_file(
+    const std::string& zip_path,
+    const std::string& file_path) {
   Rcpp::Function zip_has_file = tidyxl("zip_has_file");
 
   LogicalVector res = wrap<LogicalVector>(zip_has_file(zip_path, file_path));
@@ -49,8 +51,9 @@ std::string xml_print(std::string xml) {
 }
 
 // [[Rcpp::export]]
-void zip_xml(const std::string& zip_path,
-             const std::string& file_path) {
+void zip_xml(
+    const std::string& zip_path,
+    const std::string& file_path) {
 
   std::string buffer = zip_buffer(zip_path, file_path);
   Rcout << xml_print(buffer);

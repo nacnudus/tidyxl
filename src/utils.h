@@ -35,8 +35,8 @@ inline void parseAddress(std::string& address, int& row, int& col) {
 }
 
 inline void getChildValueString(
-  // Find node if exists, assign it to the given pointer, and assign its
-  // value to the given reference.
+    // Find node if exists, assign it to the given pointer, and assign its
+    // value to the given reference.
     const char* childname, 
     rapidxml::xml_node<>* parent,
     rapidxml::xml_node<>* &child,
@@ -72,8 +72,8 @@ inline std::string unescape(const std::string& s) {
 
   for (size_t i = 0; i < s.size(); i++) {
     if (i+6 < s.size() && s[i] == '_' && s[i+1] == 'x'
-     && isxdigit(s[i+2]) && isxdigit(s[i+3])
-     && isxdigit(s[i+4]) && isxdigit(s[i+5]) && s[i+6] == '_') {
+        && isxdigit(s[i+2]) && isxdigit(s[i+3])
+        && isxdigit(s[i+4]) && isxdigit(s[i+5]) && s[i+6] == '_') {
       // extract character
       unsigned int ch = strtoul(&s[i+2], NULL, 16);
       char utf8[16]; // 16 from definition of Rf_ucstoutf8
@@ -120,7 +120,7 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
   }
   // iterate over all r elements
   for (const rapidxml::xml_node<>* r = string->first_node("r"); r != NULL;
-       r = r->next_sibling("r")) {
+      r = r->next_sibling("r")) {
     // a unique t element should be present (CT_RElt [p3893])
     // but MacOSX preview just ignores chunks with no t element present
     const rapidxml::xml_node<>* t = r->first_node("t");
