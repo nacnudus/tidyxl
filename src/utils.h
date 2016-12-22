@@ -5,65 +5,6 @@
 #include "rapidxml.h"
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
 
-
-inline void makeDataFrame(Rcpp::List& Lists, const Rcpp::CharacterVector& colnames) {
-  // turn List of Vectors into a data frame without checking anything
-  int n = Rf_length(Lists[0]);
-  Lists.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-  Lists.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works
-  Lists.attr("names") = colnames;
-}
-
-// Based on hadley/readxl
-// Simple parser: does not check that order of numbers and letters is correct
-// row_ and column_ are one-based
-inline void parseAddress(std::string& address, int& row, int& col) {
-  col = 0;
-  row = 0;
-
-  // Iterate though std::string character by character
-  for(std::string::const_iterator iter = address.begin();
-      iter != address.end(); ++iter) {
-    if (*iter >= '0' && *iter <= '9') { // If it's a number
-      row = row * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
-    } else if (*iter >= 'A' && *iter <= 'Z') { // If it's a character
-      col = 26 * col + (*iter - 'A' + 1); // Then do similarly  with columns
-    } else {
-      Rcpp::stop("Invalid character '%s' in cell ref '%s'", *iter, address);
-    }
-  }
-}
-
-inline void getChildValueString(
-    // Find node if exists, assign it to the given pointer, and assign its
-    // value to the given reference.
-    const char* childname, 
-    rapidxml::xml_node<>* parent,
-    rapidxml::xml_node<>* &child,
-    Rcpp::String& value) {
-  child = parent->first_node(childname);
-  if (child == NULL) {
-    value = NA_STRING;
-  } else {
-    value = child->value();
-  }
-}
-
-inline void getAttributeValueString(
-    // Find attribute if exists, assign it to the given pointer, and assign it's
-    // value to the given reference.
-    const char* attributename,
-    rapidxml::xml_node<>* node, 
-    rapidxml::xml_attribute<>* &attribute, 
-    Rcpp::String& value) {
-  attribute = node->first_attribute(attributename);
-  if (attribute == NULL) {
-    value = NA_STRING;
-  } else {
-    value = attribute->value();
-  }
-}
-
 // Based on hadley/readxl
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]
 inline std::string unescape(const std::string& s) {
@@ -131,6 +72,5 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
   }
   return found;
 }
-
 
 #endif

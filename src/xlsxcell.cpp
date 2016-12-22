@@ -2,73 +2,91 @@
 #include "rapidxml.h"
 #include "xlsxbook.h"
 #include "xlsxcell.h"
+#include "xlsxsheet.h"
 #include "utils.h"
 
 using namespace Rcpp;
 
-xlsxcell::xlsxcell(rapidxml::xml_node<>* cell,
-    double& height, std::vector<double>& colWidths, xlsxbook& book): 
-  height_(height) {
-    rapidxml::xml_attribute<>* r = cell->first_attribute("r");
-    if (r == NULL)
-      stop("Invalid cell: lacks 'r' attribute");
-    address_ = std::string(r->value());
-    parseAddress(address_, row_, col_);
-    width_ = colWidths[col_ - 1]; // row height is provided to the constructor
-                                  // whereas col widths have to be looked up
-
-    rapidxml::xml_node<>* v = cell->first_node("v");
-    if (v != NULL) {
-      content_ = v->value();    // holds the value of 'v' that will be returned
-    } else {
-      content_ = NA_STRING;
-    }
-
-    rapidxml::xml_attribute<>* t = cell->first_attribute("t");
-    if (t != NULL) {
-      type_ = t->value();       // holds the value of 't' that will be returned
-    } else {
-      type_ = NA_STRING;
-    }
-
-    cacheString(cell, book, v, t); 
-    cacheFormat(cell, book); // local and style format indexes
-    cacheFormula(cell); // local and style format indexes
+xlsxcell::xlsxcell(
+    rapidxml::xml_node<>* cell,
+    xlsxsheet* sheet,
+    xlsxbook& book,
+    unsigned long long int& i
+    ) {
+    parseAddress(cell, sheet, i);
+    cacheValue  (cell, sheet, book, i);
+    cacheFormat (cell, sheet, book, i); // local and style format indexes
+    cacheFormula(cell, sheet, i);
 }
 
-std::string& xlsxcell::address()         {return address_;}
-int&         xlsxcell::row()             {return row_;}
-int&         xlsxcell::col()             {return col_;}
-String&      xlsxcell::content()         {return content_;}
-String&      xlsxcell::formula()         {return formula_;}
-String&      xlsxcell::formula_type()    {return formula_type_;}
-String&      xlsxcell::formula_ref()     {return formula_ref_;}
-int&         xlsxcell::formula_group()   {return formula_group_;}
-String&      xlsxcell::type()            {return type_;}
-String&      xlsxcell::character()       {return character_;}
-double&      xlsxcell::height()          {return height_;}
-double&      xlsxcell::width()           {return width_;}
-unsigned long int& xlsxcell::style_format_id() {return style_format_id_;}
-unsigned long int& xlsxcell::local_format_id() {return local_format_id_;}
+// Based on hadley/readxl
+// Get the A1-style address, and parse it for the row and column numbers.
+// Simple parser: does not check that order of numbers and letters is correct
+// row_ and column_ are one-based
+void xlsxcell::parseAddress(
+    rapidxml::xml_node<>* cell, 
+    xlsxsheet* sheet,
+    unsigned long long int& i
+    ) {
+  rapidxml::xml_attribute<>* r = cell->first_attribute("r");
+  if (r == NULL)
+    stop("Invalid cell: lacks 'r' attribute");
+
+  std::string address = r->value(); // we need this std::string in a moment
+  sheet->address_[i] = address;
+
+  // Iterate though the A1-style address string character by character
+  int col = 0;
+  int row = 0;
+  for(std::string::const_iterator iter = address.begin();
+      iter != address.end(); ++iter) {
+    if (*iter >= '0' && *iter <= '9') { // If it's a number
+      row = row * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
+    } else if (*iter >= 'A' && *iter <= 'Z') { // If it's a character
+      col = 26 * col + (*iter - 'A' + 1); // Then do similarly with columns
+    }
+  }
+  sheet->col_[i] = col;
+  sheet->row_[i] = row;
+}
 
 // Based on hadley/readxl
-void xlsxcell::cacheString(
+// Get the value of the cell, which could be numeric, a string, or an index into
+// the string table.
+void xlsxcell::cacheValue(
     rapidxml::xml_node<>* cell,
+    xlsxsheet* sheet,
     xlsxbook& book,
-    rapidxml::xml_node<>* v,
-    rapidxml::xml_attribute<>* t) {
-  // If an inline string, it must be parsed, if a string in the string table, it
-  // must be obtained.
+    unsigned long long int& i
+    ) {
+  // 'v' for 'value' is either literal (numeric) or an index into a string table
+  rapidxml::xml_node<>* v = cell->first_node("v");
+  if (v != NULL) {
+    sheet->content_[i] = v->value();
+  } else {
+    sheet->content_[i] = NA_STRING;
+  }
+
+  // 't' for 'type' defines the meaning of 'v' for value
+  rapidxml::xml_attribute<>* t = cell->first_attribute("t");
+  if (t != NULL) {
+    sheet->type_[i] = t->value();
+  } else {
+    sheet->type_[i] = NA_STRING;
+  }
+
+  // If an inline string, then it must be parsed, if a string in the string 
+  // table, then that string must be obtained.
 
   // Try the string table
   if (v != NULL && t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
     // the t attribute exists and its value is exactly "s", so v is an index
-    // into the strings table.
-    character_ = book.strings()[strtol(v->value(), NULL, 10)];
+    // into the string table.
+    sheet->character_[i] = book.strings_[strtol(v->value(), NULL, 10)];
     return;
   }
 
-  // See if it's an inline string instead
+  // Otherwise, check whether it's an inline string instead
   // We could check for t="inlineString" or the presence of child "is".  We do
   // the latter, same as hadley/readxl.
   // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
@@ -76,54 +94,70 @@ void xlsxcell::cacheString(
   if (is != NULL) {
     std::string inlineString;
     if (!parseString(is, inlineString)) { // value is modified in place
-      character_ = NA_STRING;
+      sheet->character_[i] = NA_STRING;
     } else {
-      character_ = inlineString;
+      sheet->character_[i] = inlineString;
     }
     return;
   }
 
-  // Neither in the string table, nor an inline string, so not a string at all.
-  character_ = NA_STRING;
+  // Otherwise, it's neither in the string table nor an inline string, so it 
+  // isn't a string at all.
+  sheet->character_[i] = NA_STRING;
 }
 
-void xlsxcell::cacheFormat(rapidxml::xml_node<>* cell, xlsxbook& book) {
+void xlsxcell::cacheFormat(
+    rapidxml::xml_node<>* cell,
+    xlsxsheet* sheet,
+    xlsxbook& book,
+    unsigned long long int& i
+    ) {
   rapidxml::xml_attribute<>* s = cell->first_attribute("s");
   // Default the local format id to '1' if not present
-  local_format_id_ = (s != NULL) ? strtol(s->value(), NULL, 10) + 1 : 1;
-  style_format_id_ = book.cellXfs_xfId()[local_format_id_ - 1];
+  int local_format_id;
+  if (s != NULL) {
+    local_format_id = strtol(s->value(), NULL, 10) + 1;
+  } else {
+    local_format_id = 1;
+  }
+  sheet->local_format_id_[i] = local_format_id;
+  sheet->style_format_id_[i] = book.cellXfs_xfId_[local_format_id - 1];
 }
 
-void xlsxcell::cacheFormula(rapidxml::xml_node<>* cell) {
+void xlsxcell::cacheFormula(
+    rapidxml::xml_node<>* cell,
+    xlsxsheet* sheet,
+    unsigned long long int& i
+    ) {
   // TODO: Formulas are more complicated than this, because they're shared.
   // p.1629 'shared' and 'si' attributes
   // TODO: Array formulas use the ref attribute for their range, and t to
   // state that they're 'array'.
   rapidxml::xml_node<>* f = cell->first_node("f");
   if (f != NULL) {
-    formula_ = f->value();
+    sheet->formula_[i] = f->value();
     rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
     if (f_t != NULL) {
-      formula_type_ = f_t->value();
+      sheet->formula_type_[i] = f_t->value();
     } else {
-      formula_type_ = NA_STRING;
+      sheet->formula_type_[i] = NA_STRING;
     }
     rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
     if (ref != NULL) {
-      formula_ref_ = ref->value();
+      sheet->formula_ref_[i] = ref->value();
     } else {
-      formula_ref_ = NA_STRING;
+      sheet->formula_ref_[i] = NA_STRING;
     }
     rapidxml::xml_attribute<>* si = f->first_attribute("si");
     if (si != NULL) {
-      formula_group_ = strtol(si->value(), NULL, 10);
+      sheet->formula_group_[i] = strtol(si->value(), NULL, 10);
     } else {
-      formula_group_ = NA_INTEGER;
+      sheet->formula_group_[i] = NA_INTEGER;
     }
   } else {
-    formula_ = NA_STRING;
-    formula_type_ = NA_STRING;
-    formula_ref_ = NA_STRING;
-    formula_group_ = NA_INTEGER;
+    sheet->formula_[i] = NA_STRING;
+    sheet->formula_type_[i] = NA_STRING;
+    sheet->formula_ref_[i] = NA_STRING;
+    sheet->formula_group_[i] = NA_INTEGER;
   }
 }

@@ -13,7 +13,7 @@ xlsxsheet::xlsxsheet(
     xlsxbook& book):
   book_(book) {
   std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex);
-  std::string sheet_ = zip_buffer(book_.path(), sheetpath);
+  std::string sheet_ = zip_buffer(book_.path_, sheetpath);
 
   rapidxml::xml_document<> xml;
   xml.parse<0>(&sheet_[0]);
@@ -27,7 +27,7 @@ xlsxsheet::xlsxsheet(
     stop("Invalid sheet xml (no <sheetData>)");
 
   // Look up name among worksheets in book
-  name_ = book_.sheets()[sheetindex - 1];
+  name_ = book_.sheets_[sheetindex - 1];
 
   defaultRowHeight_ = 15;
   double defaultColWidth_ = 8.47;
@@ -71,7 +71,13 @@ List& xlsxsheet::information() {
       "width",
       "style_format_id",
       "local_format_id");
-  makeDataFrame(information_, colnames);
+
+  // Turn list of vectors into a data frame without checking anything
+  int n = Rf_length(information_[0]);
+  information_.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  information_.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+  information_.attr("names") = colnames;
+
   return information_;
 }
 
@@ -88,12 +94,15 @@ void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
 
     rapidxml::xml_attribute<>*defaultColWidth = 
       sheetFormatPr_->first_attribute("defaultColWidth");
-    if (defaultColWidth != NULL)
+    if (defaultColWidth != NULL) {
       defaultColWidth_ = strtof(defaultColWidth->value(), NULL);
-    // If defaultColWidth not given, ECMA says you can work it out based on
-    // baseColWidth, but that isn't necessarily given either, and the formula
-    // is wrong because the reality is so complicated, see 
-    // https://support.microsoft.com/en-gb/kb/214123.
+    } else {
+      // If defaultColWidth not given, ECMA says you can work it out based on
+      // baseColWidth, but that isn't necessarily given either, and the formula
+      // is wrong because the reality is so complicated, see 
+      // https://support.microsoft.com/en-gb/kb/214123.
+      defaultColWidth_ = 8.38;
+    }
   }
 }
 
@@ -179,27 +188,14 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
     if (ht != NULL) 
       rowHeight = strtof(ht->value(), NULL);
 
-    // Col widths are looked up among <cols><col>, the passed by reference to
-    // the cell, which looks up its own column
-
     for (rapidxml::xml_node<>* c = row->first_node("c");
         c; c = c->next_sibling("c")) {
-      xlsxcell cell(c, rowHeight, colWidths_, book_);
+      xlsxcell cell(c, this, book_, i);
 
-      address_[i] = cell.address();
-      row_[i] = cell.row();
-      col_[i] = cell.col();
-      content_[i] = cell.content();
-      formula_[i] = cell.formula();
-      formula_type_[i] = cell.formula_type();
-      formula_ref_[i] = cell.formula_ref();
-      formula_group_[i] = cell.formula_group();
-      type_[i] = cell.type();
-      character_[i] = cell.character();
-      height_[i] = cell.height();
-      width_[i] = cell.width();
-      style_format_id_[i] = cell.style_format_id();
-      local_format_id_[i] = cell.local_format_id();
+      // Height and width aren't really determined by the cell, so they're done
+      // in this sheet instance
+      height_[i] = rowHeight;
+      width_[i] = colWidths_[col_[i] - 1];
 
       ++i;
     }

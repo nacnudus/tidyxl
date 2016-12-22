@@ -30,6 +30,7 @@ class xlsxsheet {
     Rcpp::List  value_;               // Parsed values wrapped in unnamed lists
     Rcpp::CharacterVector type_;      // Type of the parsed value
 
+    // TODO: Parse the value into specific types (these are currently NA)
     Rcpp::LogicalVector   logical_;   // Parsed value
     Rcpp::NumericVector   numeric_;   // Parsed value
     Rcpp::NumericVector   date_;      // Parsed value

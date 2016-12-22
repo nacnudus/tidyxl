@@ -25,26 +25,6 @@ xlsxbook::xlsxbook(const std::string& path): path_(path) {
   cacheCellXfsXfId();
 }
 
-std::string xlsxbook::path() {
-  return path_;
-}
-
-std::vector<std::string>& xlsxbook::sheets() {
-  return sheets_;
-}
-
-std::vector<std::string>& xlsxbook::strings() {
-  return strings_;
-}
-
-unsigned long int xlsxbook::strings_size() {
-  return strings_size_;
-}
-
-std::vector<unsigned long int>& xlsxbook::cellXfs_xfId() {
-  return cellXfs_xfId_;
-}
-
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
   // ECMA specifies no maximum number of sheets
   // Most often it will be 3, but two resizes won't matter much, so I don't
@@ -84,8 +64,6 @@ void xlsxbook::cacheStrings() {
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
   }
-
-  strings_size_ = strings_.size();
 }
 
 // Create a vector of the theme id of each cell style.
