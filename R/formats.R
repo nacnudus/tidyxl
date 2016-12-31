@@ -50,12 +50,18 @@ formats <- function(path) {
     path %>%
     unz("xl/styles.xml") %>%
     xml2::read_xml() %>%
-    xml2::xml_ns_strip() 
-  theme <- 
-    path %>%
-    unz("xl/theme/theme1.xml") %>%
-    xml2::read_xml()
-  colour_scheme <- clrScheme(theme)
+    xml2::xml_ns_strip()
+  if (zip_has_file(path, "xl/theme/theme1.xml")) {
+    theme <-
+      path %>%
+      unz("xl/theme/theme1.xml") %>%
+      xml2::read_xml()
+    colour_scheme <- clrScheme(theme)
+  } else {
+    colour_scheme <- data.frame(name = character(12),
+                                rgb = character(12),
+                                stringsAsFactors = FALSE)
+  }
   numFmts <- get_numFmts(styleSheet)
   fonts <- get_fonts(styleSheet)
   fills <- get_fills(styleSheet)
@@ -129,11 +135,16 @@ get_numFmts <- function(styleSheet) {
       formatCode = xml2::xml_attr(numFmt, "formatCode")
     )
   }
-  numFmt_custom <- 
-    xml2::xml_find_first(styleSheet, "numFmts") %>%
-    xml2::xml_children() %>%
-    purrr::map(parse_numFmt) %>%
-    dplyr::bind_rows()
+  numFmtsNode <- xml2::xml_find_first(styleSheet, "numFmts")
+  if (class(numFmtsNode) == "xml_missing") {
+    numFmt_custom <- NULL
+  } else {
+    numFmt_custom <-
+      xml2::xml_find_first(styleSheet, "numFmts") %>%
+      xml2::xml_children() %>%
+      purrr::map(parse_numFmt) %>%
+      dplyr::bind_rows()
+  }
   dplyr::bind_rows(numFmt_defaults, numFmt_custom) %>%
     dplyr::right_join(data.frame(numFmtId = seq(0, max(.$numFmtId))), 
                       by = "numFmtId") %>%
@@ -279,10 +290,16 @@ get_fonts <- function(styleSheet) {
          family = xml2::xml_find_first(node, "family") %>% xml2::xml_attr("val") %>% as.integer,
          scheme = xml2::xml_find_first(node, "scheme") %>% xml2::xml_attr("val"))
   }
+  fontsNode <- xml2::xml_find_first(styleSheet, "fonts")
+  if (class(fontsNode) == "xml_missing") {
+    return(NULL)
+  } else {
     styleSheet %>%
     xml2::xml_find_first("fonts") %>%
     xml2::xml_children() %>%
-    purrr::map(font)
+    purrr::map(font) %>%
+    return
+  }
 }
 
 get_fills <- function(styleSheet) {
@@ -314,10 +331,16 @@ get_fills <- function(styleSheet) {
          bgColor = bgColor,
          fgColor = fgColor)
   }
-  styleSheet %>%
-  xml2::xml_find_first("fills") %>%
-  xml2::xml_children() %>%
-  purrr::map(fill)
+  fillsNode <- xml2::xml_find_first(styleSheet, "fills")
+  if (class(fillsNode) == "xml_missing") {
+    return(NULL)
+  } else {
+    styleSheet %>%
+    xml2::xml_find_first("fills") %>%
+    xml2::xml_children() %>%
+    purrr::map(fill) %>%
+    return
+  }
 }
 
 get_borders <- function(styleSheet) {
@@ -325,11 +348,28 @@ get_borders <- function(styleSheet) {
                               position = c("left", "right", "top", 
                                            "bottom", "diagonal")) {
     node <- xml2::xml_find_first(border, position)
-    color <- xml2::xml_find_first(node, "color")
-    list(style = xml2::xml_attr(node, "style"),
-         color = list(rgb = xml2::xml_attr(color, "rgb"),
-                      indexed = as.integer(xml2::xml_attr(color, "indexed")) + 1,
-                      theme = as.integer(xml2::xml_attr(color, "theme")) + 1))
+    if (class(node) == "xml_missing") {
+      list(style = character(),
+           color = list(rgb = character(),
+                        indexed = integer(),
+                        theme = integer())) %>%
+      return
+    } else {
+      color <- xml2::xml_find_first(node, "color")
+      if (is.na(color)) {
+        list(style = character(),
+             color = list(rgb = character(),
+                          indexed = integer(),
+                          theme = integer())) %>%
+        return
+      } else {
+        list(style = xml2::xml_attr(node, "style"),
+             color = list(rgb = xml2::xml_attr(color, "rgb"),
+                          indexed = as.integer(xml2::xml_attr(color, "indexed")) + 1,
+                          theme = as.integer(xml2::xml_attr(color, "theme")) + 1)) %>%
+        return
+      }
+    }
   }
   border <- function(node) {
     list(left = border_position(node, "left"),
@@ -338,10 +378,16 @@ get_borders <- function(styleSheet) {
          bottom = border_position(node, "bottom"),
          diagonal = border_position(node, "diagonal"))
   }
-  styleSheet %>%
-  xml2::xml_find_first("borders") %>%
-  xml2::xml_children() %>%
-  purrr::map(border)
+  bordersNode <- xml2::xml_find_first(styleSheet, "borders")
+  if (class(bordersNode) == "xml_missing") {
+    return(NULL)
+  } else {
+    styleSheet %>%
+    xml2::xml_find_first("borders") %>%
+    xml2::xml_children() %>%
+    purrr::map(border) %>%
+    return
+  }
 }
 
 xf <- function(node, numFmts, fonts, fills, borders) {
