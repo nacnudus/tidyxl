@@ -15,14 +15,14 @@ into a list structure.  The top level of the list is divided into two parts:
 \code{$style}, which contains formats applied in a general way by cell
 'styles', and \code{$local}, which contains formats applied to individual
 cells.  This structure reflects how a cell may be formatted according to a
-general 'style', yet also differ from the 'style' by some local modification, 
+general 'style', yet also differ from the 'style' by some local modification,
 e.g. by making it bold.
 }
 \details{
 \code{\link{contents}} Returns, among other things, keys for each cell into
 the \code{$style} and \code{$local} substructures of \code{formats}' output.
 These keys can be used to retrieve the style of each cell by subsetting the
-relevant part of \code{formats}' output.  See how this is done in the 
+relevant part of \code{formats}' output.  See how this is done in the
 examples.
 
 Colours may be recorded in any of three ways: a hexadecimal RGB string with
@@ -30,8 +30,8 @@ or without alpha, an 'indexed' colour, and an index into a 'theme'.
 \code{formats} dereferences 'indexed' and 'theme' colours to their hexadecimal
 RGB string representation, and standardises all RGB strings to have an alpha
 channel in the first two characters.  The 'index' and the 'theme' name are
-still provided.  To filter by an RGB string, you might to look up the RGB 
-values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use 
+still provided.  To filter by an RGB string, you might to look up the RGB
+values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use
 the \code{\link{rgb}} function to convert these to a hexadecimal string.
 
 \code{formats} is currently quite slow for spreadsheets with complex
