@@ -1,12 +1,12 @@
 #' @title Import xlsx (Excel) formatting into a list structure for lookups.
 #'
-#' @description  
+#' @description
 #' \code{formats} imports formatting information from xlsx (Excel) spreadsheets
 #' into a list structure.  The top level of the list is divided into two parts:
 #' \code{$style}, which contains formats applied in a general way by cell
 #' 'styles', and \code{$local}, which contains formats applied to individual
 #' cells.  This structure reflects how a cell may be formatted according to a
-#' general 'style', yet also differ from the 'style' by some local modification, 
+#' general 'style', yet also differ from the 'style' by some local modification,
 #' e.g. by making it bold.
 #'
 #' @param path Path to the xlsx file.
@@ -15,7 +15,7 @@
 #' \code{\link{contents}} Returns, among other things, keys for each cell into
 #' the \code{$style} and \code{$local} substructures of \code{formats}' output.
 #' These keys can be used to retrieve the style of each cell by subsetting the
-#' relevant part of \code{formats}' output.  See how this is done in the 
+#' relevant part of \code{formats}' output.  See how this is done in the
 #' examples.
 #'
 #' Colours may be recorded in any of three ways: a hexadecimal RGB string with
@@ -23,19 +23,19 @@
 #' \code{formats} dereferences 'indexed' and 'theme' colours to their hexadecimal
 #' RGB string representation, and standardises all RGB strings to have an alpha
 #' channel in the first two characters.  The 'index' and the 'theme' name are
-#' still provided.  To filter by an RGB string, you might to look up the RGB 
-#' values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use 
+#' still provided.  To filter by an RGB string, you might to look up the RGB
+#' values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use
 #' the \code{\link{rgb}} function to convert these to a hexadecimal string.
-#' 
+#'
 #' \code{formats} is currently quite slow for spreadsheets with complex
 #' formatting.  It is planned to implement \code{formats} in C++ to speed it up.
-#' 
+#'
 #' @export
 #' @examples
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #' examples_formats <- formats(examples)
 #' str(examples_formats)
-#' 
+#'
 #' # The formats of particular cells can be retrieved like this:
 #' sheet1 <- contents(examples, "Sheet1")[[1]]
 #' examples_formats$style$font$bold[sheet1$style_format_id]
@@ -46,7 +46,7 @@
 #' bold_indices <- which(examples_formats$local$font$bold)
 #' sheet1[sheet1$local_format_id %in% bold_indices, ]
 formats <- function(path) {
-  styleSheet <- 
+  styleSheet <-
     path %>%
     unz("xl/styles.xml") %>%
     xml2::read_xml() %>%
@@ -66,12 +66,12 @@ formats <- function(path) {
   fonts <- get_fonts(styleSheet)
   fills <- get_fills(styleSheet)
   borders <- get_borders(styleSheet)
-  normal <- 
+  normal <-
     styleSheet %>%
     xml2::xml_find_first("cellStyleXfs") %>%
     xml2::xml_child(search = 1) %>%
     xf(numFmts, fonts, fills, borders)
-  cellStyleXfs <- 
+  cellStyleXfs <-
     styleSheet %>%
     xml2::xml_find_first("cellStyleXfs") %>%
     xml2::xml_children() %>%
@@ -81,11 +81,11 @@ formats <- function(path) {
                fonts = fonts,
                fills = fills,
                borders = borders)
-  cellXfs <- 
+  cellXfs <-
     styleSheet %>%
     xml2::xml_find_first("cellXfs") %>%
     xml2::xml_children() %>%
-    purrr::map(cellXf, 
+    purrr::map(cellXf,
                cellStyleXfs = cellStyleXfs,
                numFmts = numFmts,
                fonts = fonts,
@@ -96,7 +96,7 @@ formats <- function(path) {
 }
 
 get_numFmts <- function(styleSheet) {
-  numFmt_defaults <- 
+  numFmt_defaults <-
       tibble::frame_data(
         ~numFmtId, ~formatCode,
         0, "General",
@@ -146,7 +146,7 @@ get_numFmts <- function(styleSheet) {
       dplyr::bind_rows()
   }
   dplyr::bind_rows(numFmt_defaults, numFmt_custom) %>%
-    dplyr::right_join(data.frame(numFmtId = seq(0, max(.$numFmtId))), 
+    dplyr::right_join(data.frame(numFmtId = seq(0, max(.$numFmtId))),
                       by = "numFmtId") %>%
     .$formatCode
 }
@@ -237,7 +237,7 @@ indexed <- c("FF000000",
              "FF000000") # Undocumented comment text in black
 
 clrScheme <- function(theme) {
-  elements <- 
+  elements <-
     theme %>%
     xml2::xml_find_first("a:themeElements") %>%
     xml2::xml_find_first("a:clrScheme") %>%
@@ -270,9 +270,9 @@ get_fonts <- function(styleSheet) {
   font_color <- function(font) {
     color <- xml2::xml_find_first(font, "color")
     if (class(color) == "xml_missing") {
-      list(rgb = as.character(NA), 
-           indexed = as.integer(NA), 
-           theme = as.character(NA)) 
+      list(rgb = as.character(NA),
+           indexed = as.integer(NA),
+           theme = as.character(NA))
     } else {
       list(rgb = xml2::xml_attr(color, "rgb"),
            indexed = as.integer(xml2::xml_attr(color, "indexed")) + 1,
@@ -306,8 +306,8 @@ get_fills <- function(styleSheet) {
   fill_color <- function(patternFill, layer = c("bgColor", "fgColor")) {
     xgColor <- xml2::xml_find_first(patternFill, layer)
     if (class(xgColor) == "xml_missing") {
-      list(rgb = as.character(NA), 
-           indexed = as.integer(NA), 
+      list(rgb = as.character(NA),
+           indexed = as.integer(NA),
            theme = as.character(NA))
     } else {
       list(rgb = xml2::xml_attr(xgColor, "rgb"),
@@ -319,8 +319,8 @@ get_fills <- function(styleSheet) {
     patternFill <- xml2::xml_find_first(node, "patternFill")
     if (class(patternFill) == "xml_missing") {
       patternType <- NA
-      fgColor <- bgColor <- list(rgb = as.character(NA), 
-                                 indexed = as.integer(NA), 
+      fgColor <- bgColor <- list(rgb = as.character(NA),
+                                 indexed = as.integer(NA),
                                  theme = as.character(NA))
     } else {
       patternType <- xml2::xml_attr(patternFill, "patternType")
@@ -344,8 +344,8 @@ get_fills <- function(styleSheet) {
 }
 
 get_borders <- function(styleSheet) {
-  border_position <- function(border, 
-                              position = c("left", "right", "top", 
+  border_position <- function(border,
+                              position = c("left", "right", "top",
                                            "bottom", "diagonal")) {
     node <- xml2::xml_find_first(border, position)
     if (class(node) == "xml_missing") {
@@ -484,20 +484,20 @@ cellXf <- function(node, cellStyleXfs, numFmts, fonts, fills, borders) {
 }
 
 transpose_formats <- function(formats, colour_scheme) {
-  formats %>% 
+  formats %>%
     # Look up colours in index/theme
-    purrr::map(~ purrr::map_at(.x, "font", ~ purrr::map_at(.x, "color", decode_color, 
+    purrr::map(~ purrr::map_at(.x, "font", ~ purrr::map_at(.x, "color", decode_color,
                                                colour_scheme = colour_scheme))) %>%
-    purrr::map(~ purrr::map_at(.x, "fill", 
-                               ~ purrr::map_at(.x, c("bgColor", "fgColor"), decode_color, 
+    purrr::map(~ purrr::map_at(.x, "fill",
+                               ~ purrr::map_at(.x, c("bgColor", "fgColor"), decode_color,
                                                colour_scheme = colour_scheme))) %>%
-    purrr::map(~ purrr::map_at(.x, "border", 
-                               ~ purrr::map(.x, 
-                                            ~ purrr::map_at(.x, "color", decode_color, 
+    purrr::map(~ purrr::map_at(.x, "border",
+                               ~ purrr::map(.x,
+                                            ~ purrr::map_at(.x, "color", decode_color,
                                                             colour_scheme = colour_scheme)))) %>%
     # Transpose
-    purrr::transpose() %>% 
-    purrr::map(purrr::transpose) %>% 
+    purrr::transpose() %>%
+    purrr::map(purrr::transpose) %>%
     purrr::map_at("number_format", purrr::flatten) %>%
     purrr::map_at("font", ~ purrr::map_at(.x, "color", purrr::transpose)) %>%
     purrr::map_at("fill", ~ purrr::map_at(.x, c("bgColor", "fgColor"), purrr::transpose)) %>%
@@ -506,7 +506,7 @@ transpose_formats <- function(formats, colour_scheme) {
     # Convert leaf lists to vectors
     purrr::map_at("number_format", purrr::as_vector) %>%
     purrr::map_at("font", ~ purrr::map_at(.x,
-                            c("bold", "italic", "underline", "strike", 
+                            c("bold", "italic", "underline", "strike",
                               "size", "name", "family", "scheme"),
                             purrr::as_vector)) %>%
     purrr::map_at("font", ~ purrr::map_at(.x, "color", ~ purrr::map(.x, purrr::as_vector))) %>%
