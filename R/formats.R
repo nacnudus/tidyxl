@@ -318,7 +318,7 @@ get_fills <- function(styleSheet) {
   fill <- function(node) {
     patternFill <- xml2::xml_find_first(node, "patternFill")
     if (class(patternFill) == "xml_missing") {
-      patternType <- NA
+      patternType <- as.character(NA)
       fgColor <- bgColor <- list(rgb = as.character(NA),
                                  indexed = as.integer(NA),
                                  theme = as.character(NA))
@@ -344,27 +344,24 @@ get_fills <- function(styleSheet) {
 }
 
 get_borders <- function(styleSheet) {
+  blank_border <-
+    list(style = character(),
+         color = list(rgb = as.character(NA),
+                      indexed = as.integer(NA),
+                      theme = as.integer(NA)))
   border_position <- function(border,
                               position = c("left", "right", "top",
                                            "bottom", "diagonal")) {
     node <- xml2::xml_find_first(border, position)
     if (class(node) == "xml_missing") {
-      list(style = character(),
-           color = list(rgb = character(),
-                        indexed = integer(),
-                        theme = integer())) %>%
-      return
+      return(blank_border)
     } else {
       color <- xml2::xml_find_first(node, "color")
-      if (is.na(color)) {
-        list(style = character(),
-             color = list(rgb = character(),
-                          indexed = integer(),
-                          theme = integer())) %>%
-        return
+      if (class(color) == "xml_missing") {
+        return(blank_border)
       } else {
         list(style = xml2::xml_attr(node, "style"),
-             color = list(rgb = xml2::xml_attr(color, "rgb"),
+             color = list(rgb = as.character(xml2::xml_attr(color, "rgb")),
                           indexed = as.integer(xml2::xml_attr(color, "indexed")) + 1,
                           theme = as.integer(xml2::xml_attr(color, "theme")) + 1)) %>%
         return
@@ -380,7 +377,14 @@ get_borders <- function(styleSheet) {
   }
   bordersNode <- xml2::xml_find_first(styleSheet, "borders")
   if (class(bordersNode) == "xml_missing") {
-    return(NULL)
+    list(
+         list(left = blank_border,
+              right = blank_border,
+              top = blank_border,
+              bottom = blank_border,
+              diagonal = blank_border)
+         ) %>%
+    return
   } else {
     styleSheet %>%
     xml2::xml_find_first("borders") %>%
