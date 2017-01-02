@@ -23,7 +23,7 @@ xlsxcell::xlsxcell(
 // Simple parser: does not check that order of numbers and letters is correct
 // row_ and column_ are one-based
 void xlsxcell::parseAddress(
-    rapidxml::xml_node<>* cell, 
+    rapidxml::xml_node<>* cell,
     xlsxsheet* sheet,
     unsigned long long int& i
     ) {

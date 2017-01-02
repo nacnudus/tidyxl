@@ -95,21 +95,21 @@ void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
   rapidxml::xml_node<>* sheetFormatPr_ = worksheet->first_node("sheetFormatPr");
 
   if (sheetFormatPr_ != NULL) {
-    // Don't use utils::getAttributeValueDouble because it might overwrite the 
+    // Don't use utils::getAttributeValueDouble because it might overwrite the
     // default value with NA_REAL.
-    rapidxml::xml_attribute<>* defaultRowHeight = 
+    rapidxml::xml_attribute<>* defaultRowHeight =
       sheetFormatPr_->first_attribute("defaultRowHeight");
     if (defaultRowHeight != NULL)
       defaultRowHeight_ = strtof(defaultRowHeight->value(), NULL);
 
-    rapidxml::xml_attribute<>*defaultColWidth = 
+    rapidxml::xml_attribute<>*defaultColWidth =
       sheetFormatPr_->first_attribute("defaultColWidth");
     if (defaultColWidth != NULL) {
       defaultColWidth_ = strtof(defaultColWidth->value(), NULL);
     } else {
       // If defaultColWidth not given, ECMA says you can work it out based on
       // baseColWidth, but that isn't necessarily given either, and the formula
-      // is wrong because the reality is so complicated, see 
+      // is wrong because the reality is so complicated, see
       // https://support.microsoft.com/en-gb/kb/214123.
       defaultColWidth_ = 8.38;
     }
@@ -196,7 +196,7 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
     // Check for custom row height
     double rowHeight = defaultRowHeight_;
     rapidxml::xml_attribute<>* ht = row->first_attribute("ht");
-    if (ht != NULL) 
+    if (ht != NULL)
       rowHeight = strtof(ht->value(), NULL);
 
     for (rapidxml::xml_node<>* c = row->first_node("c");

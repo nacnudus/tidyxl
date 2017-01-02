@@ -20,7 +20,7 @@ class xlsxcell {
     void parseAddress( rapidxml::xml_node<>* cell, xlsxsheet* sheet, unsigned long long int& i);
     void cacheValue( rapidxml::xml_node<>* cell, xlsxsheet* sheet, xlsxbook& book, unsigned long long int& i);
 
-    // Not the whole format, but only the index of the local and style 
+    // Not the whole format, but only the index of the local and style
     // formats (cellXfs and cellStyleXfs)
     void cacheFormat( rapidxml::xml_node<>* cell, xlsxsheet* sheet, xlsxbook& book, unsigned long long int& i);
 
