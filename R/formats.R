@@ -219,7 +219,7 @@ indexed <- c("FF000000",
              "FF333333",
              "FFFFFFFF", # System foreground
              "FF000000", # System background
-             (NA),
+             NA,
              NA,
              NA,
              NA,
