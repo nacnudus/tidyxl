@@ -14,8 +14,7 @@ xlsxcell::xlsxcell(
     unsigned long long int& i
     ) {
     parseAddress(cell, sheet, i);
-    cacheValue  (cell, sheet, book, i);
-    cacheFormat (cell, sheet, book, i); // local and style format indexes
+    cacheValue  (cell, sheet, book, i); // Also caches format, as inextricable
     cacheFormula(cell, sheet, i);
 }
 
@@ -50,9 +49,6 @@ void xlsxcell::parseAddress(
   sheet->row_[i] = row;
 }
 
-// Based on hadley/readxl
-// Get the value of the cell, which could be numeric, a string, or an index into
-// the string table.
 void xlsxcell::cacheValue(
     rapidxml::xml_node<>* cell,
     xlsxsheet* sheet,
@@ -61,67 +57,107 @@ void xlsxcell::cacheValue(
     ) {
   // 'v' for 'value' is either literal (numeric) or an index into a string table
   rapidxml::xml_node<>* v = cell->first_node("v");
+  std::string vvalue;
   if (v != NULL) {
-    sheet->content_[i] = v->value();
+    vvalue = v->value();
+    sheet->content_[i] = vvalue;
   } else {
     sheet->content_[i] = NA_STRING;
   }
 
   // 't' for 'type' defines the meaning of 'v' for value
   rapidxml::xml_attribute<>* t = cell->first_attribute("t");
+  std::string tvalue;
   if (t != NULL) {
-    sheet->type_[i] = t->value();
+    tvalue = t->value();
+    sheet->type_[i] = tvalue;
   } else {
     sheet->type_[i] = NA_STRING;
   }
 
-  // If an inline string, then it must be parsed, if a string in the string 
-  // table, then that string must be obtained.
-
-  // Try the string table
-  if (v != NULL && t != NULL && strncmp(t->value(), "s", t->value_size()) == 0) {
-    // the t attribute exists and its value is exactly "s", so v is an index
-    // into the string table.
-    sheet->character_[i] = book.strings_[strtol(v->value(), NULL, 10)];
-    return;
-  }
-
-  // Otherwise, check whether it's an inline string instead
-  // We could check for t="inlineString" or the presence of child "is".  We do
-  // the latter, same as hadley/readxl.
-  // Is it an inline string?  // 18.3.1.53 is (Rich Text Inline) [p1649]
-  rapidxml::xml_node<>* is = cell->first_node("is");
-  if (is != NULL) {
-    std::string inlineString;
-    if (!parseString(is, inlineString)) { // value is modified in place
-      sheet->character_[i] = NA_STRING;
-    } else {
-      sheet->character_[i] = inlineString;
-    }
-    return;
-  }
-
-  // Otherwise, it's neither in the string table nor an inline string, so it 
-  // isn't a string at all.
-  sheet->character_[i] = NA_STRING;
-}
-
-void xlsxcell::cacheFormat(
-    rapidxml::xml_node<>* cell,
-    xlsxsheet* sheet,
-    xlsxbook& book,
-    unsigned long long int& i
-    ) {
+  // 's' for 'style' indexes into data structures of formatting
   rapidxml::xml_attribute<>* s = cell->first_attribute("s");
   // Default the local format id to '1' if not present
-  int local_format_id;
+  int svalue;
   if (s != NULL) {
-    local_format_id = strtol(s->value(), NULL, 10) + 1;
+    svalue = strtol(s->value(), NULL, 10);
   } else {
-    local_format_id = 1;
+    svalue = 0;
   }
-  sheet->local_format_id_[i] = local_format_id;
-  sheet->style_format_id_[i] = book.cellXfs_xfId_[local_format_id - 1];
+  sheet->local_format_id_[i] = svalue + 1;
+  sheet->style_format_id_[i] = book.styles_.cellXfs_[svalue].xfId_[0] + 1;
+
+  if (t != NULL && tvalue == "inlineStr") {
+    sheet->data_type_[i] = "character";
+    rapidxml::xml_node<>* is = cell->first_node("is");
+    if (is != NULL) { // Get the inline string if it's really there
+      std::string inlineString;
+      if (!parseString(is, inlineString)) { // value is modified in place
+        sheet->character_[i] = NA_STRING;
+      } else {
+        sheet->character_[i] = inlineString;
+      }
+    }
+    return;
+  } else if (v == NULL) {
+    // Can't now be an inline string (tested above)
+    sheet->data_type_[i] = "blank";
+    return;
+  } else if (t == NULL || tvalue == "n") {
+    if (book.styles_.cellXfs_[svalue].applyNumberFormat_[0] == 1) {
+      // local number format applies
+      if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_[0]]) {
+        // local number format is a date format
+        sheet->data_type_[i] = "date";
+        sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - 25569) * 86400;
+        return;
+      } else {
+        sheet->data_type_[i] = "numeric";
+        sheet->numeric_[i] = strtof(vvalue.c_str(), NULL);
+      }
+    } else if (
+          book.styles_.isDate_[
+            book.styles_.cellStyleXfs_[
+              book.styles_.cellXfs_[svalue].xfId_[0]
+            ].numFmtId_[0]
+          ]
+        ) {
+      // style number format is a date format
+      sheet->data_type_[i] = "date";
+      sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - 25579) * 86400;
+      return;
+    } else {
+      sheet->data_type_[i] = "numeric";
+      sheet->numeric_[i] = strtof(vvalue.c_str(), NULL);
+    }
+  } else if (tvalue == "s") {
+    // the t attribute exists and its value is exactly "s", so v is an index
+    // into the string table.
+    sheet->data_type_[i] = "character";
+    sheet->character_[i] = book.strings_[strtol(vvalue.c_str(), NULL, 10)];
+    return;
+  } else if (tvalue == "str") {
+    // Formula, which could have evaluated to anything, so only a string is safe
+    sheet->data_type_[i] = "character";
+    sheet->character_[i] = vvalue;
+    return;
+  } else if (tvalue == "b"){
+    sheet->data_type_[i] = "logical";
+    sheet->logical_[i] = strtof(vvalue.c_str(), NULL);
+    return;
+  } else if (tvalue == "e") {
+    sheet->data_type_[i] = "error";
+    sheet->error_[i] = vvalue;
+    return;
+  } else if (tvalue == "d") {
+    // Does excel use this date type? Regardless, don't have cross-platform
+    // ISO8601 parser (yet) so need to return as text.
+    sheet->data_type_[i] = "date (ISO8601)";
+    return;
+  } else {
+    sheet->data_type_[i] = "unknown";
+    return;
+  }
 }
 
 void xlsxcell::cacheFormula(

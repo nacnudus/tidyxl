@@ -51,6 +51,11 @@ List& xlsxsheet::information() {
       formula_ref_,
       formula_group_,
       type_,
+      data_type_,
+      error_,
+      logical_,
+      numeric_,
+      date_,
       character_,
       height_,
       width_,
@@ -66,6 +71,11 @@ List& xlsxsheet::information() {
       "formula_ref",
       "formula_group",
       "type",
+      "data_type",
+      "error",
+      "logical",
+      "numeric",
+      "date",
       "character",
       "height",
       "width",
@@ -159,13 +169,14 @@ void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
   formula_group_   = IntegerVector(cellcount,   NA_INTEGER);
   value_           = List(cellcount);
   type_            = CharacterVector(cellcount, NA_STRING);
+  data_type_       = CharacterVector(cellcount, NA_STRING);
+  error_           = CharacterVector(cellcount, NA_STRING);
   logical_         = LogicalVector(cellcount,   NA_LOGICAL);
   numeric_         = NumericVector(cellcount,   NA_REAL);
   date_            = NumericVector(cellcount,   NA_REAL);
   date_.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
   date_.attr("tzone") = "UTC";
   character_       = CharacterVector(cellcount, NA_STRING);
-  error_           = CharacterVector(cellcount, NA_STRING);
   height_          = NumericVector(cellcount,   NA_REAL);
   width_           = NumericVector(cellcount,   NA_REAL);
   style_format_id_ = IntegerVector(cellcount,   NA_INTEGER);

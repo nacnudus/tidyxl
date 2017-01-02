@@ -2,11 +2,12 @@
 #include "zip.h"
 #include "rapidxml.h"
 #include "xlsxbook.h"
+#include "styles.h"
 #include "utils.h"
 
 using namespace Rcpp;
 
-xlsxbook::xlsxbook(const std::string& path): path_(path) {
+xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   std::string book = zip_buffer(path_, "xl/workbook.xml");
 
   rapidxml::xml_document<> xml;
@@ -22,7 +23,6 @@ xlsxbook::xlsxbook(const std::string& path): path_(path) {
 
   cacheSheets(sheets);
   cacheStrings();
-  cacheCellXfsXfId();
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
@@ -63,46 +63,5 @@ void xlsxbook::cacheStrings() {
     std::string out;
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
-  }
-}
-
-// Create a vector of the theme id of each cell style.
-// Cells have cell styles, which link to theme styles.  The cell style id is
-// given in the cell itself (in the worksheet xml), but the linked theme id is
-// only given in the cell's style record, so go via that.
-void xlsxbook::cacheCellXfsXfId() {
-  if (!zip_has_file(path_, "xl/styles.xml"))
-    return;
-
-  std::string xml = zip_buffer(path_, "xl/styles.xml");
-  rapidxml::xml_document<> styles;
-  styles.parse<0>(&xml[0]);
-
-  rapidxml::xml_node<>* styleSheet = styles.first_node("styleSheet");
-  if (styleSheet == NULL)
-    return;
-
-  rapidxml::xml_node<>* cellXfs = styleSheet->first_node("cellXfs");
-  if (cellXfs == NULL)
-    return;
-
-  rapidxml::xml_attribute<>* count = cellXfs->first_attribute("count");
-  if (count != NULL) {
-    unsigned long int n = strtol(count->value(), NULL, 10);
-    unsigned long int i = 0;
-    cellXfs_xfId_.reserve(n);
-    for (rapidxml::xml_node<>* xf = cellXfs->first_node();
-        xf; xf = xf->next_sibling()) {
-      rapidxml::xml_attribute<>* xfId = xf->first_attribute("xfId");
-      if (xfId == NULL) {
-        // This happened in ./tests/testthat/iris-google-doc.xlsx a
-        // google-sheets-exported file, where there's no theme1.xml to index
-        // into anyway.
-        cellXfs_xfId_[i] = NA_INTEGER;
-      } else {
-        cellXfs_xfId_[i] = strtol(xfId->value(), NULL, 10) + 1;
-      }
-      i++;
-    }
   }
 }

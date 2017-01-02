@@ -28,14 +28,15 @@ class xlsxsheet {
     Rcpp::IntegerVector   formula_group_; // If present
 
     Rcpp::List  value_;               // Parsed values wrapped in unnamed lists
-    Rcpp::CharacterVector type_;      // Type of the parsed value
+    Rcpp::CharacterVector type_;      // value of cell node t
+    Rcpp::CharacterVector data_type_; // Type of the parsed value
 
     // TODO: Parse the value into specific types (these are currently NA)
+    Rcpp::CharacterVector error_;     // Parsed value
     Rcpp::LogicalVector   logical_;   // Parsed value
     Rcpp::NumericVector   numeric_;   // Parsed value
     Rcpp::NumericVector   date_;      // Parsed value
     Rcpp::CharacterVector character_; // Parsed value
-    Rcpp::CharacterVector error_;     // Parsed value
 
     // The following are always used.
     Rcpp::NumericVector   height_;          // Provided to cell constructor

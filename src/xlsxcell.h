@@ -10,17 +10,6 @@ class xlsxcell {
 
   public:
 
-    /* celltype celltype;     // TODO: cell type enumeration */
-
-    /* // TODO: Parse the value into specific types */
-    /* // The following are NA unless relevant to the cell type, but if NA then */
-    /* // they should never be sought, because celltype should flag which is relevant. */
-    /* bool         logical_;    // Parsed value */
-    /* double       numeric_;    // Parsed value */
-    /* double       date_;       // Parsed value */
-    /* Rcpp::String character_;  // Parsed value */
-    /* Rcpp::String error_;      // Parsed value */
-
     xlsxcell(
         rapidxml::xml_node<>* cell, // the cell node,
         xlsxsheet* sheet,           // the parent worksheet
