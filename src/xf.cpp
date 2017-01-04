@@ -5,6 +5,9 @@
 using namespace Rcpp;
 
 xf::xf(rapidxml::xml_node<>* xf) {
+  CharacterVector NA_STRING_VECTOR(1, NA_STRING);
+  IntegerVector NA_INTEGER_VECTOR(1, NA_INTEGER);
+
   numFmtId_          =    int_value(xf, "numFmtId");
   fontId_            =    int_value(xf, "fontId");
   fillId_            =    int_value(xf, "fillId");
@@ -21,14 +24,14 @@ xf::xf(rapidxml::xml_node<>* xf) {
 
   rapidxml::xml_node<>* alignment = xf->first_node("alignment");
   if (alignment == NULL) {
-    horizontal_      =    NA_STRING;
-    vertical_        =    NA_STRING;
-    wrapText_        =    NA_INTEGER;
-    readingOrder_    =    NA_INTEGER;
-    indent_          =    NA_INTEGER;
-    justifyLastLine_ =    NA_INTEGER;
-    shrinkToFit_     =    NA_INTEGER;
-    textRotation_    =    NA_INTEGER;
+    horizontal_      =    NA_STRING_VECTOR;
+    vertical_        =    NA_STRING_VECTOR;
+    wrapText_        =    NA_INTEGER_VECTOR;
+    readingOrder_    =    NA_INTEGER_VECTOR;
+    indent_          =    NA_INTEGER_VECTOR;
+    justifyLastLine_ =    NA_INTEGER_VECTOR;
+    shrinkToFit_     =    NA_INTEGER_VECTOR;
+    textRotation_    =    NA_INTEGER_VECTOR;
   } else {
     horizontal_      = string_value(alignment, "horizontal");
     vertical_        = string_value(alignment, "vertical");
