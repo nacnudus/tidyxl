@@ -23,6 +23,7 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
 
   cacheSheets(sheets);
   cacheStrings();
+  cacheDateOffset(workbook);
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
@@ -64,4 +65,17 @@ void xlsxbook::cacheStrings() {
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
   }
+}
+
+void xlsxbook::cacheDateOffset(rapidxml::xml_node<>* workbook) {
+  rapidxml::xml_node<>* workbookPr = workbook->first_node("workbookPr");
+  if (workbookPr != NULL) {
+    rapidxml::xml_attribute<>* date1904 = workbookPr->first_attribute("date1904");
+    if (date1904 == NULL) {
+      dateOffset_ = 25569;
+      return;
+    }
+  }
+
+  dateOffset_ = 24107;
 }

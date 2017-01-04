@@ -109,7 +109,7 @@ void xlsxcell::cacheValue(
       if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_[0]]) {
         // local number format is a date format
         sheet->data_type_[i] = "date";
-        sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - 25569) * 86400;
+        sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - book.dateOffset_) * 86400;
         return;
       } else {
         sheet->data_type_[i] = "numeric";
@@ -124,7 +124,7 @@ void xlsxcell::cacheValue(
         ) {
       // style number format is a date format
       sheet->data_type_[i] = "date";
-      sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - 25579) * 86400;
+      sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - book.dateOffset_) * 86400;
       return;
     } else {
       sheet->data_type_[i] = "numeric";
