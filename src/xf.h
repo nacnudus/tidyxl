@@ -39,6 +39,7 @@ class xf {
   Rcpp::IntegerVector   applyAlignment_;
   Rcpp::IntegerVector   applyProtection_;
 
+    xf(); // Default constructor
     xf(rapidxml::xml_node<>* xf);
 
     // integer value of a node

@@ -21,9 +21,9 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   if (sheets == NULL)
     stop("Invalid workbook xml (no <sheets>)");
 
+  cacheDateOffset(workbook); // Must come before cacheSheets
   cacheSheets(sheets);
   cacheStrings();
-  cacheDateOffset(workbook);
 }
 
 void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
@@ -71,7 +71,7 @@ void xlsxbook::cacheDateOffset(rapidxml::xml_node<>* workbook) {
   rapidxml::xml_node<>* workbookPr = workbook->first_node("workbookPr");
   if (workbookPr != NULL) {
     rapidxml::xml_attribute<>* date1904 = workbookPr->first_attribute("date1904");
-    if (date1904 == NULL) {
+    if (date1904 != NULL) {
       dateOffset_ = 25569;
       return;
     }

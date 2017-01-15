@@ -102,10 +102,13 @@ contents <- function(path, sheets = NA) {
     warning("No sheets found.", call. = FALSE)
     return(list())
   }
-  sheet_data <- xlsx_read_(path, sheets$index, sheets$name)
+  imported <- xlsx_read_(path, sheets$index, sheets$name)
+  sheet_data <- imported[["data"]]
   sheet_comments <- lapply(sheets$comments_path, comments, path = path)
-  purrr::map2(sheet_data, sheet_comments, 
-              ~ dplyr::left_join(.x, .y, by = c("address" = "ref")))
+  imported[["data"]] <-
+    purrr::map2(sheet_data, sheet_comments,
+                ~ dplyr::left_join(.x, .y, by = c("address" = "ref")))
+  imported
 }
 
 # Parse comments (currently uses R, might use C++ in future).

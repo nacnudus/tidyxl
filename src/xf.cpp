@@ -4,10 +4,9 @@
 
 using namespace Rcpp;
 
-xf::xf(rapidxml::xml_node<>* xf) {
-  CharacterVector NA_STRING_VECTOR(1, NA_STRING);
-  IntegerVector NA_INTEGER_VECTOR(1, NA_INTEGER);
+xf::xf() {}; // Default constructor
 
+xf::xf(rapidxml::xml_node<>* xf) {
   numFmtId_          =    int_value(xf, "numFmtId");
   fontId_            =    int_value(xf, "fontId");
   fillId_            =    int_value(xf, "fillId");
@@ -24,14 +23,14 @@ xf::xf(rapidxml::xml_node<>* xf) {
 
   rapidxml::xml_node<>* alignment = xf->first_node("alignment");
   if (alignment == NULL) {
-    horizontal_      =    NA_STRING_VECTOR;
-    vertical_        =    NA_STRING_VECTOR;
-    wrapText_        =    NA_INTEGER_VECTOR;
-    readingOrder_    =    NA_INTEGER_VECTOR;
-    indent_          =    NA_INTEGER_VECTOR;
-    justifyLastLine_ =    NA_INTEGER_VECTOR;
-    shrinkToFit_     =    NA_INTEGER_VECTOR;
-    textRotation_    =    NA_INTEGER_VECTOR;
+    horizontal_      =    CharacterVector::create(NA_STRING);
+    vertical_        =    CharacterVector::create(NA_STRING);
+    wrapText_        =    IntegerVector::create(NA_INTEGER);
+    readingOrder_    =    IntegerVector::create(NA_INTEGER);
+    indent_          =    IntegerVector::create(NA_INTEGER);
+    justifyLastLine_ =    IntegerVector::create(NA_INTEGER);
+    shrinkToFit_     =    IntegerVector::create(NA_INTEGER);
+    textRotation_    =    IntegerVector::create(NA_INTEGER);
   } else {
     horizontal_      = string_value(alignment, "horizontal");
     vertical_        = string_value(alignment, "vertical");

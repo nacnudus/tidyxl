@@ -31,7 +31,6 @@ class xlsxsheet {
     Rcpp::CharacterVector type_;      // value of cell node t
     Rcpp::CharacterVector data_type_; // Type of the parsed value
 
-    // TODO: Parse the value into specific types (these are currently NA)
     Rcpp::CharacterVector error_;     // Parsed value
     Rcpp::LogicalVector   logical_;   // Parsed value
     Rcpp::NumericVector   numeric_;   // Parsed value

@@ -17,17 +17,23 @@ List xlsx_read_(std::string path, IntegerVector sheets, CharacterVector names) {
   xlsxbook book(path);
 
   // Loop through sheets
-  List out(sheets.size());
+  List sheet_list(sheets.size());
 
   IntegerVector::iterator in_it;
-  List::iterator out_it;
+  List::iterator sheet_list_it;
 
-  for(in_it = sheets.begin(), out_it = out.begin(); in_it != sheets.end(); 
-      ++in_it, ++out_it) {
-    *out_it = xlsxsheet(*in_it, book).information();
+  for(in_it = sheets.begin(), sheet_list_it = sheet_list.begin(); in_it != sheets.end();
+      ++in_it, ++sheet_list_it) {
+    *sheet_list_it = xlsxsheet(*in_it, book).information();
   }
 
-  out.attr("names") = names;
+  sheet_list.attr("names") = names;
+
+  List out = List::create(
+      _["data"] = sheet_list,
+      _["formats"] = List::create(
+        _["local"] = book.styles_.local_,
+        _["style"] = book.styles_.style_));
 
   return out;
 }
