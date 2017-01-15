@@ -167,8 +167,8 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
   // of row elements.  Columns are described elswhere in cols->col.
 
   unsigned long long int i = 0; // counter for checkUserInterrupt
-  for (rapidxml::xml_node<>* row = sheetData->first_node("row");
-      row; row = row->next_sibling("row")) {
+  for (rapidxml::xml_node<>* row = sheetData->first_node();
+      row; row = row->next_sibling()) {
     if ((i + 1) % 1000 == 0)
       checkUserInterrupt();
 
@@ -178,8 +178,8 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
     if (ht != NULL)
       rowHeight = strtof(ht->value(), NULL);
 
-    for (rapidxml::xml_node<>* c = row->first_node("c");
-        c; c = c->next_sibling("c")) {
+    for (rapidxml::xml_node<>* c = row->first_node();
+        c; c = c->next_sibling()) {
       xlsxcell cell(c, this, book_, i);
 
       // Height and width aren't really determined by the cell, so they're done
