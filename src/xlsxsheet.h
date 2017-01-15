@@ -15,7 +15,7 @@ class xlsxsheet {
     double defaultColWidth_;
     std::vector<double> colWidths_;
     xlsxbook& book_; // reference to parent workbook
-    Rcpp::List information_; // Wrapper for variables returned to R
+    Rcpp::DataFrame information_; // Wrapper for variables returned to R
 
     // The remaining variables go to R
     Rcpp::CharacterVector address_;   // Value of cell node r
@@ -44,7 +44,7 @@ class xlsxsheet {
     Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
 
     xlsxsheet(const int& sheetindex, xlsxbook& book);
-    Rcpp::List& information();       // Cells contents and styles DF wrapped in list
+    Rcpp::DataFrame& information();       // Cells contents and styles DF wrapped in list
 
     void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);
     void cacheColWidths(rapidxml::xml_node<>* worksheet);

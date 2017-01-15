@@ -38,55 +38,30 @@ xlsxsheet::xlsxsheet(
   parseSheetData(sheetData);
 }
 
-List& xlsxsheet::information() {
+DataFrame& xlsxsheet::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  information_ = List::create(
-      address_,
-      row_,
-      col_,
-      content_,
-      formula_,
-      formula_type_,
-      formula_ref_,
-      formula_group_,
-      type_,
-      data_type_,
-      error_,
-      logical_,
-      numeric_,
-      date_,
-      character_,
-      height_,
-      width_,
-      style_format_id_,
-      local_format_id_);
-  CharacterVector colnames = CharacterVector::create(
-      "address",
-      "row",
-      "col",
-      "content",
-      "formula",
-      "formula_type",
-      "formula_ref",
-      "formula_group",
-      "type",
-      "data_type",
-      "error",
-      "logical",
-      "numeric",
-      "date",
-      "character",
-      "height",
-      "width",
-      "style_format_id",
-      "local_format_id");
-
-  // Turn list of vectors into a data frame without checking anything
-  int n = Rf_length(information_[0]);
-  information_.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-  information_.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
-  information_.attr("names") = colnames;
+  information_ = DataFrame::create(
+      _["address"] = address_,
+      _["row"] = row_,
+      _["col"] = col_,
+      _["content"] = content_,
+      _["formula"] = formula_,
+      _["formula_type"] = formula_type_,
+      _["formula_ref"] = formula_ref_,
+      _["formula_group"] = formula_group_,
+      _["type"] = type_,
+      _["data_type"] = data_type_,
+      _["error"] = error_,
+      _["logical"] = logical_,
+      _["numeric"] = numeric_,
+      _["date"] = date_,
+      _["character"] = character_,
+      _["height"] = height_,
+      _["width"] = width_,
+      _["style_format_id"] = style_format_id_,
+      _["local_format_id"] = local_format_id_,
+      _["stringsAsFactors"] = false);
 
   return information_;
 }
