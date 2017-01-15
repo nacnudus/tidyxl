@@ -1,9 +1,9 @@
 #' @title Import xlsx (Excel) cell contents into a tidy structure.
 #'
-#' @description  
+#' @description
 #' \code{contents} imports data from spreadsheets without coercing it into a
 #' rectangle.  Each cell is represented by a row in a data frame, giving the
-#' cell's address, contents, formula, height, width, and keys to look up the 
+#' cell's address, contents, formula, height, width, and keys to look up the
 #' cell's formatting in a separate data structure (see \code{\link{formats}}).
 #'
 #' @param path Path to the xlsx file.
@@ -13,7 +13,7 @@
 #'
 #' @details
 #' A cell has two 'values': its content, and sometimes also a formula.
-#' 
+#'
 #' \subsection{content}{
 #'   Depending on the cell, the content may be a value such as 365 or 365.25, it
 #'   may represent a date/datetime in one of Excel's date/datetime systems, or
@@ -26,16 +26,16 @@
 #'   When a cell has a formula, the value in the 'content' column is the result
 #'   of the formula the last time it was evaluated.
 #'
-#'   Certain groups of cells may share a formula that differs only by addresses 
-#'   refered to in the formula; such groups are identified by an index, the 
-#'   'formula_group'.  The xlsx (Excel) file format only records the formula 
-#'   against one cell in any group.  It is planned for \code{contents} to parse 
-#'   such formulas and copy them to the other cells in a group, making the 
+#'   Certain groups of cells may share a formula that differs only by addresses
+#'   refered to in the formula; such groups are identified by an index, the
+#'   'formula_group'.  The xlsx (Excel) file format only records the formula
+#'   against one cell in any group.  It is planned for \code{contents} to parse
+#'   such formulas and copy them to the other cells in a group, making the
 #'   necessary changes to addresses in the formula.
-#'   
+#'
 #'   Array formulas may also apply to a group of cells, identified by an address
 #'   'formula_ref', but xlsx (Excel) file format only records the formula
-#'   against one cell in the group.  It is planned for \code{contents} to parse 
+#'   against one cell in the group.  It is planned for \code{contents} to parse
 #'   such addresses and copy the array formula to the other cells in the group.
 #'   Unlike shared formulas, no changes to addresses in array formulas are
 #'   necessary.
@@ -48,7 +48,7 @@
 #' @return
 #' A list of data frames, one per sheet.  Each data frame has the following
 #' columns:
-#' 
+#'
 #' \describe{
 #'   \item{address}{The cell address in A1 notation.}
 #'   \item{row}{The row number of the cell address (integer).}
@@ -71,7 +71,7 @@
 #'   \item{local_format_id}{An index into a table of local cell formats (see
 #'   \code{\link{formats}}).}
 #' }
-#' 
+#'
 #' @export
 #' @examples
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
@@ -82,7 +82,7 @@
 #' # Specific sheet either by position or by name
 #' contents(examples, 2)
 #' contents(examples, "Sheet1")
-#' 
+#'
 #' # Note that single sheets are still returned in a list for consistency.
 #' # Extract particular sheets using [[.
 #' contents(examples)[[2]]
@@ -115,7 +115,7 @@ comments <- function(comments_path, path) {
     return(tibble::tibble(ref = character(), comment = character()))
   }
   unz(path, comments_path) %>%
-  xml2::read_xml() %>% 
+  xml2::read_xml() %>%
   xml2::xml_ns_strip() %>%
   xml2::xml_find_all("commentList") %>%
   xml2::xml_find_all("comment") %>%

@@ -43,7 +43,7 @@ columns:
 \description{
 \code{contents} imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
-cell's address, contents, formula, height, width, and keys to look up the 
+cell's address, contents, formula, height, width, and keys to look up the
 cell's formatting in a separate data structure (see \code{\link{formats}}).
 }
 \details{
@@ -61,16 +61,16 @@ A cell has two 'values': its content, and sometimes also a formula.
   When a cell has a formula, the value in the 'content' column is the result
   of the formula the last time it was evaluated.
 
-  Certain groups of cells may share a formula that differs only by addresses 
-  refered to in the formula; such groups are identified by an index, the 
-  'formula_group'.  The xlsx (Excel) file format only records the formula 
-  against one cell in any group.  It is planned for \code{contents} to parse 
-  such formulas and copy them to the other cells in a group, making the 
+  Certain groups of cells may share a formula that differs only by addresses
+  refered to in the formula; such groups are identified by an index, the
+  'formula_group'.  The xlsx (Excel) file format only records the formula
+  against one cell in any group.  It is planned for \code{contents} to parse
+  such formulas and copy them to the other cells in a group, making the
   necessary changes to addresses in the formula.
-  
+
   Array formulas may also apply to a group of cells, identified by an address
   'formula_ref', but xlsx (Excel) file format only records the formula
-  against one cell in the group.  It is planned for \code{contents} to parse 
+  against one cell in the group.  It is planned for \code{contents} to parse
   such addresses and copy the array formula to the other cells in the group.
   Unlike shared formulas, no changes to addresses in array formulas are
   necessary.

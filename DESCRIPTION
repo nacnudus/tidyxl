@@ -21,7 +21,7 @@ Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 Imports:
-    Rcpp, 
+    Rcpp,
     magrittr,
     dplyr,
     purrr,
