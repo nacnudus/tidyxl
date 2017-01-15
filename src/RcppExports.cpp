@@ -18,6 +18,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// xlsx_sheets_
+List xlsx_sheets_(std::string path);
+RcppExport SEXP tidyxl_xlsx_sheets_(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_sheets_(path));
+    return rcpp_result_gen;
+END_RCPP
+}
 // zip_xml
 void zip_xml(const std::string& zip_path, const std::string& file_path);
 RcppExport SEXP tidyxl_zip_xml(SEXP zip_pathSEXP, SEXP file_pathSEXP) {

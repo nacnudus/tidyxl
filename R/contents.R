@@ -88,7 +88,7 @@
 #' contents(examples)[[2]]
 contents <- function(path, sheets = NA) {
   path <- check_file(path)
-  all_sheets <- xlsx_sheets(path)
+  all_sheets <- xlsx_sheets_(path)
   if (anyNA(sheets)) {
     if (length(sheets) > 1) {
       warning("Argument 'sheets' included NAs, which were discarded.")

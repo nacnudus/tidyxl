@@ -5,6 +5,10 @@ xlsx_read_ <- function(path, sheets, names) {
     .Call('tidyxl_xlsx_read_', PACKAGE = 'tidyxl', path, sheets, names)
 }
 
+xlsx_sheets_ <- function(path) {
+    .Call('tidyxl_xlsx_sheets_', PACKAGE = 'tidyxl', path)
+}
+
 zip_xml <- function(zip_path, file_path) {
     invisible(.Call('tidyxl_zip_xml', PACKAGE = 'tidyxl', zip_path, file_path))
 }
