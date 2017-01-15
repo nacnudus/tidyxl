@@ -38,10 +38,10 @@ xlsxsheet::xlsxsheet(
   parseSheetData(sheetData);
 }
 
-DataFrame& xlsxsheet::information() {
+List& xlsxsheet::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  information_ = DataFrame::create(
+  information_ = List::create(
       _["address"] = address_,
       _["row"] = row_,
       _["col"] = col_,
@@ -60,8 +60,12 @@ DataFrame& xlsxsheet::information() {
       _["height"] = height_,
       _["width"] = width_,
       _["style_format_id"] = style_format_id_,
-      _["local_format_id"] = local_format_id_,
-      _["stringsAsFactors"] = false);
+      _["local_format_id"] = local_format_id_);
+
+  // Turn list of vectors into a data frame without checking anything
+  int n = Rf_length(information_[0]);
+  information_.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  information_.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 
   return information_;
 }
