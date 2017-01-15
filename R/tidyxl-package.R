@@ -10,12 +10,9 @@ NULL
 #' recognising information expressed by relative cell positions and cell
 #' formatting, and re-expressing it in a tidy way.
 #'
-#' Two functions are provided: \code{\link{contents}} for importing cell contents,
-#' and \code{\link{formats}} for importing cell formatting.  To see how to link
-#' contents and formatting, see \code{\link{formats}}.
+#' @section Tidyxl functions:
+#' Only one function is currently provided: \code{\link{tidy_xlsx}).  Others may
+#' be developed for other file formats, e.g. .xls and .ods.
 #'
-#' The pipe \code{\%>\%} function from the magrittr package is re-exported, and
-#' the tidyr package is attached so that the output of \code{\link{contents}} is
-#' printed nicely (as a tibble rather than a data frame).
-"_PACKAGE"
-#> [1] "_PACKAGE"
+#' @docType package
+#' @name tidyxl

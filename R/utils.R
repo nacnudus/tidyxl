@@ -1,7 +1,3 @@
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
-
 globalVariables(c(".",
                   "numFmtId",
                   "Target",

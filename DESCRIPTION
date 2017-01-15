@@ -22,10 +22,8 @@ LazyData: true
 LinkingTo: Rcpp
 Imports:
     Rcpp,
-    magrittr,
     dplyr,
     purrr,
-    tibble,
     xml2
 URL: https://github.com/nacnudus/tidyxl
 BugReports: https://github.com/nacnudus/tidyxl/issues
