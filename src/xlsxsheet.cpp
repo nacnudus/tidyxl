@@ -10,7 +10,8 @@ using namespace Rcpp;
 
 xlsxsheet::xlsxsheet(
     const int& sheetindex,
-    xlsxbook& book):
+    xlsxbook& book,
+    Rcpp::String comments_path):
   book_(book) {
   std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex);
   std::string sheet_ = zip_buffer(book_.path_, sheetpath);
@@ -35,6 +36,7 @@ xlsxsheet::xlsxsheet(
   cacheDefaultRowColDims(worksheet);
   cacheColWidths(worksheet);
   initializeColumns(sheetData);
+  cacheComments(comments_path);
   parseSheetData(sheetData);
 }
 
@@ -57,6 +59,7 @@ List& xlsxsheet::information() {
       _["numeric"] = numeric_,
       _["date"] = date_,
       _["character"] = character_,
+      _["comment"] = comment_,
       _["height"] = height_,
       _["width"] = width_,
       _["style_format_id"] = style_format_id_,
@@ -156,10 +159,35 @@ void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
   date_.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
   date_.attr("tzone") = "UTC";
   character_       = CharacterVector(cellcount, NA_STRING);
+  comment_         = CharacterVector(cellcount, NA_STRING);
   height_          = NumericVector(cellcount,   NA_REAL);
   width_           = NumericVector(cellcount,   NA_REAL);
   style_format_id_ = IntegerVector(cellcount,   NA_INTEGER);
   local_format_id_ = IntegerVector(cellcount,   NA_INTEGER);
+}
+
+void xlsxsheet::cacheComments(Rcpp::String comments_path) {
+  if (comments_path != NA_STRING) {
+    std::string comments_file = zip_buffer(book_.path_, comments_path);
+    rapidxml::xml_document<> xml;
+    xml.parse<0>(&comments_file[0]);
+
+    // Iterate over the comments to store the ref and text
+    rapidxml::xml_node<>* comments = xml.first_node("comments");
+    rapidxml::xml_node<>* commentList = comments->first_node("commentList");
+    for (rapidxml::xml_node<>* comment = commentList->first_node();
+        comment; comment = comment->next_sibling()) {
+      std::string ref(comment->first_attribute("ref")->value());
+      rapidxml::xml_node<>* r = comment->first_node()->first_node();
+      // Get the inline string
+      std::string inlineString;
+      if (parseString(r, inlineString)) { // value is modified in place
+        comments_[ref] = inlineString;
+      } else {
+        comments_[ref] = "";
+      }
+    }
+  }
 }
 
 void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {

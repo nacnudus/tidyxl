@@ -12,7 +12,12 @@ using namespace Rcpp;
 // 'sheets'.
 
 // [[Rcpp::export]]
-List xlsx_read_(std::string path, IntegerVector sheets, CharacterVector names) {
+List xlsx_read_(
+    std::string path,
+    IntegerVector sheets,
+    CharacterVector names,
+    CharacterVector comments_paths
+    ) {
   // Parse book-level information (e.g. styles, themes, strings, date system)
   xlsxbook book(path);
 
@@ -22,9 +27,12 @@ List xlsx_read_(std::string path, IntegerVector sheets, CharacterVector names) {
   IntegerVector::iterator in_it;
   List::iterator sheet_list_it;
 
+  int i = 0;
   for(in_it = sheets.begin(), sheet_list_it = sheet_list.begin(); in_it != sheets.end();
       ++in_it, ++sheet_list_it) {
-    *sheet_list_it = xlsxsheet(*in_it, book).information();
+    Rcpp::String comments_path(comments_paths[i]);
+    *sheet_list_it = xlsxsheet(*in_it, book, comments_path).information();
+    ++i;
   }
 
   sheet_list.attr("names") = names;
@@ -40,16 +48,19 @@ List xlsx_read_(std::string path, IntegerVector sheets, CharacterVector names) {
 
 inline String comments_path_(std::string path, std::string id_string) {
   // Given a sheet id, return the path to the comments file, should one exist
-  std::string targets_text = zip_buffer(path, "xl/worksheets/_rels/sheet" + id_string + ".xml.rels");
-  rapidxml::xml_document<> targets_xml;
-  targets_xml.parse<0>(&targets_text[0]);
-  rapidxml::xml_node<>* relationships = targets_xml.first_node("Relationships");
-  for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
-      relationship; relationship = relationship->next_sibling()) {
-    std::string target_attr = relationship->first_attribute("Target")->value();
-    if (target_attr.substr(0, 11) == "../comments") {
-      // Return the comments file path
-      return(target_attr.replace(0, 2, "xl"));
+  std::string sheet_rels = "xl/worksheets/_rels/sheet" + id_string + ".xml.rels";
+  if (zip_has_file(path, sheet_rels)) {
+    std::string targets_text = zip_buffer(path, "xl/worksheets/_rels/sheet" + id_string + ".xml.rels");
+    rapidxml::xml_document<> targets_xml;
+    targets_xml.parse<0>(&targets_text[0]);
+    rapidxml::xml_node<>* relationships = targets_xml.first_node("Relationships");
+    for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
+        relationship; relationship = relationship->next_sibling()) {
+      std::string target_attr = relationship->first_attribute("Target")->value();
+      if (target_attr.substr(0, 11) == "../comments") {
+        // Return the comments file path
+        return(target_attr.replace(0, 2, "xl"));
+      }
     }
   }
   return NA_STRING;

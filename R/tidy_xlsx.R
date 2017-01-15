@@ -97,13 +97,13 @@
 #'   \item{numeric}{The numeric value of a cell.}
 #'   \item{date}{The date value of a cell.}
 #'   \item{character}{The string value of a cell.}
+#'   \item{comment}{The text of a comment attached to a cell.}
 #'   \item{height}{The height of a cell's row, in Excel's units.}
 #'   \item{width}{The width of a cell's column, in Excel's units.}
 #'   \item{style_format_id}{An index into a table of style formats
 #'   \code{x$formats$local} (see 'Details').}
 #'   \item{local_format_id}{An index into a table of local cell formats
 #'   \code{x$formats$style} (see 'Details').}
-#'   \item{comment}{The text of a comment attached to a cell.}
 #' }
 #'
 #' Cell formatting is returned in \code{x$formats}.  There are two types or
@@ -170,26 +170,5 @@ tidy_xlsx <- function(path, sheets = NA) {
     warning("No sheets found.", call. = FALSE)
     return(list())
   }
-  imported <- xlsx_read_(path, sheets$index, sheets$name)
-  sheet_data <- imported[["data"]]
-  sheet_comments <- lapply(sheets$comments_path, comments, path = path)
-  imported[["data"]] <-
-    purrr::map2(sheet_data, sheet_comments,
-                ~ dplyr::left_join(.x, .y, by = c("address" = "ref")))
-  imported
-}
-
-# Parse comments (currently uses R, might use C++ in future).
-# Comments are then joined to cell data by cell address (ref).
-comments <- function(comments_path, path) {
-  if (is.na(comments_path)) {
-    return(data.frame(ref = character(),
-                      comment = character(),
-                      stringsAsFactors = FALSE))
-  }
-  xml <- xml2::xml_ns_strip(xml2::read_xml(unz(path, comments_path)))
-  comment <- xml2::xml_find_all(xml2::xml_find_all(xml, "commentList"), "comment")
-  data.frame(ref = xml2::xml_attr(comment, "ref"),
-             comment = xml2::xml_text(comment),
-             stringsAsFactors = FALSE)
+  xlsx_read_(path, sheets$index, sheets$name, sheets$comments_path)
 }

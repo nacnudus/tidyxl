@@ -47,6 +47,13 @@ void xlsxcell::parseAddress(
   }
   sheet->col_[i] = col;
   sheet->row_[i] = row;
+
+  // Look up any comment using the address
+  std::map<std::string, std::string>& comments = sheet->comments_;
+  std::map<std::string, std::string>::iterator it = comments.find(address);
+  if(it != comments.end()) {
+     sheet->comment_[i] = it->second;
+  }
 }
 
 void xlsxcell::cacheValue(

@@ -37,18 +37,22 @@ class xlsxsheet {
     Rcpp::NumericVector   date_;      // Parsed value
     Rcpp::CharacterVector character_; // Parsed value
 
+    std::map<std::string, std::string> comments_;
+    Rcpp::CharacterVector comment_;
+
     // The following are always used.
     Rcpp::NumericVector   height_;          // Provided to cell constructor
     Rcpp::NumericVector   width_;           // Provided to cell constructor
     Rcpp::IntegerVector   style_format_id_; // cellXfs xfId links to cellStyleXfs entry
     Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
 
-    xlsxsheet(const int& sheetindex, xlsxbook& book);
+    xlsxsheet(const int& sheetindex, xlsxbook& book, Rcpp::String comments_path);
     Rcpp::List& information();       // Cells contents and styles DF wrapped in list
 
     void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);
     void cacheColWidths(rapidxml::xml_node<>* worksheet);
     unsigned long long int cacheCellcount(rapidxml::xml_node<>* sheetData);
+    void cacheComments(Rcpp::String comments_path);
     void initializeColumns(rapidxml::xml_node<>* sheetData);
     void parseSheetData(rapidxml::xml_node<>* sheetData);
 
