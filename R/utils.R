@@ -56,3 +56,7 @@ standardise_sheet <- function(sheets, all_sheets) {
   }
 }
 
+xlsx_sheets <- function(path) {
+  out <- xlsx_sheets_(path)
+  out[order(out$index), ]
+}

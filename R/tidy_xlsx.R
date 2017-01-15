@@ -156,7 +156,7 @@
 #' Sheet1[Sheet1$local_format_id %in% bold_indices, ]
 tidy_xlsx <- function(path, sheets = NA) {
   path <- check_file(path)
-  all_sheets <- xlsx_sheets_(path)
+  all_sheets <- xlsx_sheets(path)
   if (anyNA(sheets)) {
     if (length(sheets) > 1) {
       warning("Argument 'sheets' included NAs, which were discarded.")
