@@ -299,7 +299,7 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
 
   // Get the names of the styles, if available
   rapidxml::xml_node<>* cellStyles = styleSheet->first_node("cellStyles");
-  Rcpp::CharacterVector stylenames;
+  CharacterVector stylenames;
   if (cellStyles != NULL) {
     // Get the names, which aren't necessarily in xf order
     for (rapidxml::xml_node<>* cellStyle = cellStyles->first_node("cellStyle");

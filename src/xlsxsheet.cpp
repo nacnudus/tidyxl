@@ -149,7 +149,7 @@ void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
   logical_         = LogicalVector(cellcount,   NA_LOGICAL);
   numeric_         = NumericVector(cellcount,   NA_REAL);
   date_            = NumericVector(cellcount,   NA_REAL);
-  date_.attr("class") = Rcpp::CharacterVector::create("POSIXct", "POSIXt");
+  date_.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
   date_.attr("tzone") = "UTC";
   character_       = CharacterVector(cellcount, NA_STRING);
   height_          = NumericVector(cellcount,   NA_REAL);
