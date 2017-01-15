@@ -162,4 +162,3 @@ x$formats$local$font$bold[Sheet1$local_format_id]
 bold_indices <- which(x$formats$local$font$bold)
 Sheet1[Sheet1$local_format_id \%in\% bold_indices, ]
 }
-
