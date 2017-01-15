@@ -170,7 +170,7 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
   for (rapidxml::xml_node<>* row = sheetData->first_node("row");
       row; row = row->next_sibling("row")) {
     if ((i + 1) % 1000 == 0)
-      Rcpp::checkUserInterrupt();
+      checkUserInterrupt();
 
     // Check for custom row height
     double rowHeight = defaultRowHeight_;
