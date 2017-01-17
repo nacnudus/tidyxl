@@ -15,34 +15,38 @@ class xf {
   Rcpp::IntegerVector   fillId_;
   Rcpp::IntegerVector   borderId_;
 
+
   // alignment
   static const std::vector<std::string> readingOrderChr_; // defined in tidyxl.cpp
   Rcpp::CharacterVector horizontal_;
   Rcpp::CharacterVector vertical_;
-  Rcpp::IntegerVector   wrapText_;
+  Rcpp::LogicalVector   wrapText_;
   Rcpp::CharacterVector readingOrder_; // 0=context, 1=left-to-right, 2=right-to-left
   Rcpp::IntegerVector   indent_;
-  Rcpp::IntegerVector   justifyLastLine_;
-  Rcpp::IntegerVector   shrinkToFit_;
+  Rcpp::LogicalVector   justifyLastLine_;
+  Rcpp::LogicalVector   shrinkToFit_;
   Rcpp::IntegerVector   textRotation_;
 
   // protection
-  Rcpp::IntegerVector   locked_;
-  Rcpp::IntegerVector   hidden_;
+  Rcpp::LogicalVector   locked_;
+  Rcpp::LogicalVector   hidden_;
 
   // index into styles
   Rcpp::IntegerVector   xfId_;
 
   // whether to apply the format at this level
-  Rcpp::IntegerVector   applyNumberFormat_;
-  Rcpp::IntegerVector   applyFont_;
-  Rcpp::IntegerVector   applyFill_;
-  Rcpp::IntegerVector   applyBorder_;
-  Rcpp::IntegerVector   applyAlignment_;
-  Rcpp::IntegerVector   applyProtection_;
+  Rcpp::LogicalVector   applyNumberFormat_;
+  Rcpp::LogicalVector   applyFont_;
+  Rcpp::LogicalVector   applyFill_;
+  Rcpp::LogicalVector   applyBorder_;
+  Rcpp::LogicalVector   applyAlignment_;
+  Rcpp::LogicalVector   applyProtection_;
 
     xf(); // Default constructor
     xf(rapidxml::xml_node<>* xf);
+
+    // boolean value of an attribute
+    Rcpp::LogicalVector bool_value(rapidxml::xml_node<>* xf, const char* name);
 
     // integer value of an attribute
     Rcpp::IntegerVector int_value(rapidxml::xml_node<>* xf, const char* name);
