@@ -48,13 +48,13 @@ columns:
   \item{numeric}{The numeric value of a cell.}
   \item{date}{The date value of a cell.}
   \item{character}{The string value of a cell.}
+  \item{comment}{The text of a comment attached to a cell.}
   \item{height}{The height of a cell's row, in Excel's units.}
   \item{width}{The width of a cell's column, in Excel's units.}
   \item{style_format_id}{An index into a table of style formats
   \code{x$formats$local} (see 'Details').}
   \item{local_format_id}{An index into a table of local cell formats
   \code{x$formats$style} (see 'Details').}
-  \item{comment}{The text of a comment attached to a cell.}
 }
 
 Cell formatting is returned in \code{x$formats}.  There are two types or
