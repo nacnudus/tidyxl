@@ -20,6 +20,7 @@ xf::xf(rapidxml::xml_node<>* xf) {
   applyProtection_   =    int_value(xf, "applyProtection");
 
   xfId_              =    int_value(xf, "xfId");
+  if (xfId_[0] == NA_INTEGER) xfId_[0] = 0;
 
   rapidxml::xml_node<>* alignment = xf->first_node("alignment");
   if (alignment == NULL) {
