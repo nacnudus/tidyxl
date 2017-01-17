@@ -25,6 +25,7 @@ class border {
     stroke  horizontal_;
 
     border(); // Default constructor
+    border(bool blank); // construct empty vectors
     border(rapidxml::xml_node<>* border, styles* styles);
 };
 

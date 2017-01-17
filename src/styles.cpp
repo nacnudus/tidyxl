@@ -469,20 +469,30 @@ List styles::zipFormats(xf styles) {
   fill style_fill;
   border style_border;
 
-  // reinitialise with empty color vectors
-  style_font.color_ = color(false);
+  // reinitialise with empty color and stroke vectors
+  style_font.color_                = color(false);
   style_fill.patternFill_.fgColor_ = color(false);
+  style_fill.patternFill_.bgColor_ = color(false);
   style_fill.gradientFill_.color1_ = color(false);
   style_fill.gradientFill_.color2_ = color(false);
-  style_border.left_.color_;
-  style_border.right_.color_;
-  style_border.start_.color_; // gnumeric
-  style_border.end_.color_;   // gnumeric
-  style_border.top_.color_;
-  style_border.bottom_.color_;
-  style_border.diagonal_.color_;
-  style_border.vertical_.color_;
-  style_border.horizontal_.color_;
+  style_border.left_       = stroke(false);
+  style_border.right_      = stroke(false);
+  style_border.start_      = stroke(false); // gnumeric
+  style_border.end_        = stroke(false); // gnumeric
+  style_border.top_        = stroke(false);
+  style_border.bottom_     = stroke(false);
+  style_border.diagonal_   = stroke(false);
+  style_border.vertical_   = stroke(false);
+  style_border.horizontal_ = stroke(false);
+  style_border.left_.color_        = color(false);
+  style_border.right_.color_       = color(false);
+  style_border.start_.color_       = color(false); // gnumeric
+  style_border.end_.color_         = color(false); // gnumeric
+  style_border.top_.color_         = color(false);
+  style_border.bottom_.color_      = color(false);
+  style_border.diagonal_.color_    = color(false);
+  style_border.vertical_.color_    = color(false);
+  style_border.horizontal_.color_  = color(false);
 
   for(int i = 0; i < styles.numFmtId_.size(); ++i) {
     font* font = &fonts_[styles.fontId_[i]];

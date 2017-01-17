@@ -10,6 +10,9 @@ stroke::stroke() { // Default constructor
   style_ = CharacterVector::create(NA_STRING);
 }
 
+stroke::stroke(bool blank) { // Construct empty vectors
+}
+
 stroke::stroke(
     rapidxml::xml_node<>* stroke,
     styles* styles
