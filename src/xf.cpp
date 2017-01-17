@@ -33,10 +33,10 @@ xf::xf(rapidxml::xml_node<>* xf) {
     shrinkToFit_     =    IntegerVector::create(NA_INTEGER);
     textRotation_    =    IntegerVector::create(NA_INTEGER);
   } else {
-    horizontal_      = string_value(alignment, "horizontal");
-    vertical_        = string_value(alignment, "vertical");
     wrapText_        =    int_value(alignment, "wrapText");
     readingOrder_    =    int_value(alignment, "readingOrder");
+    horizontal_      =    string_value(alignment, "horizontal");
+    vertical_        =    string_value(alignment, "vertical");
     indent_          =    int_value(alignment, "indent");
     justifyLastLine_ =    int_value(alignment, "justifyLastLine");
     shrinkToFit_     =    int_value(alignment, "shrinkToFit");
