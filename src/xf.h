@@ -43,10 +43,10 @@ class xf {
     xf(); // Default constructor
     xf(rapidxml::xml_node<>* xf);
 
-    // integer value of a node
+    // integer value of an attribute
     Rcpp::IntegerVector int_value(rapidxml::xml_node<>* xf, const char* name);
 
-    // string value of a node
+    // string value of an attribute
     Rcpp::CharacterVector string_value(rapidxml::xml_node<>* xf, const char* name);
 };
 
