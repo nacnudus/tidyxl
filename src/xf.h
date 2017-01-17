@@ -5,6 +5,7 @@
 #include "rapidxml.h"
 
 class xf {
+  // ECMA part 1 page 1753
 
   public:
 
