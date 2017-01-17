@@ -1,6 +1,6 @@
 # Tests adapted from hadley/readxl
 
-context("read_excel")
+context("Inline strings")
 
 test_that("can read sheets with inlineStr", {
   # Original source: http://our.componentone.com/wp-content/uploads/2011/12/TestExcel.xlsx

@@ -1,6 +1,6 @@
 # Tests adapted from hadley/readxl
 
-context("Richtext")
+context("Rich text")
 
 test_that("rich text strings are handled in stringtable", {
   rt <- tidy_xlsx("richtext-coloured.xlsx")$data$Sheet1$character
