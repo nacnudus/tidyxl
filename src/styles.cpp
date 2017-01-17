@@ -25,9 +25,6 @@ styles::styles(const std::string& path) {
   applyFormats();
   style_ = zipFormats(style_formats_);
   local_ = zipFormats(local_formats_);
-
-  /* CharacterVector numFmt = ((style_["font"])["color"])["rgb"]; */
-  /* Rcout << numFmt; */
 }
 
 void styles::cacheThemeRgb(const std::string& path) {
