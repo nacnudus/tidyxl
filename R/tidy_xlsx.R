@@ -161,6 +161,9 @@ tidy_xlsx <- function(path, sheets = NA) {
     if (length(sheets) > 1) {
       warning("Argument 'sheets' included NAs, which were discarded.")
       sheets = sheets[!is.na(sheets)]
+      if (length(sheets) == 0) {
+        stop("All elements of argument 'sheets' were discarded.")
+      }
     } else {
       sheets = all_sheets$index
     }
