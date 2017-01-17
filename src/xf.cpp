@@ -70,3 +70,13 @@ CharacterVector xf::string_value(rapidxml::xml_node<>* node, const char* name) {
   }
   return(out);
 }
+
+CharacterVector xf::readingOrder(rapidxml::xml_node<>* node) {
+  CharacterVector out(1, NA_STRING);
+  rapidxml::xml_attribute<>* attribute = node->first_attribute("readingOrder");
+  if (attribute != NULL) {
+    out[0] = readingOrderChr_[strtol(attribute->value(), NULL, 10)];
+  }
+  return(out);
+}
+

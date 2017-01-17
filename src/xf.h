@@ -16,10 +16,11 @@ class xf {
   Rcpp::IntegerVector   borderId_;
 
   // alignment
+  static const std::vector<std::string> readingOrderChr_; // defined in tidyxl.cpp
   Rcpp::CharacterVector horizontal_;
   Rcpp::CharacterVector vertical_;
   Rcpp::IntegerVector   wrapText_;
-  Rcpp::IntegerVector   readingOrder_;
+  Rcpp::CharacterVector readingOrder_; // 0=context, 1=left-to-right, 2=right-to-left
   Rcpp::IntegerVector   indent_;
   Rcpp::IntegerVector   justifyLastLine_;
   Rcpp::IntegerVector   shrinkToFit_;
@@ -48,7 +49,9 @@ class xf {
 
     // string value of an attribute
     Rcpp::CharacterVector string_value(rapidxml::xml_node<>* xf, const char* name);
+
+    // looked-up value of readingOrder attribute
+    Rcpp::CharacterVector readingOrder(rapidxml::xml_node<>* xf);
 };
 
 #endif
-
