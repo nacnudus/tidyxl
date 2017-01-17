@@ -53,22 +53,18 @@ xf::xf(rapidxml::xml_node<>* xf) {
 }
 
 IntegerVector xf::int_value(rapidxml::xml_node<>* node, const char* name) {
+  IntegerVector out(1, NA_INTEGER);
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
-  IntegerVector out(1);
-  if (attribute == NULL) {
-    out[0] = NA_INTEGER;
-  } else {
+  if (attribute != NULL) {
     out[0] = strtol(attribute->value(), NULL, 10);
   }
   return(out);
 }
 
 CharacterVector xf::string_value(rapidxml::xml_node<>* node, const char* name) {
+  CharacterVector out(1, NA_STRING);
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
-  CharacterVector out(1);
-  if (attribute == NULL) {
-    out[0] = NA_STRING;
-  } else {
+  if (attribute != NULL) {
     out[0] = attribute->value();
   }
   return(out);
