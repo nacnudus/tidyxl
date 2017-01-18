@@ -1,8 +1,13 @@
 ---
-output: github_document
+title: "Tidyxl"
+author: "Duncan Garmonsway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <style>
 pre code, pre, code {
@@ -23,16 +28,11 @@ knitr::opts_chunk$set(
 
 # tidyxl
 
-[![Travis-CI Build Status](https://travis-ci.org/nacnudus/tidyxl.svg?branch=master)](https://travis-ci.org/nacnudus/tidyxl)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nacnudus/tidyxl?branch=master&svg=true)](https://ci.appveyor.com/project/nacnudus/tidyxl)
-[![Cran Status](http://www.r-pkg.org/badges/version/tidyxl)]
-[![Cran Downloads](https://cranlogs.r-pkg.org/badges/tidyxl)]
-[![codecov](https://codecov.io/github/nacnudus/tidyxl/coverage.svg?branch=master)](https://codecov.io/gh/nacnudus/tidyxl)
-
-[tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular data from Excel files into R.  It exposes cell content,
-position, formatting and comments in a tidy structure for further manipulation,
-especialy by the [unpivotr](https://github.com/nacnudus/unpivotr) package.  It
-supports the xml-based file formats '.xlsx' and '.xlsm' via the embedded
+[tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular data from Excel
+files into R.  It exposes cell content, position, formatting and comments in a
+tidy structure for further manipulation, especialy by the
+[unpivotr](https://github.com/nacnudus/unpivotr) package.  It supports the
+xml-based file formats '.xlsx' and '.xlsm' via the embedded
 [RapidXML](http://rapidxml.sourceforge.net) C++ library.  It does not support
 the binary file formats '.xlsb' or '.xls'.
 
@@ -56,7 +56,7 @@ for importing spreadsheets coerces the pivot table into a dataframe. It treats
 the second header row as though it were observations.
 
 ```{r, echo = TRUE}
-readxl::read_excel("./inst/extdata/titanic.xlsx")
+readxl::read_excel("../inst/extdata/titanic.xlsx")
 ```
 
 [Tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into
@@ -65,7 +65,7 @@ describes the cell's address, value and other properties.
 
 ```{r, echo = TRUE}
 library(tidyxl)
-x <- tidy_xlsx("./inst/extdata/titanic.xlsx")$data$Sheet1
+x <- tidy_xlsx("../inst/extdata/titanic.xlsx")$data$Sheet1
 # Specific sheets can be requested using `tidy_xlsx(file, sheet)`
 str(x)
 ```
@@ -82,7 +82,7 @@ x[x$row == 4, c("address", "character", "numeric")]
 The original spreadsheet has formatting applied to the cells.  This can also be
 retrieved using [tidyxl](https://github.com/nacnudus/tidyxl).
 
-![iris-screenshot](./vignettes/iris-screenshot.png)
+![iris-screenshot](./iris-screenshot.png)
 
 Formatting is available by using the columns `local_format_id` and
 `style_format_id` as indexes into a separate list-of-lists structure.  'Local'
@@ -90,13 +90,13 @@ formatting is the most common kind, applied to individual cells.  'Style'
 formatting is usually applied to blocks of cells, and defines several formats at
 once.  Here is a screenshot of the styles buttons in Excel.
 
-![styles-screenshot](./vignettes/styles-screenshot.png)
+![styles-screenshot](./styles-screenshot.png)
 
 Formatting can be looked up as follows.
 
 ```{r, echo = TRUE}
 # Bold
-formats <- tidy_xlsx("./inst/extdata/titanic.xlsx")$formats
+formats <- tidy_xlsx("../inst/extdata/titanic.xlsx")$formats
 formats$local$font$bold
 x[x$local_format_id %in% which(formats$local$font$bold),
   c("address", "character")]
@@ -124,7 +124,7 @@ Formulas are available, but with a few quirks.
 
 ```{r, echo = TRUE}
 options(width = 120)
-y <- tidy_xlsx("./inst/extdata/examples.xlsx", "Sheet1")$data[[1]]
+y <- tidy_xlsx("../inst/extdata/examples.xlsx", "Sheet1")$data[[1]]
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
@@ -225,12 +225,3 @@ complex and non-tabular data layouts using I not AI (intelligence, not
 artificial intelligence).  In this way it corresponds to
 [jailbreaker](https://github.com/rsheets/jailbreakr), but with a different
 philosophy.
-
-## Roadmap
-
-- [ ] Write more tests
-- [ ] Parse shared formulas and propagate to all associated cells.
-- [ ] Propagate array formulas to all associated cells.
-- [x] Parse dates
-- [x] Detect cell types (date, boolean, string, number)
-- [x] Implement formatting import in C++ for speed.
