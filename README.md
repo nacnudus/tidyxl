@@ -1,13 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<style>
-pre code, pre, code {
-  white-space: pre !important;
-  overflow-x: scroll !important;
-  word-break: keep-all !important;
-  word-wrap: initial !important;
-}
-</style>
 tidyxl
 ======
 
