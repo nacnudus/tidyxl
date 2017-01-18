@@ -126,5 +126,3 @@ DataFrame xlsx_sheets_(std::string path) {
 
   return(out);
 }
-
-const std::vector<std::string> xf::readingOrderChr_({"context", "left-to-right", "right-to-left"});

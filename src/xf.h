@@ -17,7 +17,7 @@ class xf {
 
 
   // alignment
-  static const std::vector<std::string> readingOrderChr_; // defined in tidyxl.cpp
+  std::vector<std::string> readingOrderChr_;
   Rcpp::CharacterVector horizontal_;
   Rcpp::CharacterVector vertical_;
   Rcpp::LogicalVector   wrapText_;

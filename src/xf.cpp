@@ -6,7 +6,9 @@ using namespace Rcpp;
 
 xf::xf() {}; // Default constructor
 
-xf::xf(rapidxml::xml_node<>* xf) {
+xf::xf(rapidxml::xml_node<>* xf):
+  readingOrderChr_{"context", "left-to-right", "right-to-left"}
+{
   numFmtId_          =    int_value(xf, "numFmtId");
   fontId_            =    int_value(xf, "fontId");
   fillId_            =    int_value(xf, "fillId");
