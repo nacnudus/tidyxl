@@ -31,7 +31,7 @@ xlsxsheet::xlsxsheet(
   name_ = book_.sheets_[sheetindex - 1];
 
   defaultRowHeight_ = 15;
-  double defaultColWidth_ = 8.47;
+  defaultColWidth_ = 8.47;
 
   cacheDefaultRowColDims(worksheet);
   cacheColWidths(worksheet);
@@ -119,7 +119,7 @@ void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
     unsigned int max  = strtol(col->first_attribute("max")->value(), NULL, 10);
     double width = strtof(col->first_attribute("width")->value(), NULL);
 
-    for (int column = min; column <= max; ++column)
+    for (unsigned int column = min; column <= max; ++column)
       colWidths_[column - 1] = width;
   }
 }

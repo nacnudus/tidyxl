@@ -4,7 +4,7 @@
 
 using namespace Rcpp;
 
-xf::xf() {}; // Default constructor
+xf::xf() {} // Default constructor
 
 xf::xf(rapidxml::xml_node<>* xf):
   readingOrderChr_{"context", "left-to-right", "right-to-left"}

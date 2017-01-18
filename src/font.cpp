@@ -85,7 +85,6 @@ font::font(rapidxml::xml_node<>* font,
 
   rapidxml::xml_node<>* name = font->first_node("name");
   if (name != NULL) {
-    rapidxml::xml_attribute<>* val = name->first_attribute("val");
     name_[0] = name->first_attribute("val")->value();
   } else {
     name_[0] = NA_STRING;
@@ -93,7 +92,6 @@ font::font(rapidxml::xml_node<>* font,
 
   rapidxml::xml_node<>* family = font->first_node("family");
   if (family != NULL) {
-    rapidxml::xml_attribute<>* val = family->first_attribute("val");
     family_[0] = strtol(family->first_attribute("val")->value(), NULL, 10);
   } else {
     family_[0] = NA_INTEGER;
