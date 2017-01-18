@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <Rcpp.h>
+#include <initializer_list>
 #include "zip.h"
 #include "xlsxsheet.h"
 #include "xlsxbook.h"
