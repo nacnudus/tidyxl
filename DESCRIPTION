@@ -26,5 +26,6 @@ BugReports: https://github.com/nacnudus/tidyxl/issues
 RoxygenNote: 5.0.1.9000
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    readxl
 VignetteBuilder: knitr
