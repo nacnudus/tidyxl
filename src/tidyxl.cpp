@@ -1,3 +1,5 @@
+// [[Rcpp::plugins("cpp11")]]
+
 #include <algorithm>
 #include <Rcpp.h>
 #include <initializer_list>
