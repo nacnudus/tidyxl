@@ -140,9 +140,9 @@ philosophy.
 
 ## Roadmap
 
-- [ ] Write tests
+- [ ] Write more tests
 - [ ] Parse shared formulas and propagate to all associated cells.
 - [ ] Propagate array formulas to all associated cells.
-- [ ] Parse dates
-- [ ] Detect cell types (date, boolean, string, number)
-- [ ] Implement formatting import in C++ for speed.
+- [x] Parse dates
+- [x] Detect cell types (date, boolean, string, number)
+- [x] Implement formatting import in C++ for speed.
