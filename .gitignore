@@ -1,4 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
+temp.R
 inst/doc
+tags
