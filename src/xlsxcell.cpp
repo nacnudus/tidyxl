@@ -101,8 +101,9 @@ void xlsxcell::cacheValue(
       std::string inlineString;
       if (!parseString(is, inlineString)) { // value is modified in place
         sheet->character_[i] = NA_STRING;
+        SET_STRING_ELT(sheet->character_, i, NA_STRING);
       } else {
-        sheet->character_[i] = inlineString;
+        SET_STRING_ELT(sheet->character_, i, Rf_mkCharCE(inlineString.c_str(), CE_UTF8));
       }
     }
     return;
