@@ -6,10 +6,6 @@
 
 using namespace Rcpp;
 
-stroke::stroke() { // Default constructor
-  style_ = CharacterVector::create(NA_STRING);
-}
-
 stroke::stroke() {} // Default constructor
 
 stroke::stroke(

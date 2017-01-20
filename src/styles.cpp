@@ -469,21 +469,12 @@ List styles::zipFormats(xf styles) {
   fill style_fill;
   border style_border;
 
-  // reinitialise with empty color and stroke vectors
+  // reinitialise with empty color vectors
   style_font.color_                = color(false);
   style_fill.patternFill_.fgColor_ = color(false);
   style_fill.patternFill_.bgColor_ = color(false);
   style_fill.gradientFill_.color1_ = color(false);
   style_fill.gradientFill_.color2_ = color(false);
-  style_border.left_       = stroke(false);
-  style_border.right_      = stroke(false);
-  style_border.start_      = stroke(false); // gnumeric
-  style_border.end_        = stroke(false); // gnumeric
-  style_border.top_        = stroke(false);
-  style_border.bottom_     = stroke(false);
-  style_border.diagonal_   = stroke(false);
-  style_border.vertical_   = stroke(false);
-  style_border.horizontal_ = stroke(false);
   style_border.left_.color_        = color(false);
   style_border.right_.color_       = color(false);
   style_border.start_.color_       = color(false); // gnumeric

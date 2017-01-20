@@ -15,7 +15,6 @@ class stroke {
     color                 color_;
 
     stroke(); // default constructor
-    stroke(bool blank); // construct empty vectors
     stroke(rapidxml::xml_node<>* stroke, styles* styles);
 };
 
