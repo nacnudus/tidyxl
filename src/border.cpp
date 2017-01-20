@@ -6,10 +6,7 @@
 
 using namespace Rcpp;
 
-border::border() {}; // default constructor
-
-border::border(bool blank) { // Construct empty vectors
-}
+border::border() {} // default constructor
 
 border::border(rapidxml::xml_node<>* border,
     styles* styles
