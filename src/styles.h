@@ -56,10 +56,10 @@ class styles {
     void cacheBorders(rapidxml::xml_node<>* styleSheet);
 
     void clone_color(color& from, colors& to); // Append values in one color to vectors in another
-    Rcpp::List list_color(colors& original); // Convert struct to list
+    Rcpp::List list_color(colors& original, bool is_style); // Convert struct to list
 
     void applyFormats(); // Build each style on top of the normal style
-    Rcpp::List zipFormats(xf styles); // Turn the formats inside-out to return to R
+    Rcpp::List zipFormats(xf styles, bool is_style); // Turn the formats inside-out to return to R
 
 };
 
