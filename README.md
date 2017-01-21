@@ -77,7 +77,7 @@ str(x)
 #>  $ comment        : chr  NA NA NA NA ...
 #>  $ height         : num  15 15 15 15 15 15 15 15 15 15 ...
 #>  $ width          : num  8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 ...
-#>  $ style_format_id: int  1 1 1 1 1 1 1 1 1 1 ...
+#>  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...
 #>  $ local_format_id: int  2 3 3 3 3 2 3 3 3 3 ...
 ```
 
@@ -145,13 +145,26 @@ x[x$local_format_id %in% which(formats$local$font$bold),
 
 # Yellow fill
 formats$local$fill$patternFill$fgColor$rgb
-#> [1] "NA"       "NA"       "NA"       "FFFFFF00"
+#> [1] NA         NA         NA         "FFFFFF00"
 x[x$local_format_id %in%
   which(formats$local$fill$patternFill$fgColor$rgb == "FFFFFF00"),
   c("address", "numeric")]
 #>    address numeric
 #> 59     F11       3
 #> 60     G11      20
+
+# Styles by name
+formats$style$font$name["Normal"]
+#>    Normal 
+#> "Calibri"
+head(x[x$style_format == "Normal", c("address", "character")])
+#>   address character
+#> 1      C1       Age
+#> 2      D1     Child
+#> 3      E1      <NA>
+#> 4      F1     Adult
+#> 5      G1      <NA>
+#> 6      C2  Survived
 ```
 
 To see all the available kinds of formats, use `str(formats)`.

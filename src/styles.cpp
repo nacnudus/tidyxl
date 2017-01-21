@@ -23,8 +23,8 @@ styles::styles(const std::string& path) {
   cacheBorders(styleSheet);
 
   applyFormats();
-  style_ = zipFormats(style_formats_);
-  local_ = zipFormats(local_formats_);
+  style_ = zipFormats(style_formats_, true);
+  local_ = zipFormats(local_formats_, false);
 }
 
 void styles::cacheThemeRgb(const std::string& path) {
@@ -296,21 +296,23 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
 
   // Get the names of the styles, if available
   rapidxml::xml_node<>* cellStyles = styleSheet->first_node("cellStyles");
-  CharacterVector stylenames;
   if (cellStyles != NULL) {
     // Get the names, which aren't necessarily in xf order
-    for (rapidxml::xml_node<>* cellStyle = cellStyles->first_node("cellStyle");
-        cellStyle; cellStyle = cellStyle->next_sibling()) {
-      // Inefficient, but there probably won't be many
-      stylenames.push_back(cellStyle->first_attribute("name")->value());
-    }
-    // Go through again, getting the xfId and using that to push the names into
-    // the global vector, in order this time.
+    std::map<int, std::string> stylenames;
     int index;
+    int max_index = 0;
     for (rapidxml::xml_node<>* cellStyle = cellStyles->first_node("cellStyle");
         cellStyle; cellStyle = cellStyle->next_sibling()) {
       index = strtol(cellStyle->first_attribute("xfId")->value(), NULL, 10);
-      cellStyles_.push_back(stylenames[index]);
+      stylenames[index] = cellStyle->first_attribute("name")->value();
+      if (index > max_index) {
+        max_index = index;
+      }
+    }
+    // Sort them
+    for (std::map<int, std::string>::iterator i = stylenames.begin();
+        i != stylenames.end(); i++) {
+      cellStyles_.push_back(i->second);
     }
   }
 }
@@ -322,7 +324,14 @@ void styles::clone_color(color& from, colors& to) {
     to.tint.push_back(from.tint_[0]);
 }
 
-List styles::list_color(colors& original) {
+List styles::list_color(colors& original, bool is_style) {
+  if (is_style) {
+    original.rgb.attr("names") = cellStyles_;
+    original.theme.attr("names") = cellStyles_;
+    original.indexed.attr("names") = cellStyles_;
+    original.tint.attr("names") = cellStyles_;
+  }
+
   List out = List::create(
       _["rgb"] = original.rgb,
       _["theme"] = original.theme,
@@ -472,7 +481,7 @@ void styles::applyFormats() {
   }
 }
 
-List styles::zipFormats(xf styles) {
+List styles::zipFormats(xf styles, bool is_style) {
   CharacterVector numFmts;
   font fonts;
   fill fills;
@@ -567,6 +576,53 @@ List styles::zipFormats(xf styles) {
     clone_color(border->horizontal_.color_, borders_horizontal_color);
   }
 
+  if (is_style) {
+    // name all the vectors using the style names
+    numFmts.attr("names") = cellStyles_;
+    fonts.b_.attr("names") = cellStyles_;
+    fonts.i_.attr("names") = cellStyles_;
+    fonts_u.attr("names") = cellStyles_;
+    fonts.strike_.attr("names") = cellStyles_;
+    fonts_vertAlign.attr("names") = cellStyles_;
+    fonts.size_.attr("names") = cellStyles_;
+    /* fonts.color.attr("names") = cellStyles_; */
+    fonts_name.attr("names") = cellStyles_;
+    fonts.family_.attr("names") = cellStyles_;
+    fonts_scheme.attr("names") = cellStyles_;
+    /* fills_patternFill_fgColor.attr("names") = cellStyles_; */
+    /* fills_patternFill_bgColor.attr("names") = cellStyles_; */
+    fills_patternFill_patternType.attr("names") = cellStyles_;
+    fills_gradientFill_type.attr("names") = cellStyles_;
+    fills.gradientFill_.degree_.attr("names") = cellStyles_;
+    fills.gradientFill_.left_.attr("names") = cellStyles_;
+    fills.gradientFill_.right_.attr("names") = cellStyles_;
+    fills.gradientFill_.top_.attr("names") = cellStyles_;
+    fills.gradientFill_.bottom_.attr("names") = cellStyles_;
+    /* fills_gradientFill_color1.attr("names") = cellStyles_; */
+    /* fills_gradientFill_color2.attr("names") = cellStyles_; */
+    borders.diagonalDown_.attr("names") = cellStyles_;
+    borders.diagonalUp_.attr("names") = cellStyles_;
+    borders.outline_.attr("names") = cellStyles_;
+    borders_left_style.attr("names") = cellStyles_;
+    /* borders_left_color.attr("names") = cellStyles_; */
+    borders_right_style.attr("names") = cellStyles_;
+    /* borders_right_color.attr("names") = cellStyles_; */
+    borders_start_style.attr("names") = cellStyles_;
+    /* borders_start_color.attr("names") = cellStyles_; */
+    borders_end_style.attr("names") = cellStyles_;
+    /* borders_end_color.attr("names") = cellStyles_; */
+    borders_top_style.attr("names") = cellStyles_;
+    /* borders_top_color.attr("names") = cellStyles_; */
+    borders_bottom_style.attr("names") = cellStyles_;
+    /* borders_bottom_color.attr("names") = cellStyles_; */
+    borders_diagonal_style.attr("names") = cellStyles_;
+    /* borders_diagonal_color.attr("names") = cellStyles_; */
+    borders_vertical_style.attr("names") = cellStyles_;
+    /* borders_vertical_color.attr("names") = cellStyles_; */
+    borders_horizontal_style.attr("names") = cellStyles_;
+    /* borders_horizontal_color.attr("names") = cellStyles_; */
+  }
+
   return List::create(
       _["numFmt"] = numFmts,
       _["font"] = List::create(
@@ -576,14 +632,14 @@ List styles::zipFormats(xf styles) {
         _["strike"] = fonts.strike_,
         _["vertAlign"] = fonts_vertAlign,
         _["size"] = fonts.size_,
-        _["color"] = list_color(fonts_color),
+        _["color"] = list_color(fonts_color, is_style),
         _["name"] = fonts_name,
         _["family"] = fonts.family_,
         _["scheme"] = fonts_scheme),
       _["fill"] = List::create(
         _["patternFill"] = List::create(
-          _["fgColor"] = list_color(fills_patternFill_fgColor),
-          _["bgColor"] = list_color(fills_patternFill_bgColor),
+          _["fgColor"] = list_color(fills_patternFill_fgColor, is_style),
+          _["bgColor"] = list_color(fills_patternFill_bgColor, is_style),
           _["patternType"] = fills_patternFill_patternType),
         _["gradientFill"] = List::create(
           _["type"] = fills_gradientFill_type,
@@ -592,38 +648,38 @@ List styles::zipFormats(xf styles) {
           _["right"] = fills.gradientFill_.right_,
           _["top"] = fills.gradientFill_.top_,
           _["bottom"] = fills.gradientFill_.bottom_,
-          _["color1"] = list_color(fills_gradientFill_color1),
-          _["color2"] = list_color(fills_gradientFill_color2))),
+          _["color1"] = list_color(fills_gradientFill_color1, is_style),
+          _["color2"] = list_color(fills_gradientFill_color2, is_style))),
       _["border"] = List::create(
           _["diagonalDown"] = borders.diagonalDown_,
           _["diagonalUp"] = borders.diagonalUp_,
           _["outline"] = borders.outline_,
           _["left"] = List::create(
             _["style"] = borders_left_style,
-            _["color"] = list_color(borders_left_color)),
+            _["color"] = list_color(borders_left_color, is_style)),
           _["right"] = List::create(
             _["style"] = borders_right_style,
-            _["color"] = list_color(borders_right_color)),
+            _["color"] = list_color(borders_right_color, is_style)),
           _["start"] = List::create(
             _["style"] = borders_start_style,
-            _["color"] = list_color(borders_start_color)),
+            _["color"] = list_color(borders_start_color, is_style)),
           _["end"] = List::create(
               _["style"] = borders_end_style,
-              _["color"] = list_color(borders_end_color)),
+              _["color"] = list_color(borders_end_color, is_style)),
           _["top"] = List::create(
               _["style"] = borders_top_style,
-              _["color"] = list_color(borders_top_color)),
+              _["color"] = list_color(borders_top_color, is_style)),
           _["bottom"] = List::create(
               _["style"] = borders_bottom_style,
-              _["color"] = list_color(borders_bottom_color)),
+              _["color"] = list_color(borders_bottom_color, is_style)),
           _["diagonal"] = List::create(
               _["style"] = borders_diagonal_style,
-              _["color"] = list_color(borders_diagonal_color)),
+              _["color"] = list_color(borders_diagonal_color, is_style)),
           _["vertical"] = List::create(
               _["style"] = borders_vertical_style,
-              _["color"] = list_color(borders_vertical_color)),
+              _["color"] = list_color(borders_vertical_color, is_style)),
           _["horizontal"] = List::create(
               _["style"] = borders_horizontal_style,
-              _["color"] = list_color(borders_horizontal_color)))
+              _["color"] = list_color(borders_horizontal_color, is_style)))
                   );
 }

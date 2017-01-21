@@ -62,7 +62,7 @@ List& xlsxsheet::information() {
       _["comment"] = comment_,
       _["height"] = height_,
       _["width"] = width_,
-      _["style_format_id"] = style_format_id_,
+      _["style_format"] = style_format_,
       _["local_format_id"] = local_format_id_);
 
   // Turn list of vectors into a data frame without checking anything
@@ -162,7 +162,7 @@ void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
   comment_         = CharacterVector(cellcount, NA_STRING);
   height_          = NumericVector(cellcount,   NA_REAL);
   width_           = NumericVector(cellcount,   NA_REAL);
-  style_format_id_ = IntegerVector(cellcount,   NA_INTEGER);
+  style_format_    = CharacterVector(cellcount, NA_STRING);
   local_format_id_ = IntegerVector(cellcount,   NA_INTEGER);
 }
 

@@ -43,7 +43,7 @@ class xlsxsheet {
     // The following are always used.
     Rcpp::NumericVector   height_;          // Provided to cell constructor
     Rcpp::NumericVector   width_;           // Provided to cell constructor
-    Rcpp::IntegerVector   style_format_id_; // cellXfs xfId links to cellStyleXfs entry
+    Rcpp::CharacterVector style_format_;    // cellXfs xfId links to cellStyleXfs entry
     Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
 
     xlsxsheet(const int& sheetindex, xlsxbook& book, Rcpp::String comments_path);

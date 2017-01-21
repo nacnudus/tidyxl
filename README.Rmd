@@ -97,6 +97,10 @@ formats$local$fill$patternFill$fgColor$rgb
 x[x$local_format_id %in%
   which(formats$local$fill$patternFill$fgColor$rgb == "FFFFFF00"),
   c("address", "numeric")]
+
+# Styles by name
+formats$style$font$name["Normal"]
+head(x[x$style_format == "Normal", c("address", "character")])
 ```
 
 To see all the available kinds of formats, use `str(formats)`.
