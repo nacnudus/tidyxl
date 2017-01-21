@@ -1,3 +1,8 @@
+# tidyxl 0.2.0.9000
+
+* Added support for xlsx files created by Gnumeric (a single, unnamed cell
+  formatting style)
+
 # tidyxl 0.2.0
 
 * Breaking change: Look up style formats by style name (e.g.

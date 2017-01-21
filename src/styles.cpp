@@ -314,6 +314,9 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
         i != stylenames.end(); i++) {
       cellStyles_.push_back(i->second);
     }
+  } else {
+    // Gnumeric xlsx files have a single, unnamed style
+    cellStyles_.push_back(NA_STRING);
   }
 }
 
