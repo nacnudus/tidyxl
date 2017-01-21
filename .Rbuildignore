@@ -7,3 +7,4 @@
 ^appveyor\.yml$
 ^tags$
 ^temp\.R$
+^NEWS\.md$
