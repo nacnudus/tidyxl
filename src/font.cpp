@@ -83,7 +83,6 @@ font::font(rapidxml::xml_node<>* font,
 
   rapidxml::xml_node<>* scheme = font->first_node("scheme");
   if (scheme != NULL) {
-    rapidxml::xml_attribute<>* val = scheme->first_attribute("val");
     scheme_ = scheme->first_attribute("val")->value();
   }
 }
