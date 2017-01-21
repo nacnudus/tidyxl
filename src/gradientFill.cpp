@@ -13,7 +13,7 @@ gradientFill::gradientFill(
     styles* styles
     ) {
   // Initialize variables
-  type_   = CharacterVector::create(NA_STRING);
+  type_   = NA_STRING;
   degree_ = IntegerVector::create(NA_INTEGER);
   left_   = NumericVector::create(NA_REAL);
   right_  = NumericVector::create(NA_REAL);
@@ -23,7 +23,7 @@ gradientFill::gradientFill(
   if (gradientFill != NULL) {
     rapidxml::xml_attribute<>* type = gradientFill->first_attribute("type");
     if (type != NULL)
-      type_[0] = type->value();
+      type_ = type->value();
 
     rapidxml::xml_attribute<>* degree = gradientFill->first_attribute("degree");
     if (degree != NULL)

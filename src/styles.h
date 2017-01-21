@@ -8,6 +8,13 @@
 #include "fill.h"
 #include "border.h"
 
+struct colors {
+  Rcpp::CharacterVector rgb;
+  Rcpp::IntegerVector   theme;
+  Rcpp::IntegerVector   indexed;
+  Rcpp::NumericVector   tint;
+};
+
 class styles {
 
   public:
@@ -48,7 +55,8 @@ class styles {
     void cacheFills(rapidxml::xml_node<>* styleSheet);
     void cacheBorders(rapidxml::xml_node<>* styleSheet);
 
-    void clone_color(color& from, color& to); // Append values in one color to vectors in another
+    void clone_color(color& from, colors& to); // Append values in one color to vectors in another
+    Rcpp::List list_color(colors& original); // Convert struct to list
 
     void applyFormats(); // Build each style on top of the normal style
     Rcpp::List zipFormats(xf styles); // Turn the formats inside-out to return to R

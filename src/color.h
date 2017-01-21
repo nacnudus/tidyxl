@@ -11,10 +11,10 @@ class color {
 
   public:
 
-    Rcpp::CharacterVector rgb_;
-    Rcpp::IntegerVector   theme_;
-    Rcpp::IntegerVector   indexed_;
-    Rcpp::NumericVector   tint_;
+    Rcpp::String        rgb_;
+    Rcpp::IntegerVector theme_;
+    Rcpp::IntegerVector indexed_;
+    Rcpp::NumericVector tint_;
 
     color(); // default constructor
     color(bool blank); // construct empty vectors

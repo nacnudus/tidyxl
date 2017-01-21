@@ -11,15 +11,15 @@ class gradientFill {
 
   public:
 
-    Rcpp::CharacterVector type_;
-    Rcpp::IntegerVector   degree_;
-    Rcpp::NumericVector   left_;
-    Rcpp::NumericVector   right_;
-    Rcpp::NumericVector   top_;
-    Rcpp::NumericVector   bottom_;
+    Rcpp::String        type_;
+    Rcpp::IntegerVector degree_;
+    Rcpp::NumericVector left_;
+    Rcpp::NumericVector right_;
+    Rcpp::NumericVector top_;
+    Rcpp::NumericVector bottom_;
 
-    color                 color1_;
-    color                 color2_;
+    color               color1_;
+    color               color2_;
 
     gradientFill(); // Default constructor
     gradientFill(rapidxml::xml_node<>* gradientFill, styles* styles);

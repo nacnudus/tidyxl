@@ -315,11 +315,20 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
   }
 }
 
-void styles::clone_color(color& from, color& to) {
-    to.rgb_.push_back(from.rgb_[0]);
-    to.theme_.push_back(from.theme_[0]);
-    to.indexed_.push_back(from.indexed_[0]);
-    to.tint_.push_back(from.tint_[0]);
+void styles::clone_color(color& from, colors& to) {
+    to.rgb.push_back(from.rgb_);
+    to.theme.push_back(from.theme_[0]);
+    to.indexed.push_back(from.indexed_[0]);
+    to.tint.push_back(from.tint_[0]);
+}
+
+List styles::list_color(colors& original) {
+  List out = List::create(
+      _["rgb"] = original.rgb,
+      _["theme"] = original.theme,
+      _["indexed"] = original.indexed,
+      _["tint"] = original.tint);
+  return(out);
 }
 
 void styles::applyFormats() {
@@ -469,21 +478,43 @@ List styles::zipFormats(xf styles) {
   fill style_fill;
   border style_border;
 
-  // reinitialise with empty color vectors
-  style_font.color_                = color(false);
-  style_fill.patternFill_.fgColor_ = color(false);
-  style_fill.patternFill_.bgColor_ = color(false);
-  style_fill.gradientFill_.color1_ = color(false);
-  style_fill.gradientFill_.color2_ = color(false);
-  style_border.left_.color_        = color(false);
-  style_border.right_.color_       = color(false);
-  style_border.start_.color_       = color(false); // gnumeric
-  style_border.end_.color_         = color(false); // gnumeric
-  style_border.top_.color_         = color(false);
-  style_border.bottom_.color_      = color(false);
-  style_border.diagonal_.color_    = color(false);
-  style_border.vertical_.color_    = color(false);
-  style_border.horizontal_.color_  = color(false);
+  CharacterVector rgb;
+  IntegerVector theme;
+  IntegerVector indexed;
+  NumericVector tint;
+
+  colors style_font_color;
+  colors style_fill_patternFill_fgColor;
+  colors style_fill_patternFill_bgColor;
+  colors style_fill_gradientFill_color1;
+  colors style_fill_gradientFill_color2;
+  colors style_border_left_color;
+  colors style_border_right_color;
+  colors style_border_start_color; // gnumeric
+  colors style_border_end_color; // gnumeric
+  colors style_border_top_color;
+  colors style_border_bottom_color;
+  colors style_border_diagonal_color;
+  colors style_border_vertical_color;
+  colors style_border_horizontal_color;
+
+  CharacterVector style_font_u;
+  CharacterVector style_font_vertAlign;
+  CharacterVector style_font_name;
+  CharacterVector style_font_scheme;
+
+  CharacterVector style_fill_patternFill_patternType;
+  CharacterVector style_fill_gradientFill_type;
+
+  CharacterVector style_border_left_style;
+  CharacterVector style_border_right_style;
+  CharacterVector style_border_start_style;
+  CharacterVector style_border_end_style;
+  CharacterVector style_border_top_style;
+  CharacterVector style_border_bottom_style;
+  CharacterVector style_border_diagonal_style;
+  CharacterVector style_border_vertical_style;
+  CharacterVector style_border_horizontal_style;
 
   for(int i = 0; i < styles.numFmtId_.size(); ++i) {
     font* font = &fonts_[styles.fontId_[i]];
@@ -494,51 +525,51 @@ List styles::zipFormats(xf styles) {
 
     style_font.b_.push_back(font->b_[0]);
     style_font.i_.push_back(font->i_[0]);
-    style_font.u_.push_back(font->u_[0]);
+    style_font_u.push_back(font->u_);
     style_font.strike_.push_back(font->strike_[0]);
-    style_font.vertAlign_.push_back(font->vertAlign_[0]);
+    style_font_vertAlign.push_back(font->vertAlign_);
     style_font.size_.push_back(font->size_[0]);
-    clone_color(font->color_, style_font.color_);
-    style_font.name_.push_back(font->name_[0]);
+    clone_color(font->color_, style_font_color);
+    style_font_name.push_back(font->name_);
     style_font.family_.push_back(font->family_[0]);
-    style_font.scheme_.push_back(font->scheme_[0]);
+    style_font_scheme.push_back(font->scheme_);
 
-    clone_color(fill->patternFill_.fgColor_, style_fill.patternFill_.fgColor_);
-    clone_color(fill->patternFill_.bgColor_, style_fill.patternFill_.bgColor_);
-    style_fill.patternFill_.patternType_.push_back(fill->patternFill_.patternType_[0]);
+    clone_color(fill->patternFill_.fgColor_, style_fill_patternFill_fgColor);
+    clone_color(fill->patternFill_.bgColor_, style_fill_patternFill_bgColor);
+    style_fill_patternFill_patternType.push_back(fill->patternFill_.patternType_);
 
-    style_fill.gradientFill_.type_.push_back(fill->gradientFill_.type_[0]);
+    style_fill_gradientFill_type.push_back(fill->gradientFill_.type_);
     style_fill.gradientFill_.degree_.push_back(fill->gradientFill_.degree_[0]);
     style_fill.gradientFill_.left_.push_back(fill->gradientFill_.left_[0]);
     style_fill.gradientFill_.right_.push_back(fill->gradientFill_.right_[0]);
     style_fill.gradientFill_.top_.push_back(fill->gradientFill_.top_[0]);
     style_fill.gradientFill_.bottom_.push_back(fill->gradientFill_.bottom_[0]);
-    clone_color(fill->gradientFill_.color1_, style_fill.gradientFill_.color1_);
-    clone_color(fill->gradientFill_.color2_, style_fill.gradientFill_.color2_);
+    clone_color(fill->gradientFill_.color1_, style_fill_gradientFill_color1);
+    clone_color(fill->gradientFill_.color2_, style_fill_gradientFill_color2);
 
     style_border.diagonalDown_.push_back(border->diagonalDown_[0]);
     style_border.diagonalUp_.push_back(border->diagonalUp_[0]);
     style_border.outline_.push_back(border->outline_[0]);
 
-    style_border.left_.style_.push_back(border->left_.style_[0]);
-    style_border.right_.style_.push_back(border->right_.style_[0]);
-    style_border.start_.style_.push_back(border->start_.style_[0]);
-    style_border.end_.style_.push_back(border->end_.style_[0]);
-    style_border.top_.style_.push_back(border->top_.style_[0]);
-    style_border.bottom_.style_.push_back(border->bottom_.style_[0]);
-    style_border.diagonal_.style_.push_back(border->diagonal_.style_[0]);
-    style_border.vertical_.style_.push_back(border->vertical_.style_[0]);
-    style_border.horizontal_.style_.push_back(border->horizontal_.style_[0]);
+    style_border_left_style.push_back(border->left_.style_);
+    style_border_right_style.push_back(border->right_.style_);
+    style_border_start_style.push_back(border->start_.style_);
+    style_border_end_style.push_back(border->end_.style_);
+    style_border_top_style.push_back(border->top_.style_);
+    style_border_bottom_style.push_back(border->bottom_.style_);
+    style_border_diagonal_style.push_back(border->diagonal_.style_);
+    style_border_vertical_style.push_back(border->vertical_.style_);
+    style_border_horizontal_style.push_back(border->horizontal_.style_);
 
-    clone_color(border->left_.color_, style_border.left_.color_);
-    clone_color(border->right_.color_, style_border.right_.color_);
-    clone_color(border->start_.color_, style_border.start_.color_);
-    clone_color(border->end_.color_, style_border.end_.color_);
-    clone_color(border->top_.color_, style_border.top_.color_);
-    clone_color(border->bottom_.color_, style_border.bottom_.color_);
-    clone_color(border->diagonal_.color_, style_border.diagonal_.color_);
-    clone_color(border->vertical_.color_, style_border.vertical_.color_);
-    clone_color(border->horizontal_.color_, style_border.horizontal_.color_);
+    clone_color(border->left_.color_, style_border_left_color);
+    clone_color(border->right_.color_, style_border_right_color);
+    clone_color(border->start_.color_, style_border_start_color);
+    clone_color(border->end_.color_, style_border_end_color);
+    clone_color(border->top_.color_, style_border_top_color);
+    clone_color(border->bottom_.color_, style_border_bottom_color);
+    clone_color(border->diagonal_.color_, style_border_diagonal_color);
+    clone_color(border->vertical_.color_, style_border_vertical_color);
+    clone_color(border->horizontal_.color_, style_border_horizontal_color);
   }
 
   return List::create(
@@ -546,114 +577,58 @@ List styles::zipFormats(xf styles) {
       _["font"] = List::create(
         _["bold"] = style_font.b_,
         _["italic"] = style_font.i_,
-        _["underline"] = style_font.u_,
+        _["underline"] = style_font_u,
         _["strike"] = style_font.strike_,
-        _["vertAlign"] = style_font.vertAlign_,
+        _["vertAlign"] = style_font_vertAlign,
         _["size"] = style_font.size_,
-        _["color"] = List::create(
-          _["rgb"] = style_font.color_.rgb_,
-          _["theme"] = style_font.color_.theme_,
-          _["indexed"] = style_font.color_.indexed_,
-          _["tint"] = style_font.color_.tint_),
-        _["name"] = style_font.name_,
+        _["color"] = list_color(style_font_color),
+        _["name"] = style_font_name,
         _["family"] = style_font.family_,
-        _["scheme"] = style_font.scheme_),
+        _["scheme"] = style_font_scheme),
       _["fill"] = List::create(
         _["patternFill"] = List::create(
-          _["fgColor"] = List::create(
-            _["rgb"] = style_fill.patternFill_.fgColor_.rgb_,
-            _["theme"] = style_fill.patternFill_.fgColor_.theme_,
-            _["indexed"] = style_fill.patternFill_.fgColor_.indexed_,
-            _["tint"] = style_fill.patternFill_.fgColor_.tint_),
-          _["bgColor"] = List::create(
-            _["rgb"] = style_fill.patternFill_.bgColor_.rgb_,
-            _["theme"] = style_fill.patternFill_.bgColor_.theme_,
-            _["indexed"] = style_fill.patternFill_.bgColor_.indexed_,
-            _["tint"] = style_fill.patternFill_.bgColor_.tint_),
-          _["patternType"] = style_fill.patternFill_.patternType_),
+          _["fgColor"] = list_color(style_fill_patternFill_fgColor),
+          _["bgColor"] = list_color(style_fill_patternFill_bgColor),
+          _["patternType"] = style_fill_patternFill_patternType),
         _["gradientFill"] = List::create(
-          _["type"] = style_fill.gradientFill_.type_,
+          _["type"] = style_fill_gradientFill_type,
           _["degree_"] = style_fill.gradientFill_.degree_,
           _["left"] = style_fill.gradientFill_.left_,
           _["right"] = style_fill.gradientFill_.right_,
           _["top"] = style_fill.gradientFill_.top_,
           _["bottom"] = style_fill.gradientFill_.bottom_,
-          _["color1"] = List::create(
-            _["rgb"] = style_fill.gradientFill_.color1_.rgb_,
-            _["theme"] = style_fill.gradientFill_.color1_.theme_,
-            _["indexed"] = style_fill.gradientFill_.color1_.indexed_,
-            _["tint"] = style_fill.gradientFill_.color1_.tint_),
-          _["color2"] = List::create(
-            _["rgb"] = style_fill.gradientFill_.color2_.rgb_,
-            _["theme"] = style_fill.gradientFill_.color2_.theme_,
-            _["indexed"] = style_fill.gradientFill_.color2_.indexed_,
-            _["tint"] = style_fill.gradientFill_.color2_.tint_))),
+          _["color1"] = list_color(style_fill_gradientFill_color1),
+          _["color2"] = list_color(style_fill_gradientFill_color2))),
       _["border"] = List::create(
           _["diagonalDown"] = style_border.diagonalDown_,
           _["diagonalUp"] = style_border.diagonalUp_,
           _["outline"] = style_border.outline_,
           _["left"] = List::create(
-            _["style"] = style_border.left_.style_,
-            _["color"] = List::create(
-              _["rgb"] = style_border.left_.color_.rgb_,
-              _["theme"] = style_border.left_.color_.theme_,
-              _["indexed"] = style_border.left_.color_.indexed_,
-              _["tint"] = style_border.left_.color_.tint_)),
+            _["style"] = style_border_left_style,
+            _["color"] = list_color(style_border_left_color)),
           _["right"] = List::create(
-            _["style"] = style_border.right_.style_,
-            _["color"] = List::create(
-              _["rgb"] = style_border.right_.color_.rgb_,
-              _["theme"] = style_border.right_.color_.theme_,
-              _["indexed"] = style_border.right_.color_.indexed_,
-              _["tint"] = style_border.right_.color_.tint_)),
+            _["style"] = style_border_right_style,
+            _["color"] = list_color(style_border_right_color)),
           _["start"] = List::create(
-            _["style"] = style_border.start_.style_,
-            _["color"] = List::create(
-              _["rgb"] = style_border.start_.color_.rgb_,
-              _["theme"] = style_border.start_.color_.theme_,
-              _["indexed"] = style_border.start_.color_.indexed_,
-              _["tint"] = style_border.start_.color_.tint_)),
+            _["style"] = style_border_start_style,
+            _["color"] = list_color(style_border_start_color)),
           _["end"] = List::create(
-              _["style"] = style_border.end_.style_,
-              _["color"] = List::create(
-                _["rgb"] = style_border.end_.color_.rgb_,
-                _["theme"] = style_border.end_.color_.theme_,
-                _["indexed"] = style_border.end_.color_.indexed_,
-                _["tint"] = style_border.end_.color_.tint_)),
+              _["style"] = style_border_end_style,
+              _["color"] = list_color(style_border_end_color)),
           _["top"] = List::create(
-              _["style"] = style_border.top_.style_,
-              _["color"] = List::create(
-                _["rgb"] = style_border.top_.color_.rgb_,
-                _["theme"] = style_border.top_.color_.theme_,
-                _["indexed"] = style_border.top_.color_.indexed_,
-                _["tint"] = style_border.top_.color_.tint_)),
+              _["style"] = style_border_top_style,
+              _["color"] = list_color(style_border_top_color)),
           _["bottom"] = List::create(
-              _["style"] = style_border.bottom_.style_,
-              _["color"] = List::create(
-                _["rgb"] = style_border.bottom_.color_.rgb_,
-                _["theme"] = style_border.bottom_.color_.theme_,
-                _["indexed"] = style_border.bottom_.color_.indexed_,
-                _["tint"] = style_border.bottom_.color_.tint_)),
+              _["style"] = style_border_bottom_style,
+              _["color"] = list_color(style_border_bottom_color)),
           _["diagonal"] = List::create(
-              _["style"] = style_border.diagonal_.style_,
-              _["color"] = List::create(
-                _["rgb"] = style_border.diagonal_.color_.rgb_,
-                _["theme"] = style_border.diagonal_.color_.theme_,
-                _["indexed"] = style_border.diagonal_.color_.indexed_,
-                _["tint"] = style_border.diagonal_.color_.tint_)),
+              _["style"] = style_border_diagonal_style,
+              _["color"] = list_color(style_border_diagonal_color)),
           _["vertical"] = List::create(
-              _["style"] = style_border.vertical_.style_,
-              _["color"] = List::create(
-                _["rgb"] = style_border.vertical_.color_.rgb_,
-                _["theme"] = style_border.vertical_.color_.theme_,
-                _["indexed"] = style_border.vertical_.color_.indexed_,
-                _["tint"] = style_border.vertical_.color_.tint_)),
+              _["style"] = style_border_vertical_style,
+              _["color"] = list_color(style_border_vertical_color)),
           _["horizontal"] = List::create(
-              _["style"] = style_border.horizontal_.style_,
-              _["color"] = List::create(
-                _["rgb"] = style_border.horizontal_.color_.rgb_,
-                _["theme"] = style_border.horizontal_.color_.theme_,
-                _["indexed"] = style_border.horizontal_.color_.indexed_,
-                _["tint"] = style_border.horizontal_.color_.tint_)))
+              _["style"] = style_border_horizontal_style,
+              _["color"] = list_color(style_border_horizontal_color)))
                   );
 }

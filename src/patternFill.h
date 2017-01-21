@@ -11,9 +11,9 @@ class patternFill {
 
   public:
 
-    color                 fgColor_;
-    color                 bgColor_;
-    Rcpp::CharacterVector patternType_;
+    color        fgColor_;
+    color        bgColor_;
+    Rcpp::String patternType_;
 
     patternFill(); // Default constructor
     patternFill(rapidxml::xml_node<>* patternFill, styles* styles);

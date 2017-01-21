@@ -11,8 +11,8 @@ class stroke {
 
   public:
 
-    Rcpp::CharacterVector style_;
-    color                 color_;
+    Rcpp::String style_;
+    color        color_;
 
     stroke(); // default constructor
     stroke(rapidxml::xml_node<>* stroke, styles* styles);
