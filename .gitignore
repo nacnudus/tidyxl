@@ -1,6 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
-temp.R
+README.html
 inst/doc
 tags
+temp.R
