@@ -31,6 +31,7 @@ border::border(rapidxml::xml_node<>* border,
   if (diagonalUp != NULL)
     diagonalUp_[0] = strtol(diagonalUp->value(), NULL, 10);
 
+  // I haven't been able to create an outline attribute in Excel 2016
   outline_      = IntegerVector::create(NA_INTEGER);
   rapidxml::xml_attribute<>* outline = border->first_attribute("outline");
   if (outline != NULL)
