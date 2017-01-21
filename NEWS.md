@@ -1,4 +1,4 @@
-# tidyxl 0.1.1.9000
+# tidyxl 0.2.0
 
 * Breaking change: Look up style formats by style name (e.g.
   `"Normal"`) instead of by index integer.  All the vectors under
