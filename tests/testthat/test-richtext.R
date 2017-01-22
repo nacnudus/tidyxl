@@ -28,3 +28,7 @@ test_that("strings containing escaped hexcodes are read", {
   expect_equal(substring(x[2], 20, 21), "\u000d\r")
   expect_equal(substring(x[3],11,19), "\"_x000D_\"")
 })
+
+test_that("Unicode text is read", {
+  expect_equal(tidy_xlsx("examples.xlsx")$data$Sheet1$character[186], "¯\\_(ツ)_/¯")
+})
