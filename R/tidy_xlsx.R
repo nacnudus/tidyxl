@@ -169,9 +169,5 @@ tidy_xlsx <- function(path, sheets = NA) {
     }
   }
   sheets <- standardise_sheet(sheets, all_sheets)
-  if (nrow(sheets) == 0) {
-    warning("No sheets found.", call. = FALSE)
-    return(list())
-  }
   xlsx_read_(path, sheets$index, sheets$name, sheets$comments_path)
 }
