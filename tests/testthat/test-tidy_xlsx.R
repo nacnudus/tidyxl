@@ -18,6 +18,6 @@ test_that("gracefully fails on missing files", {
 
 test_that("allows user interruptions", {
   # This is just for code coverage
-  expect_error(tidy_xlsx("./examples.xlsx"), NA)
+  expect_error(tidy_xlsx("./thousand.xlsx"), NA)
 })
 
