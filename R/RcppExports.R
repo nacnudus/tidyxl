@@ -9,7 +9,3 @@ xlsx_sheets_ <- function(path) {
     .Call('tidyxl_xlsx_sheets_', PACKAGE = 'tidyxl', path)
 }
 
-zip_xml <- function(zip_path, file_path) {
-    invisible(.Call('tidyxl_zip_xml', PACKAGE = 'tidyxl', zip_path, file_path))
-}
-

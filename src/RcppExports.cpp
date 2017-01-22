@@ -30,14 +30,3 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// zip_xml
-void zip_xml(const std::string& zip_path, const std::string& file_path);
-RcppExport SEXP tidyxl_zip_xml(SEXP zip_pathSEXP, SEXP file_pathSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const std::string& >::type zip_path(zip_pathSEXP);
-    Rcpp::traits::input_parameter< const std::string& >::type file_path(file_pathSEXP);
-    zip_xml(zip_path, file_path);
-    return R_NilValue;
-END_RCPP
-}
