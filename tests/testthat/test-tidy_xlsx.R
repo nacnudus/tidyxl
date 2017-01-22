@@ -5,6 +5,7 @@ test_that("warns of missing sheets", {
   expect_error(tidy_xlsx("./examples.xlsx", "foo"), "Sheet\\(s\\) not found: \"foo\"")
   expect_error(tidy_xlsx("./examples.xlsx", c("foo", "bar")), "Sheet\\(s\\) not found: \"foo\", \"bar\"")
   expect_error(tidy_xlsx("./examples.xlsx", 5), "Only 2 sheet\\(s\\) found.")
+  expect_error(tidy_xlsx("./examples.xlsx", TRUE), "Argument `sheet` must be either an integer or a string.")
 })
 
 test_that("gracefully fails on missing files", {
