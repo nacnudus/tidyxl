@@ -55,8 +55,6 @@ font::font(rapidxml::xml_node<>* font,
     rapidxml::xml_attribute<>* val = vertAlign->first_attribute("val");
     if (val != NULL) {
       vertAlign_ = val->value();
-    } else {
-      vertAlign_ = "baseline";
     }
   }
 
