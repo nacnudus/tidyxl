@@ -99,12 +99,8 @@ void xlsxcell::cacheValue(
     rapidxml::xml_node<>* is = cell->first_node("is");
     if (is != NULL) { // Get the inline string if it's really there
       std::string inlineString;
-      if (!parseString(is, inlineString)) { // value is modified in place
-        sheet->character_[i] = NA_STRING;
-        SET_STRING_ELT(sheet->character_, i, NA_STRING);
-      } else {
-        SET_STRING_ELT(sheet->character_, i, Rf_mkCharCE(inlineString.c_str(), CE_UTF8));
-      }
+      parseString(is, inlineString); // value is modified in place
+      SET_STRING_ELT(sheet->character_, i, Rf_mkCharCE(inlineString.c_str(), CE_UTF8));
     }
     return;
   } else if (v == NULL) {
