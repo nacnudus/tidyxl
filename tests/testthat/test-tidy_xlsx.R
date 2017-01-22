@@ -1,4 +1,4 @@
-context("Zip")
+context("tidy_xlsx()")
 
 test_that("warns of missing sheets", {
   expect_warning(expect_error(tidy_xlsx("./examples.xlsx", c(NA, NA)),"All elements of argument 'sheets' were discarded."),  "Argument 'sheets' included NAs, which were discarded.")
