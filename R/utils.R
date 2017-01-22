@@ -46,7 +46,7 @@ standardise_sheet <- function(sheets, all_sheets) {
   } else if (is.character(sheets)) {
     indices <- match(sheets, all_sheets$name)
     if (anyNA(indices)) {
-      stop("Sheet(s) not found: ", paste(sheets[is.na(indices)], collapse = "\", \""),
+      stop("Sheet(s) not found: \"", paste(sheets[is.na(indices)], collapse = "\", \""), "\"",
            call. = FALSE)
     }
     all_sheets[indices, ]
