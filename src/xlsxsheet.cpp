@@ -20,12 +20,7 @@ xlsxsheet::xlsxsheet(
   xml.parse<0>(&sheet_[0]);
 
   rapidxml::xml_node<>* worksheet = xml.first_node("worksheet");
-  if (worksheet == NULL)
-    stop("Invalid sheet xml (no <worksheet>)");
-
   rapidxml::xml_node<>* sheetData = worksheet->first_node("sheetData");
-  if (sheetData == NULL)
-    stop("Invalid sheet xml (no <sheetData>)");
 
   // Look up name among worksheets in book
   name_ = book_.sheets_[sheetindex - 1];
@@ -181,11 +176,8 @@ void xlsxsheet::cacheComments(Rcpp::String comments_path) {
       rapidxml::xml_node<>* r = comment->first_node()->first_node();
       // Get the inline string
       std::string inlineString;
-      if (parseString(r, inlineString)) { // value is modified in place
-        comments_[ref] = inlineString;
-      } else {
-        comments_[ref] = "";
-      }
+      parseString(r, inlineString); // value is modified in place
+      comments_[ref] = inlineString;
     }
   }
 }
