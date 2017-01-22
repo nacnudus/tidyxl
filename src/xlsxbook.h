@@ -15,6 +15,7 @@ class xlsxbook {
 
     styles styles_;
 
+    int dateSystem_; // 1900 or 1904
     int dateOffset_; // for converting 1900 or 1904 Excel datetimes to R
 
     xlsxbook(const std::string& path);    // constructor

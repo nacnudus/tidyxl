@@ -113,7 +113,11 @@ void xlsxcell::cacheValue(
       if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_[0]]) {
         // local number format is a date format
         sheet->data_type_[i] = "date";
-        sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - book.dateOffset_) * 86400;
+        double date = strtof(vvalue.c_str(), NULL);
+        if (book.dateSystem_ == 1900 && date < 61) {
+          warning("Dates before 1 March 1900 are off by one, due to Excel's famous bug.");
+        }
+        sheet->date_[i] = (date - book.dateOffset_) * 86400;
         return;
       } else {
         sheet->data_type_[i] = "numeric";
@@ -128,7 +132,11 @@ void xlsxcell::cacheValue(
         ) {
       // style number format is a date format
       sheet->data_type_[i] = "date";
-      sheet->date_[i] = (strtof(vvalue.c_str(), NULL) - book.dateOffset_) * 86400;
+      double date = strtof(vvalue.c_str(), NULL);
+      if (book.dateSystem_ == 1900 && date < 61) {
+        warning("Dates before 1 March 1900 are off by one, due to Excel's famous bug.");
+      }
+      sheet->date_[i] = (date - book.dateOffset_) * 86400;
       return;
     } else {
       sheet->data_type_[i] = "numeric";
