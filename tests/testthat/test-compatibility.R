@@ -15,3 +15,6 @@ test_that("can read document from google doc", {
   expect_silent(tidy_xlsx("iris-google-doc.xlsx"))
 })
 
+test_that("gives informative error for a JMP export", {
+  expect_error(tidy_xlsx("jmp.xlsx"), "Invalid cell: lacks 'r' attribute")
+})
