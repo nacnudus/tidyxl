@@ -1,7 +1,12 @@
 # tidyxl 0.2.0.9000
 
+* Fixed a major bug: dates were parsed incorrectly because the offsets for the
+  1900 and 1904 systems were the wrong way around.
 * Added support for xlsx files created by Gnumeric (a single, unnamed cell
-  formatting style)
+  formatting style).
+* Fixed the checkUserInterrupt to work every 1000th cell.
+* Added many tests.
+* Removed lots of redundant code.
 
 # tidyxl 0.2.0
 
