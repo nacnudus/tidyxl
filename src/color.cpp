@@ -13,8 +13,6 @@ color::color() { // Default constructor
   tint_    = NumericVector::create(NA_REAL);
 }
 
-color::color(bool blank) {} // Construct empty vectors
-
 color::color(rapidxml::xml_node<>* color, styles* styles) {
   // Initialize variables
   rgb_     = NA_STRING;

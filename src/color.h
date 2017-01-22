@@ -17,7 +17,6 @@ class color {
     Rcpp::NumericVector tint_;
 
     color(); // default constructor
-    color(bool blank); // construct empty vectors
     color(rapidxml::xml_node<>* color, styles* styles);
 };
 
