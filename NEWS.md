@@ -3,6 +3,8 @@
 * Fixed a major bug: dates were parsed incorrectly because the offsets for the
   1900 and 1904 systems were the wrong way around.
 * Added a warning when dates suffer from the Excel off-by-one bug.
+* Fixed a bug that misinterpreted some number formats as dates (confused by the
+  'd' in '[Red]', which looks like a 'd' in 'd/m/y'.)
 * Added support for xlsx files created by Gnumeric (a single, unnamed cell
   formatting style).
 * Fixed the checkUserInterrupt to work every 1000th cell.

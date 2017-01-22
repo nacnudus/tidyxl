@@ -8,3 +8,7 @@ test_that("1900 and 1904 dates are parsed correctly", {
 test_that("A warning is given for 1900-system dates before 1 March 1900", {
   expect_warning(tidy_xlsx("./date-bug.xlsx"), "Dates before 1 March 1900 are off by one, due to Excel's famous bug.")
 })
+
+test_that("Custom number formats using [Red] aren't detected as dates", {
+  expect_equal(tidy_xlsx("./examples.xlsx")$data$Sheet1$data_type[188], "numeric")
+})
