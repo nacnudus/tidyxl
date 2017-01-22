@@ -412,6 +412,7 @@ void styles::applyFormats() {
 
     if (it->applyProtection_[0] == 1) {
       // Apply the style's style
+      // I can't produce this situation in Excel 2016
       style_formats_.locked_.push_back(it->locked_[0]);
       style_formats_.hidden_.push_back(it->hidden_[0]);
     } else {
