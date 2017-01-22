@@ -14,12 +14,7 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   xml.parse<0>(&book[0]);
 
   rapidxml::xml_node<>* workbook = xml.first_node("workbook");
-  if (workbook == NULL)
-    stop("Invalid workbook xml (no <workbook>)");
-
   rapidxml::xml_node<>* sheets = workbook->first_node("sheets");
-  if (sheets == NULL)
-    stop("Invalid workbook xml (no <sheets>)");
 
   cacheDateOffset(workbook); // Must come before cacheSheets
   cacheSheets(sheets);
@@ -49,9 +44,6 @@ void xlsxbook::cacheStrings() {
   sharedStrings.parse<0>(&xml[0]);
 
   rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
-  if (sst == NULL)
-    return;
-
   rapidxml::xml_attribute<>* uniqueCount = sst->first_attribute("uniqueCount");
   if (uniqueCount != NULL) {
     unsigned long int n = strtol(uniqueCount->value(), NULL, 10);
