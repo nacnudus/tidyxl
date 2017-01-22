@@ -238,6 +238,15 @@ bool styles::isDateFormat(std::string formatCode) {
   for (size_t i = 0; i < formatCode.size(); ++i) {
     switch (formatCode[i]) {
       case 'd':
+        // Might be as in "[Red]"
+        if (i < formatCode.size() - 1) {
+          // there's at least one more character
+          if (formatCode[i+1] == ']') {
+            break;
+          } else {
+            return true;
+          }
+        }
       case 'm': // 'mm' for minutes
       case 'y':
       case 'h': // 'hh'
