@@ -6,6 +6,10 @@ test_that("warns of missing sheets", {
   expect_error(tidy_xlsx("./examples.xlsx", c("foo", "bar")), "Sheet\\(s\\) not found: \"foo\", \"bar\"")
 })
 
+test_that("gracefully fails on missing files", {
+  expect_error(tidy_xlsx("foo.xlsx"), "'foo\\.xlsx' does not exist in current working directory \\('.*'\\).")
+})
+
 test_that("allows user interruptions", {
   # This is just for code coverage
   expect_error(tidy_xlsx("./examples.xlsx"), NA)
