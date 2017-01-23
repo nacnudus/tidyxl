@@ -1,4 +1,4 @@
-# tidyxl 0.2.0.9000
+# tidyxl 0.2.1
 
 * Fixed a major bug: dates were parsed incorrectly because the offsets for the
   1900 and 1904 systems were the wrong way around.
