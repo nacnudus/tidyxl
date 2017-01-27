@@ -45,7 +45,7 @@ environment:
     PKGTYPE: source
 
 matrix:
-  fast_finish: true#
+  fast_finish: true
 
 build_script:
   - travis-tool.sh install_deps
