@@ -76,7 +76,7 @@ artifacts:
   - path: '\*_*.zip'
     name: Bits
 
-otifications:
+notifications:
  - provider: Email
    to:
      - nacnudus@gmail.com
