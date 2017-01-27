@@ -9,3 +9,4 @@
 ^temp\.R$
 ^revdep$
 ^NEWS\.md$
+^cran-comments\.md$
