@@ -40,3 +40,13 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+otifications:
+ - provider: Email
+   to:
+     - nacnudus@gmail.com
+   subject: 'tidyxl build {{status}}'
+   message: "https://ci.appveyor.com/project/nacnudus/tidyxl"
+   on_build_success: false
+   on_build_failure: true
+   on_build_status_changed: true
