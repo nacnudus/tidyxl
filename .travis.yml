@@ -12,6 +12,14 @@ cache: packages
 r_github_packages:
   - jimhester/covr
 
+# Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
+# This was causing the error:
+# /bin/bash: line 2: -shared: command not found
+# https://github.com/travis-ci/travis-ci/issues/7236
+before_install:
+  - if [[ "$TRAVIS_R_VERSION_STRING" = 'devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
+
 after_success:
   - Rscript -e 'covr::codecov()'
+
 
