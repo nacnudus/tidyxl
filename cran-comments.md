@@ -1,3 +1,8 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Put the URL in the DESCRIPTION inside <...>
+
 ## Test environments
 
 ### Local
