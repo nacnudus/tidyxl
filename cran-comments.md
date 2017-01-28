@@ -3,6 +3,9 @@ This is a resubmission. In this version I have:
 
 * Put the URL in the DESCRIPTION inside <...>
 
+* Corrected the documentation and examples of `tidy_xlsx` to use `style_format`
+* instead of `style_format_id`.
+
 ## Test environments
 
 ### Local

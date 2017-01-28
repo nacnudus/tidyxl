@@ -100,10 +100,10 @@
 #'   \item{comment}{The text of a comment attached to a cell.}
 #'   \item{height}{The height of a cell's row, in Excel's units.}
 #'   \item{width}{The width of a cell's column, in Excel's units.}
-#'   \item{style_format_id}{An index into a table of style formats
-#'   \code{x$formats$local} (see 'Details').}
-#'   \item{local_format_id}{An index into a table of local cell formats
+#'   \item{style_format}{An index into a table of style formats
 #'   \code{x$formats$style} (see 'Details').}
+#'   \item{local_format_id}{An index into a table of local cell formats
+#'   \code{x$formats$local} (see 'Details').}
 #' }
 #'
 #' Cell formatting is returned in \code{x$formats}.  There are two types or
@@ -147,7 +147,7 @@
 #' # The formats of particular cells can be retrieved like this:
 #'
 #' Sheet1 <- x$data$Sheet1
-#' x$formats$style$font$bold[Sheet1$style_format_id]
+#' x$formats$style$font$bold[Sheet1$style_format]
 #' x$formats$local$font$bold[Sheet1$local_format_id]
 #'
 #' # To filter for cells of a particular format, first filter the formats to get
