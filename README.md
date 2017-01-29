@@ -124,7 +124,7 @@ The original spreadsheet has formatting applied to the cells. This can also be r
 
 ![iris-screenshot](/home/nacnudus/R/tidyxl/vignettes/iris-screenshot.png)
 
-Formatting is available by using the columns `local_format_id` and `style_format_id` as indexes into a separate list-of-lists structure. 'Local' formatting is the most common kind, applied to individual cells. 'Style' formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.
+Formatting is available by using the columns `local_format_id` and `style_format` as indexes into a separate list-of-lists structure. 'Local' formatting is the most common kind, applied to individual cells. 'Style' formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.
 
 ![styles-screenshot](/home/nacnudus/R/tidyxl/vignettes/styles-screenshot.png)
 
