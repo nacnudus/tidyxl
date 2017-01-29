@@ -27,5 +27,6 @@ RoxygenNote: 5.0.1.9000
 Suggests: testthat,
     knitr,
     rmarkdown,
-    readxl
+    readxl,
+    rprojroot
 VignetteBuilder: knitr

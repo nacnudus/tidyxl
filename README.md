@@ -122,11 +122,11 @@ x[x$row == 4, c("address", "character", "numeric")]
 
 The original spreadsheet has formatting applied to the cells. This can also be retrieved using [tidyxl](https://github.com/nacnudus/tidyxl).
 
-![iris-screenshot](./vignettes/iris-screenshot.png)
+![iris-screenshot](/home/nacnudus/R/tidyxl/vignettes/iris-screenshot.png)
 
 Formatting is available by using the columns `local_format_id` and `style_format_id` as indexes into a separate list-of-lists structure. 'Local' formatting is the most common kind, applied to individual cells. 'Style' formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.
 
-![styles-screenshot](./vignettes/styles-screenshot.png)
+![styles-screenshot](/home/nacnudus/R/tidyxl/vignettes/styles-screenshot.png)
 
 Formatting can be looked up as follows.
 
