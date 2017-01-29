@@ -19,8 +19,8 @@ knitr::opts_knit$set(
 
 [![Travis-CI Build Status](https://travis-ci.org/nacnudus/tidyxl.svg?branch=master)](https://travis-ci.org/nacnudus/tidyxl)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nacnudus/tidyxl?branch=master&svg=true)](https://ci.appveyor.com/project/nacnudus/tidyxl)
-![Cran Status](http://www.r-pkg.org/badges/version/tidyxl)
-![Cran Downloads](https://cranlogs.r-pkg.org/badges/tidyxl)
+[![Cran Status](http://www.r-pkg.org/badges/version/tidyxl)](https://cran.r-project.org/web/packages/tidyxl/index.html)
+[![Cran Downloads](https://cranlogs.r-pkg.org/badges/tidyxl)](https://www.r-pkg.org/pkg/tidyxl)
 [![codecov](https://codecov.io/github/nacnudus/tidyxl/coverage.svg?branch=master)](https://codecov.io/gh/nacnudus/tidyxl)
 
 [tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular data from Excel files into R.  It exposes cell content,
