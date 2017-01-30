@@ -53,7 +53,7 @@ the second header row as though it were observations.
 readxl::read_excel("./inst/extdata/titanic.xlsx")
 ```
 
-[Tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into
+[tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into
 a data frame.  Instead, it represents each cell in its own row, where it
 describes the cell's address, value and other properties.
 
