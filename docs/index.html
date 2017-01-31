@@ -103,7 +103,7 @@
 <span class="co">#&gt; 8   &lt;NA&gt; Female     &lt;NA&gt;    17    14    89    76</span>
 <span class="co">#&gt; 9   Crew   Male     &lt;NA&gt;     0     0   670   192</span>
 <span class="co">#&gt; 10  &lt;NA&gt; Female     &lt;NA&gt;     0     0     3    20</span></code></pre></div>
-<p><a href="https://github.com/nacnudus/tidyxl">Tidyxl</a> doesn’t coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell’s address, value and other properties.</p>
+<p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> doesn’t coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell’s address, value and other properties.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyxl)
 x &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="st">"./inst/extdata/titanic.xlsx"</span>)$data$Sheet1
 <span class="co"># Specific sheets can be requested using `tidy_xlsx(file, sheet)`</span>
@@ -287,12 +287,12 @@ y[!<span class="kw">is.na</span>(y$formula),
 <h2 class="hasAnchor">
 <a href="#roadmap" class="anchor"> </a>Roadmap</h2>
 <ul>
-<li>[ ] Write more tests</li>
 <li>[ ] Parse shared formulas and propagate to all associated cells.</li>
 <li>[ ] Propagate array formulas to all associated cells.</li>
 <li>[x] Parse dates</li>
 <li>[x] Detect cell types (date, boolean, string, number)</li>
 <li>[x] Implement formatting import in C++ for speed.</li>
+<li>[x] Write more tests</li>
 </ul>
 </div>
 </div>

@@ -53,7 +53,7 @@ readxl::read_excel("./inst/extdata/titanic.xlsx")
 #> 10  <NA> Female     <NA>     0     0     3    20
 ```
 
-[Tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell's address, value and other properties.
+[tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell's address, value and other properties.
 
 ``` r
 library(tidyxl)
@@ -259,9 +259,9 @@ The [rsheets](https://github.com/rsheets) project of several R packages is in th
 Roadmap
 -------
 
--   \[ \] Write more tests
 -   \[ \] Parse shared formulas and propagate to all associated cells.
 -   \[ \] Propagate array formulas to all associated cells.
 -   \[x\] Parse dates
 -   \[x\] Detect cell types (date, boolean, string, number)
 -   \[x\] Implement formatting import in C++ for speed.
+-   \[x\] Write more tests
