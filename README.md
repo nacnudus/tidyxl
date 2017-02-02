@@ -37,7 +37,8 @@ ftable(Titanic, row.vars = 1:2)
 The multi-row column headers make this difficult to import. A popular package for importing spreadsheets coerces the pivot table into a dataframe. It treats the second header row as though it were observations.
 
 ``` r
-readxl::read_excel("./inst/extdata/titanic.xlsx")
+titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
+readxl::read_excel(titanic)
 #> # A tibble: 10 × 7
 #>       ``     ``      Age Child  `NA` Adult  `NA`
 #>    <chr>  <chr>    <chr> <chr> <chr> <chr> <chr>
@@ -57,7 +58,7 @@ readxl::read_excel("./inst/extdata/titanic.xlsx")
 
 ``` r
 library(tidyxl)
-x <- tidy_xlsx("./inst/extdata/titanic.xlsx")$data$Sheet1
+x <- tidy_xlsx(titanic)$data$Sheet1
 # Specific sheets can be requested using `tidy_xlsx(file, sheet)`
 str(x)
 #> Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  20 variables:
@@ -127,7 +128,7 @@ Formatting can be looked up as follows.
 
 ``` r
 # Bold
-formats <- tidy_xlsx("./inst/extdata/titanic.xlsx")$formats
+formats <- tidy_xlsx(titanic)$formats
 formats$local$font$bold
 #> [1] FALSE  TRUE FALSE FALSE
 x[x$local_format_id %in% which(formats$local$font$bold),

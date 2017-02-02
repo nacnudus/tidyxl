@@ -50,7 +50,8 @@ for importing spreadsheets coerces the pivot table into a dataframe. It treats
 the second header row as though it were observations.
 
 ```{r, echo = TRUE}
-readxl::read_excel("./inst/extdata/titanic.xlsx")
+titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
+readxl::read_excel(titanic)
 ```
 
 [tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into
@@ -59,7 +60,7 @@ describes the cell's address, value and other properties.
 
 ```{r, echo = TRUE}
 library(tidyxl)
-x <- tidy_xlsx("./inst/extdata/titanic.xlsx")$data$Sheet1
+x <- tidy_xlsx(titanic)$data$Sheet1
 # Specific sheets can be requested using `tidy_xlsx(file, sheet)`
 str(x)
 ```
@@ -90,7 +91,7 @@ Formatting can be looked up as follows.
 
 ```{r, echo = TRUE}
 # Bold
-formats <- tidy_xlsx("./inst/extdata/titanic.xlsx")$formats
+formats <- tidy_xlsx(titanic)$formats
 formats$local$font$bold
 x[x$local_format_id %in% which(formats$local$font$bold),
   c("address", "character")]

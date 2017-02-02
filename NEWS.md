@@ -1,3 +1,9 @@
+# tidyxl 0.2.1.9000
+
+* Uses `system.file()` instead of relative file paths or any kind of magic to
+  load files for examples in vignettes and the README, so `pkgdown` can still
+  render the site.
+
 # tidyxl 0.2.1
 
 * Fixed a major bug: dates were parsed incorrectly because the offsets for the

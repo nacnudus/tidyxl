@@ -89,7 +89,8 @@
 <span class="co">#&gt; Crew  Male                0   0   670 192</span>
 <span class="co">#&gt;       Female              0   0     3  20</span></code></pre></div>
 <p>The multi-row column headers make this difficult to import. A popular package for importing spreadsheets coerces the pivot table into a dataframe. It treats the second header row as though it were observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readxl::<span class="kw">read_excel</span>(<span class="st">"./inst/extdata/titanic.xlsx"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/titanic.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>)
+readxl::<span class="kw">read_excel</span>(titanic)
 <span class="co">#&gt; # A tibble: 10 × 7</span>
 <span class="co">#&gt;       ``     ``      Age Child  `NA` Adult  `NA`</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
@@ -105,7 +106,7 @@
 <span class="co">#&gt; 10  &lt;NA&gt; Female     &lt;NA&gt;     0     0     3    20</span></code></pre></div>
 <p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> doesn’t coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell’s address, value and other properties.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyxl)
-x &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="st">"./inst/extdata/titanic.xlsx"</span>)$data$Sheet1
+x &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(titanic)$data$Sheet1
 <span class="co"># Specific sheets can be requested using `tidy_xlsx(file, sheet)`</span>
 <span class="kw">str</span>(x)
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  20 variables:</span>
@@ -168,7 +169,7 @@ x[x$row ==<span class="st"> </span><span class="dv">4</span>, <span class="kw">c
 </div>
 <p>Formatting can be looked up as follows.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Bold</span>
-formats &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="st">"./inst/extdata/titanic.xlsx"</span>)$formats
+formats &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(titanic)$formats
 formats$local$font$bold
 <span class="co">#&gt; [1] FALSE  TRUE FALSE FALSE</span>
 x[x$local_format_id %in%<span class="st"> </span><span class="kw">which</span>(formats$local$font$bold),
