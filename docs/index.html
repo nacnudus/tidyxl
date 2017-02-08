@@ -230,7 +230,8 @@ formats$style$font$name[<span class="st">"Normal"</span>]
 <a href="#formulas" class="anchor"> </a>Formulas</h3>
 <p>Formulas are available, but with a few quirks.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">width =</span> <span class="dv">120</span>)
-y &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="st">"./inst/extdata/examples.xlsx"</span>, <span class="st">"Sheet1"</span>)$data[[<span class="dv">1</span>]]
+y &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"/extdata/examples.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>),
+               <span class="st">"Sheet1"</span>)$data[[<span class="dv">1</span>]]
 y[!<span class="kw">is.na</span>(y$formula),
   <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"formula"</span>, <span class="st">"formula_type"</span>, <span class="st">"formula_ref"</span>, <span class="st">"formula_group"</span>,
     <span class="st">"error"</span>, <span class="st">"logical"</span>, <span class="st">"numeric"</span>, <span class="st">"date"</span>, <span class="st">"character"</span>)]
