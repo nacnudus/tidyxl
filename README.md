@@ -194,7 +194,8 @@ Formulas are available, but with a few quirks.
 
 ``` r
 options(width = 120)
-y <- tidy_xlsx("./inst/extdata/examples.xlsx", "Sheet1")$data[[1]]
+y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
+               "Sheet1")$data[[1]]
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
