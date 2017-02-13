@@ -64,9 +64,12 @@ void xlsxbook::cacheDateOffset(rapidxml::xml_node<>* workbook) {
   if (workbookPr != NULL) {
     rapidxml::xml_attribute<>* date1904 = workbookPr->first_attribute("date1904");
     if (date1904 != NULL) {
-      dateSystem_ = 1904;
-      dateOffset_ = 24107;
-      return;
+      std::string is1904 = date1904->value();
+      if ((is1904 == "1") || (is1904 == "true")) {
+        dateSystem_ = 1904;
+        dateOffset_ = 24107;
+        return;
+      }
     }
   }
 
