@@ -173,7 +173,7 @@ void xlsxsheet::cacheComments(Rcpp::String comments_path) {
     for (rapidxml::xml_node<>* comment = commentList->first_node();
         comment; comment = comment->next_sibling()) {
       std::string ref(comment->first_attribute("ref")->value());
-      rapidxml::xml_node<>* r = comment->first_node()->first_node();
+      rapidxml::xml_node<>* r = comment->first_node();
       // Get the inline string
       std::string inlineString;
       parseString(r, inlineString); // value is modified in place
