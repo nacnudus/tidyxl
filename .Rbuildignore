@@ -9,3 +9,4 @@
 ^temp\.R$
 ^revdep$
 ^cran-comments\.md$
+^docs$
