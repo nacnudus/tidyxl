@@ -4,7 +4,8 @@
   load files for examples in vignettes and the README, so `pkgdown` can still
   render the site.
 * Checks the value of the `date1904` attribute for `"false"` or `"1"` to support files
-  created by the `openxlsx` package.
+  created by the `openxlsx` package (#8).
+* Fixed a bug that only imported the first line of multiline comments (#9).
 
 # tidyxl 0.2.1
 
