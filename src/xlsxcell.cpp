@@ -52,7 +52,7 @@ void xlsxcell::parseAddress(
   std::map<std::string, std::string>& comments = sheet->comments_;
   std::map<std::string, std::string>::iterator it = comments.find(address);
   if(it != comments.end()) {
-     sheet->comment_[i] = it->second;
+    SET_STRING_ELT(sheet->comment_, i, Rf_mkCharCE(it->second.c_str(), CE_UTF8));
   }
 }
 

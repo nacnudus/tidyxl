@@ -6,6 +6,7 @@
 * Checks the value of the `date1904` attribute for `"false"` or `"1"` to support files
   created by the `openxlsx` package (#8).
 * Fixed a bug that only imported the first line of multiline comments (#9).
+* Encodes comment text as UTF-8 (#12).
 
 # tidyxl 0.2.1
 
