@@ -3,6 +3,8 @@
 * Uses `system.file()` instead of relative file paths or any kind of magic to
   load files for examples in vignettes and the README, so `pkgdown` can still
   render the site.
+* Checks the value of the `date1904` attribute for `"false"` or `"1"` to support files
+  created by the `openxlsx` package.
 
 # tidyxl 0.2.1
 
