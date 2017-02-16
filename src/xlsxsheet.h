@@ -46,7 +46,11 @@ class xlsxsheet {
     Rcpp::CharacterVector style_format_;    // cellXfs xfId links to cellStyleXfs entry
     Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
 
-    xlsxsheet(const int& sheetindex, xlsxbook& book, Rcpp::String comments_path);
+    xlsxsheet(
+        const std::string& name,
+        const std::string& sheet_path,
+        xlsxbook& book,
+        Rcpp::String comments_path);
     Rcpp::List& information();       // Cells contents and styles DF wrapped in list
 
     void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);

@@ -16,28 +16,31 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 List xlsx_read_(
     std::string path,
-    IntegerVector sheets,
-    CharacterVector names,
+    CharacterVector sheet_paths,
+    CharacterVector sheet_names,
     CharacterVector comments_paths
     ) {
   // Parse book-level information (e.g. styles, themes, strings, date system)
   xlsxbook book(path);
 
   // Loop through sheets
-  List sheet_list(sheets.size());
+  List sheet_list(sheet_paths.size());
 
-  IntegerVector::iterator in_it;
+  CharacterVector::iterator in_it;
   List::iterator sheet_list_it;
 
   int i = 0;
-  for(in_it = sheets.begin(), sheet_list_it = sheet_list.begin(); in_it != sheets.end();
+  for(in_it = sheet_paths.begin(), sheet_list_it = sheet_list.begin();
+      in_it != sheet_paths.end();
       ++in_it, ++sheet_list_it) {
-    Rcpp::String comments_path(comments_paths[i]);
-    *sheet_list_it = xlsxsheet(*in_it, book, comments_path).information();
+    String sheet_path(sheet_paths[i]);
+    String sheet_name(sheet_names[i]);
+    String comments_path(comments_paths[i]);
+    *sheet_list_it = xlsxsheet(sheet_name, sheet_path, book, comments_path).information();
     ++i;
   }
 
-  sheet_list.attr("names") = names;
+  sheet_list.attr("names") = sheet_names;
 
   List out = List::create(
       _["data"] = sheet_list,
@@ -48,20 +51,20 @@ List xlsx_read_(
   return out;
 }
 
-inline String comments_path_(std::string path, std::string id_string) {
+inline String comments_path_(std::string path, std::string sheet_target) {
   // Given a sheet id, return the path to the comments file, should one exist
-  std::string sheet_rels = "xl/worksheets/_rels/sheet" + id_string + ".xml.rels";
+  std::string sheet_rels = "xl/worksheets/_rels/" + sheet_target.replace(0, 11, "") + ".rels";
   if (zip_has_file(path, sheet_rels)) {
-    std::string targets_text = zip_buffer(path, "xl/worksheets/_rels/sheet" + id_string + ".xml.rels");
+    std::string targets_text = zip_buffer(path, sheet_rels);
     rapidxml::xml_document<> targets_xml;
     targets_xml.parse<0>(&targets_text[0]);
     rapidxml::xml_node<>* relationships = targets_xml.first_node("Relationships");
     for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
         relationship; relationship = relationship->next_sibling()) {
-      std::string target_attr = relationship->first_attribute("Target")->value();
-      if (target_attr.substr(0, 11) == "../comments") {
+      std::string target = relationship->first_attribute("Target")->value();
+      if (target.substr(0, 11) == "../comments") {
         // Return the comments file path
-        return(target_attr.replace(0, 2, "xl"));
+        return(target.replace(0, 2, "xl"));
       }
     }
   }
@@ -73,54 +76,72 @@ DataFrame xlsx_sheets_(std::string path) {
   // Return a list of worksheets,  their index numbers, names, and comments
   // paths.
 
-  // Get the ids of worksheets (rather than chart sheets, etc.)
-  std::string targets_text = zip_buffer(path, "xl/_rels/workbook.xml.rels");
-  rapidxml::xml_document<> targets_xml;
-  targets_xml.parse<0>(&targets_text[0]);
-  std::vector<std::string> id_targets;
-  rapidxml::xml_node<>* relationships = targets_xml.first_node("Relationships");
+  // primary key of two 'tables' of worksheets and other objects
+  std::string id;
+  std::vector<std::string> ids;
+
+  // Get the id and target of worksheets, and look up any comments file
+  std::map<std::string, std::string> targets;
+  std::map<std::string, String> comments;
+  std::string rels_text = zip_buffer(path, "xl/_rels/workbook.xml.rels");
+  rapidxml::xml_document<> rels_xml;
+  rels_xml.parse<0>(&rels_text[0]);
+  rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
   for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
       relationship; relationship = relationship->next_sibling()) {
-    std::string target_attr = relationship->first_attribute("Target")->value();
-    if (target_attr.substr(0, 10) == "worksheets") {
-      // Only store worksheets
-      id_targets.push_back(relationship->first_attribute("Id")->value());
+    std::string target = relationship->first_attribute("Target")->value();
+    if (target.substr(0, 10) == "worksheets") { // Only store worksheets
+      id = relationship->first_attribute("Id")->value();
+      ids.push_back(id);
+      targets[id] = "xl/" + target;
+      comments[id] = comments_path_(path, target);
     }
   }
 
-  // Get the ids and names of all sheets/charts/etc. to be looked up later
-  std::string names_text = zip_buffer(path, "xl/workbook.xml");
-  rapidxml::xml_document<> names_xml;
-  names_xml.parse<0>(&names_text[0]);
-  std::map<std::string, std::string> id_names;
-  rapidxml::xml_node<>* workbook = names_xml.first_node("workbook");
+  // Get the id, name and sheetId (display order) of all sheets/charts/etc.
+  std::map<std::string, std::string> names;
+  std::map<std::string, int> sheetIds;
+  std::string workbook_text = zip_buffer(path, "xl/workbook.xml");
+  rapidxml::xml_document<> workbook_xml;
+  workbook_xml.parse<0>(&workbook_text[0]);
+  rapidxml::xml_node<>* workbook = workbook_xml.first_node("workbook");
   rapidxml::xml_node<>* sheets = workbook->first_node("sheets");
   for (rapidxml::xml_node<>* sheet = sheets->first_node("sheet");
       sheet; sheet = sheet->next_sibling()) {
-    id_names[sheet->first_attribute("r:id")->value()] = sheet->first_attribute("name")->value();
+    rapidxml::xml_attribute<>* r_id = sheet->first_attribute("r:id");
+    if (r_id != NULL) {
+      id = r_id->value();
+    } else {
+      rapidxml::xml_attribute<>* ns_id = sheet->first_attribute("ns:id");
+      if (ns_id != NULL) {
+        id = ns_id->value();
+      } else {
+        stop("Invalid xl/workbook.xml: sheet element lacks r:id or ns:id attribute");
+      }
+    }
+    names[id] = sheet->first_attribute("name")->value();
+    sheetIds[id] = strtol(sheet->first_attribute("sheetId")->value(), NULL, 10);
   }
 
-  // Look up the names of worksheets only, and get the paths to any comments
-  // files
-  IntegerVector ids;
-  CharacterVector names;
-  CharacterVector comments_paths;
-  for(std::vector<std::string>::iterator it = id_targets.begin(); it != id_targets.end(); ++it) {
-    std::string id_string(*it);
-    // Look up the name by the id
-    names.push_back(id_names[id_string]);
-    // Extract the integer index from the id
-    id_string.replace(0, 3, "");
-    ids.push_back(strtol(id_string.c_str(), NULL, 10));
-    // Fetch the path to the comments file, should one exist
-    comments_paths.push_back(comments_path_(path, id_string));
+  // Join by id
+  std::vector<std::string> out_name;
+  std::vector<int> out_sheetId;
+  std::vector<std::string> out_target;
+  CharacterVector out_comments_path;
+  for(std::vector<std::string>::iterator it = ids.begin(); it != ids.end(); ++it) {
+    std::string key(*it);
+    out_name.push_back(names[key]);
+    out_sheetId.push_back(sheetIds[key]);
+    out_target.push_back(targets[key]);
+    out_comments_path.push_back(comments[key]);
   }
 
   // Return a data frame
   DataFrame out = DataFrame::create(
-      _["index"] = ids,
-      _["name"] = names,
-      _["comments_path"] = comments_paths,
+      _["name"] = out_name,
+      _["index"] = out_sheetId,
+      _["sheet_path"] = out_target,
+      _["comments_path"] = out_comments_path,
       _["stringsAsFactors"] = false);
 
   return(out);

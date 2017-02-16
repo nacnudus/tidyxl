@@ -17,21 +17,7 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   rapidxml::xml_node<>* sheets = workbook->first_node("sheets");
 
   cacheDateOffset(workbook); // Must come before cacheSheets
-  cacheSheets(sheets);
   cacheStrings();
-}
-
-void xlsxbook::cacheSheets(rapidxml::xml_node<>* sheets) {
-  // ECMA specifies no maximum number of sheets
-  // Most often it will be 3, but two resizes won't matter much, so I don't
-  // bother reserving.
-  // http://stackoverflow.com/a/7397862/937932 recommends not reserving anyway.
-
-  for (rapidxml::xml_node<>* sheet = sheets->first_node();
-      sheet; sheet = sheet->next_sibling()) {
-    std::string name = sheet->first_attribute("name")->value();
-    sheets_.push_back(name);
-  }
 }
 
 // Based on hadley/readxl

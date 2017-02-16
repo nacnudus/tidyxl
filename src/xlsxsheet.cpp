@@ -9,21 +9,19 @@
 using namespace Rcpp;
 
 xlsxsheet::xlsxsheet(
-    const int& sheetindex,
+    const std::string& name,
+    const std::string& sheet_path,
     xlsxbook& book,
     Rcpp::String comments_path):
+  name_(name),
   book_(book) {
-  std::string sheetpath = tfm::format("xl/worksheets/sheet%i.xml", sheetindex);
-  std::string sheet_ = zip_buffer(book_.path_, sheetpath);
+  std::string sheet_ = zip_buffer(book_.path_, sheet_path);
 
   rapidxml::xml_document<> xml;
   xml.parse<0>(&sheet_[0]);
 
   rapidxml::xml_node<>* worksheet = xml.first_node("worksheet");
   rapidxml::xml_node<>* sheetData = worksheet->first_node("sheetData");
-
-  // Look up name among worksheets in book
-  name_ = book_.sheets_[sheetindex - 1];
 
   defaultRowHeight_ = 15;
   defaultColWidth_ = 8.47;

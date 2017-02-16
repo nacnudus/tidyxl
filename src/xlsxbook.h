@@ -10,7 +10,6 @@ class xlsxbook {
   public:
 
     const std::string& path_;                     // workbook path
-    std::vector<std::string> sheets_;             // sheet names
     std::vector<std::string> strings_;            // strings table
 
     styles styles_;
@@ -20,8 +19,6 @@ class xlsxbook {
 
     xlsxbook(const std::string& path);    // constructor
 
-
-    void cacheSheets(rapidxml::xml_node<>* sheets); // sheet names, not data
     void cacheStrings();
     void cacheStyles();
     void cacheDateOffset(rapidxml::xml_node<>* workbook);

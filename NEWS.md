@@ -7,6 +7,7 @@
   created by the `openxlsx` package (#8).
 * Fixed a bug that only imported the first line of multiline comments (#9).
 * Encodes comment text as UTF-8 (#12).
+* Finds worksheets more reliably in files not created by Excel (part of #13).
 
 # tidyxl 0.2.1
 
