@@ -118,7 +118,6 @@ void xlsxcell::cacheValue(
           warning("Dates before 1 March 1900 are off by one, due to Excel's famous bug.");
         }
         sheet->date_[i] = (date - book.dateOffset_) * 86400;
-        /* sheet->numeric_[i] = (date - book.dateOffset_) * 86400; */
         return;
       } else {
         sheet->data_type_[i] = "numeric";
@@ -138,7 +137,6 @@ void xlsxcell::cacheValue(
         warning("Dates before 1 March 1900 are off by one, due to Excel's famous bug.");
       }
       sheet->date_[i] = (date - book.dateOffset_) * 86400;
-      /* sheet->numeric_[i] = (date - book.dateOffset_) * 86400; */
       return;
     } else {
       sheet->data_type_[i] = "numeric";
