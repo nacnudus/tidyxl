@@ -146,7 +146,7 @@ void xlsxcell::cacheValue(
     // the t attribute exists and its value is exactly "s", so v is an index
     // into the string table.
     sheet->data_type_[i] = "character";
-    sheet->character_[i] = book.strings_[strtol(vvalue.c_str(), NULL, 10)];
+    SET_STRING_ELT(sheet->character_, i, Rf_mkCharCE(book.strings_[strtol(vvalue.c_str(), NULL, 10)].c_str(), CE_UTF8));
     return;
   } else if (tvalue == "str") {
     // Formula, which could have evaluated to anything, so only a string is safe
