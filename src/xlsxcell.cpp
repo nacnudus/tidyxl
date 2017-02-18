@@ -113,15 +113,16 @@ void xlsxcell::cacheValue(
       if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_[0]]) {
         // local number format is a date format
         sheet->data_type_[i] = "date";
-        double date = strtof(vvalue.c_str(), NULL);
+        double date = strtod(vvalue.c_str(), NULL);
         if (book.dateSystem_ == 1900 && date < 61) {
           warning("Dates before 1 March 1900 are off by one, due to Excel's famous bug.");
         }
         sheet->date_[i] = (date - book.dateOffset_) * 86400;
+        /* sheet->numeric_[i] = (date - book.dateOffset_) * 86400; */
         return;
       } else {
         sheet->data_type_[i] = "numeric";
-        sheet->numeric_[i] = strtof(vvalue.c_str(), NULL);
+        sheet->numeric_[i] = strtod(vvalue.c_str(), NULL);
       }
     } else if (
           book.styles_.isDate_[
@@ -132,15 +133,16 @@ void xlsxcell::cacheValue(
         ) {
       // style number format is a date format
       sheet->data_type_[i] = "date";
-      double date = strtof(vvalue.c_str(), NULL);
+      double date = strtod(vvalue.c_str(), NULL);
       if (book.dateSystem_ == 1900 && date < 61) {
         warning("Dates before 1 March 1900 are off by one, due to Excel's famous bug.");
       }
       sheet->date_[i] = (date - book.dateOffset_) * 86400;
+      /* sheet->numeric_[i] = (date - book.dateOffset_) * 86400; */
       return;
     } else {
       sheet->data_type_[i] = "numeric";
-      sheet->numeric_[i] = strtof(vvalue.c_str(), NULL);
+      sheet->numeric_[i] = strtod(vvalue.c_str(), NULL);
     }
   } else if (tvalue == "s") {
     // the t attribute exists and its value is exactly "s", so v is an index
@@ -155,7 +157,7 @@ void xlsxcell::cacheValue(
     return;
   } else if (tvalue == "b"){
     sheet->data_type_[i] = "logical";
-    sheet->logical_[i] = strtof(vvalue.c_str(), NULL);
+    sheet->logical_[i] = strtod(vvalue.c_str(), NULL);
     return;
   } else if (tvalue == "e") {
     sheet->data_type_[i] = "error";

@@ -75,12 +75,12 @@ void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
     rapidxml::xml_attribute<>* defaultRowHeight =
       sheetFormatPr_->first_attribute("defaultRowHeight");
     if (defaultRowHeight != NULL)
-      defaultRowHeight_ = strtof(defaultRowHeight->value(), NULL);
+      defaultRowHeight_ = strtod(defaultRowHeight->value(), NULL);
 
     rapidxml::xml_attribute<>*defaultColWidth =
       sheetFormatPr_->first_attribute("defaultColWidth");
     if (defaultColWidth != NULL) {
-      defaultColWidth_ = strtof(defaultColWidth->value(), NULL);
+      defaultColWidth_ = strtod(defaultColWidth->value(), NULL);
     } else {
       // If defaultColWidth not given, ECMA says you can work it out based on
       // baseColWidth, but that isn't necessarily given either, and the formula
@@ -110,7 +110,7 @@ void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
     // <col> applies to columns from a min to a max, which must be iterated over
     unsigned int min  = strtol(col->first_attribute("min")->value(), NULL, 10);
     unsigned int max  = strtol(col->first_attribute("max")->value(), NULL, 10);
-    double width = strtof(col->first_attribute("width")->value(), NULL);
+    double width = strtod(col->first_attribute("width")->value(), NULL);
 
     for (unsigned int column = min; column <= max; ++column)
       colWidths_[column - 1] = width;
@@ -191,7 +191,7 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
     double rowHeight = defaultRowHeight_;
     rapidxml::xml_attribute<>* ht = row->first_attribute("ht");
     if (ht != NULL)
-      rowHeight = strtof(ht->value(), NULL);
+      rowHeight = strtod(ht->value(), NULL);
 
     for (rapidxml::xml_node<>* c = row->first_node();
         c; c = c->next_sibling()) {

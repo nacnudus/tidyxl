@@ -47,7 +47,7 @@ color::color(rapidxml::xml_node<>* color, styles* styles) {
 
       rapidxml::xml_attribute<>* tint = color->first_attribute("tint");
       if (tint != NULL) {
-        tint_[0] = strtof(tint->value(), NULL);
+        tint_[0] = strtod(tint->value(), NULL);
       }
     }
   }

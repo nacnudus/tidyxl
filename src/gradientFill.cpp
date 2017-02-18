@@ -31,19 +31,19 @@ gradientFill::gradientFill(
 
     rapidxml::xml_attribute<>* left = gradientFill->first_attribute("left");
     if (left != NULL)
-      left_[0] = strtof(left->value(), NULL);
+      left_[0] = strtod(left->value(), NULL);
 
     rapidxml::xml_attribute<>* right = gradientFill->first_attribute("right");
     if (right != NULL)
-      right_[0] = strtof(right->value(), NULL);
+      right_[0] = strtod(right->value(), NULL);
 
     rapidxml::xml_attribute<>* top = gradientFill->first_attribute("top");
     if (top != NULL)
-      top_[0] = strtof(top->value(), NULL);
+      top_[0] = strtod(top->value(), NULL);
 
     rapidxml::xml_attribute<>* bottom = gradientFill->first_attribute("bottom");
     if (bottom != NULL)
-      bottom_[0] = strtof(bottom->value(), NULL);
+      bottom_[0] = strtod(bottom->value(), NULL);
 
     rapidxml::xml_node<>* stop_node = gradientFill->first_node("stop");
     color1_ = color(stop_node, styles);
