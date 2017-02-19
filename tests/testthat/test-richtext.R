@@ -30,7 +30,9 @@ test_that("strings containing escaped hexcodes are read", {
 })
 
 test_that("Unicode text is read", {
-  expect_equal(tidy_xlsx("examples.xlsx")$data$Sheet1$character[186], "¯\\_(ツ)_/¯")
+  shruggie <- "¯\\_(ツ)_/¯"
+  Encoding(shruggie) <- "UTF-8"
+  expect_equal(tidy_xlsx("examples.xlsx")$data$Sheet1$character[186], shruggie)
 })
 
 test_that("Text is encoded as UTF-8", {
