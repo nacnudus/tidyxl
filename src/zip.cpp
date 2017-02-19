@@ -37,3 +37,10 @@ bool zip_has_file(
   LogicalVector res = wrap<LogicalVector>(zip_has_file(zip_path, file_path));
   return res[0];
 }
+
+std::string extdata() {
+  Function system_file("system.file");
+  CharacterVector out =
+    system_file("extdata", Named("package") = "tidyxl");
+  return Rcpp::as<std::string>(out);
+}

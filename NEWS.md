@@ -5,6 +5,7 @@
 * Fixed a bug that only imported the first line of multiline comments (#9).
 * Encodes cell and comment text as UTF-8 (#12).
 * Finds worksheets more reliably in files not created by Excel (part of #13).
+* Falls back to default styles when none defined (#13).
 * Imports dates with greater precision (part of #14).
 
 # tidyxl 0.2.1

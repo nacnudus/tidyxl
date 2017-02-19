@@ -17,3 +17,8 @@ test_that("can read document from google doc", {
 test_that("gives informative error for a JMP export", {
   expect_error(tidy_xlsx("jmp.xlsx"), "Invalid cell: lacks 'r' attribute")
 })
+
+test_that("warns about default styles when no cellStyleXfs defined", {
+  expect_warning(tidy_xlsx("haskell.xlsx"),
+                 "Default styles used \\(cellStyleXfs is not defined\\)")
+})
