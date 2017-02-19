@@ -1,8 +1,5 @@
 # tidyxl 0.2.1.9000
 
-* Uses `system.file()` instead of relative file paths or any kind of magic to
-  load files for examples in vignettes and the README, so `pkgdown` can still
-  render the site.
 * Checks the value of the `date1904` attribute for `"false"` or `"1"` to support files
   created by the `openxlsx` package (#8).
 * Fixed a bug that only imported the first line of multiline comments (#9).
