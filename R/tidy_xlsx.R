@@ -165,7 +165,7 @@ tidy_xlsx <- function(path, sheets = NA) {
         stop("All elements of argument 'sheets' were discarded.")
       }
     } else {
-      sheets = all_sheets$index
+      sheets = all_sheets$order
     }
   }
   sheets <- standardise_sheet(sheets, all_sheets)

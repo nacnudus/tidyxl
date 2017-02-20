@@ -39,10 +39,10 @@ excel_format <- function(path) {
 
 standardise_sheet <- function(sheets, all_sheets) {
   if (is.numeric(sheets)) {
-    if (max(sheets) > max(all_sheets$index)) {
-      stop("Only ", max(all_sheets$index), " sheet(s) found.", call. = FALSE)
+    if (max(sheets) > max(all_sheets$order)) {
+      stop("Only ", max(all_sheets$order), " sheet(s) found.", call. = FALSE)
     }
-    all_sheets[all_sheets$index == sheets, ]
+    all_sheets[all_sheets$order == sheets, ]
   } else if (is.character(sheets)) {
     indices <- match(sheets, all_sheets$name)
     if (anyNA(indices)) {
@@ -58,6 +58,7 @@ standardise_sheet <- function(sheets, all_sheets) {
 
 xlsx_sheets <- function(path) {
   out <- xlsx_sheets_(path)
-  out <- out[order(out$index), ]
+  out$order <- order(out$sheet_path)
+  out <- out[out$order, ]
   out
 }
