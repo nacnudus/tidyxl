@@ -12,6 +12,12 @@ test_that("finds named sheets", {
   expect_error(tidy_xlsx("./examples.xlsx", "Sheet1"), NA)
 })
 
+test_that("sheet order is correct", {
+  expect_equal(names(tidy_xlsx("./sheet-order.xlsx")$data),
+               c("Sheet1", "Sheet2", "Sheet3"))
+  expect_equal(tidy_xlsx("./sheet-order.xlsx", 2)$data[[1]]$numeric, 3)
+})
+
 test_that("gracefully fails on missing files", {
   expect_error(tidy_xlsx("foo.xlsx"), "'foo\\.xlsx' does not exist in current working directory \\('.*'\\).")
 })

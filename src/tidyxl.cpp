@@ -125,12 +125,14 @@ DataFrame xlsx_sheets_(std::string path) {
 
   // Join by id
   std::vector<std::string> out_name;
+  std::vector<int> out_rId;
   std::vector<int> out_sheetId;
   std::vector<std::string> out_target;
   CharacterVector out_comments_path;
   for(std::vector<std::string>::iterator it = ids.begin(); it != ids.end(); ++it) {
     std::string key(*it);
     out_name.push_back(names[key]);
+    out_rId.push_back(std::stoi(key.substr(3, std::string::npos), NULL, 10));
     out_sheetId.push_back(sheetIds[key]);
     out_target.push_back(targets[key]);
     out_comments_path.push_back(comments[key]);
@@ -139,6 +141,7 @@ DataFrame xlsx_sheets_(std::string path) {
   // Return a data frame
   DataFrame out = DataFrame::create(
       _["name"] = out_name,
+      _["id"] = out_rId,
       _["index"] = out_sheetId,
       _["sheet_path"] = out_target,
       _["comments_path"] = out_comments_path,

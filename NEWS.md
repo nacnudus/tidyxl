@@ -7,6 +7,7 @@
 * Finds worksheets more reliably in files not created by Excel (part of #13).
 * Falls back to default styles when none defined (#13).
 * Imports dates with greater precision (part of #14).
+* Fixed the order of worksheets (#15)
 
 # tidyxl 0.2.1
 

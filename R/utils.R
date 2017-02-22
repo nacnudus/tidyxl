@@ -58,7 +58,7 @@ standardise_sheet <- function(sheets, all_sheets) {
 
 xlsx_sheets <- function(path) {
   out <- xlsx_sheets_(path)
-  out$order <- order(out$sheet_path)
+  out$order <- order(out$id)
   out <- out[out$order, ]
   out
 }
