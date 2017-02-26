@@ -60,7 +60,7 @@
       <h1>Tidyxl</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-02-08</h4>
+            <h4 class="date">2017-02-26</h4>
           </div>
 
     
@@ -81,13 +81,13 @@ pre code, pre, code {
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <html><body><a href="#installation" class="anchor"> </a></body></html>Installation</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"nacnudus/tidyxl"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"nacnudus/tidyxl"</span>)</code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <html><body><a href="#examples" class="anchor"> </a></body></html>Examples</h2>
 <p>The package includes a spreadsheet, ‘titanic.xlsx’, which contains the following pivot table:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ftable</span>(Titanic, <span class="dt">row.vars =</span> <span class="dv">1</span>:<span class="dv">2</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ftable</span>(Titanic, <span class="dt">row.vars =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)
 <span class="co">#&gt;              Age      Child     Adult    </span>
 <span class="co">#&gt;              Survived    No Yes    No Yes</span>
 <span class="co">#&gt; Class Sex                                </span>
@@ -101,7 +101,7 @@ pre code, pre, code {
 <span class="co">#&gt;       Female              0   0     3  20</span></code></pre></div>
 <p>The multi-row column headers make this difficult to import. A popular package for importing spreadsheets coerces the pivot table into a dataframe. It treats the second header row as though it were observations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/titanic.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>)
-readxl::<span class="kw">read_excel</span>(titanic)
+readxl<span class="op">::</span><span class="kw">read_excel</span>(titanic)
 <span class="co">#&gt; # A tibble: 10 × 7</span>
 <span class="co">#&gt;       ``     ``      Age Child  `NA` Adult  `NA`</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
@@ -117,7 +117,7 @@ readxl::<span class="kw">read_excel</span>(titanic)
 <span class="co">#&gt; 10  &lt;NA&gt; Female     &lt;NA&gt;     0     0     3    20</span></code></pre></div>
 <p><a href="https://github.com/nacnudus/tidyxl">Tidyxl</a> doesn’t coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell’s address, value and other properties.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyxl)
-x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(titanic)$data$Sheet1
+x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(titanic)<span class="op">$</span>data<span class="op">$</span>Sheet1
 <span class="co"># Specific sheets can be requested using `tidy_xlsx(file, sheet)`</span>
 <span class="kw">str</span>(x)
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  20 variables:</span>
@@ -142,7 +142,7 @@ x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx
 <span class="co">#&gt;  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...</span>
 <span class="co">#&gt;  $ local_format_id: int  2 3 3 3 3 2 3 3 3 3 ...</span></code></pre></div>
 <p>In this structure, the cells can be found by filtering.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[x$data_type ==<span class="st"> "character"</span>, <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[x<span class="op">$</span>data_type <span class="op">==</span><span class="st"> "character"</span>, <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>)]
 <span class="co">#&gt; # A tibble: 22 × 2</span>
 <span class="co">#&gt;    address character</span>
 <span class="co">#&gt;      &lt;chr&gt;     &lt;chr&gt;</span>
@@ -157,7 +157,7 @@ x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx
 <span class="co">#&gt; 9       A3     Class</span>
 <span class="co">#&gt; 10      B3       Sex</span>
 <span class="co">#&gt; # ... with 12 more rows</span>
-x[x$row ==<span class="st"> </span><span class="dv">4</span>, <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>, <span class="st">"numeric"</span>)]
+x[x<span class="op">$</span>row <span class="op">==</span><span class="st"> </span><span class="dv">4</span>, <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>, <span class="st">"numeric"</span>)]
 <span class="co">#&gt; # A tibble: 6 × 3</span>
 <span class="co">#&gt;   address character numeric</span>
 <span class="co">#&gt;     &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;</span>
@@ -172,18 +172,18 @@ x[x$row ==<span class="st"> </span><span class="dv">4</span>, <span class="kw">c
 <html><body><a href="#formatting" class="anchor"> </a></body></html>Formatting</h3>
 <p>The original spreadsheet has formatting applied to the cells. This can also be retrieved using <a href="https://github.com/nacnudus/tidyxl">tidyxl</a>.</p>
 <div class="figure">
-<img src="iris-screenshot.png" alt="iris-screenshot"><p class="caption">iris-screenshot</p>
+<img src="titanic-screenshot.png">
 </div>
 <p>Formatting is available by using the columns <code>local_format_id</code> and <code>style_format_id</code> as indexes into a separate list-of-lists structure. ‘Local’ formatting is the most common kind, applied to individual cells. ‘Style’ formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.</p>
 <div class="figure">
-<img src="styles-screenshot.png" alt="styles-screenshot"><p class="caption">styles-screenshot</p>
+<img src="styles-screenshot.png">
 </div>
 <p>Formatting can be looked up as follows.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Bold</span>
-formats &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(titanic)$formats
-formats$local$font$bold
+formats &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(titanic)<span class="op">$</span>formats
+formats<span class="op">$</span>local<span class="op">$</span>font<span class="op">$</span>bold
 <span class="co">#&gt; [1] FALSE  TRUE FALSE FALSE</span>
-x[x$local_format_id %in%<span class="st"> </span><span class="kw">which</span>(formats$local$font$bold),
+x[x<span class="op">$</span>local_format_id <span class="op">%in%</span><span class="st"> </span><span class="kw">which</span>(formats<span class="op">$</span>local<span class="op">$</span>font<span class="op">$</span>bold),
   <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>)]
 <span class="co">#&gt; # A tibble: 4 × 2</span>
 <span class="co">#&gt;   address character</span>
@@ -194,10 +194,10 @@ x[x$local_format_id %in%<span class="st"> </span><span class="kw">which</span>(f
 <span class="co">#&gt; 4      B3       Sex</span>
 
 <span class="co"># Yellow fill</span>
-formats$local$fill$patternFill$fgColor$rgb
+formats<span class="op">$</span>local<span class="op">$</span>fill<span class="op">$</span>patternFill<span class="op">$</span>fgColor<span class="op">$</span>rgb
 <span class="co">#&gt; [1] NA         NA         NA         "FFFFFF00"</span>
-x[x$local_format_id %in%
-<span class="st">  </span><span class="kw">which</span>(formats$local$fill$patternFill$fgColor$rgb ==<span class="st"> "FFFFFF00"</span>),
+x[x<span class="op">$</span>local_format_id <span class="op">%in%</span>
+<span class="st">  </span><span class="kw">which</span>(formats<span class="op">$</span>local<span class="op">$</span>fill<span class="op">$</span>patternFill<span class="op">$</span>fgColor<span class="op">$</span>rgb <span class="op">==</span><span class="st"> "FFFFFF00"</span>),
   <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"numeric"</span>)]
 <span class="co">#&gt; # A tibble: 2 × 2</span>
 <span class="co">#&gt;   address numeric</span>
@@ -206,10 +206,10 @@ x[x$local_format_id %in%
 <span class="co">#&gt; 2     G11      20</span>
 
 <span class="co"># Styles by name</span>
-formats$style$font$name[<span class="st">"Normal"</span>]
+formats<span class="op">$</span>style<span class="op">$</span>font<span class="op">$</span>name[<span class="st">"Normal"</span>]
 <span class="co">#&gt;    Normal </span>
 <span class="co">#&gt; "Calibri"</span>
-<span class="kw">head</span>(x[x$style_format ==<span class="st"> "Normal"</span>, <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>)])
+<span class="kw">head</span>(x[x<span class="op">$</span>style_format <span class="op">==</span><span class="st"> "Normal"</span>, <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"character"</span>)])
 <span class="co">#&gt; # A tibble: 6 × 2</span>
 <span class="co">#&gt;   address character</span>
 <span class="co">#&gt;     &lt;chr&gt;     &lt;chr&gt;</span>
@@ -225,7 +225,7 @@ formats$style$font$name[<span class="st">"Normal"</span>]
 <h3 class="hasAnchor">
 <html><body><a href="#comments" class="anchor"> </a></body></html>Comments</h3>
 <p>Comments are available alongside cell values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[!<span class="kw">is.na</span>(x$comment), <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"comment"</span>)]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x[<span class="op">!</span><span class="kw">is.na</span>(x<span class="op">$</span>comment), <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"comment"</span>)]
 <span class="co">#&gt; # A tibble: 1 × 2</span>
 <span class="co">#&gt;   address                                                     comment</span>
 <span class="co">#&gt;     &lt;chr&gt;                                                       &lt;chr&gt;</span>
@@ -237,11 +237,11 @@ formats$style$font$name[<span class="st">"Normal"</span>]
 <p>Formulas are available, but with a few quirks.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">width =</span> <span class="dv">120</span>)
 y &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"/extdata/examples.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>),
-               <span class="st">"Sheet1"</span>)$data[[<span class="dv">1</span>]]
-y[!<span class="kw">is.na</span>(y$formula),
+               <span class="st">"Sheet1"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]
+y[<span class="op">!</span><span class="kw">is.na</span>(y<span class="op">$</span>formula),
   <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"formula"</span>, <span class="st">"formula_type"</span>, <span class="st">"formula_ref"</span>, <span class="st">"formula_group"</span>,
     <span class="st">"error"</span>, <span class="st">"logical"</span>, <span class="st">"numeric"</span>, <span class="st">"date"</span>, <span class="st">"character"</span>)]
-<span class="co">#&gt; # A tibble: 14 × 10</span>
+<span class="co">#&gt; # A tibble: 15 × 10</span>
 <span class="co">#&gt;    address              formula formula_type formula_ref formula_group   error logical numeric       date     character</span>
 <span class="co">#&gt;      &lt;chr&gt;                &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;         &lt;int&gt;   &lt;chr&gt;   &lt;lgl&gt;   &lt;dbl&gt;     &lt;dttm&gt;         &lt;chr&gt;</span>
 <span class="co">#&gt; 1       A1                  1/0         &lt;NA&gt;        &lt;NA&gt;            NA #DIV/0!      NA      NA       &lt;NA&gt;          &lt;NA&gt;</span>
@@ -257,9 +257,10 @@ y[!<span class="kw">is.na</span>(y$formula),
 <span class="co">#&gt; 11     B21                            shared        &lt;NA&gt;             1    &lt;NA&gt;      NA       5       &lt;NA&gt;          &lt;NA&gt;</span>
 <span class="co">#&gt; 12     A22 SUM(A19:A21*B19:B21)        array         A22            NA    &lt;NA&gt;      NA      38       &lt;NA&gt;          &lt;NA&gt;</span>
 <span class="co">#&gt; 13     A23      A19:A20*B19:B20        array     A23:A24            NA    &lt;NA&gt;      NA       6       &lt;NA&gt;          &lt;NA&gt;</span>
-<span class="co">#&gt; 14     A25       [1]Sheet1!$A$1         &lt;NA&gt;        &lt;NA&gt;            NA    &lt;NA&gt;      NA      NA       &lt;NA&gt;        normal</span></code></pre></div>
+<span class="co">#&gt; 14     A25       [1]Sheet1!$A$1         &lt;NA&gt;        &lt;NA&gt;            NA    &lt;NA&gt;      NA      NA       &lt;NA&gt;        normal</span>
+<span class="co">#&gt; 15     A94               50*10%         &lt;NA&gt;        &lt;NA&gt;            NA    &lt;NA&gt;      NA       5       &lt;NA&gt;          &lt;NA&gt;</span></code></pre></div>
 <p>The top five cells show that the results of formulas are available as usual in the columns <code>error</code>, <code>logical</code>, <code>numeric</code>, <code>date</code>, and <code>character</code>.</p>
-<p>Cells <code>A20</code> and <code>A21</code> share a formula definition. The formula is given against cell <code>A20</code>, and assigned to <code>formula_group</code> <code>0</code>, which spans the cells given by the <code>formula_ref</code>, A20:A21. A spreadsheet application would infer that cell <code>A21</code> had the formula <code>A20+1</code>. Cells <code>B20</code> and <code>B21</code> are similar. The roadmap <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> for tidyxl includes de-normalising shared formulas. If you can suggest how to tokenize Excel formulas, then please contact me.</p>
+<p>Cells <code>A20</code> and <code>A21</code> share a formula definition. The formula is given against cell <code>A20</code>, and assigned to <code>formula_group</code> <code>0</code>, which spans the cells given by the <code>formula_ref</code>, A20:A21. A spreadsheet application would infer that cell <code>A21</code> had the formula <code>A20+1</code>. Cells <code>B20</code> and <code>B21</code> are similar. The roadmap for <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> includes de-normalising shared formulas. If you can suggest how to tokenize Excel formulas, then please contact me.</p>
 <p>Cell <code>A22</code> contains an array formula, which, in a spreadsheet application, would appear with curly braces <code>{SUM(A19:A21*B19:B21)}</code>. Cells <code>A23</code> and <code>A24</code> contain a single multi-cell array formula (single formula, multi-cell result), indicated by the <code>formula_ref</code>, but unlike cells <code>A20:A21</code> and <code>B20:B21</code>, the <code>formula</code> for A24 is NA rather than blank (<code>""</code>), and it doesn’t have a <code>formula_group</code>.</p>
 <p>Cell <code>A25</code> contains a formula that refers to another file. The <code>[1]</code> is an index into a table of files. The roadmap <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> for tidyxl includes de-referencing such numbers.</p>
 <p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> imports the same table into a format suitable for non-tabular processing (see e.g. the <a href="https://github.com/nacnudus/unpivotr">unpivotr</a> package in ‘Similar projects’ below).</p>

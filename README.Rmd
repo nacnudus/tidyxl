@@ -82,7 +82,7 @@ x[x$row == 4, c("address", "character", "numeric")]
 The original spreadsheet has formatting applied to the cells.  This can also be
 retrieved using [tidyxl](https://github.com/nacnudus/tidyxl).
 
-![iris-screenshot](./vignettes/iris-screenshot.png)
+![](./vignettes/titanic-screenshot.png)
 
 Formatting is available by using the columns `local_format_id` and
 `style_format` as indexes into a separate list-of-lists structure.  'Local'
@@ -90,7 +90,7 @@ formatting is the most common kind, applied to individual cells.  'Style'
 formatting is usually applied to blocks of cells, and defines several formats at
 once.  Here is a screenshot of the styles buttons in Excel.
 
-![styles-screenshot](./vignettes/styles-screenshot.png)
+![](./vignettes/styles-screenshot.png)
 
 Formatting can be looked up as follows.
 
@@ -142,7 +142,7 @@ Cells `A20` and `A21` share a formula definition.  The formula is given
 against cell `A20`, and assigned to `formula_group` `0`, which spans the cells
 given by the `formula_ref`, A20:A21.  A spreadsheet application would infer that
 cell `A21` had the formula `A20+1`.  Cells `B20` and `B21` are similar.  The
-roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes
+roadmap for [tidyxl](https://github.com/nacnudus/tidyxl) includes
 de-normalising shared formulas.  If you can suggest how to tokenize Excel
 formulas, then please contact me.
 

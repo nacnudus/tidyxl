@@ -123,11 +123,11 @@ x[x$row == 4, c("address", "character", "numeric")]
 
 The original spreadsheet has formatting applied to the cells. This can also be retrieved using [tidyxl](https://github.com/nacnudus/tidyxl).
 
-![iris-screenshot](./vignettes/iris-screenshot.png)
+![](./vignettes/titanic-screenshot.png)
 
 Formatting is available by using the columns `local_format_id` and `style_format` as indexes into a separate list-of-lists structure. 'Local' formatting is the most common kind, applied to individual cells. 'Style' formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.
 
-![styles-screenshot](./vignettes/styles-screenshot.png)
+![](./vignettes/styles-screenshot.png)
 
 Formatting can be looked up as follows.
 
@@ -199,7 +199,7 @@ y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
-#> # A tibble: 14 × 10
+#> # A tibble: 15 × 10
 #>    address              formula formula_type formula_ref formula_group   error logical numeric       date     character
 #>      <chr>                <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
 #> 1       A1                  1/0         <NA>        <NA>            NA #DIV/0!      NA      NA       <NA>          <NA>
@@ -216,11 +216,12 @@ y[!is.na(y$formula),
 #> 12     A22 SUM(A19:A21*B19:B21)        array         A22            NA    <NA>      NA      38       <NA>          <NA>
 #> 13     A23      A19:A20*B19:B20        array     A23:A24            NA    <NA>      NA       6       <NA>          <NA>
 #> 14     A25       [1]Sheet1!$A$1         <NA>        <NA>            NA    <NA>      NA      NA       <NA>        normal
+#> 15     A94               50*10%         <NA>        <NA>            NA    <NA>      NA       5       <NA>          <NA>
 ```
 
 The top five cells show that the results of formulas are available as usual in the columns `error`, `logical`, `numeric`, `date`, and `character`.
 
-Cells `A20` and `A21` share a formula definition. The formula is given against cell `A20`, and assigned to `formula_group` `0`, which spans the cells given by the `formula_ref`, A20:A21. A spreadsheet application would infer that cell `A21` had the formula `A20+1`. Cells `B20` and `B21` are similar. The roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-normalising shared formulas. If you can suggest how to tokenize Excel formulas, then please contact me.
+Cells `A20` and `A21` share a formula definition. The formula is given against cell `A20`, and assigned to `formula_group` `0`, which spans the cells given by the `formula_ref`, A20:A21. A spreadsheet application would infer that cell `A21` had the formula `A20+1`. Cells `B20` and `B21` are similar. The roadmap for [tidyxl](https://github.com/nacnudus/tidyxl) includes de-normalising shared formulas. If you can suggest how to tokenize Excel formulas, then please contact me.
 
 Cell `A22` contains an array formula, which, in a spreadsheet application, would appear with curly braces `{SUM(A19:A21*B19:B21)}`. Cells `A23` and `A24` contain a single multi-cell array formula (single formula, multi-cell result), indicated by the `formula_ref`, but unlike cells `A20:A21` and `B20:B21`, the `formula` for A24 is NA rather than blank (`""`), and it doesn't have a `formula_group`.
 

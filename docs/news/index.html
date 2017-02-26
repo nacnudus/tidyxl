@@ -86,7 +86,13 @@
 <h1 class="hasAnchor">
 <a href="#tidyxl-0-2-1-9000" class="anchor"> </a>tidyxl 0.2.1.9000</h1>
 <ul>
-<li>Uses <code>system.file()</code> instead of relative file paths or any kind of magic to load files for examples in vignettes and the README, so <code>pkgdown</code> can still render the site.</li>
+<li>Checks the value of the <code>date1904</code> attribute for <code>"false"</code> or <code>"1"</code> to support files created by the <code>openxlsx</code> package (#8).</li>
+<li>Fixed a bug that only imported the first line of multiline comments (#9).</li>
+<li>Encodes cell and comment text as UTF-8 (#12).</li>
+<li>Finds worksheets more reliably in files not created by Excel (part of #13).</li>
+<li>Falls back to default styles when none defined (#13).</li>
+<li>Imports dates with greater precision (part of #14).</li>
+<li>Fixed the order of worksheets (#15)</li>
 </ul>
 </div>
     <div id="tidyxl-0-2-1" class="section level1">
