@@ -132,7 +132,7 @@ DataFrame xlsx_sheets_(std::string path) {
   for(std::vector<std::string>::iterator it = ids.begin(); it != ids.end(); ++it) {
     std::string key(*it);
     out_name.push_back(names[key]);
-    out_rId.push_back(std::stoi(key.substr(3, std::string::npos), NULL, 10));
+    out_rId.push_back(std::strtol(key.substr(3, std::string::npos).c_str(), NULL, 10));
     out_sheetId.push_back(sheetIds[key]);
     out_target.push_back(targets[key]);
     out_comments_path.push_back(comments[key]);
