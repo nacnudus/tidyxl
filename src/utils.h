@@ -5,6 +5,40 @@
 #include "rapidxml.h"
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
 
+// Follow tidyverse/readxl
+// https://github.com/tidyverse/readxl/commit/63ef215f57322dd5d7a27799a2a3fe463bd39fc7
+// in correcting subsecond rounding by converting serial date to
+// decimilliseconds, using a well-known hack to round to nearest integer w/o
+// C++11 or boost, e.g.
+// http://stackoverflow.com/questions/485525/round-for-float-in-c, and
+// converting back to serial date.
+inline double dateRound(double date) {
+  double ms = date * 10000;
+  ms = (ms >= 0.0 ? std::floor(ms + 0.5) : std::ceil(ms - 0.5));
+  return ms / 10000;
+}
+
+// Follow tidyverse/readxl
+// https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb
+// by correcting for Excel's faithful re-implementation of the Lotus 1-2-3 bug,
+// in which February 29, 1900 is included in the date system, even though 1900
+// was not actually a leap year
+// https://support.microsoft.com/en-us/help/214326/excel-incorrectly-assumes-that-the-year-1900-is-a-leap-year
+// How we address this: If date is *prior* to the non-existent leap day: add a
+// day If date is on the non-existent leap day: make negative and, in due
+// course, NA Otherwise: do nothing
+inline double checkDate(double& date, int& dateSystem, int& dateOffset) {
+  if (dateSystem == 1900 && date < 61) {
+    date = (date < 60) ? ++date : -1;
+  }
+  if (date < 0) {
+    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+    return NA_REAL;
+  } else {
+    return dateRound((date - dateOffset) * 86400);
+  }
+}
+
 // Based on hadley/readxl
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]
 inline std::string unescape(const std::string& s) {

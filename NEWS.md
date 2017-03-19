@@ -1,3 +1,8 @@
+# tidyxl 0.2.2.9000
+
+* Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following [readxl](https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb)).
+* Fixes subsecond rounding (following [readxl](https://github.com/tidyverse/readxl/commit/63ef215f57322dd5d7a27799a2a3fe463bd39fc7) (fixes #14))
+
 # tidyxl 0.2.1.9000
 
 * Checks the value of the `date1904` attribute for `"false"` or `"1"` to support files
