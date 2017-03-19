@@ -29,7 +29,7 @@ inline double dateRound(double date) {
 // course, NA Otherwise: do nothing
 inline double checkDate(double& date, int& dateSystem, int& dateOffset) {
   if (dateSystem == 1900 && date < 61) {
-    date = (date < 60) ? ++date : -1;
+    date = (date < 60) ? date + 1 : -1;
   }
   if (date < 0) {
     Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
