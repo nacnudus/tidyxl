@@ -45,7 +45,7 @@ The multi-row column headers make this difficult to import. A popular package fo
 titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
 readxl::read_excel(titanic)
 #> # A tibble: 10 × 7
-#>       ``     ``      Age Child  `NA` Adult  `NA`
+#>     X__1   X__2      Age Child  X__3 Adult  X__4
 #>    <chr>  <chr>    <chr> <chr> <chr> <chr> <chr>
 #> 1   <NA>   <NA> Survived    No   Yes    No   Yes
 #> 2  Class    Sex     <NA>  <NA>  <NA>  <NA>  <NA>
