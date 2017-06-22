@@ -57,9 +57,19 @@ xf::xf(rapidxml::xml_node<>* xf):
 
 LogicalVector xf::bool_value(rapidxml::xml_node<>* node, const char* name) {
   LogicalVector out(1, NA_LOGICAL);
+  std::string value;
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
-  if (attribute != NULL) {
-    out[0] = strtol(attribute->value(), NULL, 10);
+  if (attribute == NULL) {
+    return(out);
+  }
+  value = attribute->value();
+  if (value == "0" || value == "false") {
+    out[0] = false;
+    return(out);
+  }
+  if (value == "1" || value == "true") {
+    out[0] = true;
+    return(out);
   }
   return(out);
 }

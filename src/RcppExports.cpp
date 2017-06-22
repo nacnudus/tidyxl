@@ -30,3 +30,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"tidyxl_xlsx_read_", (DL_FUNC) &tidyxl_xlsx_read_, 4},
+    {"tidyxl_xlsx_sheets_", (DL_FUNC) &tidyxl_xlsx_sheets_, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_tidyxl(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
