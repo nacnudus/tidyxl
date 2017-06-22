@@ -25,7 +25,7 @@
 <script src="../pkgdown.js"></script>
 
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -98,15 +98,16 @@
     <div class="contents">
     <div id="tidyxl-0-2-2-9000" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-2-2-9000" class="anchor"> </a>tidyxl 0.2.2.9000</h1>
+<a href="#tidyxl-0-2-2-9000" class="anchor"></a>tidyxl 0.2.2.9000</h1>
 <ul>
 <li>Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following <a href="https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb">readxl</a>).</li>
 <li>Fixes subsecond rounding (following <a href="https://github.com/tidyverse/readxl/commit/63ef215f57322dd5d7a27799a2a3fe463bd39fc7">readxl</a> (fixes #14))</li>
+<li>Imports styles correctly from LibreOffice files (interprets ‘true’ and ‘false’ as booleans, as well as the 0 and 1 used by Microsoft Excel)</li>
 </ul>
 </div>
     <div id="tidyxl-0-2-1-9000" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-2-1-9000" class="anchor"> </a>tidyxl 0.2.1.9000</h1>
+<a href="#tidyxl-0-2-1-9000" class="anchor"></a>tidyxl 0.2.1.9000</h1>
 <ul>
 <li>Checks the value of the <code>date1904</code> attribute for <code>"false"</code> or <code>"1"</code> to support files created by the <code>openxlsx</code> package (#8).</li>
 <li>Fixed a bug that only imported the first line of multiline comments (#9).</li>
@@ -119,7 +120,7 @@
 </div>
     <div id="tidyxl-0-2-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-2-1" class="anchor"> </a>tidyxl 0.2.1</h1>
+<a href="#tidyxl-0-2-1" class="anchor"></a>tidyxl 0.2.1</h1>
 <ul>
 <li>Fixed a major bug: dates were parsed incorrectly because the offsets for the 1900 and 1904 systems were the wrong way around.</li>
 <li>Added a warning when dates suffer from the Excel off-by-one bug.</li>
@@ -132,7 +133,7 @@
 </div>
     <div id="tidyxl-0-2-0" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-2-0" class="anchor"> </a>tidyxl 0.2.0</h1>
+<a href="#tidyxl-0-2-0" class="anchor"></a>tidyxl 0.2.0</h1>
 <ul>
 <li>Breaking change: Look up style formats by style name (e.g. <code>"Normal"</code>) instead of by index integer. All the vectors under <code>x$formats$style</code> are named according to the style names. <code>x$data$sheet$style_format_id</code> has been renamed to <code>x$data$sheet$style_format</code> and its type changed from integer (index into style formats) to character (still an index, but looking up the named vectors by name). There are examples in the README and vignette.</li>
 <li>Simplified some variable names in the C++ code.</li>
@@ -140,7 +141,7 @@
 </div>
     <div id="tidyxl-0-1-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-1-1" class="anchor"> </a>tidyxl 0.1.1</h1>
+<a href="#tidyxl-0-1-1" class="anchor"></a>tidyxl 0.1.1</h1>
 <ul>
 <li>Fixed many compilation errors on Travis/AppVeyor/r-hub</li>
 <li>Many small non-breaking changes</li>
@@ -148,7 +149,7 @@
 </div>
     <div id="tidyxl-0-1-0" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-1-0" class="anchor"> </a>tidyxl 0.1.0</h1>
+<a href="#tidyxl-0-1-0" class="anchor"></a>tidyxl 0.1.0</h1>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 </ul>

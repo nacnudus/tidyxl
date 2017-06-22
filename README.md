@@ -44,18 +44,18 @@ The multi-row column headers make this difficult to import. A popular package fo
 ``` r
 titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
 readxl::read_excel(titanic)
-#> # A tibble: 10 × 7
+#> # A tibble: 10 x 7
 #>     X__1   X__2      Age Child  X__3 Adult  X__4
 #>    <chr>  <chr>    <chr> <chr> <chr> <chr> <chr>
-#> 1   <NA>   <NA> Survived    No   Yes    No   Yes
-#> 2  Class    Sex     <NA>  <NA>  <NA>  <NA>  <NA>
-#> 3    1st   Male     <NA>     0     5   118    57
-#> 4   <NA> Female     <NA>     0     1     4   140
-#> 5    2nd   Male     <NA>     0    11   154    14
-#> 6   <NA> Female     <NA>     0    13    13    80
-#> 7    3rd   Male     <NA>    35    13   387    75
-#> 8   <NA> Female     <NA>    17    14    89    76
-#> 9   Crew   Male     <NA>     0     0   670   192
+#>  1  <NA>   <NA> Survived    No   Yes    No   Yes
+#>  2 Class    Sex     <NA>  <NA>  <NA>  <NA>  <NA>
+#>  3   1st   Male     <NA>     0     5   118    57
+#>  4  <NA> Female     <NA>     0     1     4   140
+#>  5   2nd   Male     <NA>     0    11   154    14
+#>  6  <NA> Female     <NA>     0    13    13    80
+#>  7   3rd   Male     <NA>    35    13   387    75
+#>  8  <NA> Female     <NA>    17    14    89    76
+#>  9  Crew   Male     <NA>     0     0   670   192
 #> 10  <NA> Female     <NA>     0     0     3    20
 ```
 
@@ -93,22 +93,22 @@ In this structure, the cells can be found by filtering.
 
 ``` r
 x[x$data_type == "character", c("address", "character")]
-#> # A tibble: 22 × 2
+#> # A tibble: 22 x 2
 #>    address character
 #>      <chr>     <chr>
-#> 1       C1       Age
-#> 2       D1     Child
-#> 3       F1     Adult
-#> 4       C2  Survived
-#> 5       D2        No
-#> 6       E2       Yes
-#> 7       F2        No
-#> 8       G2       Yes
-#> 9       A3     Class
+#>  1      C1       Age
+#>  2      D1     Child
+#>  3      F1     Adult
+#>  4      C2  Survived
+#>  5      D2        No
+#>  6      E2       Yes
+#>  7      F2        No
+#>  8      G2       Yes
+#>  9      A3     Class
 #> 10      B3       Sex
 #> # ... with 12 more rows
 x[x$row == 4, c("address", "character", "numeric")]
-#> # A tibble: 6 × 3
+#> # A tibble: 6 x 3
 #>   address character numeric
 #>     <chr>     <chr>   <dbl>
 #> 1      A4       1st      NA
@@ -138,7 +138,7 @@ formats$local$font$bold
 #> [1] FALSE  TRUE FALSE FALSE
 x[x$local_format_id %in% which(formats$local$font$bold),
   c("address", "character")]
-#> # A tibble: 4 × 2
+#> # A tibble: 4 x 2
 #>   address character
 #>     <chr>     <chr>
 #> 1      C1       Age
@@ -152,7 +152,7 @@ formats$local$fill$patternFill$fgColor$rgb
 x[x$local_format_id %in%
   which(formats$local$fill$patternFill$fgColor$rgb == "FFFFFF00"),
   c("address", "numeric")]
-#> # A tibble: 2 × 2
+#> # A tibble: 2 x 2
 #>   address numeric
 #>     <chr>   <dbl>
 #> 1     F11       3
@@ -163,7 +163,7 @@ formats$style$font$name["Normal"]
 #>    Normal 
 #> "Calibri"
 head(x[x$style_format == "Normal", c("address", "character")])
-#> # A tibble: 6 × 2
+#> # A tibble: 6 x 2
 #>   address character
 #>     <chr>     <chr>
 #> 1      C1       Age
@@ -182,7 +182,7 @@ Comments are available alongside cell values.
 
 ``` r
 x[!is.na(x$comment), c("address", "comment")]
-#> # A tibble: 1 × 2
+#> # A tibble: 1 x 2
 #>   address                                                     comment
 #>     <chr>                                                       <chr>
 #> 1     G11 All women in the crew worked in the victualling department.
@@ -199,24 +199,24 @@ y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
-#> # A tibble: 15 × 10
+#> # A tibble: 15 x 10
 #>    address              formula formula_type formula_ref formula_group   error logical numeric       date     character
 #>      <chr>                <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
-#> 1       A1                  1/0         <NA>        <NA>            NA #DIV/0!      NA      NA       <NA>          <NA>
-#> 2      A14                  1=1         <NA>        <NA>            NA    <NA>    TRUE      NA       <NA>          <NA>
-#> 3      A15                 A4+1         <NA>        <NA>            NA    <NA>      NA    1338       <NA>          <NA>
-#> 4      A16      DATE(2017,1,18)         <NA>        <NA>            NA    <NA>      NA      NA 2017-01-18          <NA>
-#> 5      A17      "Hello, World!"         <NA>        <NA>            NA    <NA>      NA      NA       <NA> Hello, World!
-#> 6      A19                A18+1         <NA>        <NA>            NA    <NA>      NA       2       <NA>          <NA>
-#> 7      B19                A18+2         <NA>        <NA>            NA    <NA>      NA       3       <NA>          <NA>
-#> 8      A20                A19+1       shared     A20:A21             0    <NA>      NA       3       <NA>          <NA>
-#> 9      B20                A19+2       shared     B20:B21             1    <NA>      NA       4       <NA>          <NA>
-#> 10     A21                            shared        <NA>             0    <NA>      NA       4       <NA>          <NA>
-#> 11     B21                            shared        <NA>             1    <NA>      NA       5       <NA>          <NA>
-#> 12     A22 SUM(A19:A21*B19:B21)        array         A22            NA    <NA>      NA      38       <NA>          <NA>
-#> 13     A23      A19:A20*B19:B20        array     A23:A24            NA    <NA>      NA       6       <NA>          <NA>
-#> 14     A25       [1]Sheet1!$A$1         <NA>        <NA>            NA    <NA>      NA      NA       <NA>        normal
-#> 15     A94               50*10%         <NA>        <NA>            NA    <NA>      NA       5       <NA>          <NA>
+#>  1      A1                  1/0         <NA>        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
+#>  2     A14                  1=1         <NA>        <NA>            NA    <NA>    TRUE      NA         NA          <NA>
+#>  3     A15                 A4+1         <NA>        <NA>            NA    <NA>      NA    1338         NA          <NA>
+#>  4     A16      DATE(2017,1,18)         <NA>        <NA>            NA    <NA>      NA      NA 2017-01-18          <NA>
+#>  5     A17  "\"Hello, World!\""         <NA>        <NA>            NA    <NA>      NA      NA         NA Hello, World!
+#>  6     A19                A18+1         <NA>        <NA>            NA    <NA>      NA       2         NA          <NA>
+#>  7     B19                A18+2         <NA>        <NA>            NA    <NA>      NA       3         NA          <NA>
+#>  8     A20                A19+1       shared     A20:A21             0    <NA>      NA       3         NA          <NA>
+#>  9     B20                A19+2       shared     B20:B21             1    <NA>      NA       4         NA          <NA>
+#> 10     A21                            shared        <NA>             0    <NA>      NA       4         NA          <NA>
+#> 11     B21                            shared        <NA>             1    <NA>      NA       5         NA          <NA>
+#> 12     A22 SUM(A19:A21*B19:B21)        array         A22            NA    <NA>      NA      38         NA          <NA>
+#> 13     A23      A19:A20*B19:B20        array     A23:A24            NA    <NA>      NA       6         NA          <NA>
+#> 14     A25       [1]Sheet1!$A$1         <NA>        <NA>            NA    <NA>      NA      NA         NA        normal
+#> 15     A94               50*10%         <NA>        <NA>            NA    <NA>      NA       5         NA          <NA>
 ```
 
 The top five cells show that the results of formulas are available as usual in the columns `error`, `logical`, `numeric`, `date`, and `character`.
