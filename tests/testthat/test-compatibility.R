@@ -27,3 +27,8 @@ test_that("libreoffice 'true' and 'false' are interpreted as bool", {
   expect_equal(tidy_xlsx("libreoffice_bool.xlsx")$formats$local$font$bold,
                c(FALSE, TRUE))
 })
+
+test_that("libreoffice 'applyFill' defaults to true (it is never defined)", {
+  x <- tidy_xlsx("libreoffice-fill.xlsx")
+  expect_equal(x$formats$local$fill$patternFill$patternType[13], "solid")
+})
