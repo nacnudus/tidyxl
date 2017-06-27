@@ -5,6 +5,8 @@
 * Imports styles correctly from LibreOffice files (interprets 'true' and 'false'
   as booleans, as well as the 0 and 1 used by Microsoft Excel, and defaults to
   'true' when not present, e.g. applyFill)
+* Fixes a bug that caused some LibreOffice files to crash R, when styles were
+    declared with gaps in the sequence of xfIds.
 
 # tidyxl 0.2.1.9000
 
