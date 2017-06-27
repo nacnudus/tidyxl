@@ -32,3 +32,10 @@ test_that("libreoffice 'applyFill' defaults to true (it is never defined)", {
   x <- tidy_xlsx("libreoffice-fill.xlsx")
   expect_equal(x$formats$local$fill$patternFill$patternType[13], "solid")
 })
+
+test_that("Missing styles don't cause crashes", {
+  # The problem was that, if not all styles in a range e.g. 1:36, were present,
+  # the name lookup went beyond the bounds of an array.  It should look up a
+  # map instead.
+  expect_error(x <- tidy_xlsx("libreoffice-missing-styles.xlsx"), NA)
+})

@@ -325,20 +325,19 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* cellStyles = styleSheet->first_node("cellStyles");
   if (cellStyles != NULL) {
     // Get the names, which aren't necessarily in xf order
-    std::map<int, std::string> stylenames;
     int index;
     int max_index = 0;
     for (rapidxml::xml_node<>* cellStyle = cellStyles->first_node("cellStyle");
         cellStyle; cellStyle = cellStyle->next_sibling()) {
       index = strtol(cellStyle->first_attribute("xfId")->value(), NULL, 10);
-      stylenames[index] = cellStyle->first_attribute("name")->value();
+      cellStyles_map_[index] = cellStyle->first_attribute("name")->value();
       if (index > max_index) {
         max_index = index;
       }
     }
     // Sort them
-    for (std::map<int, std::string>::iterator i = stylenames.begin();
-        i != stylenames.end(); i++) {
+    for (std::map<int, std::string>::iterator i = cellStyles_map_.begin();
+        i != cellStyles_map_.end(); i++) {
       cellStyles_.push_back(i->second);
     }
   } else {

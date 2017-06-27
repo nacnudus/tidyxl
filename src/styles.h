@@ -25,7 +25,8 @@ class styles {
     std::vector<xf> cellXfs_;
 
     std::vector<xf> cellStyleXfs_;
-    Rcpp::CharacterVector cellStyles_; // names of cell styles, if available
+    Rcpp::CharacterVector cellStyles_; // names of cell styles, ordered by xfId
+    std::map<int, std::string> cellStyles_map_; // map of cell style names, for lookup by xfId
 
     Rcpp::CharacterVector numFmts_;
     Rcpp::LogicalVector isDate_;

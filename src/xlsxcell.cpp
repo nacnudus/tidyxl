@@ -92,7 +92,7 @@ void xlsxcell::cacheValue(
     svalue = 0;
   }
   sheet->local_format_id_[i] = svalue + 1;
-  sheet->style_format_[i] = book.styles_.cellStyles_[book.styles_.cellXfs_[svalue].xfId_[0]];
+  sheet->style_format_[i] = book.styles_.cellStyles_map_[book.styles_.cellXfs_[svalue].xfId_[0]];
 
   if (t != NULL && tvalue == "inlineStr") {
     sheet->data_type_[i] = "character";
