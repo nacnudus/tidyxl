@@ -14,8 +14,12 @@ test_that("can read document from google doc", {
   expect_error(tidy_xlsx("iris-google-doc.xlsx"), NA)
 })
 
-test_that("gives informative error for a JMP export", {
-  expect_error(tidy_xlsx("jmp.xlsx"), "Invalid cell: lacks 'r' attribute")
+test_that("gives informative error for a JMP export (row)", {
+  expect_error(tidy_xlsx("jmp-row.xlsx"), "Invalid row: lacks 'r' attribute")
+})
+
+test_that("gives informative error for a JMP export (cell)", {
+  expect_error(tidy_xlsx("jmp-cell.xlsx"), "Invalid cell: lacks 'r' attribute")
 })
 
 test_that("warns about default styles when no cellStyleXfs defined", {

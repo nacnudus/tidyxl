@@ -102,7 +102,9 @@
 <ul>
 <li>Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following <a href="https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb">readxl</a>).</li>
 <li>Fixes subsecond rounding (following <a href="https://github.com/tidyverse/readxl/commit/63ef215f57322dd5d7a27799a2a3fe463bd39fc7">readxl</a> (fixes #14))</li>
-<li>Imports styles correctly from LibreOffice files (interprets ‘true’ and ‘false’ as booleans, as well as the 0 and 1 used by Microsoft Excel)</li>
+<li>Imports styles correctly from LibreOffice files (interprets ‘true’ and ‘false’ as booleans, as well as the 0 and 1 used by Microsoft Excel, and defaults to ‘true’ when not present, e.g. applyFill)</li>
+<li>Fixes a bug that caused some LibreOffice files to crash R, when styles were declared with gaps in the sequence of xfIds.</li>
+<li>Imports comments attached to blank cells (fixes #10)</li>
 </ul>
 </div>
     <div id="tidyxl-0-2-1-9000" class="section level1">

@@ -7,6 +7,7 @@
   'true' when not present, e.g. applyFill)
 * Fixes a bug that caused some LibreOffice files to crash R, when styles were
     declared with gaps in the sequence of xfIds.
+* Imports comments attached to blank cells (fixes #10)
 
 # tidyxl 0.2.1.9000
 

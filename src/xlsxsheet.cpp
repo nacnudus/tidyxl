@@ -31,6 +31,7 @@ xlsxsheet::xlsxsheet(
   initializeColumns(sheetData);
   cacheComments(comments_path);
   parseSheetData(sheetData);
+  appendComments();
 }
 
 List& xlsxsheet::information() {
@@ -160,6 +161,9 @@ void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
 }
 
 void xlsxsheet::cacheComments(Rcpp::String comments_path) {
+  // Having constructed the map, they will each be deleted when they are matched
+  // to a cell.  That will leave only those comments that are on empty cells.
+  // Those are then appended as empty cells with comments.
   if (comments_path != NA_STRING) {
     std::string comments_file = zip_buffer(book_.path_, comments_path);
     rapidxml::xml_document<> xml;
@@ -183,28 +187,83 @@ void xlsxsheet::cacheComments(Rcpp::String comments_path) {
 void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
   // Iterate through rows and cells in sheetData.  Cell elements are children
   // of row elements.  Columns are described elswhere in cols->col.
-
-  unsigned long long int i = 0; // counter for checkUserInterrupt
+  rowHeights_.assign(1048576, defaultRowHeight_); // cache rowHeight while here
+  unsigned long int rowNumber;
+  i_ = 0; // counter for checkUserInterrupt
   for (rapidxml::xml_node<>* row = sheetData->first_node();
       row; row = row->next_sibling()) {
+    rapidxml::xml_attribute<>* r = row->first_attribute("r");
+    if (r == NULL)
+      stop("Invalid row: lacks 'r' attribute");
+    rowNumber = strtod(r->value(), NULL);
     // Check for custom row height
     double rowHeight = defaultRowHeight_;
     rapidxml::xml_attribute<>* ht = row->first_attribute("ht");
-    if (ht != NULL)
+    if (ht != NULL) {
       rowHeight = strtod(ht->value(), NULL);
+      rowHeights_[rowNumber - 1] = rowHeight;
+    }
 
     for (rapidxml::xml_node<>* c = row->first_node();
         c; c = c->next_sibling()) {
-      xlsxcell cell(c, this, book_, i);
+      xlsxcell cell(c, this, book_, i_);
 
       // Height and width aren't really determined by the cell, so they're done
       // in this sheet instance
-      height_[i] = rowHeight;
-      width_[i] = colWidths_[col_[i] - 1];
+      height_[i_] = rowHeight;
+      width_[i_] = colWidths_[col_[i_] - 1];
 
-      ++i;
-      if ((i + 1) % 1000 == 0)
+      ++i_;
+      if ((i_ + 1) % 1000 == 0)
         checkUserInterrupt();
     }
   }
 }
+
+void xlsxsheet::appendComments() {
+  // Having constructed the comments_ map, they are each be deleted when they
+  // are matched to a cell.  That leaves only those comments that are on empty
+  // cells.  This code appends those remaining comments as empty cells.
+  int col;
+  int row;
+  for(std::map<std::string, std::string>::iterator it = comments_.begin();
+      it != comments_.end(); ++it) {
+    ++i_;
+    // TODO: move address parsing to utils
+    std::string address = it->first.c_str(); // we need this std::string in a moment
+    // Iterate though the A1-style address string character by character
+    col = 0;
+    row = 0;
+    for(std::string::const_iterator iter = address.begin();
+        iter != address.end(); ++iter) {
+      if (*iter >= '0' && *iter <= '9') { // If it's a number
+        row = row * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
+      } else if (*iter >= 'A' && *iter <= 'Z') { // If it's a character
+        col = 26 * col + (*iter - 'A' + 1); // Then do similarly with columns
+      }
+    }
+    address_.push_back(address);
+    row_.push_back(row);
+    col_.push_back(col);
+    content_.push_back(NA_STRING);
+    formula_.push_back(NA_STRING);
+    formula_type_.push_back(NA_STRING);
+    formula_ref_.push_back(NA_STRING);
+    formula_group_.push_back(NA_INTEGER);
+    type_.push_back(NA_STRING);
+    data_type_.push_back("blank");
+    error_.push_back(NA_STRING);
+    logical_.push_back(NA_LOGICAL);
+    numeric_.push_back(NA_REAL);
+    date_.push_back(NA_REAL);
+    character_.push_back(NA_STRING);
+    comment_.push_back(it->second.c_str());
+    height_.push_back(rowHeights_[row - 1]);
+    width_.push_back(colWidths_[col - 1]);
+    style_format_.push_back("Normal");
+    local_format_id_.push_back(1);
+  }
+  // Iterate though the A1-style address string character by character
+
+}
+

@@ -11,9 +11,11 @@ class xlsxsheet {
 
     std::string name_;
 
+    unsigned long long int i_; // cell counter
     double defaultRowHeight_;
     double defaultColWidth_;
     std::vector<double> colWidths_;
+    std::vector<double> rowHeights_;
     xlsxbook& book_; // reference to parent workbook
     Rcpp::List information_; // Wrapper for variables returned to R
 
@@ -59,6 +61,7 @@ class xlsxsheet {
     void cacheComments(Rcpp::String comments_path);
     void initializeColumns(rapidxml::xml_node<>* sheetData);
     void parseSheetData(rapidxml::xml_node<>* sheetData);
+    void appendComments();
 
 };
 

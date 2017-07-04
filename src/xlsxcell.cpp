@@ -48,11 +48,12 @@ void xlsxcell::parseAddress(
   sheet->col_[i] = col;
   sheet->row_[i] = row;
 
-  // Look up any comment using the address
+  // Look up any comment using the address, and delete it if found
   std::map<std::string, std::string>& comments = sheet->comments_;
   std::map<std::string, std::string>::iterator it = comments.find(address);
   if(it != comments.end()) {
     SET_STRING_ELT(sheet->comment_, i, Rf_mkCharCE(it->second.c_str(), CE_UTF8));
+    comments.erase(it);
   }
 }
 
