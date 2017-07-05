@@ -19,7 +19,7 @@ test_that("1900 and 1904 dates are parsed correctly", {
   NA_POSIXct <- as.POSIXct(NA)
   attr(NA_POSIXct, "tzone") <- "UTC"
   expect_warning(expect_equal(tidy_xlsx("./1900-02-29.xlsx")$data$Sheet1$date[1], NA_POSIXct),
-                 "NA inserted for impossible 1900-02-29 datetime")
+                 "NA inserted for impossible 1900-02-29 datetime: 'Sheet1'!A1")
   expect_equal(tidy_xlsx("./openxlsx1900.xlsx")$data$Sheet1$date[2],
                as.POSIXct("1900-01-01", tz = "UTC"))
 })

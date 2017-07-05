@@ -31,14 +31,14 @@ void xlsxcell::parseAddress(
   if (r == NULL)
     stop("Invalid cell: lacks 'r' attribute");
 
-  std::string address = r->value(); // we need this std::string in a moment
-  sheet->address_[i] = address;
+  address_ = r->value(); // we need this std::string in a moment
+  sheet->address_[i] = address_;
 
   // Iterate though the A1-style address string character by character
   int col = 0;
   int row = 0;
-  for(std::string::const_iterator iter = address.begin();
-      iter != address.end(); ++iter) {
+  for(std::string::const_iterator iter = address_.begin();
+      iter != address_.end(); ++iter) {
     if (*iter >= '0' && *iter <= '9') { // If it's a number
       row = row * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
     } else if (*iter >= 'A' && *iter <= 'Z') { // If it's a character
@@ -50,7 +50,7 @@ void xlsxcell::parseAddress(
 
   // Look up any comment using the address, and delete it if found
   std::map<std::string, std::string>& comments = sheet->comments_;
-  std::map<std::string, std::string>::iterator it = comments.find(address);
+  std::map<std::string, std::string>::iterator it = comments.find(address_);
   if(it != comments.end()) {
     SET_STRING_ELT(sheet->comment_, i, Rf_mkCharCE(it->second.c_str(), CE_UTF8));
     comments.erase(it);
@@ -115,7 +115,8 @@ void xlsxcell::cacheValue(
         // local number format is a date format
         sheet->data_type_[i] = "date";
         double date = strtod(vvalue.c_str(), NULL);
-        sheet->date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_);
+        sheet->date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
+                                    ref(sheet->name_, address_));
         return;
       } else {
         sheet->data_type_[i] = "numeric";
@@ -131,7 +132,8 @@ void xlsxcell::cacheValue(
       // style number format is a date format
       sheet->data_type_[i] = "date";
       double date = strtod(vvalue.c_str(), NULL);
-      sheet->date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_);
+      sheet->date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
+                                  ref(sheet->name_, address_));
       return;
     } else {
       sheet->data_type_[i] = "numeric";

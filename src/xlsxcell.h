@@ -8,6 +8,8 @@
 
 class xlsxcell {
 
+  std::string address_;
+
   public:
 
     xlsxcell(

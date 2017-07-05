@@ -18,6 +18,10 @@ inline double dateRound(double date) {
   return ms / 10000;
 }
 
+inline std::string ref(std::string& sheet, std::string& cell) {
+  return "'" + sheet + "'!" + cell;
+}
+
 // Follow tidyverse/readxl
 // https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb
 // by correcting for Excel's faithful re-implementation of the Lotus 1-2-3 bug,
@@ -27,12 +31,12 @@ inline double dateRound(double date) {
 // How we address this: If date is *prior* to the non-existent leap day: add a
 // day If date is on the non-existent leap day: make negative and, in due
 // course, NA Otherwise: do nothing
-inline double checkDate(double& date, int& dateSystem, int& dateOffset) {
+inline double checkDate(double& date, int& dateSystem, int& dateOffset, std::string ref) {
   if (dateSystem == 1900 && date < 61) {
     date = (date < 60) ? date + 1 : -1;
   }
   if (date < 0) {
-    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime");
+    Rcpp::warning("NA inserted for impossible 1900-02-29 datetime: " + ref);
     return NA_REAL;
   } else {
     return dateRound((date - dateOffset) * 86400);

@@ -8,6 +8,8 @@
 * Fixes a bug that caused some LibreOffice files to crash R, when styles were
     declared with gaps in the sequence of xfIds.
 * Imports comments attached to blank cells (fixes #10)
+* Includes the sheet and cell address in warnings of impossible datetimes from
+    1900-02-29.
 
 # tidyxl 0.2.1.9000
 
