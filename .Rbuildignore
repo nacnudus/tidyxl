@@ -6,6 +6,7 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^tags$
+^temp$
 ^temp\.R$
 ^revdep$
 ^cran-comments\.md$
