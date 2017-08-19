@@ -4,6 +4,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "xlsxbook.h"
+#include "shared_formula.h"
 
 class xlsxsheet {
 
@@ -16,6 +17,7 @@ class xlsxsheet {
     double defaultColWidth_;
     std::vector<double> colWidths_;
     std::vector<double> rowHeights_;
+    std::map<int, shared_formula> shared_formulas_;
     xlsxbook& book_; // reference to parent workbook
     Rcpp::List information_; // Wrapper for variables returned to R
 

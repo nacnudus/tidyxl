@@ -34,19 +34,19 @@ void xlsxcell::parseAddress(
   address_ = r->value(); // we need this std::string in a moment
   sheet->address_[i] = address_;
 
+  col_ = 0;
+  row_ = 0;
   // Iterate though the A1-style address string character by character
-  int col = 0;
-  int row = 0;
   for(std::string::const_iterator iter = address_.begin();
       iter != address_.end(); ++iter) {
     if (*iter >= '0' && *iter <= '9') { // If it's a number
-      row = row * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
+      row_ = row_ * 10 + (*iter - '0'); // Then multiply existing row by 10 and add new number
     } else if (*iter >= 'A' && *iter <= 'Z') { // If it's a character
-      col = 26 * col + (*iter - 'A' + 1); // Then do similarly with columns
+      col_ = 26 * col_ + (*iter - 'A' + 1); // Then do similarly with columns
     }
   }
-  sheet->col_[i] = col;
-  sheet->row_[i] = row;
+  sheet->col_[i] = col_;
+  sheet->row_[i] = row_;
 
   // Look up any comment using the address, and delete it if found
   std::map<std::string, std::string>& comments = sheet->comments_;
@@ -179,8 +179,12 @@ void xlsxcell::cacheFormula(
   // TODO: Array formulas use the ref attribute for their range, and t to
   // state that they're 'array'.
   rapidxml::xml_node<>* f = cell->first_node("f");
+  std::string formula;
+  int si_number;
+  std::map<int, shared_formula>::iterator it;
   if (f != NULL) {
-    sheet->formula_[i] = f->value();
+    formula = f->value();
+    sheet->formula_[i] = formula;
     rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
     if (f_t != NULL) {
       sheet->formula_type_[i] = f_t->value();
@@ -195,7 +199,15 @@ void xlsxcell::cacheFormula(
     }
     rapidxml::xml_attribute<>* si = f->first_attribute("si");
     if (si != NULL) {
-      sheet->formula_group_[i] = strtol(si->value(), NULL, 10);
+      si_number = strtol(si->value(), NULL, 10);
+      sheet->formula_group_[i] = si_number;
+      if (formula.length() == 0) { // inherits definition
+        it = sheet->shared_formulas_.find(si_number);
+        sheet->formula_[i] = it->second.offset(row_, col_);
+      } else { // defines shared formula
+        shared_formula new_shared_formula(formula, row_, col_);
+        sheet->shared_formulas_.insert({si_number, new_shared_formula});
+      }
     } else {
       sheet->formula_group_[i] = NA_INTEGER;
     }

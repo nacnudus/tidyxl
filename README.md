@@ -199,35 +199,41 @@ y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
-#> # A tibble: 15 x 10
-#>    address              formula formula_type formula_ref formula_group   error logical numeric       date     character
-#>      <chr>                <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
-#>  1      A1                  1/0         <NA>        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
-#>  2     A14                  1=1         <NA>        <NA>            NA    <NA>    TRUE      NA         NA          <NA>
-#>  3     A15                 A4+1         <NA>        <NA>            NA    <NA>      NA    1338         NA          <NA>
-#>  4     A16      DATE(2017,1,18)         <NA>        <NA>            NA    <NA>      NA      NA 2017-01-18          <NA>
-#>  5     A17  "\"Hello, World!\""         <NA>        <NA>            NA    <NA>      NA      NA         NA Hello, World!
-#>  6     A19                A18+1         <NA>        <NA>            NA    <NA>      NA       2         NA          <NA>
-#>  7     B19                A18+2         <NA>        <NA>            NA    <NA>      NA       3         NA          <NA>
-#>  8     A20                A19+1       shared     A20:A21             0    <NA>      NA       3         NA          <NA>
-#>  9     B20                A19+2       shared     B20:B21             1    <NA>      NA       4         NA          <NA>
-#> 10     A21                            shared        <NA>             0    <NA>      NA       4         NA          <NA>
-#> 11     B21                            shared        <NA>             1    <NA>      NA       5         NA          <NA>
-#> 12     A22 SUM(A19:A21*B19:B21)        array         A22            NA    <NA>      NA      38         NA          <NA>
-#> 13     A23      A19:A20*B19:B20        array     A23:A24            NA    <NA>      NA       6         NA          <NA>
-#> 14     A25       [1]Sheet1!$A$1         <NA>        <NA>            NA    <NA>      NA      NA         NA        normal
-#> 15     A94               50*10%         <NA>        <NA>            NA    <NA>      NA       5         NA          <NA>
+#> # A tibble: 24 x 10
+#>    address             formula formula_type formula_ref formula_group   error logical numeric       date     character
+#>      <chr>               <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
+#>  1      A1                 1/0         <NA>        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
+#>  2     A14                 1=1         <NA>        <NA>            NA    <NA>    TRUE      NA         NA          <NA>
+#>  3     A15                A4+1         <NA>        <NA>            NA    <NA>      NA    1338         NA          <NA>
+#>  4     A16     DATE(2017,1,18)         <NA>        <NA>            NA    <NA>      NA      NA 2017-01-18          <NA>
+#>  5     A17 "\"Hello, World!\""         <NA>        <NA>            NA    <NA>      NA      NA         NA Hello, World!
+#>  6     A19             $A$18+1         <NA>        <NA>            NA    <NA>      NA       2         NA          <NA>
+#>  7     B19               A18+2         <NA>        <NA>            NA    <NA>      NA       3         NA          <NA>
+#>  8     A20             $A$18+1       shared     A20:A21             0    <NA>      NA       2         NA          <NA>
+#>  9     B20               A19+2       shared     B20:B21             1    <NA>      NA       4         NA          <NA>
+#> 10     A21             $A$18+1       shared        <NA>             0    <NA>      NA       2         NA          <NA>
+#> # ... with 14 more rows
 ```
 
 The top five cells show that the results of formulas are available as usual in the columns `error`, `logical`, `numeric`, `date`, and `character`.
 
-Cells `A20` and `A21` share a formula definition. The formula is given against cell `A20`, and assigned to `formula_group` `0`, which spans the cells given by the `formula_ref`, A20:A21. A spreadsheet application would infer that cell `A21` had the formula `A20+1`. Cells `B20` and `B21` are similar. The roadmap for [tidyxl](https://github.com/nacnudus/tidyxl) includes de-normalising shared formulas. If you can suggest how to tokenize Excel formulas, then please contact me.
+### Shared formulas
 
-Cell `A22` contains an array formula, which, in a spreadsheet application, would appear with curly braces `{SUM(A19:A21*B19:B21)}`. Cells `A23` and `A24` contain a single multi-cell array formula (single formula, multi-cell result), indicated by the `formula_ref`, but unlike cells `A20:A21` and `B20:B21`, the `formula` for A24 is NA rather than blank (`""`), and it doesn't have a `formula_group`.
+Cells `A20` and `A21` illustrate how formulas are normalised before being written to file, using the `formula_ref` and `formula_group` columns. When there is a group of cells whose formulas only differ by cell reference (e.g. "=A1+1", "=A2+1", "=A3+1", etc.), only one formula in each group is written to the file, so `tidyxl` infers what the formulas in the other cells in the group must be, from their relative positions.
+
+### Array formulas
+
+There are two kinds of array formulas: ones that compute over arrays, and ones whose output is an array (of cells).
+
+Both kinds are distinguished in spreadsheet programs by curly braces, e.g. `{SUM(A19:A21*B19:B21)}`. In `tidyxl`, the curly braces are ommitted (as they are from the file itself), and instead the `formula_type` column has the value `array`.
+
+The first kind (those that compute over arrays) is illustrated by cell `A22`.
+
+The second kind (those whose value is spread across an array of cells) is illustrated by cells `A23` and `A24`. The formula is only given in the top-left cell (`A23`), which is also the only cell that describes the range of cells containing the result, in the `formula-ref` column. The results themselves are stored in all relevant cells (`A23` and `A24`). Unlike shared formulas, there is no `formula_group` to associate the cells of an array formula's result. If you need to do identify those cells, use the [cellranger](https://github.com/rsheets/cellranger) package and the `formula_ref` column.
+
+### Formulas referring to other files
 
 Cell `A25` contains a formula that refers to another file. The `[1]` is an index into a table of files. The roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing such numbers.
-
-[tidyxl](https://github.com/nacnudus/tidyxl) imports the same table into a format suitable for non-tabular processing (see e.g. the [unpivotr](https://github.com/nacnudus/unpivotr) package in 'Similar projects' below).
 
 Philosophy
 ----------
@@ -267,8 +273,8 @@ The [rsheets](https://github.com/rsheets) project of several R packages is in th
 Roadmap
 -------
 
--   \[ \] Parse shared formulas and propagate to all associated cells.
 -   \[ \] Propagate array formulas to all associated cells.
+-   \[x\] Parse shared formulas and propagate to all associated cells.
 -   \[x\] Parse dates
 -   \[x\] Detect cell types (date, boolean, string, number)
 -   \[x\] Implement formatting import in C++ for speed.

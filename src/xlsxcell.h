@@ -9,6 +9,8 @@
 class xlsxcell {
 
   std::string address_;
+  int col_;
+  int row_;
 
   public:
 

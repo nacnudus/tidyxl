@@ -96,15 +96,24 @@
     </div>
 
     <div class="contents">
-    <div id="tidyxl-0-2-2-9000" class="section level1">
+    <div id="tidyxl-0-2-3-9000" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tidyxl-0-2-2-9000" class="anchor"></a>tidyxl 0.2.2.9000</h1>
+<a href="#tidyxl-0-2-3-9000" class="anchor"></a>tidyxl 0.2.3.9000</h1>
+<ul>
+<li>Propogates shared formulas, handling relative cell references (for details see issue #7). This introduces a dependency on <a href="https://cran.r-project.org/web/packages/piton/index.html">piton</a>, which wraps the <a href="https://github.com/taocpp/PEGTL">PEGTL</a> parser generator.</li>
+<li>Added a test that the cell with the highest address (XFD1048576) is parsed.</li>
+</ul>
+</div>
+    <div id="tidyxl-0-2-3" class="section level1">
+<h1 class="hasAnchor">
+<a href="#tidyxl-0-2-3" class="anchor"></a>tidyxl 0.2.3</h1>
 <ul>
 <li>Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following <a href="https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb">readxl</a>).</li>
 <li>Fixes subsecond rounding (following <a href="https://github.com/tidyverse/readxl/commit/63ef215f57322dd5d7a27799a2a3fe463bd39fc7">readxl</a> (fixes #14))</li>
 <li>Imports styles correctly from LibreOffice files (interprets ‘true’ and ‘false’ as booleans, as well as the 0 and 1 used by Microsoft Excel, and defaults to ‘true’ when not present, e.g. applyFill)</li>
 <li>Fixes a bug that caused some LibreOffice files to crash R, when styles were declared with gaps in the sequence of xfIds.</li>
 <li>Imports comments attached to blank cells (fixes #10)</li>
+<li>Includes the sheet and cell address in warnings of impossible datetimes from 1900-02-29.</li>
 </ul>
 </div>
     <div id="tidyxl-0-2-1-9000" class="section level1">
@@ -163,7 +172,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#tidyxl-0-2-2-9000">0.2.2.9000</a></li>
+        <li><a href="#tidyxl-0-2-3-9000">0.2.3.9000</a></li>
+        <li><a href="#tidyxl-0-2-3">0.2.3</a></li>
         <li><a href="#tidyxl-0-2-1-9000">0.2.1.9000</a></li>
         <li><a href="#tidyxl-0-2-1">0.2.1</a></li>
         <li><a href="#tidyxl-0-2-0">0.2.0</a></li>

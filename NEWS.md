@@ -1,5 +1,9 @@
 # tidyxl 0.2.3.9000
 
+* Propogates shared formulas, handling relative cell references (for details see
+    issue #7).  This introduces a dependency on
+    [piton](https://cran.r-project.org/web/packages/piton/index.html), which
+    wraps the [PEGTL](https://github.com/taocpp/PEGTL) parser generator.
 * Added a test that the cell with the highest address (XFD1048576) is parsed.
 
 # tidyxl 0.2.3

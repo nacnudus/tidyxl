@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // xlsx_read_
 List xlsx_read_(std::string path, CharacterVector sheet_paths, CharacterVector sheet_names, CharacterVector comments_paths);
-RcppExport SEXP tidyxl_xlsx_read_(SEXP pathSEXP, SEXP sheet_pathsSEXP, SEXP sheet_namesSEXP, SEXP comments_pathsSEXP) {
+RcppExport SEXP _tidyxl_xlsx_read_(SEXP pathSEXP, SEXP sheet_pathsSEXP, SEXP sheet_namesSEXP, SEXP comments_pathsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,7 +21,7 @@ END_RCPP
 }
 // xlsx_sheets_
 DataFrame xlsx_sheets_(std::string path);
-RcppExport SEXP tidyxl_xlsx_sheets_(SEXP pathSEXP) {
+RcppExport SEXP _tidyxl_xlsx_sheets_(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,8 +32,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"tidyxl_xlsx_read_", (DL_FUNC) &tidyxl_xlsx_read_, 4},
-    {"tidyxl_xlsx_sheets_", (DL_FUNC) &tidyxl_xlsx_sheets_, 1},
+    {"_tidyxl_xlsx_read_", (DL_FUNC) &_tidyxl_xlsx_read_, 4},
+    {"_tidyxl_xlsx_sheets_", (DL_FUNC) &_tidyxl_xlsx_sheets_, 1},
     {NULL, NULL, 0}
 };
 

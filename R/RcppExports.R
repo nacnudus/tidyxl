@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 xlsx_read_ <- function(path, sheet_paths, sheet_names, comments_paths) {
-    .Call('tidyxl_xlsx_read_', PACKAGE = 'tidyxl', path, sheet_paths, sheet_names, comments_paths)
+    .Call('_tidyxl_xlsx_read_', PACKAGE = 'tidyxl', path, sheet_paths, sheet_names, comments_paths)
 }
 
 xlsx_sheets_ <- function(path) {
-    .Call('tidyxl_xlsx_sheets_', PACKAGE = 'tidyxl', path)
+    .Call('_tidyxl_xlsx_sheets_', PACKAGE = 'tidyxl', path)
 }
 

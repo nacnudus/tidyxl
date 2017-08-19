@@ -19,8 +19,10 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-LinkingTo: Rcpp
-Imports: Rcpp
+LinkingTo: Rcpp,
+    piton
+Imports: Rcpp,
+    piton
 URL: https://github.com/nacnudus/tidyxl
 BugReports: https://github.com/nacnudus/tidyxl/issues
 RoxygenNote: 6.0.1.9000
