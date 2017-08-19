@@ -27,3 +27,6 @@ test_that("allows user interruptions", {
   expect_error(tidy_xlsx("./thousand.xlsx"), NA)
 })
 
+test_that("The highest cell address is parsed", {
+  expect_error(tidy_xlsx("./xfd1048576.xlsx"), NA)
+})

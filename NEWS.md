@@ -1,3 +1,7 @@
+# tidyxl 0.2.3.9000
+
+* Added a test that the cell with the highest address (XFD1048576) is parsed.
+
 # tidyxl 0.2.3
 
 * Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following [readxl](https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb)).
