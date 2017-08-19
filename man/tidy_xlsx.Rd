@@ -25,7 +25,7 @@ columns:
 \describe{
   \item{address}{The cell address in A1 notation.}
   \item{row}{The row number of a cell address (integer).}
-  \item{col}{The column numer of a cell address (integer).}
+  \item{col}{The column number of a cell address (integer).}
   \item{content}{The content of a cell before type inference (see
   'Details').}
   \item{formula}{The formula in a cell (see 'Details').}
@@ -86,7 +86,7 @@ this function.
 }
 \details{
 A cell has two 'values': its content, and sometimes also a formula.  It also
-has formatting applied at the 'style' level, which can be locally overriden.
+has formatting applied at the 'style' level, which can be locally overridden.
 
 \subsection{content}{
   Depending on the cell, the content may be a numeric value such as 365 or
@@ -103,7 +103,7 @@ has formatting applied at the 'style' level, which can be locally overriden.
   of the formula the last time it was evaluated.
 
   Certain groups of cells may share a formula that differs only by addresses
-  refered to in the formula; such groups are identified by an index, the
+  referred to in the formula; such groups are identified by an index, the
   'formula_group'.  The xlsx (Excel) file format only records the formula
   against one cell in any group.  It is planned for \code{tidy_xlsx} to parse
   such formulas and copy them to the other cells in a group, making the
