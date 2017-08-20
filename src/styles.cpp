@@ -330,7 +330,7 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
     for (rapidxml::xml_node<>* cellStyle = cellStyles->first_node("cellStyle");
         cellStyle; cellStyle = cellStyle->next_sibling()) {
       index = strtol(cellStyle->first_attribute("xfId")->value(), NULL, 10);
-      cellStyles_map_[index] = cellStyle->first_attribute("name")->value();
+      cellStyles_map_.insert({index, cellStyle->first_attribute("name")->value()});
       if (index > max_index) {
         max_index = index;
       }

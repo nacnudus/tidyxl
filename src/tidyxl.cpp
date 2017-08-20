@@ -93,8 +93,8 @@ DataFrame xlsx_sheets_(std::string path) {
     if (target.substr(0, 10) == "worksheets") { // Only store worksheets
       id = relationship->first_attribute("Id")->value();
       ids.push_back(id);
-      targets[id] = "xl/" + target;
-      comments[id] = comments_path_(path, target);
+      targets.insert({id, "xl/" + target}) ;
+      comments.insert({id, comments_path_(path, target)});
     }
   }
 
