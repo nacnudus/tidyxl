@@ -12,6 +12,13 @@ namespace xlref
 {
   // Three tokens: Ref (A1-style), Text, Other
 
+  // Generic rules
+  struct colon : one< ':' > {};
+  struct dollar: one< '$' > {};
+  struct comma: one< ',' > {};
+  struct openparen: one< '(' > {};
+  struct closeparen: one< ')' > {};
+
   // Text matches two QuoteD (") and anything between, i.e. character and
   // the surrounding pair of double-quotes.
   struct QuoteD : one< '"' > {};
@@ -21,20 +28,14 @@ namespace xlref
   {};
   struct Text : if_must< QuoteD, DoubleQuotedString, QuoteD > {};
 
-  // After attempting a Ref, consume sequences of ref-valid characters, or
-  // sequences of non-ref-valid characters ( not quoted strings), then try
-  // again.
-  struct Alnum : sor< ranges< 'a', 'z', 'A', 'Z', '0', '9' >,
-                      one< '$' > > {};
-  struct AlnumQuoteD : sor< ranges< 'a', 'z', 'A', 'Z', '0', '9' >,
-                            one< '$' >,
-                            one< '"' > > {};
-  struct NotAlnumQuoteD : if_then_else< at< AlnumQuoteD >, failure, any > {};
-  struct Other: sor< plus< Alnum >, plus< NotAlnumQuoteD > > {};
+  // After attempting a Ref, attempt a Text, otherwise consume everything up to
+  // the next dollar, comma or parentheses, which are characters that separate
+  // other tokens.
+  struct sep: sor< dollar, comma, openparen, closeparen > {};
+  struct notsep: if_then_else< at< sep >, failure, any > {};
+  struct notseps: plus< notsep > {};
+  struct Other: sor< sep, notseps > {};
   struct NotRef : sor< Text, Other > {};
-
-  struct dollar : one< '$' > {};
-  struct OptDollar : opt< dollar > {};
 
   struct RowToken : rep_min_max< 1, 7, digit > {};
 
@@ -45,6 +46,7 @@ namespace xlref
                             range< 'E', 'Z' > > {};
   struct ColToken : seq< not_at< BadColToken >, MaybeColToken > {};
 
+  struct OptDollar : opt< dollar > {};
   struct OptRowToken : seq< OptDollar, RowToken > {};
   struct OptColToken : seq< OptDollar, ColToken > {};
 
@@ -53,7 +55,6 @@ namespace xlref
   // A1
   // A1:A2
   // 1:1
-  struct colon : one< ':' > {};
   struct Ref :
     seq< OptDollar,
          sor< seq< ColToken,
@@ -66,8 +67,8 @@ namespace xlref
               seq< RowToken,
                    colon,
                    OptRowToken > >,
-         not_at< Alnum >,                                        // not e.g. A1A
-         not_at< one< '(' > > > {};                              // not e.g. LOG10()
+         not_at< alnum >,                                        // not e.g. A1A
+         not_at< openparen > > {};                              // not e.g. LOG10()
 
   // Overall parsing rule
   struct root : seq< opt< Ref >,
