@@ -3,7 +3,6 @@
 #ifndef REF_GRAMMAR_
 #define REF_GRAMMAR_
 
-#include <Rcpp.h>
 #include <pegtl.hpp>
 #include "ref.h"
 
