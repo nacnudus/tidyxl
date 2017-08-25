@@ -21,10 +21,14 @@ namespace xlref
   {};
   struct Text : if_must< QuoteD, DoubleQuotedString, QuoteD > {};
 
-  // After attempting a Ref, consume sequences of letters, or sequences of
-  // punctuation, then try again.
-  struct Alnum : ranges< 'a', 'z', 'A', 'Z', '0', '9' > {};
-  struct AlnumQuoteD : ranges< 'a', 'z', 'A', 'Z', '0', '9', '"' > {};
+  // After attempting a Ref, consume sequences of ref-valid characters, or
+  // sequences of non-ref-valid characters ( not quoted strings), then try
+  // again.
+  struct Alnum : sor< ranges< 'a', 'z', 'A', 'Z', '0', '9' >,
+                      one< '$' > > {};
+  struct AlnumQuoteD : sor< ranges< 'a', 'z', 'A', 'Z', '0', '9' >,
+                            one< '$' >,
+                            one< '"' > > {};
   struct NotAlnumQuoteD : if_then_else< at< AlnumQuoteD >, failure, any > {};
   struct Other: sor< plus< Alnum >, plus< NotAlnumQuoteD > > {};
   struct NotRef : sor< Text, Other > {};

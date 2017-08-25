@@ -7,5 +7,7 @@ test_that("Shared formulas are propogated correctly", {
   expect_equal(formulas[195], "C3&\"C1\"\"\"")
   expect_equal(formulas[199], "LOG12")
   expect_equal(formulas[203], "LOG10(1)")
+  formulas <- tidyxl::tidy_xlsx("./formulas.xlsx")$data[[1]]$formula
+  expect_equal(formulas[3], "N($A2)")
 })
 
