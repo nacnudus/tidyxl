@@ -15,6 +15,10 @@ namespace xlref
   // Generic rules
   struct colon : one< ':' > {};
   struct dollar: one< '$' > {};
+  struct dot : one< '.' > {};
+  struct underscore : one< '_' > {};
+  struct backslash : one< '\\' > {};
+  struct question : one< '?' > {};
   struct comma: one< ',' > {};
   struct openparen: one< '(' > {};
   struct closeparen: one< ')' > {};
@@ -61,6 +65,16 @@ namespace xlref
   struct OptRowToken : seq< OptDollar, RowToken > {};
   struct OptColToken : seq< OptDollar, ColToken > {};
 
+  // Name as in named formula, as well as worksheet names
+  // Start with a letter or underscore, continue with word character (letters,
+  // numbers and underscore), dot or question mark
+  // * first character: [\p{L}\\_]
+  // * subsequent characters: [\w\\_\.\?]
+  struct NameStartCharacter : sor< alpha, underscore, backslash > {};
+  struct NameValidCharacter
+    : sor< NameStartCharacter, digit, dot, question >
+  {};
+
   // Attempt to match addresses in this order
   // A:A
   // A1
@@ -78,8 +92,9 @@ namespace xlref
               seq< RowToken,
                    colon,
                    OptRowToken > >,
-         not_at< alnum >,                                        // not e.g. A1A
-         not_at< openparen > > {};                              // not e.g. LOG10()
+         not_at< sor< NameValidCharacter,        // not e.g. A1A or E09904.2!A1
+                      disable< openparen > > > > // not e.g. LOG10()
+  {};
 
   // Overall parsing rule
   struct root : seq< opt< Ref >,
