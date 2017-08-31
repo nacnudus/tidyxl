@@ -9,7 +9,7 @@ shared_formula::shared_formula(
     int& col
     ): text_(text), row_(row), col_(col) {
   memory_input<> in_mem(text_, "original-formula");
-  parse< xlref::root, xlref::tokenize >( in_mem, types_, tokens_, refs_);
+  parse< xlref::root, xlref::tokenize >(in_mem, types_, tokens_, refs_);
 }
 
 std::string shared_formula::offset(int& row, int& col) const {
