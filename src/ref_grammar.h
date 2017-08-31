@@ -53,7 +53,8 @@ namespace xlref
   struct MaybeColToken : rep_min_max< 1, 3, upper > {};
   struct BadColToken : seq< range< 'X', 'Z' >,
                             range< 'F', 'Z' >,
-                            range< 'E', 'Z' > > {};
+                            range< 'E', 'Z' > >
+  {};
   struct ColToken : seq< not_at< BadColToken >, MaybeColToken > {};
 
   struct OptDollar : opt< dollar > {};
