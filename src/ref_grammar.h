@@ -26,7 +26,7 @@ namespace xlref
   struct DoubleQuotedString : star< sor< seq< QuoteD, QuoteD >,
                                          NotQuoteD > >
   {};
-  struct Text : if_must< QuoteD, DoubleQuotedString, QuoteD > {};
+  struct Text : seq< QuoteD, DoubleQuotedString, QuoteD > {};
 
   // After attempting a Ref, attempt a Text, otherwise consume everything up to
   // the next dollar, comma or parentheses, which are characters that separate
