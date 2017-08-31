@@ -37,7 +37,17 @@ namespace xlref
   struct Other: sor< sep, notseps > {};
   struct NotRef : sor< Text, Other > {};
 
-  struct RowToken : rep_min_max< 1, 7, digit > {};
+  // Anything above 1048576 is not a valid column
+  struct MaybeRowToken : rep_min_max< 1, 7, digit > {};
+  struct BadRowToken : seq< range< '1', '9' >,
+                            range< '0', '9' >,
+                            range< '4', '9' >,
+                            range< '8', '9' >,
+                            range< '5', '9' >,
+                            range< '7', '9' >,
+                            range< '7', '9' > >
+  {};
+  struct RowToken : seq< not_at< BadRowToken >, MaybeRowToken > {};
 
   // Anything above XFD is not a valid column
   struct MaybeColToken : rep_min_max< 1, 3, upper > {};
