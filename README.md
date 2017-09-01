@@ -7,6 +7,8 @@ tidyxl
 
 [tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular data from Excel files into R. It exposes cell content, position, formatting and comments in a tidy structure for further manipulation, especially by the [unpivotr](https://github.com/nacnudus/unpivotr) package. It supports the xml-based file formats '.xlsx' and '.xlsm' via the embedded [RapidXML](http://rapidxml.sourceforge.net) C++ library. It does not support the binary file formats '.xlsb' or '.xls'.
 
+It also provides a function `xlex()` for tokenizing formulas. See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for details. It is useful for detecting 'spreadsheet smells' (poor practice such as embedding constants in formulas, or using deep levels of nesting), and for understanding the dependency structures within spreadsheets.
+
 Mailing list
 ------------
 
@@ -235,6 +237,30 @@ The second kind (those whose value is spread across an array of cells) is illust
 
 Cell `A25` contains a formula that refers to another file. The `[1]` is an index into a table of files. The roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing such numbers.
 
+Tokenizing formulas
+-------------------
+
+The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula.
+
+``` r
+xlex("MAX(3,MIN(2,4)")
+#> # A tibble: 10 x 3
+#>    level      type token
+#>    <int>     <chr> <chr>
+#>  1     0  function   MAX
+#>  2     0  fun_open     (
+#>  3     1    number     3
+#>  4     1 separator     ,
+#>  5     1  function   MIN
+#>  6     1  fun_open     (
+#>  7     2    number     2
+#>  8     2 separator     ,
+#>  9     2    number     4
+#> 10     1 fun_close     )
+```
+
+See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for more examples and details.
+
 Philosophy
 ----------
 
@@ -274,6 +300,7 @@ Roadmap
 -------
 
 -   \[ \] Propagate array formulas to all associated cells.
+-   \[x\] Create a general formula tokenizer.
 -   \[x\] Parse shared formulas and propagate to all associated cells.
 -   \[x\] Parse dates
 -   \[x\] Detect cell types (date, boolean, string, number)

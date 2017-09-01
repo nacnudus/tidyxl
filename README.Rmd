@@ -27,6 +27,12 @@ supports the xml-based file formats '.xlsx' and '.xlsm' via the embedded
 [RapidXML](http://rapidxml.sourceforge.net) C++ library.  It does not support
 the binary file formats '.xlsb' or '.xls'.
 
+It also provides a function `xlex()` for tokenizing formulas.  See the
+[vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
+details.  It is useful for detecting 'spreadsheet smells' (poor practice such as
+embedding constants in formulas, or using deep levels of nesting), and for
+understanding the dependency structures within spreadsheets.
+
 ## Mailing list
 
 For bugs and/or issues, create a new issue on
@@ -176,6 +182,18 @@ index into a table of files.  The roadmap
 [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing
 such numbers.
 
+## Tokenizing formulas
+
+The function `xlex()` separates formulas into tokens of different types, and
+gives their depth within a nested formula.
+
+```{r}
+xlex("MAX(3,MIN(2,4)")
+```
+
+See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
+more examples and details.
+
 ## Philosophy
 
 Information in in many spreadsheets cannot be easily imported into R.  Why?
@@ -247,6 +265,7 @@ philosophy.
 ## Roadmap
 
 - [ ] Propagate array formulas to all associated cells.
+- [x] Create a general formula tokenizer.
 - [x] Parse shared formulas and propagate to all associated cells.
 - [x] Parse dates
 - [x] Detect cell types (date, boolean, string, number)

@@ -76,6 +76,7 @@
 <a href="#tidyxl" class="anchor"></a>tidyxl</h1></div>
 
 <p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> imports non-tabular data from Excel files into R. It exposes cell content, position, formatting and comments in a tidy structure for further manipulation, especially by the <a href="https://github.com/nacnudus/unpivotr">unpivotr</a> package. It supports the xml-based file formats ‘.xlsx’ and ‘.xlsm’ via the embedded <a href="http://rapidxml.sourceforge.net">RapidXML</a> C++ library. It does not support the binary file formats ‘.xlsb’ or ‘.xls’.</p>
+<p>It also provides a function <code><a href="reference/xlex.html">xlex()</a></code> for tokenizing formulas. See the <a href="file:///home/nacnudus/R/tidyxl/docs/articles/smells.html">vignette</a> for details. It is useful for detecting ‘spreadsheet smells’ (poor practice such as embedding constants in formulas, or using deep levels of nesting), and for understanding the dependency structures within spreadsheets.</p>
 <div id="mailing-list" class="section level2">
 <h2 class="hasAnchor">
 <a href="#mailing-list" class="anchor"></a>Mailing list</h2>
@@ -279,6 +280,26 @@ y[<span class="op">!</span><span class="kw">is.na</span>(y<span class="op">$</sp
 <p>Cell <code>A25</code> contains a formula that refers to another file. The <code>[1]</code> is an index into a table of files. The roadmap <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> for tidyxl includes de-referencing such numbers.</p>
 </div>
 </div>
+<div id="tokenizing-formulas" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tokenizing-formulas" class="anchor"></a>Tokenizing formulas</h2>
+<p>The function <code><a href="reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/xlex.html">xlex</a></span>(<span class="st">"MAX(3,MIN(2,4)"</span>)
+<span class="co">#&gt; # A tibble: 10 x 3</span>
+<span class="co">#&gt;    level      type token</span>
+<span class="co">#&gt;    &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1     0  function   MAX</span>
+<span class="co">#&gt;  2     0  fun_open     (</span>
+<span class="co">#&gt;  3     1    number     3</span>
+<span class="co">#&gt;  4     1 separator     ,</span>
+<span class="co">#&gt;  5     1  function   MIN</span>
+<span class="co">#&gt;  6     1  fun_open     (</span>
+<span class="co">#&gt;  7     2    number     2</span>
+<span class="co">#&gt;  8     2 separator     ,</span>
+<span class="co">#&gt;  9     2    number     4</span>
+<span class="co">#&gt; 10     1 fun_close     )</span></code></pre></div>
+<p>See the <a href="file:///home/nacnudus/R/tidyxl/docs/articles/smells.html">vignette</a> for more examples and details.</p>
+</div>
 <div id="philosophy" class="section level2">
 <h2 class="hasAnchor">
 <a href="#philosophy" class="anchor"></a>Philosophy</h2>
@@ -315,6 +336,7 @@ y[<span class="op">!</span><span class="kw">is.na</span>(y<span class="op">$</sp
 <a href="#roadmap" class="anchor"></a>Roadmap</h2>
 <ul>
 <li>[ ] Propagate array formulas to all associated cells.</li>
+<li>[x] Create a general formula tokenizer.</li>
 <li>[x] Parse shared formulas and propagate to all associated cells.</li>
 <li>[x] Parse dates</li>
 <li>[x] Detect cell types (date, boolean, string, number)</li>
