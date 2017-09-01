@@ -9,3 +9,7 @@ xlsx_sheets_ <- function(path) {
     .Call('_tidyxl_xlsx_sheets_', PACKAGE = 'tidyxl', path)
 }
 
+xlex_ <- function(x) {
+    .Call('_tidyxl_xlex_', PACKAGE = 'tidyxl', x)
+}
+

@@ -1,0 +1,187 @@
+---
+title: "Detecting Spreadsheet Smells with xlex()"
+author: "Duncan Garmonsway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Detecting Spreadsheet Smells with xlex()}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The `xlex()` function separates an Excel formula into words, or 'tokens'.  Its
+name is a bad pun on 'Excel' and 'lexer'.
+
+This is useful for detecting spreadsheet smells, which are poor practices in
+spreadsheet design, such as deep nests of functions, or embedding
+constants in formulas.
+
+## Detecting constants inside formulas
+
+A smelly spreadsheet is distributed with the `tidyxl` package.  It comes from
+the famous Enron subpoena, made available by [Felienne
+Hermans](http://www.felienne.com/archives/3634).
+
+How does it look at a glance?  Here's a screenshot of part of one sheet, showing
+the formulas rather than the cell values.  It's a financial plan, using formulas
+to forecast the rest of the year, and the plan for the following year.
+
+```{r, out.width = "850px", include = FALSE}
+knitr::include_graphics("enron-constants.png")
+```
+
+What we want to see is whether the formulas have any embedded constants; ones
+that are hidden from our attention, but that are driving the forecasts.  While
+we could read each formula, one by one, it would be a lot easier to visualise
+the ones containing constants.  We can do this with `xlex()` and a graph
+plotting library like `ggplot2`.
+
+The first step, after importing the spreadsheet, is to tokenize the formulas,
+using `xlsx()`.  Let's tokenize one formula to see what it looks like.
+
+### One formula
+
+```{r}
+library(tidyxl)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(ggplot2)
+
+# The original filename was "barry_tycholiz__848__2002 Plan Worksheet CC107322.xlsx"
+sheet <- tidy_xlsx(system.file("extdata/enron-constants.xlsx",
+                               package = "tidyxl"),
+                   "Detail Breakdown")$data[[1]]
+sheet$formula[22]
+xlex(sheet$formula[22])
+```
+
+The formula is `(C8/7)*12-48000`, and `xlex()` separates it into its components.
+There are the parentheses, the operators (division, multiplication,
+subtraction), a reference to another cell (`C8`), and a few numeric constants:
+7, 12, and 48000.  What could they be?
+
+The 7 is probably the 7th month, July, because of the column header "July YTD".
+A year-to-date figure is being divided by 7, then multiplied by 12 to forecast
+the year-end figure.  The 48000 is more mysterious -- perhaps a future payment
+is expected.
+
+Embedding these constants inside a formula is bad practice.  Better practice
+would be to put the constants into their own cells, where they could be
+annotated with their meaning, and perhaps even named.  Then formulas could refer
+to them, by name, e.g.
+
+```
+(Compensation/MonthsToDate)*12Months-FuturePayments
+```
+
+### Many formulas
+
+The `xlex()` function isn't vectorized (because it returns a data frame), so we
+map it over each of the formulas to create a 'nest' column of individual data
+frames.
+
+```{r}
+tokens <-
+  sheet %>%
+  filter(!is.na(formula)) %>%
+  select(row, col, formula) %>%
+  mutate(tokens = map(formula, xlex)) %>%
+  select(-formula)
+tokens
+```
+
+Then we can unnest the data frames and filter for tokens that are constants, to
+find out which cells have constants in their formulas.
+
+```{r}
+constants <-
+  tokens %>%
+  unnest(tokens) %>%
+  filter(type %in% c("error", "bool", "number", "text"))
+constants
+```
+
+Which constants are most common?  Unsurprisingly, 12 and 7 are almost equally
+abundant, but there are also lots of 6s and 9s -- two- and three-quarterly
+figures?  Then there are some 150000s and the familiar 48000s, followed by some
+fractions that look like percentages, and then several one-offs.
+
+```{r}
+constants %>%
+  count(token, sort = TRUE) %>%
+  print(n = Inf)
+```
+
+### Visualising constants
+
+A final step is to visualize the spreadsheet, highlighting cells that hide
+constants in their formulas.  We already have a data frame of cells with
+constants, so we join it back to the full dataset, and pass the result into
+`ggplot`.
+
+This time there doesn't seem to be any particular pattern, which is perhaps
+suspicious in itself.
+
+```{r}
+has_constants <-
+  constants %>%
+  distinct(row, col) %>%
+  mutate(has_constant = TRUE) %>%
+  right_join(sheet, by = c("row", "col")) %>%
+  filter(!is.na(content)) %>%
+  select(row, col, has_constant) %>%
+  replace_na(list(has_constant = FALSE))
+has_constants
+
+has_constants %>%
+  # filter(row <= 28) %>%
+  ggplot(aes(col, row, fill = has_constant)) +
+  geom_tile() +
+  scale_y_reverse() +
+  theme(legend.position = "top")
+```
+
+## Detecting deeply nested formulas
+
+Using the same techniques as for detecting constants, we map `xlex()` over the
+formulas in a spreadsheet, unnest the result, and filter for tokens with
+particular properties.  In this case, we are interested in the `level` of each
+token, which tells how deeply a token is nested in other functions and
+expressions.
+
+This time, we use another spreadsheet from the Enron corpus.  First, an
+illustration.  Notice that inside the first function, the level increases to 1.
+Inside the second function, the level increases to 2.
+
+```{r}
+xlex("MAX(3,MIN(2,4))")
+```
+
+Now let's apply the same test to all the formulas in a sheet.  The deepest level
+of nesting turns out to be 7, and is seen in all the cells in row 171.
+
+```{r}
+# The original filename was "albert_meyers__1__1-25act.xlsx"
+sheet <- tidy_xlsx(system.file("extdata/enron-nested.xlsx",
+                               package = "tidyxl"),
+                   "Preschedule")$data[[1]]
+
+deepest <-
+  sheet %>%
+    filter(!is.na(formula)) %>%
+    mutate(tokens = map(formula, xlex)) %>%
+    select(row, col, tokens) %>%
+    unnest(tokens) %>%
+    filter(level == max(level)) %>%
+    distinct(row, col, level)
+deepest
+```
+
+Do you wonder what those formulas look like?
+
+```{r}
+sheet %>%
+  filter(row == 171, col == 2) %>%
+  pull(formula) # Aaaaaaaaaaarghhhhhhhh!
+```

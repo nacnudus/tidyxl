@@ -1,5 +1,8 @@
 # tidyxl 0.2.3.9000
 
+* Added a function `xlex()` to tokenize formulas.  It comes with a vignette,
+    `vignette("smells", package = "tidyxl")` using `xlex()` to detect
+    spreadsheet smells like embedded constants and deep nesting.
 * Propogates shared formulas, handling relative cell references (for details see
     issue #7).  This introduces a dependency on
     [piton](https://cran.r-project.org/web/packages/piton/index.html), which

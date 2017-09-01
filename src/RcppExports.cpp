@@ -30,10 +30,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// xlex_
+Rcpp::List xlex_(Rcpp::CharacterVector x);
+RcppExport SEXP _tidyxl_xlex_(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlex_(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tidyxl_xlsx_read_", (DL_FUNC) &_tidyxl_xlsx_read_, 4},
     {"_tidyxl_xlsx_sheets_", (DL_FUNC) &_tidyxl_xlsx_sheets_, 1},
+    {"_tidyxl_xlex_", (DL_FUNC) &_tidyxl_xlex_, 1},
     {NULL, NULL, 0}
 };
 
