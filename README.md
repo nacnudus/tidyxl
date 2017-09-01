@@ -237,8 +237,7 @@ The second kind (those whose value is spread across an array of cells) is illust
 
 Cell `A25` contains a formula that refers to another file. The `[1]` is an index into a table of files. The roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing such numbers.
 
-Tokenizing formulas
--------------------
+### Tokenizing formulas
 
 The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula.
 

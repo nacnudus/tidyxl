@@ -182,7 +182,7 @@ index into a table of files.  The roadmap
 [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing
 such numbers.
 
-## Tokenizing formulas
+### Tokenizing formulas
 
 The function `xlex()` separates formulas into tokens of different types, and
 gives their depth within a nested formula.
