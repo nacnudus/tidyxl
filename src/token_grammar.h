@@ -40,7 +40,7 @@ namespace xltoken
   struct divop : one< '/' > {};
   struct expop : one< '^' > {};
   struct concatop : one< '&' > {};
-  struct intersectop : disable < space > {};
+  struct intersectop : one< ' ' > {};
   struct rangeop : one< ':' > {};
   struct percentop : one< '%' > {};
   struct gtop : one< '>' > {};
@@ -275,13 +275,10 @@ namespace xltoken
                       disable< openparen > > > > // not e.g. LOG10()
   {};
 
-  // Overall parsing rule.  The star< space > is to ignore meaningless spaces.
-  struct root : seq< star< space >,
-                     opt< Ref >,
-                     star< space >,
-                     star< seq< NotRef, star< space > >,
-                           opt< seq< Ref, star< space > > > >,
-                     star< space > > {};
+  // Overall parsing rule.
+  struct root : seq< opt< Ref >,
+                     star< seq< NotRef,
+                           opt< Ref > > > > {};
 
   // Class template for user-defined actions that does
   // nothing by default.
@@ -612,22 +609,6 @@ namespace xltoken
       {
         levels.push_back(level);
         types.push_back("operator");
-        tokens.push_back(in.string());
-      }
-  };
-
-  template<> struct tokenize< space >
-  {
-    template< typename Input >
-      static void apply( const Input & in,
-                         int & level,
-                         std::vector<int> & levels,
-                         std::vector<paren_type> & fun_paren,
-                         std::vector<std::string> & types,
-                         std::vector<std::string> & tokens)
-      {
-        levels.push_back(level);
-        types.push_back("space");
         tokens.push_back(in.string());
       }
   };

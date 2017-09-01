@@ -176,6 +176,8 @@ xlex("1<=2")
 xlex("1<2")
 xlex("1=2")
 xlex("1&2")
+xlex("1 2")
+xlex("(1,2)")
 xlex("1\%")   # postfix operator
 
 # The union operator is a comma ',', which is the same symbol that is used

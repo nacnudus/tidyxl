@@ -435,7 +435,19 @@ reproducible example (e.g. using the reprex package).</p>
 #&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
 #&gt; 1     0   number     1
 #&gt; 2     0 operator     &amp;
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1%"</span>)   <span class='co'># postfix operator</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
+#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1 2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   level     type token
+#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
+#&gt; 1     0   number     1
+#&gt; 2     0 operator      
+#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"(1,2)"</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 3
+#&gt;   level        type token
+#&gt;   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
+#&gt; 1     0  paren_open     (
+#&gt; 2     1      number     1
+#&gt; 3     1    operator     ,
+#&gt; 4     1      number     2
+#&gt; 5     0 paren_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1%"</span>)   <span class='co'># postfix operator</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;   level     type token
 #&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
 #&gt; 1     0   number     1
@@ -604,14 +616,14 @@ reproducible example (e.g. using the reprex package).</p>
 <span class='fu'>xlex</span>(<span class='st'>" MAX( A1 ) "</span>)</div><div class='output co'>#&gt; # A tibble: 8 x 3
 #&gt;   level      type token
 #&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0     space      
+#&gt; 1     0  operator      
 #&gt; 2     0  function   MAX
 #&gt; 3     0  fun_open     (
-#&gt; 4     1     space      
+#&gt; 4     1  operator      
 #&gt; 5     1       ref    A1
-#&gt; 6     1     space      
+#&gt; 6     1  operator      
 #&gt; 7     0 fun_close     )
-#&gt; 8     0     space      </div></pre>
+#&gt; 8     0  operator      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

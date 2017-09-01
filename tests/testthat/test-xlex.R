@@ -214,6 +214,7 @@ test_that("multi-char operators are treated as single tokens", {
   expect_equal(xlex("1<2")$token[2],  "<")
   expect_equal(xlex("1=2")$token[2],  "=")
   expect_equal(xlex("1&2")$token[2],  "&")
+  expect_equal(xlex("1 2")$token[2],  " ")
   expect_equal(xlex("1%")$token[2],   "%")
 })
 
@@ -334,19 +335,6 @@ test_that("whole dynamic data exchange calls are returned in a single token", {
   expect_equal(xlex("'Quote'|'NYSE'!ZAXX"),
                tribble(~level, ~type,                ~token,
                            0L, "DDE", "'Quote'|'NYSE'!ZAXX"))
-})
-
-test_that("meaningless spaces are tagged as 'space'", {
-  expect_equal(xlex(" MAX( A1 ) "),
-                tribble(~level,       ~type, ~token,
-                            0L,     "space",    " ",
-                            0L,  "function",  "MAX",
-                            0L,  "fun_open",    "(",
-                            1L,     "space",    " ",
-                            1L,       "ref",   "A1",
-                            1L,     "space",    " ",
-                            0L, "fun_close",    ")",
-                            0L,     "space",    " "))
 })
 
 test_that("argument type and length is enforced", {
