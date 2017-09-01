@@ -28,5 +28,9 @@ RoxygenNote: 6.0.1.9000
 Suggests: testthat,
     knitr,
     rmarkdown,
-    readxl
+    readxl,
+    dplyr,
+    tidyr,
+    purrr,
+    ggplot2
 VignetteBuilder: knitr
