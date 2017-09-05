@@ -4,11 +4,12 @@
 \name{excel_functions}
 \alias{excel_functions}
 \title{Names of all Excel functions}
-\format{A character vector of length 483.}
+\format{A character vector of length 600.}
 \source{
 Pages 26--27 of Microsoft's document "Excel (.xlsx) extensions to the
 office openxml spreadsheetml file format p.24"
-\url{https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx}
+\url{https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx},
+revision 8.0 2017-06-20.
 }
 \usage{
 excel_functions
@@ -17,5 +18,8 @@ excel_functions
 A dataset containing the names of all functions available in Excel.  This is
 useful for identifying user-defined functions in formulas tokenized by
 \code{\link[=xlex]{xlex()}}.
+}
+\details{
+Note that this includes future function names that are already reserved.
 }
 \keyword{datasets}
