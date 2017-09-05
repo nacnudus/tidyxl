@@ -28,6 +28,10 @@ r_binary_packages:
   - purrr
   - ggplot2
   - igraph
+  - units
+  - ggrepel
+  - gridextra
+  - viridis
   - shiny
 
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
