@@ -17,7 +17,17 @@ r:
 
 cache: packages
 
-r_packages: covr
+r_binary_packages:
+  - covr
+  - knitr
+  - rmarkdown
+  - readxl
+  - dplyr
+  - tidyr
+  - purrr
+  - ggplot2
+  - igraph
+  - shiny
 
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
 # This was causing the error:
