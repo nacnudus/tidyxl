@@ -5,25 +5,25 @@ library(tibble)
 test_that("All explicit cell references/addresses are returned as a single 'ref' token", {
   expect_equal(xlex("A1"),
                tribble(~level, ~type,  ~token,
-                            0, "ref",    "A1"))
+                           0L, "ref",    "A1"))
   expect_equal(xlex("A$1"),
                tribble(~level, ~type,  ~token,
-                            0, "ref",   "A$1"))
+                           0L, "ref",   "A$1"))
   expect_equal(xlex("$A1"),
                tribble(~level, ~type,  ~token,
-                            0, "ref",   "$A1"))
+                           0L, "ref",   "$A1"))
   expect_equal(xlex("$A$1"),
                tribble(~level, ~type,  ~token,
-                            0, "ref",  "$A$1"))
+                           0L, "ref",  "$A$1"))
   expect_equal(xlex("A1:B2"),
                tribble(~level, ~type,  ~token,
-                            0, "ref", "A1:B2"))
+                           0L, "ref", "A1:B2"))
   expect_equal(xlex("1:1"),
                tribble(~level, ~type,  ~token,
-                            0, "ref",   "1:1"))
+                           0L, "ref",   "1:1"))
   expect_equal(xlex("A:B"),
                tribble(~level, ~type,  ~token,
-                            0, "ref",   "A:B"))
+                           0L, "ref",   "A:B"))
 })
 
 test_that("colon is tagged 'operator' between range and name/function", {
