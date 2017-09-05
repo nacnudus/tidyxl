@@ -18,6 +18,7 @@ r:
 cache: packages
 
 r_binary_packages:
+  - testthat
   - covr
   - knitr
   - rmarkdown
