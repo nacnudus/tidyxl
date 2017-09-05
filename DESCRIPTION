@@ -34,3 +34,4 @@ Suggests: testthat,
     purrr,
     ggplot2
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)

@@ -1,14 +1,14 @@
 #' @title Parse xlsx (Excel) formulas into tokens
 #'
 #' @description
-#' \code{xlex} takes an Excel formula and separates it into tokens.  The name is
+#' `xlex` takes an Excel formula and separates it into tokens.  The name is
 #' a bad pun on 'Excel' and 'lexer'.  It returns a dataframe, one row per token,
-#' giving the token itself, its type (e.g.  'number', or 'error'), and its
+#' giving the token itself, its type (e.g.  `number`, or `error`), and its
 #' level.
 #'
 #' The level is a number to show the depth of a token within nested function
-#' calls.  The token 'A2' in the formula 'IF(A1=1,A2,MAX(A3,A4))' is at level 1.
-#' Tokens 'A3' and 'A4' are at level 2.  The token 'IF' is at level 0, which is
+#' calls.  The token `A2` in the formula `IF(A1=1,A2,MAX(A3,A4))` is at level 1.
+#' Tokens `A3` and `A4` are at level 2.  The token `IF` is at level 0, which is
 #' the outermost level.
 #'
 #' The output isn't enough to enable computation or validation of formulas, but
@@ -20,48 +20,46 @@
 #' @details
 #' The different types of tokens are:
 #'
-#' \describe{
-#'   \item{ref}{A cell reference/address e.g. A1 or $B2:C$14.}
-#'   \item{sheet}{A sheet name, e.g. Sheet1! or 'My Sheet'!.  If the sheet is
-#'     from a different file, then the file is included in this token -- usually
-#'     it has been normalized to the form '[0]'.}
-#'   \item{name}{A named range, or more properly a named formula.}
-#'   \item{function}{An Excel or user-defined function, e.g. MAX or
-#'     _xll.MY_CUSTOM_FUNCTION.}
-#'   \item{error}{An error, e.g. #N/A or #REF!.}
-#'   \item{bool}{TRUE or FALSE -- note that there are also functions TRUE() and
-#'     FALSE().}
-#'   \item{number}{All forms of numbers, e.g. 1, 1.1, -1, 1.2E3.}
-#'   \item{text}{Strings inside double quotes, e.g. "Hello, World!".}
-#'   \item{operator}{The usual infix operators, +, -, *, /, ^, <, <=, <>, etc.
-#'     and also the range operator ':' when it is used with ranges that aren't
-#'     cell addresses, e.g. INDEX(something):A1. The union operator ',' is
-#'     the same symbol that is used to separate function arguments and array
-#'     columns, so it is only tagged 'operator' when it is inside parentheses
-#'     that are not function parentheses or array curly braces (see the
-#'     examples).}
-#'   \item{paren_open}{An open parenthesis '(' indicating an increase in the level
-#'     of nesting, but not directly enclosing function arguments.}
-#'   \item{paren_close}{As 'open', but reducing the level of nesting.}
-#'   \item{open_array}{An open curly brace '\{' indicating the start of an array
-#'     of constants, and an increase in the level of nesting.}
-#'   \item{close_array}{As 'open_array', but ending the array of constants}
-#'   \item{fun_open}{An open parenthesis '(' immediately after a function name,
-#'     directly enclosing the function arguments.}
-#'   \item{fun_close}{As 'fun_open' but immediately after the function
-#'     arguments.}
-#'   \item{separator}{A comma ',' separating function arguments or array
-#'     columns, or a semicolon ';' separating array rows.}
-#'   \item{DDE}{A call to a Dynamic Data Exchange server, usually normalized to
-#'     the form [1]!'DDE_parameter=1', but the full form is
-#'     'ABCD'|'EFGH'!'IJKL'.}
-#'   \item{space}{Some old files haven't stripped formulas of meaningless
-#'     spaces. They are returned as 'space' tokens so that the original formula
-#'     can always be reconstructed by concatenating all tokens.}
-#'   \item{other}{If you see this, then something has gone wrong -- please
-#'     report it at https://github.com/nacnudus/tidyxl/issues with a
-#'     reproducible example (e.g. using the reprex package).}
-#' }
+#' * `ref` A cell reference/address e.g. `A1` or `$B2:C$14`.
+#' * `sheet`A sheet name, e.g. `Sheet1!` or `'My Sheet'!`.  If the sheet is
+#'   from a different file, then the file is included in this token -- usually
+#'   it has been normalized to the form `[0]`.
+#' * `name` A named range, or more properly a named formula.
+#' * `function` An Excel or user-defined function, e.g. `MAX` or
+#'   `_xll.MY_CUSTOM_FUNCTION`.
+#' * `error` An error, e.g. `#N/A` or `#REF!`.
+#' * `bool` `TRUE` or `FALSE` -- note that there are also functions `TRUE()` and
+#'   `FALSE()`.
+#' * `number` All forms of numbers, e.g. `1`, `1.1`, `-1`, `1.2E3`.
+#' * `text` Strings inside double quotes, e.g. `"Hello, World!"`.
+#' * `operator` The usual infix operators, `+`, `-`, `*`, `/`, `^`, `<`, `<=`,
+#'   `<>`, etc.  and also the range operator `:` when it is used with ranges
+#'   that aren't cell addresses, e.g. `INDEX(something):A1`. The union operator
+#'   `,` is the same symbol that is used to separate function arguments and
+#'   array columns, so it is only tagged `operator` when it is inside
+#'   parentheses that are not function parentheses or array curly braces (see
+#'   the examples).
+#' * `paren_open` An open parenthesis `(` indicating an increase in the level
+#'   of nesting, but not directly enclosing function arguments.
+#' * `paren_close` As `open`, but reducing the level of nesting.
+#' * `open_array` An open curly brace '\\{' indicating the start of an array
+#'   of constants, and an increase in the level of nesting.
+#' * `close_array` As `open_array`, but ending the array of constants
+#' * `fun_open` An open parenthesis `(` immediately after a function name,
+#'   directly enclosing the function arguments.
+#' * `fun_close` As `fun_open` but immediately after the function
+#'   arguments.
+#' * `separator` A comma `,` separating function arguments or array
+#'   columns, or a semicolon `;` separating array rows.
+#' * `DDE` A call to a Dynamic Data Exchange server, usually normalized to
+#'   the form `[1]!'DDE_parameter=1'`, but the full form is
+#'   `'ABCD'|'EFGH'!'IJKL'`.
+#' * `space` Some old files haven't stripped formulas of meaningless
+#'   spaces. They are returned as `space` tokens so that the original formula
+#'   can always be reconstructed by concatenating all tokens.
+#' * `other` If you see this, then something has gone wrong -- please
+#'   report it at https://github.com/nacnudus/tidyxl/issues with a
+#'   reproducible example (e.g. using the reprex package).
 #'
 #' Every part of the original formula is returned as a token, so the original
 #' formula can be reconstructed by concatenating the tokens.  If that doesn't
@@ -69,11 +67,11 @@
 #' reproducible example (e.g. using the reprex package).
 #'
 #' The XLParser project was a great help in creating the grammar.
-#' \url{https://github.com/spreadsheetlab/XLParser}.
+#' https://github.com/spreadsheetlab/XLParser.
 #'
 #' @return
 #' A data frame (a tibble, if you use the tidyverse) one row per token,
-#' giving the token itself, its type (e.g.  'number', or 'error'), and its
+#' giving the token itself, its type (e.g.  `number`, or `error`), and its
 #' level.
 #'
 #' @export
