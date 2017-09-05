@@ -32,6 +32,9 @@ Suggests: testthat,
     dplyr,
     tidyr,
     purrr,
-    ggplot2
+    ggplot2,
+    igraph,
+    ggraph,
+    shiny
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

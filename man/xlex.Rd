@@ -229,3 +229,6 @@ xlex("'Quote'|'NYSE'!ZAXX")
 # parenthesis have not been observed, so are not permitted.
 xlex(" MAX( A1 ) ")
 }
+\seealso{
+\code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}}, \code{\link[tidyxl:demo_xlex]{tidyxl::demo_xlex()}}
+}

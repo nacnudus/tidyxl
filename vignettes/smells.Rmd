@@ -16,6 +16,29 @@ This is useful for detecting spreadsheet smells, which are poor practices in
 spreadsheet design, such as deep nests of functions, or embedding
 constants in formulas.
 
+## Inspecting the parse tree
+
+Here's an example with a simple formula `MIN(3,MAX(2,A1))` (the `=` symbol at
+the beginning of the formula is implied, because Excel doesn't write it to the
+file).
+
+```{r}
+library(tidyxl)
+x <- xlex("MIN(3,MAX(2,A1))")
+x
+```
+
+If you have the `igraph` and `ggraph` packages installed
+(`install.packages(c("igraph", "ggraph"))`), then you can visualise the parse
+tree with `plot_xlex()`.
+
+```{r, fig.width = 7, fig.height = 5}
+plot_xlex(x)
+```
+
+Intermediate functions between `xlex()` and `plot_xlex()` that work on the parse
+tree are also exported: `xlex_edges()`, `xlex_vertices()` and `xlex_igraph()`.
+
 ## Detecting constants inside formulas
 
 A smelly spreadsheet is distributed with the `tidyxl` package.  It comes from
@@ -42,7 +65,6 @@ using `xlsx()`.  Let's tokenize one formula to see what it looks like.
 ### One formula
 
 ```{r}
-library(tidyxl)
 library(dplyr)
 library(tidyr)
 library(purrr)

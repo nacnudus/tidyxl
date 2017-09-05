@@ -1,13 +1,15 @@
 # tidyxl 0.2.3.9000
 
-* Added a function `xlex()` to tokenize formulas.  It comes with a vignette,
-    `vignette("smells", package = "tidyxl")` using `xlex()` to detect
-    spreadsheet smells like embedded constants and deep nesting.
+* Tokenizes formulas with `xlex()` and plots the parse tree with `plot_xlex()`.
+    There's a demo Shiny app `demo_xlex()`, hosted on [shinyapps.io](), and a
+    new vignette, `vignette("smells", package = "tidyxl")`, showing how to use
+    `xlex()` to detect spreadsheet smells like embedded constants and deep
+    nesting.  There are also some intermediate functions for working with the
+    parse tree: `xlex_edges()`, `xlex_vertices`, and `xlex_igraph()`.
 * Propogates shared formulas, handling relative cell references (for details see
     issue #7).  This introduces a dependency on
     [piton](https://cran.r-project.org/web/packages/piton/index.html), which
     wraps the [PEGTL](https://github.com/taocpp/PEGTL) parser generator.
-* Added a test that the cell with the highest address (XFD1048576) is parsed.
 
 # tidyxl 0.2.3
 
