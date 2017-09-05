@@ -95,7 +95,7 @@
     </div>
 
     
-    <p><code>tidy_xlsx</code> imports data from spreadsheets without coercing it into a
+    <p><code>tidy_xlsx()</code> imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
 cell's formatting in an adjacent data structure within the list returned by
@@ -121,45 +121,45 @@ sheets).</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of the data within each sheet ($data), and the formatting applied to
-each cell ($formats).</p>
+    <p>A list of the data within each sheet (<code>$data</code>), and the formatting applied to
+each cell (<code>$formats</code>).</p>
 <p>Each sheet's data is returned as a data frames, one per sheet, by the sheet
 name.  For example, the data in a sheet named 'My Worksheet' is in
-x$data$`My Worksheet`.  Each data frame has the following
-columns:</p><dl class='dl-horizontal'>
-  <dt>address</dt><dd><p>The cell address in A1 notation.</p></dd>
-  <dt>row</dt><dd><p>The row number of a cell address (integer).</p></dd>
-  <dt>col</dt><dd><p>The column number of a cell address (integer).</p></dd>
-  <dt>content</dt><dd><p>The content of a cell before type inference (see
-  'Details').</p></dd>
-  <dt>formula</dt><dd><p>The formula in a cell (see 'Details').</p></dd>
-  <dt>formula_type</dt><dd><p>NA for ordinary formulas, or 'array' for array
-  formulas.</p></dd>
-  <dt>formula_ref</dt><dd><p>The address (in A1 notation) of the cell that defines
-  the formula of this cell (see 'Details').</p></dd>
-  <dt>formula_group</dt><dd><p>The formula group to which the cell belongs (see
-  'Details').</p></dd>
-  <dt>formula_ref</dt><dd><p>The address of a range of cells group to which an array
-  formula or shared formula applies (see 'Details').</p></dd>
-  <dt>formula_group</dt><dd><p>An index of a group of cells to which a shared formula
-  applies (see 'Details').</p></dd>
-  <dt>type</dt><dd><p>The type of a cell in Excel's notation (b = boolean, e = error,
-  s = string, str = formula).</p></dd>
-  <dt>data_type</dt><dd><p>The type of a cell, referring to the following columns
-  (error, logical, numeric, date).</p></dd>
-  <dt>error</dt><dd><p>The error value of a cell.</p></dd>
-  <dt>logical</dt><dd><p>The boolean value of a cell.</p></dd>
-  <dt>numeric</dt><dd><p>The numeric value of a cell.</p></dd>
-  <dt>date</dt><dd><p>The date value of a cell.</p></dd>
-  <dt>character</dt><dd><p>The string value of a cell.</p></dd>
-  <dt>comment</dt><dd><p>The text of a comment attached to a cell.</p></dd>
-  <dt>height</dt><dd><p>The height of a cell's row, in Excel's units.</p></dd>
-  <dt>width</dt><dd><p>The width of a cell's column, in Excel's units.</p></dd>
-  <dt>style_format</dt><dd><p>An index into a table of style formats
-  <code>x$formats$style</code> (see 'Details').</p></dd>
-  <dt>local_format_id</dt><dd><p>An index into a table of local cell formats
-  <code>x$formats$local</code> (see 'Details').</p></dd>
-</dl>
+x$data$<code>My Worksheet</code>.  Each data frame has the following
+columns:</p><ul>
+<li><p><code>address</code> The cell address in A1 notation.</p></li>
+<li><p><code>row</code> The row number of a cell address (integer).</p></li>
+<li><p><code>col</code> The column number of a cell address (integer).</p></li>
+<li><p><code>content</code> The content of a cell before type inference (see
+'Details').</p></li>
+<li><p><code>formula</code> The formula in a cell (see 'Details').</p></li>
+<li><p><code>formula_type</code> NA for ordinary formulas, or 'array' for array
+formulas.</p></li>
+<li><p><code>formula_ref</code> The address (in A1 notation) of the cell that defines
+the formula of this cell (see 'Details').</p></li>
+<li><p><code>formula_group</code> The formula group to which the cell belongs (see
+'Details').</p></li>
+<li><p><code>formula_ref</code> The address of a range of cells group to which an array
+formula or shared formula applies (see 'Details').</p></li>
+<li><p><code>formula_group</code> An index of a group of cells to which a shared formula
+applies (see 'Details').</p></li>
+<li><p><code>type</code> The type of a cell in Excel's notation (b = boolean, e = error,
+s = string, str = formula).</p></li>
+<li><p><code>data_type</code> The type of a cell, referring to the following columns
+(error, logical, numeric, date).</p></li>
+<li><p><code>error</code> The error value of a cell.</p></li>
+<li><p><code>logical</code> The boolean value of a cell.</p></li>
+<li><p><code>numeric</code> The numeric value of a cell.</p></li>
+<li><p><code>date</code> The date value of a cell.</p></li>
+<li><p><code>character</code> The string value of a cell.</p></li>
+<li><p><code>comment</code> The text of a comment attached to a cell.</p></li>
+<li><p><code>height</code> The height of a cell's row, in Excel's units.</p></li>
+<li><p><code>width</code> The width of a cell's column, in Excel's units.</p></li>
+<li><p><code>style_format</code> An index into a table of style formats
+<code>x$formats$style</code> (see 'Details').</p></li>
+<li><p><code>local_format_id</code> An index into a table of local cell formats
+<code>x$formats$local</code> (see 'Details').</p></li>
+</ul>
 
 <p>Cell formatting is returned in <code>x$formats</code>.  There are two types or
 scopes of formatting: 'style' formatting, such as Excel's built-in styles
@@ -170,7 +170,7 @@ structures.  To look up the local formatting of a given cell, take the cell's
 'local_format_id' value (<code>x$data$Sheet1[1, "local_format_id"]</code>), and use
 it as an index into the format structure.  E.g. to look up the font size,
 <code>x$formats$local$font$size[local_format_id]</code>.  To see all available
-formats, type `str(x$formats$local)`.</p>
+formats, type <code>str(x$formats$local)</code>.</p>
 <p>Colours may be recorded in any of three ways: a hexadecimal RGB string with
 or without alpha, an 'indexed' colour, and an index into a 'theme'.
 <code>tidy_xlsx</code> dereferences 'indexed' and 'theme' colours to their hexadecimal
@@ -178,48 +178,47 @@ RGB string representation, and standardises all RGB strings to have an alpha
 channel in the first two characters.  The 'index' and the 'theme' name are
 still provided.  To filter by an RGB string, you could  look up the RGB
 values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use
-the <code>rgb</code> function to convert these to a hexadecimal string.</p>
+the <code><a href='http://www.rdocumentation.org/packages/grDevices/topics/rgb'>grDevices::rgb()</a></code> function to convert these to a hexadecimal string.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A cell has two 'values': its content, and sometimes also a formula.  It also
-has formatting applied at the 'style' level, which can be locally overridden.</p><h3>content</h3>
+has formatting applied at the 'style' level, which can be locally overridden.</p><h3>Content</h3>
     Depending on the cell, the content may be a numeric value such as 365 or
-  365.25, it may represent a date/datetime in one of Excel's date/datetime
-  systems, or it may be an index into an internal table of strings.
-  <code>tidy_xlsx</code> attempts to infer the correct data type of each cell,
-  returning its value in the appropriate column (error, logical, numeric,
-  date, character). In case this cleverness is unhelpful, the unparsed value
-  and type information is available in the 'content' and 'type' columns.
-    <h3>formula</h3>
+365.25, it may represent a date/datetime in one of Excel's date/datetime
+systems, or it may be an index into an internal table of strings.
+<code>tidy_xlsx()</code> attempts to infer the correct data type of each cell,
+returning its value in the appropriate column (error, logical, numeric,
+date, character). In case this cleverness is unhelpful, the unparsed value
+and type information is available in the 'content' and 'type' columns.
+    <h3>Formula</h3>
     When a cell has a formula, the value in the 'content' column is the result
-  of the formula the last time it was evaluated.
+of the formula the last time it was evaluated.
     Certain groups of cells may share a formula that differs only by addresses
-  referred to in the formula; such groups are identified by an index, the
-  'formula_group'.  The xlsx (Excel) file format only records the formula
-  against one cell in any group.  It is planned for <code>tidy_xlsx</code> to parse
-  such formulas and copy them to the other cells in a group, making the
-  necessary changes to addresses in the formula.
+referred to in the formula; such groups are identified by an index, the
+'formula_group'.  The xlsx (Excel) file format only records the formula
+against one cell in any group.  It is planned for <code>tidy_xlsx()</code> to parse
+such formulas and copy them to the other cells in a group, making the
+necessary changes to addresses in the formula.
     Array formulas may also apply to a group of cells, identified by an address
-  'formula_ref', but xlsx (Excel) file format only records the formula
-  against one cell in the group.  It is planned for <code>tidy_xlsx</code> to parse
-  such addresses and copy the array formula to the other cells in the group.
-  Unlike shared formulas, no changes to addresses in array formulas are
-  necessary.
+'formula_ref', but xlsx (Excel) file format only records the formula
+against one cell in the group.  It is planned for <code>tidy_xlsx()</code> to parse
+such addresses and copy the array formula to the other cells in the group.
+Unlike shared formulas, no changes to addresses in array formulas are
+necessary.
     Formulas that refer to other workbooks currently do not name the workbooks
-  directly, instead via indices such as <code>[1]</code>.  It is planned to
-  dereference these.
-    <h3>formatting</h3>
+directly, instead via indices such as <code>[1]</code>.  It is planned to
+dereference these.
+    <h3>Formatting</h3>
     Cell formatting is returned in <code>x$formats</code>.  There are two types of
-  formatting: 'style' formatting, such as Excel's built-in styles 'normal',
-  'bad', etc., and 'local' formatting, which overrides the style.  These are
-  returned in <code>x$formats$style</code> and <code>x$formats$local</code>, with
-  identical structures.  To look up the local formatting of a given cell,
-  take the cell's 'local_format_id' value (<code>x$data$Sheet1[1,
-  "local_format_id"]</code>), and use it as an index into the format structure.
-  E.g. to look up the font size,
-  <code>x$formats$local$font$size[local_format_id]</code>.  To see all available
-  formats, type `str(x$formats$local)`.
+formatting: 'style' formatting, such as Excel's built-in styles 'normal',
+'bad', etc., and 'local' formatting, which overrides the style.  These are
+returned in <code>x$formats$style</code> and <code>x$formats$local</code>, with
+identical structures.  To look up the local formatting of a given cell,
+take the cell's 'local_format_id' value (<code>x$data$Sheet1[1, "local_format_id"]</code>), and use it as an index into the format structure.
+E.g. to look up the font size,
+<code>x$formats$local$font$size[local_format_id]</code>.  To see all available
+formats, type <code>str(x$formats$local)</code>.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

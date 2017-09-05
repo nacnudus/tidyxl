@@ -97,11 +97,11 @@
     
     <p><code>xlex</code> takes an Excel formula and separates it into tokens.  The name is
 a bad pun on 'Excel' and 'lexer'.  It returns a dataframe, one row per token,
-giving the token itself, its type (e.g.  'number', or 'error'), and its
+giving the token itself, its type (e.g.  <code>number</code>, or <code>error</code>), and its
 level.</p>
 <p>The level is a number to show the depth of a token within nested function
-calls.  The token 'A2' in the formula 'IF(A1=1,A2,MAX(A3,A4))' is at level 1.
-Tokens 'A3' and 'A4' are at level 2.  The token 'IF' is at level 0, which is
+calls.  The token <code>A2</code> in the formula <code>IF(A1=1,A2,MAX(A3,A4))</code> is at level 1.
+Tokens <code>A3</code> and <code>A4</code> are at level 2.  The token <code>IF</code> is at level 0, which is
 the outermost level.</p>
 <p>The output isn't enough to enable computation or validation of formulas, but
 it is enough to investigate the structure of formulas and spreadsheets.  It
@@ -122,59 +122,63 @@ has been tested on millions of formulas in the Enron corpus.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame (a tibble, if you use the tidyverse) one row per token,
-giving the token itself, its type (e.g.  'number', or 'error'), and its
+giving the token itself, its type (e.g.  <code>number</code>, or <code>error</code>), and its
 level.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The different types of tokens are:</p><dl class='dl-horizontal'>
-  <dt>ref</dt><dd><p>A cell reference/address e.g. A1 or $B2:C$14.</p></dd>
-  <dt>sheet</dt><dd><p>A sheet name, e.g. Sheet1! or 'My Sheet'!.  If the sheet is
-    from a different file, then the file is included in this token -- usually
-    it has been normalized to the form '[0]'.</p></dd>
-  <dt>name</dt><dd><p>A named range, or more properly a named formula.</p></dd>
-  <dt>function</dt><dd><p>An Excel or user-defined function, e.g. MAX or
-    _xll.MY_CUSTOM_FUNCTION.</p></dd>
-  <dt>error</dt><dd><p>An error, e.g. #N/A or #REF!.</p></dd>
-  <dt>bool</dt><dd><p>TRUE or FALSE -- note that there are also functions TRUE() and
-    FALSE().</p></dd>
-  <dt>number</dt><dd><p>All forms of numbers, e.g. 1, 1.1, -1, 1.2E3.</p></dd>
-  <dt>text</dt><dd><p>Strings inside double quotes, e.g. "Hello, World!".</p></dd>
-  <dt>operator</dt><dd><p>The usual infix operators, +, -, *, /, ^, &lt;, &lt;=, &lt;&gt;, etc.
-    and also the range operator ':' when it is used with ranges that aren't
-    cell addresses, e.g. INDEX(something):A1. The union operator ',' is
-    the same symbol that is used to separate function arguments and array
-    columns, so it is only tagged 'operator' when it is inside parentheses
-    that are not function parentheses or array curly braces (see the
-    examples).</p></dd>
-  <dt>paren_open</dt><dd><p>An open parenthesis '(' indicating an increase in the level
-    of nesting, but not directly enclosing function arguments.</p></dd>
-  <dt>paren_close</dt><dd><p>As 'open', but reducing the level of nesting.</p></dd>
-  <dt>open_array</dt><dd><p>An open curly brace '{' indicating the start of an array
-    of constants, and an increase in the level of nesting.</p></dd>
-  <dt>close_array</dt><dd><p>As 'open_array', but ending the array of constants</p></dd>
-  <dt>fun_open</dt><dd><p>An open parenthesis '(' immediately after a function name,
-    directly enclosing the function arguments.</p></dd>
-  <dt>fun_close</dt><dd><p>As 'fun_open' but immediately after the function
-    arguments.</p></dd>
-  <dt>separator</dt><dd><p>A comma ',' separating function arguments or array
-    columns, or a semicolon ';' separating array rows.</p></dd>
-  <dt>DDE</dt><dd><p>A call to a Dynamic Data Exchange server, usually normalized to
-    the form [1]!'DDE_parameter=1', but the full form is
-    'ABCD'|'EFGH'!'IJKL'.</p></dd>
-  <dt>space</dt><dd><p>Some old files haven't stripped formulas of meaningless
-    spaces. They are returned as 'space' tokens so that the original formula
-    can always be reconstructed by concatenating all tokens.</p></dd>
-  <dt>other</dt><dd><p>If you see this, then something has gone wrong -- please
-    report it at https://github.com/nacnudus/tidyxl/issues with a
-    reproducible example (e.g. using the reprex package).</p></dd>
-</dl>
+    <p>The different types of tokens are:</p><ul>
+<li><p><code>ref</code> A cell reference/address e.g. <code>A1</code> or <code>$B2:C$14</code>.</p></li>
+<li><p><code>sheet</code>A sheet name, e.g. <code>Sheet1!</code> or <code>'My Sheet'!</code>.  If the sheet is
+from a different file, then the file is included in this token -- usually
+it has been normalized to the form <code>[0]</code>.</p></li>
+<li><p><code>name</code> A named range, or more properly a named formula.</p></li>
+<li><p><code>function</code> An Excel or user-defined function, e.g. <code>MAX</code> or
+<code>_xll.MY_CUSTOM_FUNCTION</code>.</p></li>
+<li><p><code>error</code> An error, e.g. <code>#N/A</code> or <code>#REF!</code>.</p></li>
+<li><p><code>bool</code> <code>TRUE</code> or <code>FALSE</code> -- note that there are also functions <code>TRUE()</code> and
+<code>FALSE()</code>.</p></li>
+<li><p><code>number</code> All forms of numbers, e.g. <code>1</code>, <code>1.1</code>, <code>-1</code>, <code>1.2E3</code>.</p></li>
+<li><p><code>text</code> Strings inside double quotes, e.g. <code>"Hello, World!"</code>.</p></li>
+<li><p><code>operator</code> The usual infix operators, <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>, <code>&lt;</code>, <code>&lt;=</code>,
+<code>&lt;&gt;</code>, etc.  and also the range operator <code>:</code> when it is used with ranges
+that aren't cell addresses, e.g. <code>INDEX(something):A1</code>. The union operator
+<code>,</code> is the same symbol that is used to separate function arguments and
+array columns, so it is only tagged <code>operator</code> when it is inside
+parentheses that are not function parentheses or array curly braces (see
+the examples).</p></li>
+<li><p><code>paren_open</code> An open parenthesis <code>(</code> indicating an increase in the level
+of nesting, but not directly enclosing function arguments.</p></li>
+<li><p><code>paren_close</code> As <code>open</code>, but reducing the level of nesting.</p></li>
+<li><p><code>open_array</code> An open curly brace '{' indicating the start of an array
+of constants, and an increase in the level of nesting.</p></li>
+<li><p><code>close_array</code> As <code>open_array</code>, but ending the array of constants</p></li>
+<li><p><code>fun_open</code> An open parenthesis <code>(</code> immediately after a function name,
+directly enclosing the function arguments.</p></li>
+<li><p><code>fun_close</code> As <code>fun_open</code> but immediately after the function
+arguments.</p></li>
+<li><p><code>separator</code> A comma <code>,</code> separating function arguments or array
+columns, or a semicolon <code>;</code> separating array rows.</p></li>
+<li><p><code>DDE</code> A call to a Dynamic Data Exchange server, usually normalized to
+the form <code>[1]!'DDE_parameter=1'</code>, but the full form is
+<code>'ABCD'|'EFGH'!'IJKL'</code>.</p></li>
+<li><p><code>space</code> Some old files haven't stripped formulas of meaningless
+spaces. They are returned as <code>space</code> tokens so that the original formula
+can always be reconstructed by concatenating all tokens.</p></li>
+<li><p><code>other</code> If you see this, then something has gone wrong -- please
+report it at https://github.com/nacnudus/tidyxl/issues with a
+reproducible example (e.g. using the reprex package).</p></li>
+</ul>
     <p>Every part of the original formula is returned as a token, so the original
 formula can be reconstructed by concatenating the tokens.  If that doesn't
 work, please report it at https://github.com/nacnudus/tidyxl/issues with a
 reproducible example (e.g. using the reprex package).</p>
 <p>The XLParser project was a great help in creating the grammar.
-<a href = 'https://github.com/spreadsheetlab/XLParser'>https://github.com/spreadsheetlab/XLParser</a>.</p>
+https://github.com/spreadsheetlab/XLParser.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code>tidyxl::plot_xlex()</code>, <code>tidyxl::demo_xlex()</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -633,6 +637,8 @@ reproducible example (e.g. using the reprex package).</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
