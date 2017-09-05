@@ -5,6 +5,11 @@ language: R
 sudo: required
 dist: trusty
 
+addons:
+  apt:
+    packages:
+      - libudunits2-dev
+
 r:
   - oldrel
   - release
