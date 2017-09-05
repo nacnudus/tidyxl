@@ -8,10 +8,7 @@
 #' @seealso [tidyxl::xlex()], [tidyxl::plot_xlex()]
 #' @export
 #' @examples
-#' if (interactive()
-#'     && require(shiny, quietly = TRUE)
-#'     && require(igraph, quietly = TRUE)
-#'     && require(ggraph, quietly = TRUE)) {
+#' \dontrun{
 #'   demo_xlex()
 #' }
 demo_xlex <- function() {

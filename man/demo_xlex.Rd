@@ -13,10 +13,7 @@ shiny app to demonstrate tokenizing an Excel formula with \code{xlex()} and
 plotting the parse tree with \code{plot_xlex()}
 }
 \examples{
-if (interactive()
-    && require(shiny, quietly = TRUE)
-    && require(igraph, quietly = TRUE)
-    && require(ggraph, quietly = TRUE)) {
+\dontrun{
   demo_xlex()
 }
 }
