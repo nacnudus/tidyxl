@@ -9,11 +9,9 @@ Authors@R: c(
     )
 Description: Imports non-tabular from Excel files into R.  Exposes cell content,
     position and formatting in a tidy structure for further manipulation.
-    Provides functions for selecting cells by position and relative position,
-    and for associating data cells with header cells by proximity in given
-    directions.  Supports '.xlsx' and '.xlsm' via the embedded 'RapidXML' C++
-    library <http://rapidxml.sourceforge.net>.  Does not support '.xlsb' or
-    '.xls'.
+    Tokenizes Excel formulas.  Supports '.xlsx' and '.xlsm' via the embedded
+    'RapidXML' C++ library <http://rapidxml.sourceforge.net>.  Does not support
+    '.xlsb' or '.xls'.
 Depends:
     R (>= 3.2.0)
 License: GPL-3
