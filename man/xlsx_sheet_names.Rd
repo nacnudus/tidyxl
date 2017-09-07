@@ -19,5 +19,5 @@ is opened with a spreadsheet application like Excel or LibreOffice.
 }
 \examples{
 examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
-xlsx_sheets(examples)
+xlsx_sheet_names(examples)
 }

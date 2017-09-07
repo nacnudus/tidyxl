@@ -13,7 +13,7 @@
 #' @export
 #' @examples
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
-#' xlsx_sheets(examples)
+#' xlsx_sheet_names(examples)
 xlsx_sheet_names <- function(path) {
   utils_xlsx_sheet_files(path)$name
 }
