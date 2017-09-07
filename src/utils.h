@@ -43,6 +43,32 @@ inline double checkDate(double& date, int& dateSystem, int& dateOffset, std::str
   }
 }
 
+// Convert datetime doubles to strings "%Y-%m-%d %H:%M:%S"
+// TODO: Support subseconds
+inline std::string formatDate(double& date, int& dateSystem, int& dateOffset) {
+  int charsize;
+  const char* format;
+  if (date < 1) {                      // time only (in Excel's formuat)
+    charsize = 10;
+    format = "%H:%M:%S";
+  } else {                             // date and maybe time
+    /* double intpart; */
+    /* if (modf(date, &intpart) == 0.0) { // date only, not time */
+    /*   charsize = 11; */
+    /*   format = "%Y-%m-%d"; */
+    /* } else {                           // date and time */
+      charsize = 20;
+      format = "%Y-%m-%d %H:%M:%S";
+    /* } */
+  }
+  char out[charsize];
+  date = checkDate(date, dateSystem, dateOffset, ""); // Convert to POSIX
+  std::time_t date_time_t(date);
+  std::tm date_tm = *std::gmtime(&date_time_t);
+  std::strftime(out, sizeof(out), format, &date_tm);
+  return out;
+}
+
 // Based on hadley/readxl
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]
 inline std::string unescape(const std::string& s) {

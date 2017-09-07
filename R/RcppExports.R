@@ -8,6 +8,9 @@ xlsx_read_ <- function(path, sheet_paths, sheet_names, comments_paths) {
 xlsx_sheet_files_ <- function(path) {
     .Call('_tidyxl_xlsx_sheet_files_', PACKAGE = 'tidyxl', path)
 }
+
+xlsx_validation_ <- function(path, sheet_paths, sheet_names) {
+    .Call('_tidyxl_xlsx_validation_', PACKAGE = 'tidyxl', path, sheet_paths, sheet_names)
 }
 
 xlex_ <- function(x) {

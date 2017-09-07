@@ -30,6 +30,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// xlsx_validation_
+List xlsx_validation_(std::string path, CharacterVector sheet_paths, CharacterVector sheet_names);
+RcppExport SEXP _tidyxl_xlsx_validation_(SEXP pathSEXP, SEXP sheet_pathsSEXP, SEXP sheet_namesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type sheet_paths(sheet_pathsSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type sheet_names(sheet_namesSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_validation_(path, sheet_paths, sheet_names));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -48,6 +58,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_tidyxl_xlsx_read_", (DL_FUNC) &_tidyxl_xlsx_read_, 4},
     {"_tidyxl_xlsx_sheet_files_", (DL_FUNC) &_tidyxl_xlsx_sheet_files_, 1},
+    {"_tidyxl_xlsx_validation_", (DL_FUNC) &_tidyxl_xlsx_validation_, 3},
     {"_tidyxl_xlex_", (DL_FUNC) &_tidyxl_xlex_, 1},
     {NULL, NULL, 0}
 };
