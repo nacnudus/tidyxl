@@ -11,7 +11,7 @@ vignette: >
 
 The function `xlex()` separates formulas into tokens of different types, and
 gives their depth within a nested formula.  Its name is a bad pun on 'Excel' and
-'lexer'.  Try the [online demo]](https://duncan-garmonsway.shinyapps.io/xlex/)
+'lexer'.  Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/)
 or run `demo_xlex()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices in

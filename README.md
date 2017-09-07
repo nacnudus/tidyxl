@@ -201,7 +201,7 @@ y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
-#> # A tibble: 24 x 10
+#> # A tibble: 30 x 10
 #>    address             formula formula_type formula_ref formula_group   error logical numeric       date     character
 #>      <chr>               <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
 #>  1      A1                 1/0         <NA>        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
@@ -214,7 +214,7 @@ y[!is.na(y$formula),
 #>  8     A20             $A$18+1       shared     A20:A21             0    <NA>      NA       2         NA          <NA>
 #>  9     B20               A19+2       shared     B20:B21             1    <NA>      NA       4         NA          <NA>
 #> 10     A21             $A$18+1       shared        <NA>             0    <NA>      NA       2         NA          <NA>
-#> # ... with 14 more rows
+#> # ... with 20 more rows
 ```
 
 The top five cells show that the results of formulas are available as usual in the columns `error`, `logical`, `numeric`, `date`, and `character`.
@@ -239,7 +239,7 @@ Cell `A25` contains a formula that refers to another file. The `[1]` is an index
 
 ### Tokenizing formulas
 
-The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the \[online demo\]\](<https://duncan-garmonsway.shinyapps.io/xlex/>) or run `demo_xlex()` locally.
+The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/) or run `demo_xlex()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.
 

@@ -245,7 +245,7 @@ y &lt;-<span class="st"> </span><span class="kw"><a href="reference/tidy_xlsx.ht
 y[<span class="op">!</span><span class="kw">is.na</span>(y<span class="op">$</span>formula),
   <span class="kw">c</span>(<span class="st">"address"</span>, <span class="st">"formula"</span>, <span class="st">"formula_type"</span>, <span class="st">"formula_ref"</span>, <span class="st">"formula_group"</span>,
     <span class="st">"error"</span>, <span class="st">"logical"</span>, <span class="st">"numeric"</span>, <span class="st">"date"</span>, <span class="st">"character"</span>)]
-<span class="co">#&gt; # A tibble: 24 x 10</span>
+<span class="co">#&gt; # A tibble: 30 x 10</span>
 <span class="co">#&gt;    address             formula formula_type formula_ref formula_group   error logical numeric       date     character</span>
 <span class="co">#&gt;      &lt;chr&gt;               &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;         &lt;int&gt;   &lt;chr&gt;   &lt;lgl&gt;   &lt;dbl&gt;     &lt;dttm&gt;         &lt;chr&gt;</span>
 <span class="co">#&gt;  1      A1                 1/0         &lt;NA&gt;        &lt;NA&gt;            NA #DIV/0!      NA      NA         NA          &lt;NA&gt;</span>
@@ -258,7 +258,7 @@ y[<span class="op">!</span><span class="kw">is.na</span>(y<span class="op">$</sp
 <span class="co">#&gt;  8     A20             $A$18+1       shared     A20:A21             0    &lt;NA&gt;      NA       2         NA          &lt;NA&gt;</span>
 <span class="co">#&gt;  9     B20               A19+2       shared     B20:B21             1    &lt;NA&gt;      NA       4         NA          &lt;NA&gt;</span>
 <span class="co">#&gt; 10     A21             $A$18+1       shared        &lt;NA&gt;             0    &lt;NA&gt;      NA       2         NA          &lt;NA&gt;</span>
-<span class="co">#&gt; # ... with 14 more rows</span></code></pre></div>
+<span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
 <p>The top five cells show that the results of formulas are available as usual in the columns <code>error</code>, <code>logical</code>, <code>numeric</code>, <code>date</code>, and <code>character</code>.</p>
 </div>
 <div id="shared-formulas" class="section level3">
@@ -282,21 +282,27 @@ y[<span class="op">!</span><span class="kw">is.na</span>(y<span class="op">$</sp
 <div id="tokenizing-formulas" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tokenizing-formulas" class="anchor"></a>Tokenizing formulas</h3>
-<p>The function <code><a href="reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/xlex.html">xlex</a></span>(<span class="st">"MAX(3,MIN(2,4)"</span>)
-<span class="co">#&gt; # A tibble: 10 x 3</span>
+<p>The function <code><a href="reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or run <code><a href="reference/demo_xlex.html">demo_xlex()</a></code> locally.</p>
+<p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw"><a href="reference/xlex.html">xlex</a></span>(<span class="st">"MIN(3,MAX(2,A1))"</span>)
+x
+<span class="co">#&gt; # A tibble: 11 x 3</span>
 <span class="co">#&gt;    level      type token</span>
 <span class="co">#&gt;    &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1     0  function   MAX</span>
+<span class="co">#&gt;  1     0  function   MIN</span>
 <span class="co">#&gt;  2     0  fun_open     (</span>
 <span class="co">#&gt;  3     1    number     3</span>
 <span class="co">#&gt;  4     1 separator     ,</span>
-<span class="co">#&gt;  5     1  function   MIN</span>
+<span class="co">#&gt;  5     1  function   MAX</span>
 <span class="co">#&gt;  6     1  fun_open     (</span>
 <span class="co">#&gt;  7     2    number     2</span>
 <span class="co">#&gt;  8     2 separator     ,</span>
-<span class="co">#&gt;  9     2    number     4</span>
-<span class="co">#&gt; 10     1 fun_close     )</span></code></pre></div>
+<span class="co">#&gt;  9     2       ref    A1</span>
+<span class="co">#&gt; 10     1 fun_close     )</span>
+<span class="co">#&gt; 11     0 fun_close     )</span>
+
+<span class="kw"><a href="reference/plot_xlex.html">plot_xlex</a></span>(x) <span class="co"># Requires the ggraph package</span></code></pre></div>
+<p><img src="README-unnamed-chunk-10-1.png" width="672"></p>
 <p>See the <a href="file:///home/nacnudus/R/tidyxl/docs/articles/smells.html">vignette</a> for more examples and details.</p>
 </div>
 </div>
