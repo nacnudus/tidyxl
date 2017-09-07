@@ -2,10 +2,12 @@
 
 context("plot_xlex()")
 
-test_that("plot_xlex() looks correct", {
-  vdiffr::expect_doppelganger("plot_xlex() looks about right",
-    plot_xlex(xlex("MIN(3,MAX(2,A1))")))
-})
+if (Sys.info()["sysname"] == "Linux") {
+  test_that("plot_xlex() looks correct", {
+    vdiffr::expect_doppelganger("plot_xlex() looks about right",
+      plot_xlex(xlex("MIN(3,MAX(2,A1))")))
+  })
+}
 
 x <- xlex("MIN(3,MAX(2,A1))")
 
