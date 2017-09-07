@@ -20,10 +20,10 @@ xlsxvalidation::xlsxvalidation(
   rapidxml::xml_node<>* dataValidations = worksheet->first_node("dataValidations");
 
 
+  int n(0);
   if (dataValidations != NULL) {
     // Initialize the vectors to the number of rules, using the count attribute
     // if it exists, otherwise count the rules.
-    int n(0);
     rapidxml::xml_attribute<>* count = dataValidations->first_attribute("count");
     if (count != NULL) {
       n = strtol(count->value(), NULL, 10);
@@ -33,21 +33,23 @@ xlsxvalidation::xlsxvalidation(
           ++n;
       }
     }
+  }
 
-    ref_                = CharacterVector(n, NA_STRING);
-    type_               = CharacterVector(n, NA_STRING);
-    operator_           = CharacterVector(n, "between");
-    formula1_           = CharacterVector(n, NA_STRING);
-    formula2_           = CharacterVector(n, NA_STRING);
-    allow_blank_        = LogicalVector(n,   false);
-    show_input_message_ = LogicalVector(n,   false);
-    prompt_title_       = CharacterVector(n, NA_STRING);
-    prompt_             = CharacterVector(n, NA_STRING);
-    show_error_message_ = LogicalVector(n,   false);
-    error_title_        = CharacterVector(n, NA_STRING);
-    error_              = CharacterVector(n, NA_STRING);
-    error_style_        = CharacterVector(n, "stop");
+  ref_                = CharacterVector(n, NA_STRING);
+  type_               = CharacterVector(n, NA_STRING);
+  operator_           = CharacterVector(n, "between");
+  formula1_           = CharacterVector(n, NA_STRING);
+  formula2_           = CharacterVector(n, NA_STRING);
+  allow_blank_        = LogicalVector(n,   false);
+  show_input_message_ = LogicalVector(n,   false);
+  prompt_title_       = CharacterVector(n, NA_STRING);
+  prompt_             = CharacterVector(n, NA_STRING);
+  show_error_message_ = LogicalVector(n,   false);
+  error_title_        = CharacterVector(n, NA_STRING);
+  error_              = CharacterVector(n, NA_STRING);
+  error_style_        = CharacterVector(n, "stop");
 
+  if (dataValidations != NULL) {
     int i(0);
     for (rapidxml::xml_node<>* dataValidation = dataValidations->first_node("dataValidation");
         dataValidation; dataValidation = dataValidation->next_sibling("dataValidation")) {

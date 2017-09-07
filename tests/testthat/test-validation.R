@@ -2,6 +2,10 @@ context("xlsx_validation()")
 
 library(tibble)
 
+test_that("xlsx_validation() doesn't fail when there aren't any rules", {
+  expect_error(xlsx_validation("./default.xlsx"), NA)
+})
+
 test_that("Data validation rules are returned correctly", {
   expect_equal(xlsx_validation("./examples.xlsx")$Sheet1,
                  tribble(~ref,        ~type,            ~operator,             ~formula1,             ~formula2,  ~allow_blank, ~show_input_message,   ~prompt_title,   ~prompt_body, ~show_error_message,  ~error_title,   ~error_body, ~error_symbol,
