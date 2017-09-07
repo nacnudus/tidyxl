@@ -72,7 +72,7 @@ inline String comments_path_(std::string path, std::string sheet_target) {
 }
 
 // [[Rcpp::export]]
-DataFrame xlsx_sheets_(std::string path) {
+DataFrame xlsx_sheet_files_(std::string path) {
   // Return a list of worksheets,  their index numbers, names, and comments
   // paths.
 
