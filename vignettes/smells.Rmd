@@ -9,10 +9,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The `xlex()` function separates an Excel formula into words, or 'tokens'.  Its
-name is a bad pun on 'Excel' and 'lexer'.
+The function `xlex()` separates formulas into tokens of different types, and
+gives their depth within a nested formula.  Its name is a bad pun on 'Excel' and
+'lexer'.  Try the [online demo]](https://duncan-garmonsway.shinyapps.io/xlex/)
+or run `demo_xlex()` locally.
 
-This is useful for detecting spreadsheet smells, which are poor practices in
+It is useful for detecting spreadsheet smells, which are poor practices in
 spreadsheet design, such as deep nests of functions, or embedding
 constants in formulas.
 

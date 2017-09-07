@@ -239,24 +239,32 @@ Cell `A25` contains a formula that refers to another file. The `[1]` is an index
 
 ### Tokenizing formulas
 
-The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula.
+The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the \[online demo\]\](<https://duncan-garmonsway.shinyapps.io/xlex/>) or run `demo_xlex()` locally.
+
+It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.
 
 ``` r
-xlex("MAX(3,MIN(2,4)")
-#> # A tibble: 10 x 3
+x <- xlex("MIN(3,MAX(2,A1))")
+x
+#> # A tibble: 11 x 3
 #>    level      type token
 #>    <int>     <chr> <chr>
-#>  1     0  function   MAX
+#>  1     0  function   MIN
 #>  2     0  fun_open     (
 #>  3     1    number     3
 #>  4     1 separator     ,
-#>  5     1  function   MIN
+#>  5     1  function   MAX
 #>  6     1  fun_open     (
 #>  7     2    number     2
 #>  8     2 separator     ,
-#>  9     2    number     4
+#>  9     2       ref    A1
 #> 10     1 fun_close     )
+#> 11     0 fun_close     )
+
+plot_xlex(x) # Requires the ggraph package
 ```
+
+![](README-unnamed-chunk-10-1.png)
 
 See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for more examples and details.
 
