@@ -12,3 +12,5 @@
 ^cran-comments\.md$
 ^docs$
 ^_pkgdown\.yaml$
+^shiny$
+^shiny/rsconnect$
