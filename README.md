@@ -66,7 +66,6 @@ readxl::read_excel(titanic)
 ``` r
 library(tidyxl)
 x <- tidy_xlsx(titanic)$data$Sheet1
-# Specific sheets can be requested using `tidy_xlsx(file, sheet)`
 str(x)
 #> Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  20 variables:
 #>  $ address        : chr  "C1" "D1" "E1" "F1" ...
@@ -120,6 +119,8 @@ x[x$row == 4, c("address", "character", "numeric")]
 #> 5      F4      <NA>     118
 #> 6      G4      <NA>      57
 ```
+
+Specific sheets can be requested using `tidy_xlsx(file, sheet)`, and the names of all sheets in a file are given by `xlsx_sheet_names()`.
 
 ### Formatting
 
@@ -201,7 +202,7 @@ y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
-#> # A tibble: 30 x 10
+#> # A tibble: 32 x 10
 #>    address             formula formula_type formula_ref formula_group   error logical numeric       date     character
 #>      <chr>               <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
 #>  1      A1                 1/0         <NA>        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
@@ -214,16 +215,16 @@ y[!is.na(y$formula),
 #>  8     A20             $A$18+1       shared     A20:A21             0    <NA>      NA       2         NA          <NA>
 #>  9     B20               A19+2       shared     B20:B21             1    <NA>      NA       4         NA          <NA>
 #> 10     A21             $A$18+1       shared        <NA>             0    <NA>      NA       2         NA          <NA>
-#> # ... with 20 more rows
+#> # ... with 22 more rows
 ```
 
 The top five cells show that the results of formulas are available as usual in the columns `error`, `logical`, `numeric`, `date`, and `character`.
 
-### Shared formulas
+#### Shared formulas
 
 Cells `A20` and `A21` illustrate how formulas are normalised before being written to file, using the `formula_ref` and `formula_group` columns. When there is a group of cells whose formulas only differ by cell reference (e.g. "=A1+1", "=A2+1", "=A3+1", etc.), only one formula in each group is written to the file, so `tidyxl` infers what the formulas in the other cells in the group must be, from their relative positions.
 
-### Array formulas
+#### Array formulas
 
 There are two kinds of array formulas: ones that compute over arrays, and ones whose output is an array (of cells).
 
@@ -233,11 +234,11 @@ The first kind (those that compute over arrays) is illustrated by cell `A22`.
 
 The second kind (those whose value is spread across an array of cells) is illustrated by cells `A23` and `A24`. The formula is only given in the top-left cell (`A23`), which is also the only cell that describes the range of cells containing the result, in the `formula-ref` column. The results themselves are stored in all relevant cells (`A23` and `A24`). Unlike shared formulas, there is no `formula_group` to associate the cells of an array formula's result. If you need to do identify those cells, use the [cellranger](https://github.com/rsheets/cellranger) package and the `formula_ref` column.
 
-### Formulas referring to other files
+#### Formulas referring to other files
 
 Cell `A25` contains a formula that refers to another file. The `[1]` is an index into a table of files. The roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing such numbers.
 
-### Tokenizing formulas
+#### Tokenizing formulas
 
 The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/) or run `demo_xlex()` locally.
 
@@ -267,6 +268,63 @@ plot_xlex(x) # Requires the ggraph package
 ![](README-unnamed-chunk-10-1.png)
 
 See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for more examples and details.
+
+### Named ranges
+
+Names are imported with `xlex_names()`. AKA 'named formulas' and 'defined names', these are usually used to name particular cells or ranges, making formulas that refer to them more readable. Ones that *are* ranges are identifed by the `is_range` column (using `is_range()`), making it easier to match the names to the cells returned by `tidy_xlsx()` -- e.g. by using the [`cellranger`](https://github.com/rsheets/cellranger) package.
+
+When the scope of the name is within a particular sheet, rather than global, the sheet name is given.
+
+``` r
+xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
+#>                   name                     formula sheet_name is_range
+#> 1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1     Sheet1    FALSE
+#> 2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1   E09904.2     TRUE
+#> 3         intersection   Sheet1!$B:$B Sheet1!$8:$8       <NA>     TRUE
+#> 4 named_global_formula             Sheet1!$A$129-1       <NA>    FALSE
+#> 5          named_range               Sheet1!$A$129       <NA>     TRUE
+```
+
+### Data validation rules
+
+Data validation rules are imported with `xlsx_validation()`. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell. Because they are defined for cells on particular sheets, the returned data structure is similar to `tidy_xlsx()`, i.e. a list of data frames, named by the worksheet.
+
+``` r
+xlsx_validation(system.file("extdata/examples.xlsx", package = "tidyxl"))
+#> $Sheet1
+#> # A tibble: 15 x 13
+#>               ref       type           operator            formula1            formula2 allow_blank show_input_message
+#>             <chr>      <chr>              <chr>               <chr>               <chr>       <lgl>              <lgl>
+#>  1           A106      whole            between                   0                   9        TRUE               TRUE
+#>  2           A107    decimal         notBetween                   0                   9       FALSE              FALSE
+#>  3           A108       list               <NA>              $B$108                <NA>        TRUE               TRUE
+#>  4           A109       list               <NA>              $B$108                <NA>        TRUE               TRUE
+#>  5           A110       date            between 2017-01-01 00:00:00 2017-01-09 09:00:00        TRUE               TRUE
+#>  6           A111       time            between            00:00:00            09:00:00        TRUE               TRUE
+#>  7           A112 textLength            between                   0                   9        TRUE               TRUE
+#>  8           A113     custom               <NA>     A113<=LEN(B113)                <NA>        TRUE               TRUE
+#>  9           A114      whole         notBetween                   0                   9        TRUE               TRUE
+#> 10 A115,A121:A122      whole              equal                   0                <NA>        TRUE               TRUE
+#> 11           A116      whole           notEqual                   0                <NA>        TRUE               TRUE
+#> 12           A117      whole        greaterThan                   0                <NA>        TRUE               TRUE
+#> 13           A118      whole           lessThan                   0                <NA>        TRUE               TRUE
+#> 14           A119      whole greaterThanOrEqual                   0                <NA>        TRUE               TRUE
+#> 15           A120      whole    lessThanOrEqual                   0                <NA>        TRUE               TRUE
+#> # ... with 6 more variables: prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>, error_title <chr>,
+#> #   error_body <chr>, error_symbol <chr>
+#> 
+#> $`1~`!@#$%^&()_-+={}|;"'<,>.£¹÷¦°`
+#> # A tibble: 0 x 13
+#> # ... with 13 variables: ref <chr>, type <chr>, operator <chr>, formula1 <chr>, formula2 <chr>, allow_blank <lgl>,
+#> #   show_input_message <lgl>, prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>, error_title <chr>,
+#> #   error_body <chr>, error_symbol <chr>
+#> 
+#> $E09904.2
+#> # A tibble: 0 x 13
+#> # ... with 13 variables: ref <chr>, type <chr>, operator <chr>, formula1 <chr>, formula2 <chr>, allow_blank <lgl>,
+#> #   show_input_message <lgl>, prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>, error_title <chr>,
+#> #   error_body <chr>, error_symbol <chr>
+```
 
 Philosophy
 ----------

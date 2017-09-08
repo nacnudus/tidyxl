@@ -72,7 +72,6 @@ describes the cell's address, value and other properties.
 ```{r, echo = TRUE}
 library(tidyxl)
 x <- tidy_xlsx(titanic)$data$Sheet1
-# Specific sheets can be requested using `tidy_xlsx(file, sheet)`
 str(x)
 ```
 
@@ -82,6 +81,10 @@ In this structure, the cells can be found by filtering.
 x[x$data_type == "character", c("address", "character")]
 x[x$row == 4, c("address", "character", "numeric")]
 ```
+
+Specific sheets can be requested using `tidy_xlsx(file, sheet)`, and the names
+of all sheets in a file are given by `xlsx_sheet_names()`.
+
 
 ### Formatting
 
@@ -144,7 +147,7 @@ y[!is.na(y$formula),
 The top five cells show that the results of formulas are available as usual in
 the columns `error`, `logical`, `numeric`, `date`, and `character`.
 
-### Shared formulas
+#### Shared formulas
 
 Cells `A20` and `A21` illustrate how formulas are normalised before being
 written to file, using the `formula_ref` and `formula_group` columns.  When
@@ -153,7 +156,7 @@ there is a group of cells whose formulas only differ by cell reference (e.g.
 the file, so `tidyxl` infers what the formulas in the other cells in the group
 must be, from their relative positions.
 
-### Array formulas
+#### Array formulas
 
 There are two kinds of array formulas: ones that compute over arrays, and ones
 whose output is an array (of cells).
@@ -175,14 +178,14 @@ you need to do identify those cells, use the
 [cellranger](https://github.com/rsheets/cellranger) package and the
 `formula_ref` column.
 
-### Formulas referring to other files
+#### Formulas referring to other files
 
 Cell `A25` contains a formula that refers to another file.  The `[1]` is an
 index into a table of files.  The roadmap
 [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing
 such numbers.
 
-### Tokenizing formulas
+#### Tokenizing formulas
 
 The function `xlex()` separates formulas into tokens of different types, and
 gives their depth within a nested formula.  Its name is a bad pun on 'Excel' and
@@ -202,6 +205,34 @@ plot_xlex(x) # Requires the ggraph package
 
 See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
 more examples and details.
+
+### Named ranges
+
+Names are imported with `xlex_names()`.  AKA 'named formulas' and 'defined
+names', these are usually used to name particular cells or ranges, making
+formulas that refer to them more readable.  Ones that *are* ranges are identifed
+by the `is_range` column (using `is_range()`), making it easier to match the
+names to the cells returned by `tidy_xlsx()` -- e.g. by using the
+[`cellranger`](https://github.com/rsheets/cellranger) package.
+
+When the scope of the name is within a particular sheet, rather than global, the
+sheet name is given.
+
+```{r}
+xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
+```
+
+### Data validation rules
+
+Data validation rules are imported with `xlsx_validation()`.  These rules
+control what values may be entered into a cell, and are often used to create
+a drop-down list in a cell.  Because they are defined for cells on particular
+sheets, the returned data structure is similar to `tidy_xlsx()`, i.e. a
+list of data frames, named by the worksheet.
+
+```{r}
+xlsx_validation(system.file("extdata/examples.xlsx", package = "tidyxl"))
+```
 
 ## Philosophy
 
