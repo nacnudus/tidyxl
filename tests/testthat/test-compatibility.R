@@ -28,7 +28,7 @@ test_that("warns about default styles when no cellStyleXfs defined", {
 })
 
 test_that("libreoffice 'true' and 'false' are interpreted as bool", {
-  expect_equal(tidy_xlsx("libreoffice_bool.xlsx")$formats$local$font$bold,
+  expect_equal(tidy_xlsx("libreoffice-bool.xlsx")$formats$local$font$bold,
                c(FALSE, TRUE))
 })
 
