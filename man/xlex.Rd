@@ -38,7 +38,8 @@ from a different file, then the file is included in this token -- usually
 it has been normalized to the form \code{[0]}.
 \item \code{name} A named range, or more properly a named formula.
 \item \code{function} An Excel or user-defined function, e.g. \code{MAX} or
-\code{_xll.MY_CUSTOM_FUNCTION}.
+\code{_xll.MY_CUSTOM_FUNCTION}.  A complete list of official Excel functions is
+available in the vector \code{\link{excel_functions}}.
 \item \code{error} An error, e.g. \code{#N/A} or \code{#REF!}.
 \item \code{bool} \code{TRUE} or \code{FALSE} -- note that there are also functions \code{TRUE()} and
 \code{FALSE()}.

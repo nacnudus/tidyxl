@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • tidyxl</title>
+<title>Test that Excel formulas are ranges — is_range • tidyxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -48,7 +48,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -89,94 +89,43 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.2.3.9000</small>
-      </h1>
+    <h1>Test that Excel formulas are ranges</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    
+    <p><code>is_range()</code> tests whether or not an Excel formula is a range.
+A formula like <code>A1</code> is a range, whereas a formula like <code>MAX(A1,2)</code> is not.
+Formulas are not evaluated, so it returns <code>FALSE</code> for formulas that would
+eventually resolve to arrange (e.g.  <code>INDEX(A1:A10,2)</code>) but that are not
+immediately a range.</p>
+    
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <pre class="usage"><span class='fu'>is_range</span>(<span class='no'>x</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>character vector of formulas</p></td>
+    </tr>
+    </table>
+    
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="demo_xlex.html">demo_xlex</a></code> </p>
-          </td>
-          <td><p>Run a shiny app to demonstrate xlex()</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="excel_functions.html">excel_functions</a></code> </p>
-          </td>
-          <td><p>Names of all Excel functions</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="is_range.html">is_range</a></code> </p>
-          </td>
-          <td><p>Test that Excel formulas are ranges</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot_xlex.html">plot_xlex</a></code> <code><a href="plot_xlex.html">xlex_edges</a></code> <code><a href="plot_xlex.html">xlex_vertices</a></code> <code><a href="plot_xlex.html">xlex_igraph</a></code> </p>
-          </td>
-          <td><p>Plot the parse tree of a formula</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="tidy_xlsx.html">tidy_xlsx</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlex.html">xlex</a></code> </p>
-          </td>
-          <td><p>Parse xlsx (Excel) formulas into tokens</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_names.html">xlsx_names</a></code> </p>
-          </td>
-          <td><p>Import named formulas from xlsx (Excel) files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_sheet_names.html">xlsx_sheet_names</a></code> </p>
-          </td>
-          <td><p>List sheets in an xlsx (Excel) file</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_validation.html">xlsx_validation</a></code> </p>
-          </td>
-          <td><p>Import data validation rules of cells in xlsx (Excel) files</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"A1"</span>, <span class='st'>"Sheet1!A1"</span>, <span class='st'>"[0]Sheet1!A1"</span>, <span class='st'>"A1,A2"</span>, <span class='st'>"A:A 3:3"</span>, <span class='st'>"MAX(A1,2)"</span>)
+<span class='fu'>is_range</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
