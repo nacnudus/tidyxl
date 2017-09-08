@@ -26,7 +26,8 @@
 #'   it has been normalized to the form `[0]`.
 #' * `name` A named range, or more properly a named formula.
 #' * `function` An Excel or user-defined function, e.g. `MAX` or
-#'   `_xll.MY_CUSTOM_FUNCTION`.
+#'   `_xll.MY_CUSTOM_FUNCTION`.  A complete list of official Excel functions is
+#'   available in the vector [`excel_functions`].
 #' * `error` An error, e.g. `#N/A` or `#REF!`.
 #' * `bool` `TRUE` or `FALSE` -- note that there are also functions `TRUE()` and
 #'   `FALSE()`.
