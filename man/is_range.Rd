@@ -10,11 +10,11 @@ is_range(x)
 \item{x}{character vector of formulas}
 }
 \description{
-\code{is_range()} tests whether an Excel formula is a range.  A
-formula like \code{A1} is a range, whereas a formula like \code{MAX(A1,2)} is not.
+\code{is_range()} tests whether or not an Excel formula is a range.
+A formula like \code{A1} is a range, whereas a formula like \code{MAX(A1,2)} is not.
 Formulas are not evaluated, so it returns \code{FALSE} for formulas that would
-resolve to arrange (e.g.  \code{INDEX(A1:A10,2)}) but that are not immediately a
-range.
+eventually resolve to arrange (e.g.  \code{INDEX(A1:A10,2)}) but that are not
+immediately a range.
 }
 \examples{
 x <- c("A1", "Sheet1!A1", "[0]Sheet1!A1", "A1,A2", "A:A 3:3", "MAX(A1,2)")
