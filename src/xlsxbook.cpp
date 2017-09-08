@@ -14,7 +14,6 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   xml.parse<0>(&book[0]);
 
   rapidxml::xml_node<>* workbook = xml.first_node("workbook");
-  rapidxml::xml_node<>* sheets = workbook->first_node("sheets");
 
   cacheDateOffset(workbook); // Must come before cacheSheets
   cacheStrings();
