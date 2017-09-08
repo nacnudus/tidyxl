@@ -11,6 +11,7 @@
     issue #7).  This introduces a dependency on
     [piton](https://cran.r-project.org/web/packages/piton/index.html), which
     wraps the [PEGTL](https://github.com/taocpp/PEGTL) parser generator.
+* Imports defined names (aka named ranges/formulas) with `xlsx_names()`.
 
 # tidyxl 0.2.3
 

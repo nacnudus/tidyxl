@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <Rcpp.h>
 #include "zip.h"
+#include "xlsxnames.h"
 #include "xlsxvalidation.h"
 #include "xlsxsheet.h"
 #include "xlsxbook.h"
@@ -179,4 +180,9 @@ List xlsx_validation_(
   out.attr("names") = sheet_names;
 
   return out;
+}
+
+// [[Rcpp::export]]
+List xlsx_names_(std::string path) {
+  return xlsxnames(path).information();
 }
