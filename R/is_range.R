@@ -15,7 +15,8 @@ is_range <- function(x) {
   is_range_scalar <- function(y) {
     # Contiguous sequence of ref[(union or intersection operator)ref]*
     tokens <- xlex(y)
-    tokens <- tokens[tokens$type != "sheet", ] # Now all refs should be comma-or-space-separated
+    tokens <- tokens[tokens$type != "sheet", ]
+    # Now all refs should be comma-or-space-separated
     len <- nrow(tokens)
     odds <- seq.int(1, len, by = 2)
     if (len %% 2 == 0 && len >= 2) {

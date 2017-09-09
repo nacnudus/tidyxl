@@ -29,7 +29,7 @@
 plot_xlex <- function(x) {
   if (requireNamespace("igraph", quietly = TRUE)
       && requireNamespace("ggraph", quietly = TRUE)) {
-    ggraph::ggraph(xlex_igraph(x), 'igraph', algorithm = 'tree') +
+    ggraph::ggraph(xlex_igraph(x), "igraph", algorithm = "tree") +
       ggraph::geom_edge_diagonal() +
       ggraph::geom_node_label(ggplot2::aes_string(label = "label")) +
       ggplot2::theme_void()
@@ -48,8 +48,9 @@ xlex_edges <- function(x) {
   names(x) <- NULL
   x <- lapply(x,
                   function(x) {
-                    x$from = x$from[1]
-                    x})
+                    x$from <- x$from[1]
+                    x
+                  })
   x <- do.call(rbind, x)
   # tibbles are not compatible with igraph
   data.frame(from = x$from,

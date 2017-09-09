@@ -1,4 +1,4 @@
-# This code was copied from the R package 'readxl' at 
+# This code was copied from the R package 'readxl' at
 # https://cran.r-project.org/web/packages/readxl/index.html
 # on 4 July 2016.
 # It was written by Hadley Wickham hadley@rstudio.com.
@@ -24,4 +24,3 @@ zip_buffer <- function(zip_path, file_path) {
 zip_has_file <- function(zip_path, file_path) {
   file_path %in% utils::unzip(zip_path, list = TRUE)$Name
 }
-

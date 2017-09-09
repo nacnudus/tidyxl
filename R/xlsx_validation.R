@@ -76,4 +76,3 @@ xlsx_validation <- function(path, sheets = NA) {
   out <- lapply(out, function(x) x[order(x$ref), ])
   out
 }
-

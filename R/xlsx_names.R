@@ -40,10 +40,9 @@ xlsx_names <- function(path) {
   # and interpret is as the 'order' of utils_xlsx_sheet_files().
   sheets <- utils_xlsx_sheet_files(path)[, c("name", "id")]
   names(sheets)[1] <- "sheet_name"
-  out$sheet_id = out$sheet_id + 1
+  out$sheet_id <- out$sheet_id + 1
   out <- merge(out, sheets, by.x = "sheet_id", by.y = "id", all.x = TRUE)
   out$sheet_id <- NULL
   out$is_range <- is_range(out$formula)
   out
 }
-
