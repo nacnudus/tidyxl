@@ -32,8 +32,8 @@ formulas.  \code{xlsx_names()} tells you whether or not they are a range, using
 \code{\link[tidyxl:is_range]{tidyxl::is_range()}} to work this out.
 
 Names are scoped either globally (used only once in the file), or locally to
-each sheet (can be reused with different definitions in diffent sheets).  For
-sheet-scoped names, \code{xlsx_names()} provides the name of the sheet.
+each sheet (can be reused with different definitions in different sheets).
+For sheet-scoped names, \code{xlsx_names()} provides the name of the sheet.
 }
 \examples{
 examples <- system.file("extdata/examples.xlsx", package = "tidyxl")

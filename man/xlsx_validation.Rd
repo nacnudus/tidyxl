@@ -25,7 +25,7 @@ e.g. \code{A106} or A115,A121:A122`.
 \code{greaterThanOrEqual}, \code{lessthanOrEqual}.
 \item \code{formula1} If \code{type} is \code{list}, then a range of cells whose values are
 allowed by the rule.  If \code{type} is \code{custom}, then a formula to determine
-alowable values.  Otherwise, a cell address or constant, coerced to
+allowable values.  Otherwise, a cell address or constant, coerced to
 character.  Dates and times are formatted like "2017-01-27 13:30:45".
 Times without dates are formatted like "13:30:45".
 \item \code{formula2} If \code{operator} is \code{between} or \code{notBetween}, then a cell address

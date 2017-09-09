@@ -28,7 +28,7 @@
 #'     `greaterThanOrEqual`, `lessthanOrEqual`.
 #' * `formula1` If `type` is `list`, then a range of cells whose values are
 #'     allowed by the rule.  If `type` is `custom`, then a formula to determine
-#'     alowable values.  Otherwise, a cell address or constant, coerced to
+#'     allowable values.  Otherwise, a cell address or constant, coerced to
 #'     character.  Dates and times are formatted like "2017-01-27 13:30:45".
 #'     Times without dates are formatted like "13:30:45".
 #' * `formula2` If `operator` is `between` or `notBetween`, then a cell address
