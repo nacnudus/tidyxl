@@ -46,26 +46,34 @@ inline double checkDate(double& date, int& dateSystem, int& dateOffset, std::str
 // Convert datetime doubles to strings "%Y-%m-%d %H:%M:%S"
 // TODO: Support subseconds
 inline std::string formatDate(double& date, int& dateSystem, int& dateOffset) {
-  int charsize;
   const char* format;
   if (date < 1) {                      // time only (in Excel's formuat)
-    charsize = 10;
     format = "%H:%M:%S";
   } else {                             // date and maybe time
     /* double intpart; */
     /* if (modf(date, &intpart) == 0.0) { // date only, not time */
-    /*   charsize = 11; */
     /*   format = "%Y-%m-%d"; */
     /* } else {                           // date and time */
-      charsize = 20;
       format = "%Y-%m-%d %H:%M:%S";
     /* } */
   }
-  char out[charsize];
+  /* // This doesn't work on Windows before 1970, so use R functions instead */
+  /* char out[charsize]; */
+  /* date = checkDate(date, dateSystem, dateOffset, ""); // Convert to POSIX */
+  /* std::time_t date_time_t(date); */
+  /* std::tm date_tm = *std::gmtime(&date_time_t); */
+  /* std::strftime(out, sizeof(out), format, &date_tm); */
+  // Use R functions instead of C++ strftime, which doesn't work before 1970 on
+  // Windows
   date = checkDate(date, dateSystem, dateOffset, ""); // Convert to POSIX
-  std::time_t date_time_t(date);
-  std::tm date_tm = *std::gmtime(&date_time_t);
-  std::strftime(out, sizeof(out), format, &date_tm);
+  std::string out;
+  Rcpp::Function r_as_POSIXlt("as.POSIXlt");
+  Rcpp::Function r_format_POSIXlt("format.POSIXlt");
+  out =  Rcpp::as<std::string>(r_format_POSIXlt(r_as_POSIXlt(date,
+                                                             "",
+                                                             "1970-01-01"),
+                                                format,
+                                                false));
   return out;
 }
 
