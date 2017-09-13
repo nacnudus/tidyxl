@@ -615,12 +615,9 @@ List styles::zipFormats(xf styles, bool is_style) {
     fonts.strike_.attr("names") = cellStyles_;
     fonts_vertAlign.attr("names") = cellStyles_;
     fonts.size_.attr("names") = cellStyles_;
-    /* fonts.color.attr("names") = cellStyles_; */
     fonts_name.attr("names") = cellStyles_;
     fonts.family_.attr("names") = cellStyles_;
     fonts_scheme.attr("names") = cellStyles_;
-    /* fills_patternFill_fgColor.attr("names") = cellStyles_; */
-    /* fills_patternFill_bgColor.attr("names") = cellStyles_; */
     fills_patternFill_patternType.attr("names") = cellStyles_;
     fills_gradientFill_type.attr("names") = cellStyles_;
     fills.gradientFill_.degree_.attr("names") = cellStyles_;
@@ -628,29 +625,18 @@ List styles::zipFormats(xf styles, bool is_style) {
     fills.gradientFill_.right_.attr("names") = cellStyles_;
     fills.gradientFill_.top_.attr("names") = cellStyles_;
     fills.gradientFill_.bottom_.attr("names") = cellStyles_;
-    /* fills_gradientFill_color1.attr("names") = cellStyles_; */
-    /* fills_gradientFill_color2.attr("names") = cellStyles_; */
     borders.diagonalDown_.attr("names") = cellStyles_;
     borders.diagonalUp_.attr("names") = cellStyles_;
     borders.outline_.attr("names") = cellStyles_;
     borders_left_style.attr("names") = cellStyles_;
-    /* borders_left_color.attr("names") = cellStyles_; */
     borders_right_style.attr("names") = cellStyles_;
-    /* borders_right_color.attr("names") = cellStyles_; */
     borders_start_style.attr("names") = cellStyles_;
-    /* borders_start_color.attr("names") = cellStyles_; */
     borders_end_style.attr("names") = cellStyles_;
-    /* borders_end_color.attr("names") = cellStyles_; */
     borders_top_style.attr("names") = cellStyles_;
-    /* borders_top_color.attr("names") = cellStyles_; */
     borders_bottom_style.attr("names") = cellStyles_;
-    /* borders_bottom_color.attr("names") = cellStyles_; */
     borders_diagonal_style.attr("names") = cellStyles_;
-    /* borders_diagonal_color.attr("names") = cellStyles_; */
     borders_vertical_style.attr("names") = cellStyles_;
-    /* borders_vertical_color.attr("names") = cellStyles_; */
     borders_horizontal_style.attr("names") = cellStyles_;
-    /* borders_horizontal_color.attr("names") = cellStyles_; */
   }
 
   return List::create(
