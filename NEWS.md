@@ -15,6 +15,7 @@
 * Imports defined names (aka named ranges/formulas) with `xlsx_names()`.
 * Provides a utility function `is_range()` to check whether formulas are simply
     ranges of cells.
+* Returns formatting of alignment and cell protection (#20).
 
 # tidyxl 0.2.3
 

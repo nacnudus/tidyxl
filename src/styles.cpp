@@ -490,7 +490,7 @@ void styles::applyFormats() {
     } else {
       // Inherit the 'style_formats_' style
       local_formats_.horizontal_.push_back(style_formats_.horizontal_[xfId]);
-       local_formats_.vertical_.push_back(style_formats_.vertical_[xfId]);
+      local_formats_.vertical_.push_back(style_formats_.vertical_[xfId]);
       local_formats_.wrapText_.push_back(style_formats_.wrapText_[xfId]);
       local_formats_.readingOrder_.push_back(style_formats_.readingOrder_[xfId]);
       local_formats_.indent_.push_back(style_formats_.indent_[xfId]);
@@ -550,6 +550,18 @@ List styles::zipFormats(xf styles, bool is_style) {
   CharacterVector borders_vertical_style;
   CharacterVector borders_horizontal_style;
 
+  CharacterVector alignments_horizontal;
+  CharacterVector alignments_vertical;
+  LogicalVector   alignments_wrapText;
+  CharacterVector alignments_readingOrder;
+  IntegerVector   alignments_indent;
+  LogicalVector   alignments_justifyLastLine;
+  LogicalVector   alignments_shrinkToFit;
+  IntegerVector   alignments_textRotation;
+
+  LogicalVector   protections_locked;
+  LogicalVector   protections_hidden;
+
   for(int i = 0; i < styles.numFmtId_.size(); ++i) {
     font* font = &fonts_[styles.fontId_[i]];
     fill* fill = &fills_[styles.fillId_[i]];
@@ -604,6 +616,18 @@ List styles::zipFormats(xf styles, bool is_style) {
     clone_color(border->diagonal_.color_, borders_diagonal_color);
     clone_color(border->vertical_.color_, borders_vertical_color);
     clone_color(border->horizontal_.color_, borders_horizontal_color);
+
+    alignments_horizontal.push_back(styles.horizontal_[i]);
+    alignments_vertical.push_back(styles.vertical_[i]);
+    alignments_wrapText.push_back(styles.wrapText_[i]);
+    alignments_readingOrder.push_back(styles.readingOrder_[i]);
+    alignments_indent.push_back(styles.indent_[i]);
+    alignments_justifyLastLine.push_back(styles.justifyLastLine_[i]);
+    alignments_shrinkToFit.push_back(styles.shrinkToFit_[i]);
+    alignments_textRotation.push_back(styles.textRotation_[i]);
+
+    protections_locked.push_back(styles.locked_[i]);
+    protections_hidden.push_back(styles.hidden_[i]);
   }
 
   if (is_style) {
@@ -637,6 +661,17 @@ List styles::zipFormats(xf styles, bool is_style) {
     borders_diagonal_style.attr("names") = cellStyles_;
     borders_vertical_style.attr("names") = cellStyles_;
     borders_horizontal_style.attr("names") = cellStyles_;
+    alignments_horizontal.attr("names") = cellStyles_;
+    alignments_vertical.attr("names") = cellStyles_;
+    alignments_wrapText.attr("names") = cellStyles_;
+    alignments_readingOrder.attr("names") = cellStyles_;
+    alignments_indent.attr("names") = cellStyles_;
+    alignments_justifyLastLine.attr("names") = cellStyles_;
+    alignments_shrinkToFit.attr("names") = cellStyles_;
+    alignments_textRotation.attr("names") = cellStyles_;
+
+    protections_locked.attr("names") = cellStyles_;
+    protections_hidden.attr("names") = cellStyles_;
   }
 
   return List::create(
@@ -696,6 +731,17 @@ List styles::zipFormats(xf styles, bool is_style) {
               _["color"] = list_color(borders_vertical_color, is_style)),
           _["horizontal"] = List::create(
               _["style"] = borders_horizontal_style,
-              _["color"] = list_color(borders_horizontal_color, is_style)))
-                  );
+              _["color"] = list_color(borders_horizontal_color, is_style))),
+      _["alignment"] = List::create(
+          _["horizontal"] = alignments_horizontal,
+          _["vertical"] = alignments_vertical,
+          _["wrapText"] = alignments_wrapText,
+          _["readingOrder"] = alignments_readingOrder,
+          _["indent"] = alignments_indent,
+          _["justifyLastLine"] = alignments_justifyLastLine,
+          _["shrinkToFit"] = alignments_shrinkToFit,
+          _["textRotation"] = alignments_textRotation),
+      _["protection"] = List::create(
+          _["locked"] = protections_locked,
+          _["hidden"] = protections_hidden));
 }
