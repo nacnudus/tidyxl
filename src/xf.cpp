@@ -28,11 +28,11 @@ xf::xf(rapidxml::xml_node<>* xf):
   if (alignment == NULL) {
     horizontal_      =    CharacterVector::create(NA_STRING);
     vertical_        =    CharacterVector::create(NA_STRING);
-    wrapText_        =    IntegerVector::create(NA_INTEGER);
+    wrapText_        =    LogicalVector::create(NA_LOGICAL);
     readingOrder_    =    CharacterVector::create(NA_STRING);
     indent_          =    IntegerVector::create(NA_INTEGER);
-    justifyLastLine_ =    IntegerVector::create(NA_INTEGER);
-    shrinkToFit_     =    IntegerVector::create(NA_INTEGER);
+    justifyLastLine_ =    LogicalVector::create(NA_LOGICAL);
+    shrinkToFit_     =    LogicalVector::create(NA_LOGICAL);
     textRotation_    =    IntegerVector::create(NA_INTEGER);
   } else {
     horizontal_      =    string_value(alignment, "horizontal");
