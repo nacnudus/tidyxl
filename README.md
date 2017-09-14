@@ -365,6 +365,8 @@ Roadmap
 -------
 
 -   \[ \] Propagate array formulas to all associated cells.
+-   \[x\] Import data validation rules
+-   \[x\] Import named formulas (aka named ranges, defined names)
 -   \[x\] Create a general formula tokenizer.
 -   \[x\] Parse shared formulas and propagate to all associated cells.
 -   \[x\] Parse dates
