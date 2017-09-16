@@ -23,7 +23,8 @@ test_that("gracefully fails on missing files", {
 })
 
 test_that("allows user interruptions", {
-  # This is just for code coverage
+  # This is just to test the branch that waits for interruptions.  No
+  # interruption is attempted
   expect_error(tidy_xlsx("./thousand.xlsx"), NA)
 })
 
