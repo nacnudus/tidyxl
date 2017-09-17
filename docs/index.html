@@ -38,10 +38,28 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="/index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="articles/index.html">Articles</a>
+  <a href="articles/tidyxl.html">Get Started</a>
+</li>
+<li>
+  <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">News</a>
@@ -85,7 +103,7 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"nacnudus/tidyxl"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"nacnudus/tidyxl"</span>)</code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
@@ -105,7 +123,7 @@
 <span class="co">#&gt;       Female              0   0     3  20</span></code></pre></div>
 <p>The multi-row column headers make this difficult to import. A popular package for importing spreadsheets coerces the pivot table into a dataframe. It treats the second header row as though it were observations.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">titanic &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/titanic.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>)
-readxl<span class="op">::</span><span class="kw">read_excel</span>(titanic)
+readxl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/readxl/topics/read_excel">read_excel</a></span>(titanic)
 <span class="co">#&gt; # A tibble: 10 x 7</span>
 <span class="co">#&gt;     X__1   X__2      Age Child  X__3 Adult  X__4</span>
 <span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
@@ -409,7 +427,8 @@ x
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Links</h2>
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cran.r-project.org/package=tidyxl">https://​cran.r-project.org/​package=tidyxl</a>
 </li>

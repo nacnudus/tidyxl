@@ -104,16 +104,14 @@ of the formula the last time it was evaluated.
 Certain groups of cells may share a formula that differs only by addresses
 referred to in the formula; such groups are identified by an index, the
 'formula_group'.  The xlsx (Excel) file format only records the formula
-against one cell in any group.  It is planned for \code{tidy_xlsx()} to parse
-such formulas and copy them to the other cells in a group, making the
-necessary changes to addresses in the formula.
+against one cell in any group, but \code{tidy_xlsx()} propagates the formula to
+all the cells in the group, making the necessary changes to relative
+addresses in the formula.
 
 Array formulas may also apply to a group of cells, identified by an address
 'formula_ref', but xlsx (Excel) file format only records the formula
-against one cell in the group.  It is planned for \code{tidy_xlsx()} to parse
-such addresses and copy the array formula to the other cells in the group.
-Unlike shared formulas, no changes to addresses in array formulas are
-necessary.
+against one cell in the group.  Unlike ordinary formulas, \code{tidy_xlsx()}
+does not propagate these to the other cells in the group.
 
 Formulas that refer to other workbooks currently do not name the workbooks
 directly, instead via indices such as \code{[1]}.  It is planned to
