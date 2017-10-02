@@ -39,6 +39,7 @@ xlsxbook::xlsxbook(
 
   cacheDateOffset(workbook); // Must come before cacheSheets
   cacheStrings();
+  cacheSheetXml();
   cacheInformation();
 }
 
@@ -85,21 +86,34 @@ void xlsxbook::cacheDateOffset(rapidxml::xml_node<>* workbook) {
   dateOffset_ = 25569;
 }
 
-void xlsxbook::cacheInformation() {
-  // Loop through sheets
+void xlsxbook::cacheSheetXml() {
+  // Loop through sheets, reading the xml into memory
   List sheet_list(sheet_paths_.size());
 
   CharacterVector::iterator in_it;
   List::iterator sheet_list_it;
 
   int i = 0;
-  for(in_it = sheet_paths_.begin(), sheet_list_it = sheet_list.begin();
-      in_it != sheet_paths_.end();
+  for(in_it = sheet_paths_.begin(); in_it != sheet_paths_.end(); ++in_it) {
+    std::string xml(*in_it);
+    sheet_xml_.push_back(zip_buffer(path_, xml));
+  }
+}
+
+void xlsxbook::cacheInformation() {
+  // Loop through sheets
+  List sheet_list(sheet_paths_.size());
+
+  std::vector<std::string>::iterator in_it;
+  List::iterator sheet_list_it;
+
+  int i = 0;
+  for(in_it = sheet_xml_.begin(), sheet_list_it = sheet_list.begin();
+      in_it != sheet_xml_.end();
       ++in_it, ++sheet_list_it) {
-    String sheet_path(sheet_paths_[i]);
     String sheet_name(sheet_names_[i]);
     String comments_path(comments_paths_[i]);
-    *sheet_list_it = xlsxsheet(sheet_name, sheet_path, *this, comments_path).information();
+    *sheet_list_it = xlsxsheet(sheet_name, *in_it, *this, comments_path).information();
     ++i;
   }
 

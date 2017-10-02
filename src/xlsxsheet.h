@@ -54,7 +54,7 @@ class xlsxsheet {
 
     xlsxsheet(
         const std::string& name,
-        const std::string& sheet_path,
+        std::string& sheet_xml,
         xlsxbook& book,
         Rcpp::String comments_path);
     Rcpp::List& information();       // Cells contents and styles DF wrapped in list
