@@ -5,7 +5,6 @@
 #include "zip.h"
 #include "xlsxnames.h"
 #include "xlsxvalidation.h"
-#include "xlsxsheet.h"
 #include "xlsxbook.h"
 
 using namespace Rcpp;
@@ -22,35 +21,8 @@ List xlsx_read_(
     CharacterVector sheet_names,
     CharacterVector comments_paths
     ) {
-  // Parse book-level information (e.g. styles, themes, strings, date system)
-  xlsxbook book(path);
-
-  // Loop through sheets
-  List sheet_list(sheet_paths.size());
-
-  CharacterVector::iterator in_it;
-  List::iterator sheet_list_it;
-
-  int i = 0;
-  for(in_it = sheet_paths.begin(), sheet_list_it = sheet_list.begin();
-      in_it != sheet_paths.end();
-      ++in_it, ++sheet_list_it) {
-    String sheet_path(sheet_paths[i]);
-    String sheet_name(sheet_names[i]);
-    String comments_path(comments_paths[i]);
-    *sheet_list_it = xlsxsheet(sheet_name, sheet_path, book, comments_path).information();
-    ++i;
-  }
-
-  sheet_list.attr("names") = sheet_names;
-
-  List out = List::create(
-      _["data"] = sheet_list,
-      _["formats"] = List::create(
-        _["local"] = book.styles_.local_,
-        _["style"] = book.styles_.style_));
-
-  return out;
+  xlsxbook book(path, sheet_paths, sheet_names, comments_paths);
+  return book.information_;
 }
 
 inline String comments_path_(std::string path, std::string sheet_target) {

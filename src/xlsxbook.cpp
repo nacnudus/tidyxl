@@ -2,6 +2,7 @@
 #include "zip.h"
 #include "rapidxml.h"
 #include "xlsxbook.h"
+#include "xlsxsheet.h"
 #include "styles.h"
 #include "utils.h"
 
@@ -17,6 +18,28 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
 
   cacheDateOffset(workbook); // Must come before cacheSheets
   cacheStrings();
+}
+
+xlsxbook::xlsxbook(
+    const std::string& path,
+    CharacterVector& sheet_paths,
+    CharacterVector& sheet_names,
+    CharacterVector& comments_paths):
+  path_(path),
+  sheet_paths_(sheet_paths),
+  sheet_names_(sheet_names),
+  comments_paths_(comments_paths),
+  styles_(path_) {
+  std::string book = zip_buffer(path_, "xl/workbook.xml");
+
+  rapidxml::xml_document<> xml;
+  xml.parse<0>(&book[0]);
+
+  rapidxml::xml_node<>* workbook = xml.first_node("workbook");
+
+  cacheDateOffset(workbook); // Must come before cacheSheets
+  cacheStrings();
+  cacheInformation();
 }
 
 // Based on hadley/readxl
@@ -60,4 +83,31 @@ void xlsxbook::cacheDateOffset(rapidxml::xml_node<>* workbook) {
 
   dateSystem_ = 1900;
   dateOffset_ = 25569;
+}
+
+void xlsxbook::cacheInformation() {
+  // Loop through sheets
+  List sheet_list(sheet_paths_.size());
+
+  CharacterVector::iterator in_it;
+  List::iterator sheet_list_it;
+
+  int i = 0;
+  for(in_it = sheet_paths_.begin(), sheet_list_it = sheet_list.begin();
+      in_it != sheet_paths_.end();
+      ++in_it, ++sheet_list_it) {
+    String sheet_path(sheet_paths_[i]);
+    String sheet_name(sheet_names_[i]);
+    String comments_path(comments_paths_[i]);
+    *sheet_list_it = xlsxsheet(sheet_name, sheet_path, *this, comments_path).information();
+    ++i;
+  }
+
+  sheet_list.attr("names") = sheet_names_;
+
+  information_ = List::create(
+      _["data"] = sheet_list,
+      _["formats"] = List::create(
+        _["local"] = styles_.local_,
+        _["style"] = styles_.style_));
 }

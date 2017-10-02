@@ -6,6 +6,8 @@
 #include "xlsxbook.h"
 #include "shared_formula.h"
 
+class xlsxbook;
+
 class xlsxsheet {
 
   public:
