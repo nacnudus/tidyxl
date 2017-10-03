@@ -141,7 +141,14 @@ void xlsxbook::cacheInformation() {
       ++in_it, ++sheet_list_it) {
     String sheet_name(sheet_names_[i]);
     String comments_path(comments_paths_[i]);
-    *sheet_list_it = xlsxsheet(sheet_name, *in_it, *this, comments_path).information();
+    xlsxsheet sheet(sheet_name, *in_it, *this, comments_path);
+    rapidxml::xml_document<> doc;
+    doc.parse<0>(&(*in_it)[0]);
+    rapidxml::xml_node<>* workbook = doc.first_node("worksheet");
+    rapidxml::xml_node<>* sheetData = workbook->first_node("sheetData");
+    sheet.parseSheetData(sheetData);
+    sheet.appendComments();
+    *sheet_list_it = sheet.information();
     ++i;
   }
 

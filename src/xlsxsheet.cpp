@@ -16,7 +16,7 @@ xlsxsheet::xlsxsheet(
   name_(name),
   book_(book) {
   rapidxml::xml_document<> xml;
-  xml.parse<0>(&sheet_xml[0]);
+  xml.parse<rapidxml::parse_non_destructive>(&sheet_xml[0]);
 
   rapidxml::xml_node<>* worksheet = xml.first_node("worksheet");
   rapidxml::xml_node<>* sheetData = worksheet->first_node("sheetData");
@@ -28,8 +28,6 @@ xlsxsheet::xlsxsheet(
   cacheColWidths(worksheet);
   initializeColumns(sheetData);
   cacheComments(comments_path);
-  parseSheetData(sheetData);
-  appendComments();
 }
 
 List& xlsxsheet::information() {
