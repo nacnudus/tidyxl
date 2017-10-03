@@ -17,7 +17,7 @@ formatting, and re-expressing it in a tidy way.
 \itemize{
 \item \code{\link[tidyxl:tidy_xlsx]{tidyxl::tidy_xlsx()}} Import cells and formatting from an xlsx file.
 \item \code{\link[tidyxl:xlsx_sheet_names]{tidyxl::xlsx_sheet_names()}} List the names of sheets in an xlsx file.
-\item \code{\link[tidyxl:names]{tidyxl::names()}} Import names and definitions of named ranges (aka named
+\item \code{\link[tidyxl:xlsx_names]{tidyxl::xlsx_names()}} Import names and definitions of named ranges (aka named
 \item \code{\link[tidyxl:is_range]{tidyxl::is_range()}} Test whether a 'name' from \code{\link[tidyxl:xlsx_names]{tidyxl::xlsx_names()}}
 refers to a range or not.
 formulas, defined names) from an xlsx file.

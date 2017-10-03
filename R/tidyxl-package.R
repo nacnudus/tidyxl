@@ -13,7 +13,7 @@ NULL
 #' @section Spreadsheet functions:
 #' * [tidyxl::tidy_xlsx()] Import cells and formatting from an xlsx file.
 #' * [tidyxl::xlsx_sheet_names()] List the names of sheets in an xlsx file.
-#' * [tidyxl::names()] Import names and definitions of named ranges (aka named
+#' * [tidyxl::xlsx_names()] Import names and definitions of named ranges (aka named
 #' * [tidyxl::is_range()] Test whether a 'name' from [tidyxl::xlsx_names()]
 #' refers to a range or not.
 #' formulas, defined names) from an xlsx file.
