@@ -28,9 +28,6 @@ void xlsxcell::parseAddress(
     unsigned long long int& i
     ) {
   rapidxml::xml_attribute<>* r = cell->first_attribute("r");
-  if (r == NULL)
-    stop("Invalid cell: lacks 'r' attribute");
-
   address_ = r->value(); // we need this std::string in a moment
   sheet->address_[i] = address_;
 

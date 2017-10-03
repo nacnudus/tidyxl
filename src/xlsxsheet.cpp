@@ -118,14 +118,29 @@ unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData
   // Iterate over all rows and cells to count.  The 'dimension' tag is no use
   // here because it describes a rectangle of cells, many of which may be blank.
   unsigned long long int cellcount = 0;
+  unsigned long long int commentcount = 0; // no. of matching comments
+  rapidxml::xml_attribute<>* r;
+  std::map<std::string, std::string>::iterator comment;
   for (rapidxml::xml_node<>* row = sheetData->first_node("row");
       row; row = row->next_sibling("row")) {
     for (rapidxml::xml_node<>* c = row->first_node("c");
-        c; c = c->next_sibling("c")) {
+      c; c = c->next_sibling("c")) {
+      // Check for a matching comment.
+      // Comments on blank cells don't have a matching cell, so a blank cell
+      // must be created for them.  Such additional cells must be added to the
+      // actual cellcount, to initialize the returned vectors to the correct
+      // length.
+      r = c->first_attribute("r");
+      if (r == NULL) // check once in whole program
+        stop("Invalid row or cell: lacks 'r' attribute");
+      comment = comments_.find(r->value());
+      if(comment != comments_.end()) {
+        ++commentcount;
+      }
       ++cellcount;
     }
   }
-  return cellcount;
+  return cellcount + (comments_.size() - commentcount);
 }
 
 void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
@@ -190,7 +205,7 @@ void xlsxsheet::parseSheetData(rapidxml::xml_node<>* sheetData) {
       row; row = row->next_sibling()) {
     rapidxml::xml_attribute<>* r = row->first_attribute("r");
     if (r == NULL)
-      stop("Invalid row: lacks 'r' attribute");
+      stop("Invalid row or cell: lacks 'r' attribute");
     rowNumber = strtod(r->value(), NULL);
     // Check for custom row height
     double rowHeight = defaultRowHeight_;
