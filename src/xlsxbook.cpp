@@ -8,6 +8,20 @@
 
 using namespace Rcpp;
 
+unsigned long long int count_cells(rapidxml::xml_node<>* sheetData) {
+  // Iterate over all rows and cells to count.  The 'dimension' tag is no use
+  // here because it describes a rectangle of cells, many of which may be blank.
+  unsigned long long int cellcount = 0;
+  for (rapidxml::xml_node<>* row = sheetData->first_node("row");
+      row; row = row->next_sibling("row")) {
+    for (rapidxml::xml_node<>* c = row->first_node("c");
+        c; c = c->next_sibling("c")) {
+      ++cellcount;
+    }
+  }
+  return cellcount;
+}
+
 xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   std::string book = zip_buffer(path_, "xl/workbook.xml");
 
@@ -40,6 +54,7 @@ xlsxbook::xlsxbook(
   cacheDateOffset(workbook); // Must come before cacheSheets
   cacheStrings();
   cacheSheetXml();
+  countCells();
   cacheInformation();
 }
 
@@ -97,6 +112,19 @@ void xlsxbook::cacheSheetXml() {
   for(in_it = sheet_paths_.begin(); in_it != sheet_paths_.end(); ++in_it) {
     std::string xml(*in_it);
     sheet_xml_.push_back(zip_buffer(path_, xml));
+  }
+}
+
+void xlsxbook::countCells() {
+  // Loop through sheet xml, counting the cells
+  for(std::vector<std::string>::iterator xml_string = sheet_xml_.begin();
+      xml_string != sheet_xml_.end();
+      ++xml_string) {
+    rapidxml::xml_document<> doc;
+    doc.parse<rapidxml::parse_non_destructive>(&(*xml_string)[0]);
+    rapidxml::xml_node<>* workbook = doc.first_node("worksheet");
+    rapidxml::xml_node<>* sheetData = workbook->first_node("sheetData");
+    cellcount_.push_back(count_cells(sheetData));
   }
 }
 
