@@ -40,6 +40,7 @@ xlsxbook::xlsxbook(
   cacheDateOffset(workbook); // Must come before cacheSheets
   cacheStrings();
   cacheSheetXml();
+  createSheets();
   cacheInformation();
 }
 
@@ -95,28 +96,45 @@ void xlsxbook::cacheSheetXml() {
   }
 }
 
+void xlsxbook::createSheets() {
+  // Loop through sheets
+  std::vector<std::string>::iterator xml;
+  CharacterVector::iterator name;
+  CharacterVector::iterator comments_path;
+  int i = 0;
+  for(xml = sheet_xml_.begin(),
+      name = sheet_names_.begin(),
+      comments_path = comments_paths_.begin();
+      xml != sheet_xml_.end();
+      ++xml, ++name, ++comments_path) {
+    std::string xmlstring(*xml);
+    Rcpp::String namestring(*name);
+    Rcpp::String comments_path_string(*comments_path);
+    sheets_.emplace_back(xlsxsheet(namestring, xmlstring, *this, comments_path_string));
+    ++i;
+  }
+}
+
 void xlsxbook::cacheInformation() {
   // Loop through sheets
   List sheet_list(sheet_paths_.size());
 
-  std::vector<std::string>::iterator in_it;
+  std::vector<std::string>::iterator xml;
+  std::vector<xlsxsheet>::iterator sheet;
   List::iterator sheet_list_it;
 
-  int i = 0;
-  for(in_it = sheet_xml_.begin(), sheet_list_it = sheet_list.begin();
-      in_it != sheet_xml_.end();
-      ++in_it, ++sheet_list_it) {
-    String sheet_name(sheet_names_[i]);
-    String comments_path(comments_paths_[i]);
-    xlsxsheet sheet(sheet_name, *in_it, *this, comments_path);
+  for(xml = sheet_xml_.begin(),
+      sheet = sheets_.begin(),
+      sheet_list_it = sheet_list.begin();
+      xml != sheet_xml_.end();
+      ++xml, ++sheet, ++sheet_list_it) {
     rapidxml::xml_document<> doc;
-    doc.parse<0>(&(*in_it)[0]);
+    doc.parse<0>(&(*xml)[0]);
     rapidxml::xml_node<>* workbook = doc.first_node("worksheet");
     rapidxml::xml_node<>* sheetData = workbook->first_node("sheetData");
-    sheet.parseSheetData(sheetData);
-    sheet.appendComments();
-    *sheet_list_it = sheet.information();
-    ++i;
+    sheet->parseSheetData(sheetData);
+    sheet->appendComments();
+    *sheet_list_it = sheet->information();
   }
 
   sheet_list.attr("names") = sheet_names_;

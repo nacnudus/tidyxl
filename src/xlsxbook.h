@@ -22,6 +22,7 @@ class xlsxbook {
     int dateOffset_; // for converting 1900 or 1904 Excel datetimes to R
 
     std::vector<std::string> sheet_xml_; // xml of worksheets
+    std::vector<xlsxsheet> sheets_;      // worksheet objects
 
     Rcpp::List information_; // dataframes of sheet contents
 
