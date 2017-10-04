@@ -61,7 +61,6 @@ class xlsxbook {
         );
 
     void cacheStrings();
-    void cacheStyles();
     void cacheDateOffset(rapidxml::xml_node<>* workbook);
     void cacheSheetXml();
     void createSheets();
