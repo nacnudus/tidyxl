@@ -5,6 +5,10 @@ xlsx_read_ <- function(path, sheet_paths, sheet_names, comments_paths) {
     .Call('_tidyxl_xlsx_read_', PACKAGE = 'tidyxl', path, sheet_paths, sheet_names, comments_paths)
 }
 
+xlsx_formats_ <- function(path) {
+    .Call('_tidyxl_xlsx_formats_', PACKAGE = 'tidyxl', path)
+}
+
 xlsx_sheet_files_ <- function(path) {
     .Call('_tidyxl_xlsx_sheet_files_', PACKAGE = 'tidyxl', path)
 }

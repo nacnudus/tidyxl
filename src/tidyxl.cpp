@@ -6,6 +6,7 @@
 #include "xlsxnames.h"
 #include "xlsxvalidation.h"
 #include "xlsxbook.h"
+#include "styles.h"
 
 using namespace Rcpp;
 
@@ -23,6 +24,14 @@ List xlsx_read_(
     ) {
   xlsxbook book(path, sheet_paths, sheet_names, comments_paths);
   return book.information_;
+}
+
+// [[Rcpp::export]]
+List xlsx_formats_(std::string path) {
+  styles xlsxstyles(path);
+  return List::create(
+    _["local"] = xlsxstyles.local_,
+    _["style"] = xlsxstyles.style_);
 }
 
 inline String comments_path_(std::string path, std::string sheet_target) {

@@ -19,6 +19,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// xlsx_formats_
+List xlsx_formats_(std::string path);
+RcppExport SEXP _tidyxl_xlsx_formats_(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_formats_(path));
+    return rcpp_result_gen;
+END_RCPP
+}
 // xlsx_sheet_files_
 DataFrame xlsx_sheet_files_(std::string path);
 RcppExport SEXP _tidyxl_xlsx_sheet_files_(SEXP pathSEXP) {
@@ -68,6 +79,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tidyxl_xlsx_read_", (DL_FUNC) &_tidyxl_xlsx_read_, 4},
+    {"_tidyxl_xlsx_formats_", (DL_FUNC) &_tidyxl_xlsx_formats_, 1},
     {"_tidyxl_xlsx_sheet_files_", (DL_FUNC) &_tidyxl_xlsx_sheet_files_, 1},
     {"_tidyxl_xlsx_validation_", (DL_FUNC) &_tidyxl_xlsx_validation_, 3},
     {"_tidyxl_xlsx_names_", (DL_FUNC) &_tidyxl_xlsx_names_, 1},
