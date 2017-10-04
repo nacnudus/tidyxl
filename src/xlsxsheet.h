@@ -15,6 +15,7 @@ class xlsxsheet {
     std::string name_;
 
     unsigned long long int i_; // cell counter
+    unsigned long long int cellcount_; // allowing for comments on blank cells
     double defaultRowHeight_;
     double defaultColWidth_;
     std::vector<double> colWidths_;

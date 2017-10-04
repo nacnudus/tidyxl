@@ -26,6 +26,7 @@ xlsxsheet::xlsxsheet(
 
   cacheDefaultRowColDims(worksheet);
   cacheColWidths(worksheet);
+  cacheCellcount(sheetData);
   initializeColumns(sheetData);
   cacheComments(comments_path);
 }
@@ -140,35 +141,34 @@ unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData
       ++cellcount;
     }
   }
-  return cellcount + (comments_.size() - commentcount);
+  cellcount_ = cellcount + (comments_.size() - commentcount);
+  return(cellcount_);
 }
 
 void xlsxsheet::initializeColumns(rapidxml::xml_node<>* sheetData) {
-  unsigned long long int cellcount = cacheCellcount(sheetData);
-  // Having done cacheCellcount(), make columns of that length
-  address_         = CharacterVector(cellcount, NA_STRING);
-  row_             = IntegerVector(cellcount,   NA_INTEGER);
-  col_             = IntegerVector(cellcount,   NA_INTEGER);
-  content_         = CharacterVector(cellcount, NA_STRING);
-  formula_         = CharacterVector(cellcount, NA_STRING);
-  formula_type_    = CharacterVector(cellcount, NA_STRING);
-  formula_ref_     = CharacterVector(cellcount, NA_STRING);
-  formula_group_   = IntegerVector(cellcount,   NA_INTEGER);
-  value_           = List(cellcount);
-  type_            = CharacterVector(cellcount, NA_STRING);
-  data_type_       = CharacterVector(cellcount, NA_STRING);
-  error_           = CharacterVector(cellcount, NA_STRING);
-  logical_         = LogicalVector(cellcount,   NA_LOGICAL);
-  numeric_         = NumericVector(cellcount,   NA_REAL);
-  date_            = NumericVector(cellcount,   NA_REAL);
+  address_         = CharacterVector(cellcount_, NA_STRING);
+  row_             = IntegerVector(cellcount_,   NA_INTEGER);
+  col_             = IntegerVector(cellcount_,   NA_INTEGER);
+  content_         = CharacterVector(cellcount_, NA_STRING);
+  formula_         = CharacterVector(cellcount_, NA_STRING);
+  formula_type_    = CharacterVector(cellcount_, NA_STRING);
+  formula_ref_     = CharacterVector(cellcount_, NA_STRING);
+  formula_group_   = IntegerVector(cellcount_,   NA_INTEGER);
+  value_           = List(cellcount_);
+  type_            = CharacterVector(cellcount_, NA_STRING);
+  data_type_       = CharacterVector(cellcount_, NA_STRING);
+  error_           = CharacterVector(cellcount_, NA_STRING);
+  logical_         = LogicalVector(cellcount_,   NA_LOGICAL);
+  numeric_         = NumericVector(cellcount_,   NA_REAL);
+  date_            = NumericVector(cellcount_,   NA_REAL);
   date_.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
   date_.attr("tzone") = "UTC";
-  character_       = CharacterVector(cellcount, NA_STRING);
-  comment_         = CharacterVector(cellcount, NA_STRING);
-  height_          = NumericVector(cellcount,   NA_REAL);
-  width_           = NumericVector(cellcount,   NA_REAL);
-  style_format_    = CharacterVector(cellcount, NA_STRING);
-  local_format_id_ = IntegerVector(cellcount,   NA_INTEGER);
+  character_       = CharacterVector(cellcount_, NA_STRING);
+  comment_         = CharacterVector(cellcount_, NA_STRING);
+  height_          = NumericVector(cellcount_,   NA_REAL);
+  width_           = NumericVector(cellcount_,   NA_REAL);
+  style_format_    = CharacterVector(cellcount_, NA_STRING);
+  local_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
 }
 
 void xlsxsheet::cacheComments(Rcpp::String comments_path) {
@@ -275,6 +275,5 @@ void xlsxsheet::appendComments() {
     local_format_id_.push_back(1);
   }
   // Iterate though the A1-style address string character by character
-
 }
 
