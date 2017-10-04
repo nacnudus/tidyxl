@@ -23,6 +23,7 @@ class xlsxbook {
 
     std::vector<std::string> sheet_xml_; // xml of worksheets
     std::vector<xlsxsheet> sheets_;      // worksheet objects
+    unsigned long long int cellcount_;   // total cellcount of all sheets
 
     Rcpp::List information_; // dataframes of sheet contents
 
@@ -40,6 +41,7 @@ class xlsxbook {
     void cacheDateOffset(rapidxml::xml_node<>* workbook);
     void cacheSheetXml();
     void createSheets();
+    void countCells();
     void cacheInformation();
 
 };

@@ -41,6 +41,7 @@ xlsxbook::xlsxbook(
   cacheStrings();
   cacheSheetXml();
   createSheets();
+  countCells();
   cacheInformation();
 }
 
@@ -112,6 +113,16 @@ void xlsxbook::createSheets() {
     Rcpp::String comments_path_string(*comments_path);
     sheets_.emplace_back(xlsxsheet(namestring, xmlstring, *this, comments_path_string));
     ++i;
+  }
+}
+
+void xlsxbook::countCells() {
+  // Loop through sheets, adding their cellcounts
+  std::vector<xlsxsheet>::iterator sheet;
+  for(sheet = sheets_.begin();
+      sheet != sheets_.end();
+      ++sheet) {
+    cellcount_ += sheet->cellcount_;
   }
 }
 
