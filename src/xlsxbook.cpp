@@ -88,12 +88,7 @@ void xlsxbook::cacheDateOffset(rapidxml::xml_node<>* workbook) {
 
 void xlsxbook::cacheSheetXml() {
   // Loop through sheets, reading the xml into memory
-  List sheet_list(sheet_paths_.size());
-
   CharacterVector::iterator in_it;
-  List::iterator sheet_list_it;
-
-  int i = 0;
   for(in_it = sheet_paths_.begin(); in_it != sheet_paths_.end(); ++in_it) {
     std::string xml(*in_it);
     sheet_xml_.push_back(zip_buffer(path_, xml));
