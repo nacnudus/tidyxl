@@ -42,6 +42,7 @@ xlsxbook::xlsxbook(
   cacheSheetXml();
   createSheets();
   countCells();
+  initializeColumns();
   cacheInformation();
 }
 
@@ -124,6 +125,32 @@ void xlsxbook::countCells() {
       ++sheet) {
     cellcount_ += sheet->cellcount_;
   }
+}
+
+void xlsxbook::initializeColumns() {
+  address_         = CharacterVector(cellcount_, NA_STRING);
+  row_             = IntegerVector(cellcount_,   NA_INTEGER);
+  col_             = IntegerVector(cellcount_,   NA_INTEGER);
+  content_         = CharacterVector(cellcount_, NA_STRING);
+  formula_         = CharacterVector(cellcount_, NA_STRING);
+  formula_type_    = CharacterVector(cellcount_, NA_STRING);
+  formula_ref_     = CharacterVector(cellcount_, NA_STRING);
+  formula_group_   = IntegerVector(cellcount_,   NA_INTEGER);
+  value_           = List(cellcount_);
+  type_            = CharacterVector(cellcount_, NA_STRING);
+  data_type_       = CharacterVector(cellcount_, NA_STRING);
+  error_           = CharacterVector(cellcount_, NA_STRING);
+  logical_         = LogicalVector(cellcount_,   NA_LOGICAL);
+  numeric_         = NumericVector(cellcount_,   NA_REAL);
+  date_            = NumericVector(cellcount_,   NA_REAL);
+  date_.attr("class") = CharacterVector::create("POSIXct", "POSIXt");
+  date_.attr("tzone") = "UTC";
+  character_       = CharacterVector(cellcount_, NA_STRING);
+  comment_         = CharacterVector(cellcount_, NA_STRING);
+  height_          = NumericVector(cellcount_,   NA_REAL);
+  width_           = NumericVector(cellcount_,   NA_REAL);
+  style_format_    = CharacterVector(cellcount_, NA_STRING);
+  local_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
 }
 
 void xlsxbook::cacheInformation() {

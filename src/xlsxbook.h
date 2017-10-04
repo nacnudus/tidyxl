@@ -27,6 +27,30 @@ class xlsxbook {
 
     Rcpp::List information_; // dataframes of sheet contents
 
+    // Vectors of cell properties, to be wrapped in a data frame
+    Rcpp::CharacterVector address_;   // Value of cell node r
+    Rcpp::IntegerVector   row_;       // Parsed address_ (one-based)
+    Rcpp::IntegerVector   col_;       // Parsed address_ (one-based)
+    Rcpp::CharacterVector content_;   // Unparsed value of cell node v
+    Rcpp::CharacterVector formula_;   // If present
+    Rcpp::CharacterVector formula_type_;  // If present
+    Rcpp::CharacterVector formula_ref_;   // If present
+    Rcpp::IntegerVector   formula_group_; // If present
+    Rcpp::List            value_;     // Parsed values wrapped in unnamed lists
+    Rcpp::CharacterVector type_;      // value of cell node t
+    Rcpp::CharacterVector data_type_; // Type of the parsed value
+    Rcpp::CharacterVector error_;     // Parsed value
+    Rcpp::LogicalVector   logical_;   // Parsed value
+    Rcpp::NumericVector   numeric_;   // Parsed value
+    Rcpp::NumericVector   date_;      // Parsed value
+    Rcpp::CharacterVector character_; // Parsed value
+    std::map<std::string, std::string> comments_;
+    Rcpp::CharacterVector comment_;
+    Rcpp::NumericVector   height_;          // Provided to cell constructor
+    Rcpp::NumericVector   width_;           // Provided to cell constructor
+    Rcpp::CharacterVector style_format_;    // cellXfs xfId links to cellStyleXfs entry
+    Rcpp::IntegerVector   local_format_id_; // cell 'c' links to cellXfs entry
+
     xlsxbook(const std::string& path);    // constructor
 
     xlsxbook(
@@ -42,6 +66,7 @@ class xlsxbook {
     void cacheSheetXml();
     void createSheets();
     void countCells();
+    void initializeColumns();
     void cacheInformation();
 
 };
