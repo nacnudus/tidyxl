@@ -59,6 +59,22 @@ standardise_sheet <- function(sheets, all_sheets) {
   }
 }
 
+check_sheets <- function(sheets, path) {
+  all_sheets <- utils_xlsx_sheet_files(path)
+  if (anyNA(sheets)) {
+    if (length(sheets) > 1) {
+      warning("Argument 'sheets' included NAs, which were discarded.")
+      sheets <- sheets[!is.na(sheets)]
+      if (length(sheets) == 0) {
+        stop("All elements of argument 'sheets' were discarded.")
+      }
+    } else {
+      sheets <- all_sheets$order
+    }
+  }
+  sheets <- standardise_sheet(sheets, all_sheets)
+}
+
 utils_xlsx_sheet_files <- function(path) {
   out <- xlsx_sheet_files_(path)
   out$order <- order(out$id)
