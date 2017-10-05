@@ -73,7 +73,10 @@ DataFrame xlsx_sheet_files_(std::string path) {
   for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
       relationship; relationship = relationship->next_sibling()) {
     std::string target = relationship->first_attribute("Target")->value();
-    if (target.substr(0, 10) == "worksheets") { // Only store worksheets
+    std::string target_type = target.substr(0, 10);
+    if (target_type == "worksheets" || target_type == "chartsheet") {
+       // Only store worksheets and chartsheets -- requests for chartsheets are
+       // handled in the R wrapper
       id = relationship->first_attribute("Id")->value();
       ids.push_back(id);
       targets.insert({id, "xl/" + target}) ;
@@ -132,6 +135,7 @@ DataFrame xlsx_sheet_files_(std::string path) {
 
   return(out);
 }
+
 
 // [[Rcpp::export]]
 List xlsx_validation_(

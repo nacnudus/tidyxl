@@ -42,11 +42,14 @@ standardise_sheet <- function(sheets, all_sheets) {
     if (max(sheets) > max(all_sheets$order)) {
       stop("Only ", max(all_sheets$order), " sheet(s) found.", call. = FALSE)
     }
-    all_sheets[all_sheets$order == sheets, ]
+    if (any(!(sheets %in% all_sheets$order))) {
+      warning("Only worksheets (not chartsheets) were imported", call. = FALSE)
+    }
+    all_sheets[all_sheets$order %in% sheets, ]
   } else if (is.character(sheets)) {
     indices <- match(sheets, all_sheets$name)
     if (anyNA(indices)) {
-      stop("Sheet(s) not found: \"",
+      stop("Sheets not found: \"",
            paste(sheets[is.na(indices)],
                  collapse = "\", \""),
            "\"",
@@ -78,6 +81,8 @@ check_sheets <- function(sheets, path) {
 utils_xlsx_sheet_files <- function(path) {
   out <- xlsx_sheet_files_(path)
   out$order <- order(out$id)
-  out <- out[out$order, ]
+  # Omit chartsheets
+  out <- out[grepl("^xl/worksheets\\.*", out$sheet_path), ]
+  out <- out[order(out$order), ]
   out
 }
