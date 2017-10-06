@@ -10,11 +10,11 @@ class xlsxbook {
 
   public:
 
-    const std::string& path_;                     // workbook path
-    Rcpp::CharacterVector sheet_paths_;                 // worksheet paths
-    Rcpp::CharacterVector sheet_names_;                 // worksheet names
-    Rcpp::CharacterVector comments_paths_;              // comments files
-    std::vector<std::string> strings_;            // strings table
+    const std::string& path_;              // workbook path
+    Rcpp::CharacterVector sheet_paths_;    // worksheet paths
+    Rcpp::CharacterVector sheet_names_;    // worksheet names
+    Rcpp::CharacterVector comments_paths_; // comments files
+    std::vector<std::string> strings_;     // strings table
 
     styles styles_;
 
@@ -25,9 +25,10 @@ class xlsxbook {
     std::vector<xlsxsheet> sheets_;      // worksheet objects
     unsigned long long int cellcount_;   // total cellcount of all sheets
 
-    Rcpp::List information_; // dataframes of sheet contents
+    Rcpp::List information_;             // dataframes of cells
 
     // Vectors of cell properties, to be wrapped in a data frame
+    Rcpp::CharacterVector sheet_;     // The worksheet that a cell is in
     Rcpp::CharacterVector address_;   // Value of cell node r
     Rcpp::IntegerVector   row_;       // Parsed address_ (one-based)
     Rcpp::IntegerVector   col_;       // Parsed address_ (one-based)
@@ -36,15 +37,12 @@ class xlsxbook {
     Rcpp::CharacterVector formula_type_;  // If present
     Rcpp::CharacterVector formula_ref_;   // If present
     Rcpp::IntegerVector   formula_group_; // If present
-    Rcpp::List            value_;     // Parsed values wrapped in unnamed lists
-    Rcpp::CharacterVector type_;      // value of cell node t
     Rcpp::CharacterVector data_type_; // Type of the parsed value
     Rcpp::CharacterVector error_;     // Parsed value
     Rcpp::LogicalVector   logical_;   // Parsed value
     Rcpp::NumericVector   numeric_;   // Parsed value
     Rcpp::NumericVector   date_;      // Parsed value
     Rcpp::CharacterVector character_; // Parsed value
-    std::map<std::string, std::string> comments_;
     Rcpp::CharacterVector comment_;
     Rcpp::NumericVector   height_;          // Provided to cell constructor
     Rcpp::NumericVector   width_;           // Provided to cell constructor
@@ -66,6 +64,7 @@ class xlsxbook {
     void createSheets();
     void countCells();
     void initializeColumns();
+    void cacheCells();
     void cacheInformation();
 
 };

@@ -75,7 +75,7 @@ check_sheets <- function(sheets, path) {
       sheets <- all_sheets$order
     }
   }
-  sheets <- standardise_sheet(sheets, all_sheets)
+  standardise_sheet(sheets, all_sheets)
 }
 
 utils_xlsx_sheet_files <- function(path) {

@@ -119,6 +119,7 @@ void xlsxbook::createSheets() {
 
 void xlsxbook::countCells() {
   // Loop through sheets, adding their cellcounts
+  cellcount_ = 0;
   std::vector<xlsxsheet>::iterator sheet;
   for(sheet = sheets_.begin();
       sheet != sheets_.end();
@@ -128,6 +129,7 @@ void xlsxbook::countCells() {
 }
 
 void xlsxbook::initializeColumns() {
+  sheet_           = CharacterVector(cellcount_, NA_STRING);
   address_         = CharacterVector(cellcount_, NA_STRING);
   row_             = IntegerVector(cellcount_,   NA_INTEGER);
   col_             = IntegerVector(cellcount_,   NA_INTEGER);
@@ -136,8 +138,6 @@ void xlsxbook::initializeColumns() {
   formula_type_    = CharacterVector(cellcount_, NA_STRING);
   formula_ref_     = CharacterVector(cellcount_, NA_STRING);
   formula_group_   = IntegerVector(cellcount_,   NA_INTEGER);
-  value_           = List(cellcount_);
-  type_            = CharacterVector(cellcount_, NA_STRING);
   data_type_       = CharacterVector(cellcount_, NA_STRING);
   error_           = CharacterVector(cellcount_, NA_STRING);
   logical_         = LogicalVector(cellcount_,   NA_LOGICAL);
@@ -161,6 +161,7 @@ void xlsxbook::cacheInformation() {
   std::vector<xlsxsheet>::iterator sheet;
   List::iterator sheet_list_it;
 
+  unsigned long long int i(0); // position of each cell in the output vectors
   for(xml = sheet_xml_.begin(),
       sheet = sheets_.begin(),
       sheet_list_it = sheet_list.begin();
@@ -170,16 +171,36 @@ void xlsxbook::cacheInformation() {
     doc.parse<0>(&(*xml)[0]);
     rapidxml::xml_node<>* workbook = doc.first_node("worksheet");
     rapidxml::xml_node<>* sheetData = workbook->first_node("sheetData");
-    sheet->parseSheetData(sheetData);
-    sheet->appendComments();
-    *sheet_list_it = sheet->information();
+    sheet->parseSheetData(sheetData, i);
+    sheet->appendComments(i);
   }
 
-  sheet_list.attr("names") = sheet_names_;
-
+  // Returns a nested data frame of everything, the data frame itself wrapped in
+  // a list.
   information_ = List::create(
-      _["data"] = sheet_list,
-      _["formats"] = List::create(
-        _["local"] = styles_.local_,
-        _["style"] = styles_.style_));
+      _["sheet"] = sheet_,
+      _["address"] = address_,
+      _["row"] = row_,
+      _["col"] = col_,
+      _["content"] = content_,
+      _["formula"] = formula_,
+      _["formula_type"] = formula_type_,
+      _["formula_ref"] = formula_ref_,
+      _["formula_group"] = formula_group_,
+      _["data_type"] = data_type_,
+      _["error"] = error_,
+      _["logical"] = logical_,
+      _["numeric"] = numeric_,
+      _["date"] = date_,
+      _["character"] = character_,
+      _["comment"] = comment_,
+      _["height"] = height_,
+      _["width"] = width_,
+      _["style_format"] = style_format_,
+      _["local_format_id"] = local_format_id_);
+
+  // Turn list of vectors into a data frame without checking anything
+  int n = Rf_length(information_[0]);
+  information_.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  information_.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 }

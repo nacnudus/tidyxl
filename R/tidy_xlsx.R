@@ -154,5 +154,11 @@ tidy_xlsx <- function(path, sheets = NA) {
   path <- check_file(path)
   all_sheets <- utils_xlsx_sheet_files(path)
   sheets <- check_sheets(sheets, path)
-  xlsx_read_(path, sheets$sheet_path, sheets$name, sheets$comments_path)
+  formats <- xlsx_formats_(path)
+  cells <- xlsx_cells_(path, sheets$sheet_path, sheets$name, sheets$comments_path)
+  # Split into a list of data frames, one per sheet
+  cells$sheet <- factor(cells$sheet, levels = sheets$name) # control sheet order
+  cells_list <- split(cells, cells$sheet)
+  cells_list <- lapply(cells_list, function(x) x[, -1])    # remove 'sheet' col
+  list(data = cells_list, formats = formats)
 }

@@ -16,7 +16,7 @@ using namespace Rcpp;
 // 'sheets'.
 
 // [[Rcpp::export]]
-List xlsx_read_(
+List xlsx_cells_(
     std::string path,
     CharacterVector sheet_paths,
     CharacterVector sheet_names,
