@@ -44,19 +44,19 @@ Gnumeric), and use the \code{\link[grDevices:rgb]{grDevices::rgb()}} function to
 hexadecimal string.
 }
 \examples{
-# examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
-# str(xlsx_formats(examples))
+examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
+str(xlsx_formats(examples))
 
 # The formats of particular cells can be retrieved like this:
 
-# Sheet1 <- xlsx_cells(examples)$Sheet1
-# formats <- xlsx_formats(examples)
+cells <- xlsx_cells(examples)
+formats <- xlsx_formats(examples)
 
-# my_formats$local$font$bold[Sheet1$local_format_id]
-# my_formats$style$font$bold[Sheet1$style_format]
+formats$local$font$bold[cells$local_format_id]
+formats$style$font$bold[cells$style_format]
 
 # To filter for cells of a particular format, first filter the formats to get
 # the relevant indices, and then filter the cells by those indices.
-# bold_indices <- which(my_formats$local$font$bold)
-# Sheet1[Sheet1$local_format_id \%in\% bold_indices, ]
+bold_indices <- which(formats$local$font$bold)
+cells[cells$local_format_id \%in\% bold_indices, ]
 }
