@@ -134,7 +134,7 @@ unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData
       r = c->first_attribute("r");
       if (r == NULL) // check once in whole program
         stop("Invalid row or cell: lacks 'r' attribute");
-      comment = comments_.find(r->value());
+      comment = comments_.find(std::string(r->value(), r->value_size()));
       if(comment != comments_.end()) {
         ++commentcount;
       }
@@ -185,12 +185,13 @@ void xlsxsheet::cacheComments(Rcpp::String comments_path) {
     rapidxml::xml_node<>* commentList = comments->first_node("commentList");
     for (rapidxml::xml_node<>* comment = commentList->first_node();
         comment; comment = comment->next_sibling()) {
-      std::string ref(comment->first_attribute("ref")->value());
+      rapidxml::xml_attribute<>* ref = comment->first_attribute("ref");
+      std::string ref_string(ref->value(), ref->value_size());
       rapidxml::xml_node<>* r = comment->first_node();
       // Get the inline string
       std::string inlineString;
       parseString(r, inlineString); // value is modified in place
-      comments_[ref] = inlineString;
+      comments_[ref_string] = inlineString;
     }
   }
 }
