@@ -129,12 +129,12 @@
 #' Sheet1 <- xlsx_cells(examples)$Sheet1
 #' formats <- xlsx_formats(examples)
 #'
-#' my_formats$local$font$bold[Sheet1$local_format_id]
-#' my_formats$style$font$bold[Sheet1$style_format]
+#' formats$local$font$bold[Sheet1$local_format_id]
+#' formats$style$font$bold[Sheet1$style_format]
 #'
 #' # To filter for cells of a particular format, first filter the formats to get
 #' # the relevant indices, and then filter the cells by those indices.
-#' bold_indices <- which(my_formats$local$font$bold)
+#' bold_indices <- which(formats$local$font$bold)
 #' Sheet1[Sheet1$local_format_id %in% bold_indices, ]
 xlsx_cells <- function(path, sheets = NA) {
   path <- check_file(path)
