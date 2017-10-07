@@ -1,6 +1,9 @@
 #' @title Import xlsx (Excel) cell contents into a tidy structure.
 #'
 #' @description
+#' `tidy_xlsx()` is deprecated.  Please use [xlsx_cells()] or [xlsx_formats()]
+#' instead.
+#'
 #' `tidy_xlsx()` imports data from spreadsheets without coercing it into a
 #' rectangle.  Each cell is represented by a row in a data frame, giving the
 #' cell's address, contents, formula, height, width, and keys to look up the
@@ -151,6 +154,9 @@
 #' bold_indices <- which(x$formats$local$font$bold)
 #' Sheet1[Sheet1$local_format_id %in% bold_indices, ]
 tidy_xlsx <- function(path, sheets = NA) {
+  .Deprecated(msg = paste("'tidy_xlsx()' is deprecated.",
+                          "Use 'xlsx_cells()' or 'xlsx_formats()' instead.",
+                          sep = "\n"))
   path <- check_file(path)
   all_sheets <- utils_xlsx_sheet_files(path)
   sheets <- check_sheets(sheets, path)

@@ -77,6 +77,9 @@ values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use
 the \code{\link[grDevices:rgb]{grDevices::rgb()}} function to convert these to a hexadecimal string.
 }
 \description{
+\code{tidy_xlsx()} is deprecated.  Please use \code{\link[=xlsx_cells]{xlsx_cells()}} or \code{\link[=xlsx_formats]{xlsx_formats()}}
+instead.
+
 \code{tidy_xlsx()} imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
