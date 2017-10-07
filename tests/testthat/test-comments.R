@@ -1,13 +1,14 @@
 context("Comments")
 
 test_that("multiline comments are returned in full", {
-  expect_equal(tidy_xlsx("examples.xlsx")$data$Sheet1$comment[19],
+  expect_equal(xlsx_cells("examples.xlsx")$comment[19],
                "commentwithtextformatting")
 })
 
 test_that("comments on blank cells are returned", {
   expected <-
-    structure(list(address = c("A2", "A1"),
+    structure(list(sheet = c("Sheet1", "Sheet1"),
+                   address = c("A2", "A1"),
                    row = c(2L, 1L),
                    col = c(1L, 1L),
                    content = c("0", NA),
@@ -26,7 +27,8 @@ test_that("comments on blank cells are returned", {
                    width = c(11.375, 11.375),
                    style_format = c("Normal", "Normal"),
                    local_format_id = c(1L, 1L)),
-              .Names = c("address",
+              .Names = c("sheet",
+                         "address",
                          "row",
                          "col",
                          "content",
@@ -47,5 +49,5 @@ test_that("comments on blank cells are returned", {
                          "local_format_id"),
               class = c("tbl_df", "tbl", "data.frame"),
               row.names = c(NA, -2L))
-  expect_equal(tidy_xlsx("comment-on-blank-cell.xlsx")$data$Sheet1, expected)
+  expect_equal(xlsx_cells("comment-on-blank-cell.xlsx"), expected)
 })
