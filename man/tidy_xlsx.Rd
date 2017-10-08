@@ -134,6 +134,7 @@ formats, type \code{str(x$formats$local)}.
 }
 }
 \examples{
+\dontrun{
 examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 
 # All sheets
@@ -160,4 +161,5 @@ x$formats$local$font$bold[Sheet1$local_format_id]
 # the relevant indices, and then filter the cells by those indices.
 bold_indices <- which(x$formats$local$font$bold)
 Sheet1[Sheet1$local_format_id \%in\% bold_indices, ]
+}
 }

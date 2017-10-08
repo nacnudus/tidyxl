@@ -127,6 +127,7 @@
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #'
 #' # All sheets
@@ -153,6 +154,7 @@
 #' # the relevant indices, and then filter the cells by those indices.
 #' bold_indices <- which(x$formats$local$font$bold)
 #' Sheet1[Sheet1$local_format_id %in% bold_indices, ]
+#' }
 tidy_xlsx <- function(path, sheets = NA) {
   .Deprecated(msg = paste("'tidy_xlsx()' is deprecated.",
                           "Use 'xlsx_cells()' or 'xlsx_formats()' instead.",
