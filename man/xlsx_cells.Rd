@@ -14,10 +14,7 @@ sheets), an integer vector (the positions of the sheets), or NA (default, all
 sheets).}
 }
 \value{
-A list of data frames. One data frame per sheet, one row per cell.
-
-Each sheet's data is returned as a data frames, one per sheet, by the sheet
-name.  For example, the data in a sheet named 'My Worksheet' is in x$\code{My Worksheet}.  Each data frame has the following columns:
+A data frame with the following columns.
 \itemize{
 \item \code{sheet} The worksheet that the cell is from.
 \item \code{address} The cell address in A1 notation.

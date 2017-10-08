@@ -12,11 +12,7 @@
 #' sheets).
 #'
 #' @return
-#' A list of data frames. One data frame per sheet, one row per cell.
-#'
-#' Each sheet's data is returned as a data frames, one per sheet, by the sheet
-#' name.  For example, the data in a sheet named 'My Worksheet' is in x$`My
-#' Worksheet`.  Each data frame has the following columns:
+#' A data frame with the following columns.
 #'
 #' * `sheet` The worksheet that the cell is from.
 #' * `address` The cell address in A1 notation.
