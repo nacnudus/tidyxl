@@ -202,7 +202,7 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
     book_.address_[i] = address;
     book_.row_[i] = row;
     book_.col_[i] = col;
-    book_.content_[i] = NA_STRING;
+    book_.is_blank_[i] = true;
     book_.formula_[i] = NA_STRING;
     book_.formula_type_[i] = NA_STRING;
     book_.formula_ref_[i] = NA_STRING;

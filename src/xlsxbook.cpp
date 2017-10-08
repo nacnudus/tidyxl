@@ -133,7 +133,7 @@ void xlsxbook::initializeColumns() {
   address_         = CharacterVector(cellcount_, NA_STRING);
   row_             = IntegerVector(cellcount_,   NA_INTEGER);
   col_             = IntegerVector(cellcount_,   NA_INTEGER);
-  content_         = CharacterVector(cellcount_, NA_STRING);
+  is_blank_        = LogicalVector(cellcount_,   false);
   formula_         = CharacterVector(cellcount_, NA_STRING);
   formula_type_    = CharacterVector(cellcount_, NA_STRING);
   formula_ref_     = CharacterVector(cellcount_, NA_STRING);
@@ -182,7 +182,7 @@ void xlsxbook::cacheInformation() {
       _["address"] = address_,
       _["row"] = row_,
       _["col"] = col_,
-      _["content"] = content_,
+      _["is_blank"] = is_blank_,
       _["formula"] = formula_,
       _["formula_type"] = formula_type_,
       _["formula_ref"] = formula_ref_,

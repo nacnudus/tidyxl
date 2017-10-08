@@ -32,7 +32,7 @@ class xlsxbook {
     Rcpp::CharacterVector address_;   // Value of cell node r
     Rcpp::IntegerVector   row_;       // Parsed address_ (one-based)
     Rcpp::IntegerVector   col_;       // Parsed address_ (one-based)
-    Rcpp::CharacterVector content_;   // Unparsed value of cell node v
+    Rcpp::LogicalVector   is_blank_;
     Rcpp::CharacterVector formula_;   // If present
     Rcpp::CharacterVector formula_type_;  // If present
     Rcpp::CharacterVector formula_ref_;   // If present

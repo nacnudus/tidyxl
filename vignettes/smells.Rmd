@@ -153,7 +153,7 @@ has_constants <-
   distinct(row, col) %>%
   mutate(has_constant = TRUE) %>%
   right_join(sheet, by = c("row", "col")) %>%
-  filter(!is.na(content)) %>%
+  filter(!is_blank) %>%
   select(row, col, has_constant) %>%
   replace_na(list(has_constant = FALSE))
 has_constants

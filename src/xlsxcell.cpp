@@ -66,9 +66,8 @@ void xlsxcell::cacheValue(
   std::string vvalue;
   if (v != NULL) {
     vvalue = v->value();
-    book.content_[i] = vvalue;
   } else {
-    book.content_[i] = NA_STRING;
+    book.is_blank_[i] = true;
   }
 
   // 't' for 'type' defines the meaning of 'v' for value
