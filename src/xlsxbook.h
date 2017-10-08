@@ -33,16 +33,16 @@ class xlsxbook {
     Rcpp::IntegerVector   row_;       // Parsed address_ (one-based)
     Rcpp::IntegerVector   col_;       // Parsed address_ (one-based)
     Rcpp::LogicalVector   is_blank_;
-    Rcpp::CharacterVector formula_;   // If present
-    Rcpp::CharacterVector formula_type_;  // If present
-    Rcpp::CharacterVector formula_ref_;   // If present
-    Rcpp::IntegerVector   formula_group_; // If present
     Rcpp::CharacterVector data_type_; // Type of the parsed value
     Rcpp::CharacterVector error_;     // Parsed value
     Rcpp::LogicalVector   logical_;   // Parsed value
     Rcpp::NumericVector   numeric_;   // Parsed value
     Rcpp::NumericVector   date_;      // Parsed value
     Rcpp::CharacterVector character_; // Parsed value
+    Rcpp::CharacterVector formula_;   // If present
+    Rcpp::CharacterVector formula_type_;  // If present
+    Rcpp::CharacterVector formula_ref_;   // If present
+    Rcpp::IntegerVector   formula_group_; // If present
     Rcpp::CharacterVector comment_;
     Rcpp::NumericVector   height_;          // Provided to cell constructor
     Rcpp::NumericVector   width_;           // Provided to cell constructor
