@@ -83,7 +83,7 @@ has formatting applied at the 'style' level, which can be locally overridden.
 Depending on the cell, the content may be a numeric value such as 365 or
 365.25, it may represent a date/datetime in one of Excel's date/datetime
 systems, or it may be an index into an internal table of strings.
-\code{tidy_xlsx()} attempts to infer the correct data type of each cell,
+\code{xlsx_cells()} attempts to infer the correct data type of each cell,
 returning its value in the appropriate column (error, logical, numeric,
 date, character). In case this cleverness is unhelpful, the unparsed value
 and type information is available in the 'content' and 'type' columns.
@@ -96,13 +96,13 @@ of the formula the last time it was evaluated.
 Certain groups of cells may share a formula that differs only by addresses
 referred to in the formula; such groups are identified by an index, the
 'formula_group'.  The xlsx (Excel) file format only records the formula
-against one cell in any group.  \code{tidy_xlsx()} propogates such formulas to
+against one cell in any group.  \code{xlsx_cells()} propogates such formulas to
 the other cells in a group, making the necessary changes to relative
 addresses in the formula.
 
 Array formulas may also apply to a group of cells, identified by an address
 'formula_ref', but xlsx (Excel) file format only records the formula
-against one cell in the group.  \code{tidy_xlsx()} propogates such formulas to
+against one cell in the group.  \code{xlsx_cells()} propogates such formulas to
 the other cells in a group.  Unlike shared formulas, no changes to
 addresses in array formulas are necessary.
 
@@ -132,8 +132,8 @@ examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 str(xlsx_cells(examples))
 
 # Specific sheet either by position or by name
-str(tidy_xlsx(examples, 2))
-str(tidy_xlsx(examples, "Sheet1"))
+str(xlsx_cells(examples, 2))
+str(xlsx_cells(examples, "Sheet1"))
 
 # The formats of particular cells can be retrieved like this:
 
