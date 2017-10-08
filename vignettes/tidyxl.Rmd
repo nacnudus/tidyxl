@@ -36,6 +36,20 @@ xml-based file formats '.xlsx' and '.xlsm' via the embedded
 [RapidXML](http://rapidxml.sourceforge.net) C++ library.  It does not support
 the binary file formats '.xlsb' or '.xls'.
 
+It also provides a function `xlex()` for tokenizing formulas.  See the
+[vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
+details.  It is useful for detecting 'spreadsheet smells' (poor practice such as
+embedding constants in formulas, or using deep levels of nesting), and for
+understanding the dependency structures within spreadsheets.
+
+## Mailing list
+
+For bugs and/or issues, create a new issue on
+[GitHub](https://github.com/nacnudus/tidyxl/issues) For other questions or
+comments, please subscribe to the [tidyxl-devel mailing
+list](https://groups.google.com/forum/#!forum/tidyxl-devel). You must be a
+member to post messages, but anyone can read the archived discussions.
+
 ## Installation
 
 ```{r, echo = TRUE, eval = FALSE}
@@ -60,14 +74,13 @@ titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
 readxl::read_excel(titanic)
 ```
 
-[Tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into
+[tidyxl](https://github.com/nacnudus/tidyxl) doesn't coerce the pivot table into
 a data frame.  Instead, it represents each cell in its own row, where it
 describes the cell's address, value and other properties.
 
 ```{r, echo = TRUE}
 library(tidyxl)
-x <- tidy_xlsx(titanic)$data$Sheet1
-# Specific sheets can be requested using `tidy_xlsx(file, sheet)`
+x <- xlsx_cells(titanic)
 str(x)
 ```
 
@@ -78,15 +91,20 @@ x[x$data_type == "character", c("address", "character")]
 x[x$row == 4, c("address", "character", "numeric")]
 ```
 
+Specific sheets can be requested using `xlsx_cells(file, sheet)`, and the names
+of all sheets in a file are given by `xlsx_sheet_names()`.
+
+
 ### Formatting
 
 The original spreadsheet has formatting applied to the cells.  This can also be
-retrieved using [tidyxl](https://github.com/nacnudus/tidyxl).
+retrieved using [tidyxl](https://github.com/nacnudus/tidyxl), with the
+`xlsx_formats()` function.
 
 ![](./titanic-screenshot.png)
 
 Formatting is available by using the columns `local_format_id` and
-`style_format_id` as indexes into a separate list-of-lists structure.  'Local'
+`style_format` as indexes into a separate list-of-lists structure.  'Local'
 formatting is the most common kind, applied to individual cells.  'Style'
 formatting is usually applied to blocks of cells, and defines several formats at
 once.  Here is a screenshot of the styles buttons in Excel.
@@ -97,7 +115,7 @@ Formatting can be looked up as follows.
 
 ```{r, echo = TRUE}
 # Bold
-formats <- tidy_xlsx(titanic)$formats
+formats <- xlsx_formats(titanic)
 formats$local$font$bold
 x[x$local_format_id %in% which(formats$local$font$bold),
   c("address", "character")]
@@ -129,8 +147,8 @@ Formulas are available, but with a few quirks.
 
 ```{r, echo = TRUE}
 options(width = 120)
-y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
-               "Sheet1")$data[[1]]
+y <- xlsx_cells(system.file("/extdata/examples.xlsx", package = "tidyxl"),
+               "Sheet1")
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
@@ -139,30 +157,90 @@ y[!is.na(y$formula),
 The top five cells show that the results of formulas are available as usual in
 the columns `error`, `logical`, `numeric`, `date`, and `character`.
 
-Cells `A20` and `A21` share a formula definition.  The formula is given
-against cell `A20`, and assigned to `formula_group` `0`, which spans the cells
-given by the `formula_ref`, A20:A21.  A spreadsheet application would infer that
-cell `A21` had the formula `A20+1`.  Cells `B20` and `B21` are similar.  The
-roadmap for [tidyxl](https://github.com/nacnudus/tidyxl) includes
-de-normalising shared formulas.  If you can suggest how to tokenize Excel
-formulas, then please contact me.
+#### Shared formulas
 
-Cell `A22` contains an array formula, which, in a spreadsheet application, would
-appear with curly braces `{SUM(A19:A21*B19:B21)}`.  Cells `A23` and `A24`
-contain a single multi-cell array formula (single formula, multi-cell result),
-indicated by the `formula_ref`, but unlike cells `A20:A21` and `B20:B21`, the
-`formula` for A24 is NA rather than blank (`""`), and it doesn't have a
-`formula_group`.
+Cells `A20` and `A21` illustrate how formulas are normalised before being
+written to file, using the `formula_ref` and `formula_group` columns.  When
+there is a group of cells whose formulas only differ by cell reference (e.g.
+"=A1+1", "=A2+1", "=A3+1", etc.), only one formula in each group is written to
+the file, so `tidyxl` infers what the formulas in the other cells in the group
+must be, from their relative positions.
+
+#### Array formulas
+
+There are two kinds of array formulas: ones that compute over arrays, and ones
+whose output is an array (of cells).
+
+Both kinds are distinguished in
+spreadsheet programs by curly braces, e.g. `{SUM(A19:A21*B19:B21)}`.  In
+`tidyxl`, the curly braces are ommitted (as they are from the file itself), and
+instead the `formula_type` column has the value `array`.
+
+The first kind (those that compute over arrays) is illustrated by cell `A22`.
+
+The second kind (those whose value is spread across an array of cells) is
+illustrated by cells `A23` and `A24`.  The formula is only given in the top-left
+cell (`A23`), which is also the only cell that describes the range of cells
+containing the result, in the `formula-ref` column.  The results themselves are
+stored in all relevant cells (`A23` and `A24`).  Unlike shared formulas, there
+is no `formula_group` to associate the cells of an array formula's result.  If
+you need to do identify those cells, use the
+[cellranger](https://github.com/rsheets/cellranger) package and the
+`formula_ref` column.
+
+#### Formulas referring to other files
 
 Cell `A25` contains a formula that refers to another file.  The `[1]` is an
-index into a table of files.  The roadmap
-[tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing
-such numbers.
+index into a table of files.  The roadmap for
+[tidyxl](https://github.com/nacnudus/tidyxl) includes de-referencing such
+numbers.
 
-[tidyxl](https://github.com/nacnudus/tidyxl) imports the same table into a
-format suitable for non-tabular processing (see e.g. the
-[unpivotr](https://github.com/nacnudus/unpivotr) package in 'Similar projects'
-below).
+#### Tokenizing formulas
+
+The function `xlex()` separates formulas into tokens of different types, and
+gives their depth within a nested formula.  Its name is a bad pun on 'Excel' and
+'lexer'.  Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/)
+or run `demo_xlex()` locally.
+
+It is useful for detecting spreadsheet smells, which are poor practices in
+spreadsheet design, such as deep nests of functions, or embedding
+constants in formulas.
+
+```{r, fig.width = 7, fig.height = 5}
+x <- xlex("MIN(3,MAX(2,A1))")
+x
+
+plot_xlex(x) # Requires the ggraph package
+```
+
+See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
+more examples and details.
+
+### Named ranges
+
+Names are imported with `xlex_names()`.  AKA 'named formulas' and 'defined
+names', these are usually used to name particular cells or ranges, making
+formulas that refer to them more readable.  Ones that *are* ranges are identifed
+by the `is_range` column (using `is_range()`), making it easier to match the
+names to the cells returned by `xlsx_cells()` -- e.g. by using the
+[`cellranger`](https://github.com/rsheets/cellranger) package.
+
+When the scope of the name is within a particular sheet, rather than global, the
+sheet name is given.
+
+```{r}
+xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
+```
+
+### Data validation rules
+
+Data validation rules are imported with `xlsx_validation()`.  These rules
+control what values may be entered into a cell, and are often used to create
+a drop-down list in a cell.
+
+```{r}
+xlsx_validation(system.file("extdata/examples.xlsx", package = "tidyxl"))
+```
 
 ## Philosophy
 
