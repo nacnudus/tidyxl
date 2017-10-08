@@ -183,15 +183,13 @@ void xlsxcell::cacheFormula(
     rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
     if (f_t != NULL) {
       book.formula_type_[i] = f_t->value();
-    } else {
-      book.formula_type_[i] = NA_STRING;
     }
+
     rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
     if (ref != NULL) {
       book.formula_ref_[i] = ref->value();
-    } else {
-      book.formula_ref_[i] = NA_STRING;
     }
+
     rapidxml::xml_attribute<>* si = f->first_attribute("si");
     if (si != NULL) {
       si_number = strtol(si->value(), NULL, 10);
@@ -203,13 +201,6 @@ void xlsxcell::cacheFormula(
         shared_formula new_shared_formula(formula, row_, col_);
         sheet->shared_formulas_.insert({si_number, new_shared_formula});
       }
-    } else {
-      book.formula_group_[i] = NA_INTEGER;
     }
-  } else {
-    book.formula_[i] = NA_STRING;
-    book.formula_type_[i] = NA_STRING;
-    book.formula_ref_[i] = NA_STRING;
-    book.formula_group_[i] = NA_INTEGER;
   }
 }
