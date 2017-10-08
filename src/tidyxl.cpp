@@ -136,35 +136,13 @@ DataFrame xlsx_sheet_files_(std::string path) {
   return(out);
 }
 
-
 // [[Rcpp::export]]
 List xlsx_validation_(
     std::string path,
     CharacterVector sheet_paths,
     CharacterVector sheet_names
     ) {
-  // Parse book-level information for the date system (1900/1904)
-  xlsxbook book(path);
-
-  // Loop through sheets
-  List out(sheet_paths.size());
-
-  CharacterVector::iterator in_it;
-  List::iterator out_it;
-
-  int i = 0;
-  for(in_it = sheet_paths.begin(), out_it = out.begin();
-      in_it != sheet_paths.end();
-      ++in_it, ++out_it) {
-    String sheet_path(sheet_paths[i]);
-    String sheet_name(sheet_names[i]);
-    *out_it = xlsxvalidation(sheet_path, book).information();
-    ++i;
-  }
-
-  out.attr("names") = sheet_names;
-
-  return out;
+  return xlsxvalidation(path, sheet_paths, sheet_names).information();
 }
 
 // [[Rcpp::export]]

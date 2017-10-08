@@ -9,10 +9,7 @@ class xlsxvalidation {
 
   public:
 
-    xlsxbook& book_; // To determine the date system (1900/1904)
-
-    Rcpp::List information_; // Wrapper for variables returned to R
-
+    Rcpp::CharacterVector sheet_;
     Rcpp::CharacterVector ref_;
     Rcpp::CharacterVector type_;
     Rcpp::CharacterVector operator_;
@@ -28,10 +25,11 @@ class xlsxvalidation {
     Rcpp::CharacterVector error_style_;
 
     xlsxvalidation(
-        const std::string& sheet_path,
-        xlsxbook& book);
+      std::string path,
+      Rcpp::CharacterVector sheet_paths,
+      Rcpp::CharacterVector sheet_names);
 
-    Rcpp::List& information();       // Validation rules DF wrapped in list
+    Rcpp::List information();       // Validation rules DF wrapped in list
 
 };
 
