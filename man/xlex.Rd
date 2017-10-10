@@ -201,12 +201,13 @@ xlex("MAX(1,2)")
 # increases inside parentheses, rather than at the parentheses.  Curly
 # braces, for arrays, have the same behaviour, as do subexpressions inside
 # ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the
-# levels explicitly (rather than by the pretty printing), remove the 'xlex'
+# levels explicitly (rather than by the pretty printing), print as a normal
+# data frame or tibble by specifying `pretty = FALSE`.
 # class with as.data.frame.
 xlex("MAX(MIN(1,2),3)")
 xlex("{1,2;3,4}")
 xlex("1*(2+3)")
-as.data.frame(xlex("1*(2+3)"))
+print(xlex("1*(2+3)"), pretty = FALSE)
 
 # Arrays are marked by opening and closing curly braces, with comma ','
 # between columns, and semicolons ';' between rows  Commas and semicolons are

@@ -195,12 +195,13 @@
 #' # increases inside parentheses, rather than at the parentheses.  Curly
 #' # braces, for arrays, have the same behaviour, as do subexpressions inside
 #' # ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the
-#' # levels explicitly (rather than by the pretty printing), remove the 'xlex'
+#' # levels explicitly (rather than by the pretty printing), print as a normal
+#' # data frame or tibble by specifying `pretty = FALSE`.
 #' # class with as.data.frame.
 #' xlex("MAX(MIN(1,2),3)")
 #' xlex("{1,2;3,4}")
 #' xlex("1*(2+3)")
-#' as.data.frame(xlex("1*(2+3)"))
+#' print(xlex("1*(2+3)"), pretty = FALSE)
 #'
 #' # Arrays are marked by opening and closing curly braces, with comma ','
 #' # between columns, and semicolons ';' between rows  Commas and semicolons are
@@ -244,23 +245,27 @@ xlex <- function(x) {
 }
 
 #' @export
-print.xlex <- function(x) {
+print.xlex <- function(x, pretty = TRUE) {
   original <- x
-  x$level <- x$level + 1
-  x <- rbind(data.frame(level = 0, token = "root", type = "",
-                        stringsAsFactors = FALSE),
-             x)
-  x$diff <- x$level - c(x$level[-1], 0L)
-  x$indent <- ifelse(x$level == 0, 0, x$level - 1L)
-  x$tree <- ifelse(x$level == 0L, "", ifelse(x$diff == 0L, "¦-- ", "°-- "))
-  x$tree <- paste0(vapply(x$indent * 4L,
-                          function(y) {paste0(rep(" ", y), collapse = "")},
-                          character(1)),
-                   x$tree)
-  x$tree <- paste0(x$tree, x$token)
-  x$tree <- pad(x$tree)
-  out <- paste(x$tree, x$type, sep = "  ", collapse = "\n")
-  cat(out, "\n")
+  if (pretty) {
+    x$level <- x$level + 1
+    x <- rbind(data.frame(level = 0, token = "root", type = "",
+                          stringsAsFactors = FALSE),
+               x)
+    x$diff <- x$level - c(x$level[-1], 0L)
+    x$indent <- ifelse(x$level == 0, 0, x$level - 1L)
+    x$tree <- ifelse(x$level == 0L, "", ifelse(x$diff == 0L, "¦-- ", "°-- "))
+    x$tree <- paste0(vapply(x$indent * 4L,
+                            function(y) {paste0(rep(" ", y), collapse = "")},
+                            character(1)),
+                     x$tree)
+    x$tree <- paste0(x$tree, x$token)
+    x$tree <- pad(x$tree)
+    out <- paste(x$tree, x$type, sep = "  ", collapse = "\n")
+    cat(out, "\n")
+  } else {
+    NextMethod()
+  }
   invisible(original)
 }
 
