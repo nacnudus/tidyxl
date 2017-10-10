@@ -35,7 +35,7 @@ Rcpp::List xlex_(Rcpp::CharacterVector x)
       );
 
   int n = tokens.size();
-  out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  out.attr("class") = Rcpp::CharacterVector::create("xlex", "tbl_df", "tbl", "data.frame");
   out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 
   return out;

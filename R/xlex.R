@@ -75,6 +75,9 @@
 #' giving the token itself, its type (e.g.  `number`, or `error`), and its
 #' level.
 #'
+#' A class attribute `xlex` is added, so that the [base::print()] generic can be
+#' specialised to print the tree prettily.
+#'
 #' @seealso [tidyxl::plot_xlex()], [tidyxl::demo_xlex()]
 #' @export
 #' @examples
@@ -191,10 +194,13 @@
 #' # Nested functions are marked by an increase in the 'level'.  The level
 #' # increases inside parentheses, rather than at the parentheses.  Curly
 #' # braces, for arrays, have the same behaviour, as do subexpressions inside
-#' # ordinary parenthesis, tagged 'paren_open' and 'paren_close'.
+#' # ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the
+#' # levels explicitly (rather than by the pretty printing), remove the 'xlex'
+#' # class with as.data.frame.
 #' xlex("MAX(MIN(1,2),3)")
 #' xlex("{1,2;3,4}")
 #' xlex("1*(2+3)")
+#' as.data.frame(xlex("1*(2+3)"))
 #'
 #' # Arrays are marked by opening and closing curly braces, with comma ','
 #' # between columns, and semicolons ';' between rows  Commas and semicolons are
@@ -231,4 +237,36 @@ xlex <- function(x) {
     stop("'x' must be a character vector of length 1")
   }
   xlex_(x)
+}
+
+#' @export
+print.xlex <- function(x) {
+  x$level <- x$level + 1
+  x <- rbind(data.frame(level = 0, token = "root", type = "",
+                        stringsAsFactors = FALSE),
+             x)
+  x$diff <- x$level - c(x$level[-1], 0L)
+  x$indent <- ifelse(x$level == 0, 0, x$level - 1L)
+  x$tree <- ifelse(x$level == 0L, "", ifelse(x$diff == 0L, "¦-- ", "°-- "))
+  x$tree <- paste0(vapply(x$indent * 4L,
+                          function(y) {paste0(rep(" ", y), collapse = "")},
+                          character(1)),
+                   x$tree)
+  x$tree <- paste0(x$tree, x$token)
+  x$tree <- pad(x$tree)
+  out <- paste(x$tree, x$type, sep = "  ", collapse = "\n")
+  cat(out, "\n")
+}
+
+# Pad a character vector on the right with spaces up to the maximum nchar
+pad_scalar <- function(x, to_length) {
+  paste0(rep(" ", to_length - nchar(x)), collapse = "")
+}
+pad <- function(x) {
+  max_length <- max(nchar(x))
+  pad <- vapply(x,
+                pad_scalar,
+                character(1),
+                to_length = max_length)
+  paste0(x, pad)
 }

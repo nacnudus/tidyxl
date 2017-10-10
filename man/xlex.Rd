@@ -13,6 +13,9 @@ xlex(x)
 A data frame (a tibble, if you use the tidyverse) one row per token,
 giving the token itself, its type (e.g.  \code{number}, or \code{error}), and its
 level.
+
+A class attribute \code{xlex} is added, so that the \code{\link[base:print]{base::print()}} generic can be
+specialised to print the tree prettily.
 }
 \description{
 \code{xlex} takes an Excel formula and separates it into tokens.  The name is
@@ -45,8 +48,8 @@ available in the vector \code{\link{excel_functions}}.
 \code{FALSE()}.
 \item \code{number} All forms of numbers, e.g. \code{1}, \code{1.1}, \code{-1}, \code{1.2E3}.
 \item \code{text} Strings inside double quotes, e.g. \code{"Hello, World!"}.
-\item \code{operator} The usual infix operators, \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{&lt;}, \code{&lt;=},
-\code{&lt;&gt;}, etc.  and also the range operator \code{:} when it is used with ranges
+\item \code{operator} The usual infix operators, \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{<}, \code{<=},
+\code{<>}, etc.  and also the range operator \code{:} when it is used with ranges
 that aren't cell addresses, e.g. \code{INDEX(something):A1}. The union operator
 \code{,} is the same symbol that is used to separate function arguments and
 array columns, so it is only tagged \code{operator} when it is inside
@@ -197,10 +200,13 @@ xlex("MAX(1,2)")
 # Nested functions are marked by an increase in the 'level'.  The level
 # increases inside parentheses, rather than at the parentheses.  Curly
 # braces, for arrays, have the same behaviour, as do subexpressions inside
-# ordinary parenthesis, tagged 'paren_open' and 'paren_close'.
+# ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the
+# levels explicitly (rather than by the pretty printing), remove the 'xlex'
+# class with as.data.frame.
 xlex("MAX(MIN(1,2),3)")
 xlex("{1,2;3,4}")
 xlex("1*(2+3)")
+as.data.frame(xlex("1*(2+3)"))
 
 # Arrays are marked by opening and closing curly braces, with comma ','
 # between columns, and semicolons ';' between rows  Commas and semicolons are
