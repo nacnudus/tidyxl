@@ -1,8 +1,8 @@
 #ifndef COLOR_
 #define COLOR_
 
-class styles; // Forward declaration because color is included in font, which is
-              // included in styles.
+class xlsxstyles; // Forward declaration because color is included in font, which is
+              // included in xlsxstyles.
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -17,7 +17,7 @@ class color {
     Rcpp::NumericVector tint_;
 
     color(); // default constructor
-    color(rapidxml::xml_node<>* color, styles* styles);
+    color(rapidxml::xml_node<>* color, xlsxstyles* styles);
 };
 
 #endif

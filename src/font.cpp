@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "font.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "color.h"
 
 using namespace Rcpp;
@@ -9,7 +9,7 @@ using namespace Rcpp;
 font::font() {} // Default constructor
 
 font::font(rapidxml::xml_node<>* font,
-    styles* styles
+    xlsxstyles* styles
     ): color_(font->first_node("color"), styles)
 {
   // Initialize variables

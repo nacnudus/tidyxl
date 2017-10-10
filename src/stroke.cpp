@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "stroke.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "color.h"
 
 using namespace Rcpp;
@@ -10,7 +10,7 @@ stroke::stroke() {} // Default constructor
 
 stroke::stroke(
     rapidxml::xml_node<>* stroke,
-    styles* styles
+    xlsxstyles* styles
     ) {
   style_ = NA_STRING;
 

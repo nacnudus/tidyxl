@@ -1,5 +1,5 @@
-#ifndef STYLES_
-#define STYLES_
+#ifndef XLSXSTYLES_
+#define XLSXSTYLES_
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -15,7 +15,7 @@ struct colors {
   Rcpp::NumericVector   tint;
 };
 
-class styles {
+class xlsxstyles {
 
   public:
 
@@ -41,7 +41,7 @@ class styles {
     Rcpp::List style_; // inside-out List version of style_formats_
     Rcpp::List local_; // inside-out List version of local_formats_
 
-    styles(const std::string& path);
+    xlsxstyles(const std::string& path);
 
     void cacheThemeRgb(const std::string& path);
     void cacheIndexedRgb();

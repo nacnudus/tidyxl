@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "patternFill.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "color.h"
 
 using namespace Rcpp;
@@ -9,7 +9,7 @@ using namespace Rcpp;
 patternFill::patternFill() {} // Default constructor
 
 patternFill::patternFill(rapidxml::xml_node<>* patternFill,
-    styles* styles
+    xlsxstyles* styles
     ) {
   patternType_ = NA_STRING;
 

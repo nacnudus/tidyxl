@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "color.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 
 using namespace Rcpp;
 
@@ -13,7 +13,7 @@ color::color() { // Default constructor
   tint_    = NumericVector::create(NA_REAL);
 }
 
-color::color(rapidxml::xml_node<>* color, styles* styles) {
+color::color(rapidxml::xml_node<>* color, xlsxstyles* styles) {
   // Initialize variables
   rgb_     = NA_STRING;
   theme_   = IntegerVector::create(NA_INTEGER);

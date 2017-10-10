@@ -4,7 +4,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "xlsxsheet.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 
 class xlsxbook {
 
@@ -16,7 +16,7 @@ class xlsxbook {
     Rcpp::CharacterVector comments_paths_; // comments files
     std::vector<std::string> strings_;     // strings table
 
-    styles styles_;
+    xlsxstyles styles_;
 
     int dateSystem_; // 1900 or 1904
     int dateOffset_; // for converting 1900 or 1904 Excel datetimes to R

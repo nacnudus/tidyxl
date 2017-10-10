@@ -1,13 +1,13 @@
 #include <Rcpp.h>
 #include "zip.h"
 #include "rapidxml.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "xf.h"
 #include "color.h"
 
 using namespace Rcpp;
 
-styles::styles(const std::string& path) {
+xlsxstyles::xlsxstyles(const std::string& path) {
   cacheThemeRgb(path);
   cacheIndexedRgb();
 
@@ -45,7 +45,7 @@ styles::styles(const std::string& path) {
   local_ = zipFormats(local_formats_, false);
 }
 
-void styles::cacheThemeRgb(const std::string& path) {
+void xlsxstyles::cacheThemeRgb(const std::string& path) {
   CharacterVector theme(12, NA_STRING);
   theme_ = theme;
   std::string FF = "FF";
@@ -80,7 +80,7 @@ void styles::cacheThemeRgb(const std::string& path) {
   }
 }
 
-void styles::cacheIndexedRgb() {
+void xlsxstyles::cacheIndexedRgb() {
   CharacterVector indexed(82, NA_STRING);
   indexed[0]  = "FF000000";
   indexed[1]  = "FFFFFFFF";
@@ -154,7 +154,7 @@ void styles::cacheIndexedRgb() {
   indexed_ = indexed;
 }
 
-void styles::cacheNumFmts(rapidxml::xml_node<>* styleSheet) {
+void xlsxstyles::cacheNumFmts(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* numFmts = styleSheet->first_node("numFmts");
   // Iterate through custom formats once to get the maximum ID
   int maxId = 49; // stores the max numFmtId encountered so far.
@@ -252,7 +252,7 @@ void styles::cacheNumFmts(rapidxml::xml_node<>* styleSheet) {
 }
 
 // Adapted from hadley/readxl
-bool styles::isDateFormat(std::string formatCode) {
+bool xlsxstyles::isDateFormat(std::string formatCode) {
   for (size_t i = 0; i < formatCode.size(); ++i) {
     switch (formatCode[i]) {
       case 'd':
@@ -277,7 +277,7 @@ bool styles::isDateFormat(std::string formatCode) {
   return false;
 }
 
-void styles::cacheFonts(rapidxml::xml_node<>* styleSheet) {
+void xlsxstyles::cacheFonts(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* fonts = styleSheet->first_node("fonts");
   for (rapidxml::xml_node<>* font_node = fonts->first_node("font");
       font_node; font_node = font_node->next_sibling()) {
@@ -286,7 +286,7 @@ void styles::cacheFonts(rapidxml::xml_node<>* styleSheet) {
   }
 }
 
-void styles::cacheFills(rapidxml::xml_node<>* styleSheet) {
+void xlsxstyles::cacheFills(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* fills = styleSheet->first_node("fills");
   for (rapidxml::xml_node<>* fill_node = fills->first_node("fill");
       fill_node; fill_node = fill_node->next_sibling()) {
@@ -295,7 +295,7 @@ void styles::cacheFills(rapidxml::xml_node<>* styleSheet) {
   }
 }
 
-void styles::cacheBorders(rapidxml::xml_node<>* styleSheet) {
+void xlsxstyles::cacheBorders(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* borders = styleSheet->first_node("borders");
   for (rapidxml::xml_node<>* border_node = borders->first_node("border");
       border_node; border_node = border_node->next_sibling()) {
@@ -304,7 +304,7 @@ void styles::cacheBorders(rapidxml::xml_node<>* styleSheet) {
   }
 }
 
-void styles::cacheCellXfs(rapidxml::xml_node<>* styleSheet) {
+void xlsxstyles::cacheCellXfs(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* cellXfs = styleSheet->first_node("cellXfs");
   for (rapidxml::xml_node<>* xf_node = cellXfs->first_node("xf");
       xf_node; xf_node = xf_node->next_sibling()) {
@@ -313,7 +313,7 @@ void styles::cacheCellXfs(rapidxml::xml_node<>* styleSheet) {
   }
 }
 
-void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
+void xlsxstyles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* cellStyleXfs = styleSheet->first_node("cellStyleXfs");
   for (rapidxml::xml_node<>* xf_node = cellStyleXfs->first_node("xf");
       xf_node; xf_node = xf_node->next_sibling()) {
@@ -346,14 +346,14 @@ void styles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
   }
 }
 
-void styles::clone_color(color& from, colors& to) {
+void xlsxstyles::clone_color(color& from, colors& to) {
     to.rgb.push_back(from.rgb_);
     to.theme.push_back(from.theme_[0]);
     to.indexed.push_back(from.indexed_[0]);
     to.tint.push_back(from.tint_[0]);
 }
 
-List styles::list_color(colors& original, bool is_style) {
+List xlsxstyles::list_color(colors& original, bool is_style) {
   if (is_style) {
     original.rgb.attr("names") = cellStyles_;
     original.theme.attr("names") = cellStyles_;
@@ -369,7 +369,7 @@ List styles::list_color(colors& original, bool is_style) {
   return(out);
 }
 
-void styles::applyFormats() {
+void xlsxstyles::applyFormats() {
   // Get the normal style
   xf normal = cellStyleXfs_[0];
   style_formats_.numFmtId_.push_back(normal.numFmtId_[0]);
@@ -511,7 +511,7 @@ void styles::applyFormats() {
   }
 }
 
-List styles::zipFormats(xf styles, bool is_style) {
+List xlsxstyles::zipFormats(xf styles, bool is_style) {
   CharacterVector numFmts;
   font fonts;
   fill fills;

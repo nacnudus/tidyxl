@@ -3,7 +3,7 @@
 #include "rapidxml.h"
 #include "xlsxbook.h"
 #include "xlsxsheet.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "utils.h"
 
 using namespace Rcpp;

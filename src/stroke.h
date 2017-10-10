@@ -1,7 +1,7 @@
 #ifndef STROKE_
 #define STROKE_
 
-class styles; // Forward declaration because font is included in styles.
+class xlsxstyles; // Forward declaration because font is included in xlsxstyles.
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -15,7 +15,7 @@ class stroke {
     color        color_;
 
     stroke(); // default constructor
-    stroke(rapidxml::xml_node<>* stroke, styles* styles);
+    stroke(rapidxml::xml_node<>* stroke, xlsxstyles* styles);
 };
 
 #endif

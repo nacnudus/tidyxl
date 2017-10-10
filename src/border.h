@@ -1,7 +1,7 @@
 #ifndef BORDER_
 #define BORDER_
 
-class styles; // Forward declaration because fill is included in styles.
+class xlsxstyles; // Forward declaration because fill is included in xlsxstyles.
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -25,7 +25,7 @@ class border {
     stroke  horizontal_;
 
     border(); // Default constructor
-    border(rapidxml::xml_node<>* border, styles* styles);
+    border(rapidxml::xml_node<>* border, xlsxstyles* styles);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef FILL_
 #define FILL_
 
-class styles; // Forward declaration because fill is included in styles.
+class xlsxstyles; // Forward declaration because fill is included in styles.
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -16,7 +16,7 @@ class fill {
     gradientFill gradientFill_;
 
     fill(); // Default constructor
-    fill(rapidxml::xml_node<>* fill, styles* styles);
+    fill(rapidxml::xml_node<>* fill, xlsxstyles* styles);
 };
 
 #endif
