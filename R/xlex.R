@@ -229,6 +229,10 @@
 #' # concatenating all the tokens.  Spaces between function names and their open
 #' # parenthesis have not been observed, so are not permitted.
 #' xlex(" MAX( A1 ) ")
+#'
+#' # print.xlex() invisibly returns the original argument, so that it can be
+#' # used in magrittr pipelines.
+#' str(print(xlex("ROUND(A1*2")))
 xlex <- function(x) {
   if (length(x) != 1) {
     stop("'x' must be a character vector of length 1")
@@ -241,6 +245,7 @@ xlex <- function(x) {
 
 #' @export
 print.xlex <- function(x) {
+  original <- x
   x$level <- x$level + 1
   x <- rbind(data.frame(level = 0, token = "root", type = "",
                         stringsAsFactors = FALSE),
@@ -256,6 +261,7 @@ print.xlex <- function(x) {
   x$tree <- pad(x$tree)
   out <- paste(x$tree, x$type, sep = "  ", collapse = "\n")
   cat(out, "\n")
+  invisible(original)
 }
 
 # Pad a character vector on the right with spaces up to the maximum nchar

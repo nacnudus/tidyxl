@@ -235,6 +235,10 @@ xlex("'Quote'|'NYSE'!ZAXX")
 # concatenating all the tokens.  Spaces between function names and their open
 # parenthesis have not been observed, so are not permitted.
 xlex(" MAX( A1 ) ")
+
+# print.xlex() invisibly returns the original argument, so that it can be
+# used in magrittr pipelines.
+str(print(xlex("ROUND(A1*2")))
 }
 \seealso{
 \code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}}, \code{\link[tidyxl:demo_xlex]{tidyxl::demo_xlex()}}
