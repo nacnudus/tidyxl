@@ -66,12 +66,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // xlex_
-Rcpp::List xlex_(Rcpp::CharacterVector x);
+List xlex_(CharacterVector x);
 RcppExport SEXP _tidyxl_xlex_(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(xlex_(x));
     return rcpp_result_gen;
 END_RCPP
