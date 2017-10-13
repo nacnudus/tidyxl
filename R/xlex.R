@@ -244,7 +244,12 @@ xlex <- function(x) {
 }
 
 #' @export
-print.xlex <- function(x, pretty = TRUE) {
+print.xlex <- function(x, ...) {
+  if(!hasArg(pretty)) {
+    pretty <- TRUE
+  } else {
+    pretty <- eval(substitute(alist(...)))$pretty
+  }
   original <- x
   if (pretty) {
     x$level <- x$level + 1
