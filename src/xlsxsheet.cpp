@@ -12,7 +12,7 @@ xlsxsheet::xlsxsheet(
     const std::string& name,
     std::string& sheet_xml,
     xlsxbook& book,
-    Rcpp::String comments_path):
+    String comments_path):
   name_(name),
   book_(book) {
   rapidxml::xml_document<> xml;
@@ -114,7 +114,7 @@ unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData
   return(cellcount_);
 }
 
-void xlsxsheet::cacheComments(Rcpp::String comments_path) {
+void xlsxsheet::cacheComments(String comments_path) {
   // Having constructed the map, they will each be deleted when they are matched
   // to a cell.  That will leave only those comments that are on empty cells.
   // Those are then appended as empty cells with comments.

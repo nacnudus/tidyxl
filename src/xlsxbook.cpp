@@ -110,8 +110,8 @@ void xlsxbook::createSheets() {
       xml != sheet_xml_.end();
       ++xml, ++name, ++comments_path) {
     std::string xmlstring(*xml);
-    Rcpp::String namestring(*name);
-    Rcpp::String comments_path_string(*comments_path);
+    String namestring(*name);
+    String comments_path_string(*comments_path);
     sheets_.emplace_back(xlsxsheet(namestring, xmlstring, *this, comments_path_string));
     ++i;
   }
@@ -201,6 +201,6 @@ void xlsxbook::cacheInformation() {
 
   // Turn list of vectors into a data frame without checking anything
   int n = Rf_length(information_[0]);
-  information_.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-  information_.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+  information_.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
+  information_.attr("row.names") = IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 }

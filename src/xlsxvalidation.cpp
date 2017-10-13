@@ -210,7 +210,7 @@ xlsxvalidation::xlsxvalidation(
 List xlsxvalidation::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  Rcpp::List out = List::create(
+  List out = List::create(
       _["sheet"] = sheet_,
       _["ref"] = ref_,
       _["type"] = type_,
@@ -228,8 +228,8 @@ List xlsxvalidation::information() {
 
   // Turn list of vectors into a data frame without checking anything
   int n = Rf_length(out[0]);
-  out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-  out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+  out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
+  out.attr("row.names") = IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 
   return out;
 }

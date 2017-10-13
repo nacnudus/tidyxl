@@ -60,8 +60,8 @@ List& xlsxnames::information() {
 
   // Turn list of vectors into a data frame without checking anything
   int n = Rf_length(information_[0]);
-  information_.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
-  information_.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+  information_.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
+  information_.attr("row.names") = IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 
   return information_;
 }

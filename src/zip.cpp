@@ -42,5 +42,5 @@ std::string extdata() {
   Function system_file("system.file");
   CharacterVector out =
     system_file("extdata", Named("package") = "tidyxl");
-  return Rcpp::as<std::string>(out);
+  return as<std::string>(out);
 }
