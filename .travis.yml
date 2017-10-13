@@ -5,11 +5,6 @@ language: R
 sudo: required
 dist: trusty
 
-addons:
-  apt:
-    packages:
-      - libudunits2-dev
-
 r:
   - oldrel
   - release
@@ -27,12 +22,8 @@ r_binary_packages:
   - tidyr
   - purrr
   - ggplot2
-  - igraph
-  - units
-  - ggrepel
-  - gridextra
-  - viridis
-  - shiny
+  - cellranger
+  - rlang
 
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
 # This was causing the error:

@@ -12,7 +12,8 @@ vignette: >
 The function `xlex()` separates formulas into tokens of different types, and
 gives their depth within a nested formula.  Its name is a bad pun on 'Excel' and
 'lexer'.  Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/)
-or run `demo_xlex()` locally.
+or install the more experimental [lexl](https://nacnuds.github.io/lexl) package
+to run `demo_lexl()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices in
 spreadsheet design, such as deep nests of functions, or embedding
@@ -29,17 +30,6 @@ library(tidyxl)
 x <- xlex("MIN(3,MAX(2,A1))")
 x
 ```
-
-If you have the `igraph` and `ggraph` packages installed
-(`install.packages(c("igraph", "ggraph"))`), then you can visualise the parse
-tree with `plot_xlex()`.
-
-```{r, fig.width = 7, fig.height = 5}
-plot_xlex(x)
-```
-
-Intermediate functions between `xlex()` and `plot_xlex()` that work on the parse
-tree are also exported: `xlex_edges()`, `xlex_vertices()` and `xlex_igraph()`.
 
 ## Detecting constants inside formulas
 

@@ -240,7 +240,7 @@ Cell `A25` contains a formula that refers to another file. The `[1]` is an index
 
 #### Tokenizing formulas
 
-The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/) or run `demo_xlex()` locally.
+The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/), or install the more experimental [lexl](https://nacnuds.github.io/lexl) package to run `demo_lexl()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.
 
@@ -261,11 +261,7 @@ x
 #>  9     2       ref    A1
 #> 10     1 fun_close     )
 #> 11     0 fun_close     )
-
-plot_xlex(x) # Requires the ggraph package
 ```
-
-![](README-unnamed-chunk-10-1.png)
 
 See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for more examples and details.
 

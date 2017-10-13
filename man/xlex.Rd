@@ -45,8 +45,8 @@ available in the vector \code{\link{excel_functions}}.
 \code{FALSE()}.
 \item \code{number} All forms of numbers, e.g. \code{1}, \code{1.1}, \code{-1}, \code{1.2E3}.
 \item \code{text} Strings inside double quotes, e.g. \code{"Hello, World!"}.
-\item \code{operator} The usual infix operators, \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{&lt;}, \code{&lt;=},
-\code{&lt;&gt;}, etc.  and also the range operator \code{:} when it is used with ranges
+\item \code{operator} The usual infix operators, \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{<}, \code{<=},
+\code{<>}, etc.  and also the range operator \code{:} when it is used with ranges
 that aren't cell addresses, e.g. \code{INDEX(something):A1}. The union operator
 \code{,} is the same symbol that is used to separate function arguments and
 array columns, so it is only tagged \code{operator} when it is inside
@@ -229,7 +229,4 @@ xlex("'Quote'|'NYSE'!ZAXX")
 # concatenating all the tokens.  Spaces between function names and their open
 # parenthesis have not been observed, so are not permitted.
 xlex(" MAX( A1 ) ")
-}
-\seealso{
-\code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}}, \code{\link[tidyxl:demo_xlex]{tidyxl::demo_xlex()}}
 }

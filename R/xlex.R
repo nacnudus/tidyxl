@@ -75,7 +75,6 @@
 #' giving the token itself, its type (e.g.  `number`, or `error`), and its
 #' level.
 #'
-#' @seealso [tidyxl::plot_xlex()], [tidyxl::demo_xlex()]
 #' @export
 #' @examples
 #' # All explicit cell references/addresses are returned as a single 'ref' token.

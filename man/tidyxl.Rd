@@ -12,8 +12,7 @@ This data structure is compatible with the 'unpivotr' package for
 recognising information expressed by relative cell positions and cell
 formatting, and re-expressing it in a tidy way.
 }
-\section{Spreadsheet functions}{
-
+\details{
 \itemize{
 \item \code{\link[tidyxl:tidy_xlsx]{tidyxl::tidy_xlsx()}} Import cells and formatting from an xlsx file.
 \item \code{\link[tidyxl:xlsx_sheet_names]{tidyxl::xlsx_sheet_names()}} List the names of sheets in an xlsx file.
@@ -23,18 +22,6 @@ refers to a range or not.
 formulas, defined names) from an xlsx file.
 \item \code{\link[tidyxl:xlsx_validation]{tidyxl::xlsx_validation()}} Import cell input validation rules (e.g.
 'must be from this drop-down list') from an xlsx file.
-}
-}
-
-\section{Formula functions}{
-
-\itemize{
 \item \code{\link[tidyxl:xlex]{tidyxl::xlex()}} Tokenise (lex) an Excel formula.
-\item \code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}} Draw a simple tree plot of a parse tree from
-\code{\link[tidyxl:xlex]{tidyxl::xlex()}}
-\item \code{\link[tidyxl:xlex_edges]{tidyxl::xlex_edges()}} Utility function used by \code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}}
-\item \code{\link[tidyxl:xlex_vertices]{tidyxl::xlex_vertices()}} Utility function used by \code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}}
-\item \code{\link[tidyxl:xlex_igraph]{tidyxl::xlex_igraph()}} Utility function used by \code{\link[tidyxl:plot_xlex]{tidyxl::plot_xlex()}}
 }
 }
-
