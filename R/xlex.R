@@ -78,7 +78,6 @@
 #' A class attribute `xlex` is added, so that the [base::print()] generic can be
 #' specialised to print the tree prettily.
 #'
-#' @seealso [tidyxl::plot_xlex()], [tidyxl::demo_xlex()]
 #' @export
 #' @examples
 #' # All explicit cell references/addresses are returned as a single 'ref' token.
