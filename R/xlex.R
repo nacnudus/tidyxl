@@ -253,7 +253,7 @@ print.xlex <- function(x, pretty = TRUE) {
                x)
     x$diff <- x$level - c(x$level[-1], 0L)
     x$indent <- ifelse(x$level == 0, 0, x$level - 1L)
-    x$tree <- ifelse(x$level == 0L, "", ifelse(x$diff == 0L, "¦-- ", "°-- "))
+    x$tree <- ifelse(x$level == 0L, "", ifelse(x$diff == 0L, "\u00A6-- ", "\u00B0-- "))
     x$tree <- paste0(vapply(x$indent * 4L,
                             function(y) {paste0(rep(" ", y), collapse = "")},
                             character(1)),
