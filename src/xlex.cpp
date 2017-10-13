@@ -2,19 +2,21 @@
 #include "token_grammar.h"
 #include "paren_type.h"
 
+using namespace Rcpp;
+
 // [[Rcpp::export]]
-Rcpp::List xlex_(Rcpp::CharacterVector x)
+List xlex_(CharacterVector x)
 {
 
   std::string in_string;                   // the formula from the input x
-  Rcpp::List out;                          // wraps types, tokens, levels
+  List out;                          // wraps types, tokens, levels
   std::vector<std::string> types;          // bool, number, text, function, etc.
   std::vector<std::string> tokens;         // the tokens themselves
   std::vector<int> levels;                 // level within nested formula
   int level(0);                            // starting level
   std::vector<paren_type> fun_paren;       // what is the context of a comma?
 
-  in_string = Rcpp::as<std::string>(x);
+  in_string = as<std::string>(x);
 
   // default context before any '('.  Never required in valid formulas, but
   // avoids hard crash in the event, e.g. a formula =A1,B2.
@@ -28,15 +30,15 @@ Rcpp::List xlex_(Rcpp::CharacterVector x)
                                             types,
                                             tokens);
 
-  out = Rcpp::List::create(
-      Rcpp::_["level"] = levels,
-      Rcpp::_["type"] = types,
-      Rcpp::_["token"] = tokens
+  out = List::create(
+      _["level"] = levels,
+      _["type"] = types,
+      _["token"] = tokens
       );
 
   int n = tokens.size();
-  out.attr("class") = Rcpp::CharacterVector::create("xlex", "tbl_df", "tbl", "data.frame");
-  out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+  out.attr("class") = CharacterVector::create("xlex", "tbl_df", "tbl", "data.frame");
+  out.attr("row.names") = IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
 
   return out;
 }

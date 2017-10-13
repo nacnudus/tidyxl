@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "border.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "stroke.h"
 
 using namespace Rcpp;
@@ -9,7 +9,7 @@ using namespace Rcpp;
 border::border() {} // default constructor
 
 border::border(rapidxml::xml_node<>* border,
-    styles* styles
+    xlsxstyles* styles
     ):
   left_(border->first_node("left"), styles),
   right_(border->first_node("right"), styles),

@@ -1,6 +1,9 @@
 #' @title Import xlsx (Excel) cell contents into a tidy structure.
 #'
 #' @description
+#' `tidy_xlsx()` is deprecated.  Please use [xlsx_cells()] or [xlsx_formats()]
+#' instead.
+#'
 #' `tidy_xlsx()` imports data from spreadsheets without coercing it into a
 #' rectangle.  Each cell is represented by a row in a data frame, giving the
 #' cell's address, contents, formula, height, width, and keys to look up the
@@ -124,6 +127,7 @@
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #'
 #' # All sheets
@@ -150,20 +154,19 @@
 #' # the relevant indices, and then filter the cells by those indices.
 #' bold_indices <- which(x$formats$local$font$bold)
 #' Sheet1[Sheet1$local_format_id %in% bold_indices, ]
+#' }
 tidy_xlsx <- function(path, sheets = NA) {
+  .Deprecated(msg = paste("'tidy_xlsx()' is deprecated.",
+                          "Use 'xlsx_cells()' or 'xlsx_formats()' instead.",
+                          sep = "\n"))
   path <- check_file(path)
   all_sheets <- utils_xlsx_sheet_files(path)
-  if (anyNA(sheets)) {
-    if (length(sheets) > 1) {
-      warning("Argument 'sheets' included NAs, which were discarded.")
-      sheets <- sheets[!is.na(sheets)]
-      if (length(sheets) == 0) {
-        stop("All elements of argument 'sheets' were discarded.")
-      }
-    } else {
-      sheets <- all_sheets$order
-    }
-  }
-  sheets <- standardise_sheet(sheets, all_sheets)
-  xlsx_read_(path, sheets$sheet_path, sheets$name, sheets$comments_path)
+  sheets <- check_sheets(sheets, path)
+  formats <- xlsx_formats_(path)
+  cells <- xlsx_cells_(path, sheets$sheet_path, sheets$name, sheets$comments_path)
+  # Split into a list of data frames, one per sheet
+  cells$sheet <- factor(cells$sheet, levels = sheets$name) # control sheet order
+  cells_list <- split(cells, cells$sheet)
+  cells_list <- lapply(cells_list, function(x) x[, -1])    # remove 'sheet' col
+  list(data = cells_list, formats = formats)
 }

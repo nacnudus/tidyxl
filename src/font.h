@@ -1,7 +1,7 @@
 #ifndef FONT_
 #define FONT_
 
-class styles; // Forward declaration because font is included in styles.
+class xlsxstyles; // Forward declaration because font is included in xlsxstyles.
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -23,7 +23,7 @@ class font {
     Rcpp::String        scheme_;
 
     font(); // default constructor
-    font(rapidxml::xml_node<>* font, styles* styles);
+    font(rapidxml::xml_node<>* font, xlsxstyles* styles);
 };
 
 #endif

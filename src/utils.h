@@ -128,7 +128,7 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
     //
     // We read the <t> tag, if present, first, then concatenate any <r> tags.
     // All Excel 2010 sheets will read correctly under this regime.
-    out = unescape(t->value());
+    out = unescape(std::string(t->value(), t->value_size()));
     found = true;
   }
   // iterate over all r elements
@@ -138,7 +138,7 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
     // but MacOSX preview just ignores chunks with no t element present
     const rapidxml::xml_node<>* t = r->first_node("t");
     if (t != NULL) {
-      out += unescape(t->value());
+      out += unescape(std::string(t->value(), t->value_size()));
       found = true;
     }
   }

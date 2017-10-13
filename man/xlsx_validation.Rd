@@ -14,9 +14,9 @@ sheets), an integer vector (the positions of the sheets), or NA (default, all
 sheets).}
 }
 \value{
-A named list of data frames, one for each worksheet in the file.  Each data
-frame has the following columns.
+A data frame with the following columns.
 \itemize{
+\item \code{sheet} The worksheet that a validation rule cell is from.
 \item \code{ref} Comma-delimited cell addresses to which the rules apply,
 e.g. \code{A106} or A115,A121:A122`.
 \item \code{type Data type of input, one of}whole\code{,}decimal\code{,}list\code{,}date\code{,}time\code{,}textLength\code{,}custom\code{, and}whole`.
@@ -54,14 +54,10 @@ the user enters a forbidden value.
 xlsx (Excel) files.  Data validation rules control what constants can be
 entered into a cell, e.g. any whole number between 0 and 9, or one of several
 values from another part of the spreadsheet.
-
-Each data validation rule can only apply to cells on one worksheet, so
-\code{xlsx_validation()} returns a named list of data frames, one for each
-worksheet, describing the rules on that worksheet.
 }
 \examples{
 examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 xlsx_validation(examples)
-xlsx_validation(examples, 1)[["Sheet1"]]
-xlsx_validation(examples, "Sheet1")[[1]]
+xlsx_validation(examples, 1)
+xlsx_validation(examples, "Sheet1")
 }

@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "gradientFill.h"
-#include "styles.h"
+#include "xlsxstyles.h"
 #include "color.h"
 
 using namespace Rcpp;
@@ -10,7 +10,7 @@ gradientFill::gradientFill() {} // Default constructor
 
 gradientFill::gradientFill(
     rapidxml::xml_node<>* gradientFill,
-    styles* styles
+    xlsxstyles* styles
     ) {
   // Initialize variables
   type_   = NA_STRING;

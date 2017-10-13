@@ -5,8 +5,8 @@
 #include "zip.h"
 #include "xlsxnames.h"
 #include "xlsxvalidation.h"
-#include "xlsxsheet.h"
 #include "xlsxbook.h"
+#include "xlsxstyles.h"
 
 using namespace Rcpp;
 
@@ -16,41 +16,22 @@ using namespace Rcpp;
 // 'sheets'.
 
 // [[Rcpp::export]]
-List xlsx_read_(
+List xlsx_cells_(
     std::string path,
     CharacterVector sheet_paths,
     CharacterVector sheet_names,
     CharacterVector comments_paths
     ) {
-  // Parse book-level information (e.g. styles, themes, strings, date system)
-  xlsxbook book(path);
+  xlsxbook book(path, sheet_paths, sheet_names, comments_paths);
+  return book.information_;
+}
 
-  // Loop through sheets
-  List sheet_list(sheet_paths.size());
-
-  CharacterVector::iterator in_it;
-  List::iterator sheet_list_it;
-
-  int i = 0;
-  for(in_it = sheet_paths.begin(), sheet_list_it = sheet_list.begin();
-      in_it != sheet_paths.end();
-      ++in_it, ++sheet_list_it) {
-    String sheet_path(sheet_paths[i]);
-    String sheet_name(sheet_names[i]);
-    String comments_path(comments_paths[i]);
-    *sheet_list_it = xlsxsheet(sheet_name, sheet_path, book, comments_path).information();
-    ++i;
-  }
-
-  sheet_list.attr("names") = sheet_names;
-
-  List out = List::create(
-      _["data"] = sheet_list,
-      _["formats"] = List::create(
-        _["local"] = book.styles_.local_,
-        _["style"] = book.styles_.style_));
-
-  return out;
+// [[Rcpp::export]]
+List xlsx_formats_(std::string path) {
+  xlsxstyles styles(path);
+  return List::create(
+    _["local"] = styles.local_,
+    _["style"] = styles.style_);
 }
 
 inline String comments_path_(std::string path, std::string sheet_target) {
@@ -92,7 +73,10 @@ DataFrame xlsx_sheet_files_(std::string path) {
   for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
       relationship; relationship = relationship->next_sibling()) {
     std::string target = relationship->first_attribute("Target")->value();
-    if (target.substr(0, 10) == "worksheets") { // Only store worksheets
+    std::string target_type = target.substr(0, 10);
+    if (target_type == "worksheets" || target_type == "chartsheet") {
+       // Only store worksheets and chartsheets -- requests for chartsheets are
+       // handled in the R wrapper
       id = relationship->first_attribute("Id")->value();
       ids.push_back(id);
       targets.insert({id, "xl/" + target}) ;
@@ -158,28 +142,7 @@ List xlsx_validation_(
     CharacterVector sheet_paths,
     CharacterVector sheet_names
     ) {
-  // Parse book-level information for the date system (1900/1904)
-  xlsxbook book(path);
-
-  // Loop through sheets
-  List out(sheet_paths.size());
-
-  CharacterVector::iterator in_it;
-  List::iterator out_it;
-
-  int i = 0;
-  for(in_it = sheet_paths.begin(), out_it = out.begin();
-      in_it != sheet_paths.end();
-      ++in_it, ++out_it) {
-    String sheet_path(sheet_paths[i]);
-    String sheet_name(sheet_names[i]);
-    *out_it = xlsxvalidation(sheet_path, book).information();
-    ++i;
-  }
-
-  out.attr("names") = sheet_names;
-
-  return out;
+  return xlsxvalidation(path, sheet_paths, sheet_names).information();
 }
 
 // [[Rcpp::export]]

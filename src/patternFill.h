@@ -1,7 +1,7 @@
 #ifndef PATTERNFILL_
 #define PATTERNFILL_
 
-class styles; // Forward declaration because font is included in styles.
+class xlsxstyles; // Forward declaration because font is included in xlsxstyles.
 
 #include <Rcpp.h>
 #include "rapidxml.h"
@@ -16,7 +16,7 @@ class patternFill {
     Rcpp::String patternType_;
 
     patternFill(); // Default constructor
-    patternFill(rapidxml::xml_node<>* patternFill, styles* styles);
+    patternFill(rapidxml::xml_node<>* patternFill, xlsxstyles* styles);
 };
 
 #endif

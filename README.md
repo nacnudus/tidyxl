@@ -65,24 +65,24 @@ readxl::read_excel(titanic)
 
 ``` r
 library(tidyxl)
-x <- tidy_xlsx(titanic)$data$Sheet1
+x <- xlsx_cells(titanic)
 str(x)
 #> Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  20 variables:
+#>  $ sheet          : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #>  $ address        : chr  "C1" "D1" "E1" "F1" ...
 #>  $ row            : int  1 1 1 1 1 2 2 2 2 2 ...
 #>  $ col            : int  3 4 5 6 7 3 4 5 6 7 ...
-#>  $ content        : chr  "0" "1" NA "2" ...
-#>  $ formula        : chr  NA NA NA NA ...
-#>  $ formula_type   : chr  NA NA NA NA ...
-#>  $ formula_ref    : chr  NA NA NA NA ...
-#>  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
-#>  $ type           : chr  "s" "s" NA "s" ...
+#>  $ is_blank       : logi  FALSE FALSE TRUE FALSE TRUE FALSE ...
 #>  $ data_type      : chr  "character" "character" "blank" "character" ...
 #>  $ error          : chr  NA NA NA NA ...
 #>  $ logical        : logi  NA NA NA NA NA NA ...
 #>  $ numeric        : num  NA NA NA NA NA NA NA NA NA NA ...
 #>  $ date           : POSIXct, format: NA NA ...
 #>  $ character      : chr  "Age" "Child" NA "Adult" ...
+#>  $ formula        : chr  NA NA NA NA ...
+#>  $ formula_type   : chr  NA NA NA NA ...
+#>  $ formula_ref    : chr  NA NA NA NA ...
+#>  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
 #>  $ comment        : chr  NA NA NA NA ...
 #>  $ height         : num  15 15 15 15 15 15 15 15 15 15 ...
 #>  $ width          : num  8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 ...
@@ -120,11 +120,11 @@ x[x$row == 4, c("address", "character", "numeric")]
 #> 6      G4      <NA>      57
 ```
 
-Specific sheets can be requested using `tidy_xlsx(file, sheet)`, and the names of all sheets in a file are given by `xlsx_sheet_names()`.
+Specific sheets can be requested using `xlsx_cells(file, sheet)`, and the names of all sheets in a file are given by `xlsx_sheet_names()`.
 
 ### Formatting
 
-The original spreadsheet has formatting applied to the cells. This can also be retrieved using [tidyxl](https://github.com/nacnudus/tidyxl).
+The original spreadsheet has formatting applied to the cells. This can also be retrieved using [tidyxl](https://github.com/nacnudus/tidyxl), with the `xlsx_formats()` function.
 
 ![](./vignettes/titanic-screenshot.png)
 
@@ -136,7 +136,7 @@ Formatting can be looked up as follows.
 
 ``` r
 # Bold
-formats <- tidy_xlsx(titanic)$formats
+formats <- xlsx_formats(titanic)
 formats$local$font$bold
 #> [1] FALSE  TRUE FALSE FALSE
 x[x$local_format_id %in% which(formats$local$font$bold),
@@ -197,8 +197,8 @@ Formulas are available, but with a few quirks.
 
 ``` r
 options(width = 120)
-y <- tidy_xlsx(system.file("/extdata/examples.xlsx", package = "tidyxl"),
-               "Sheet1")$data[[1]]
+y <- xlsx_cells(system.file("/extdata/examples.xlsx", package = "tidyxl"),
+               "Sheet1")
 y[!is.na(y$formula),
   c("address", "formula", "formula_type", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
@@ -236,11 +236,11 @@ The second kind (those whose value is spread across an array of cells) is illust
 
 #### Formulas referring to other files
 
-Cell `A25` contains a formula that refers to another file. The `[1]` is an index into a table of files. The roadmap [tidyxl](https://github.com/nacnudus/tidyxl) for tidyxl includes de-referencing such numbers.
+Cell `A25` contains a formula that refers to another file. The `[1]` is an index into a table of files. The roadmap for [tidyxl](https://github.com/nacnudus/tidyxl) includes de-referencing such numbers.
 
 #### Tokenizing formulas
 
-The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/) or run `demo_xlex()` locally.
+The function `xlex()` separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on 'Excel' and 'lexer'. Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/), or install the more experimental [lexl](https://nacnuds.github.io/lexl) package to run `demo_lexl()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.
 
@@ -261,17 +261,13 @@ x
 #>  9     2       ref    A1
 #> 10     1 fun_close     )
 #> 11     0 fun_close     )
-
-plot_xlex(x) # Requires the ggraph package
 ```
-
-![](README-unnamed-chunk-10-1.png)
 
 See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for more examples and details.
 
 ### Named ranges
 
-Names are imported with `xlex_names()`. AKA 'named formulas' and 'defined names', these are usually used to name particular cells or ranges, making formulas that refer to them more readable. Ones that *are* ranges are identifed by the `is_range` column (using `is_range()`), making it easier to match the names to the cells returned by `tidy_xlsx()` -- e.g. by using the [`cellranger`](https://github.com/rsheets/cellranger) package.
+Names are imported with `xlex_names()`. AKA 'named formulas' and 'defined names', these are usually used to name particular cells or ranges, making formulas that refer to them more readable. Ones that *are* ranges are identifed by the `is_range` column (using `is_range()`), making it easier to match the names to the cells returned by `xlsx_cells()` -- e.g. by using the [`cellranger`](https://github.com/rsheets/cellranger) package.
 
 When the scope of the name is within a particular sheet, rather than global, the sheet name is given.
 
@@ -287,43 +283,30 @@ xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
 
 ### Data validation rules
 
-Data validation rules are imported with `xlsx_validation()`. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell. Because they are defined for cells on particular sheets, the returned data structure is similar to `tidy_xlsx()`, i.e. a list of data frames, named by the worksheet.
+Data validation rules are imported with `xlsx_validation()`. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell. Read the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/data-validation-rules.html) for details.
 
 ``` r
 xlsx_validation(system.file("extdata/examples.xlsx", package = "tidyxl"))
-#> $Sheet1
-#> # A tibble: 15 x 13
-#>               ref       type           operator            formula1            formula2 allow_blank show_input_message
-#>             <chr>      <chr>              <chr>               <chr>               <chr>       <lgl>              <lgl>
-#>  1           A106      whole            between                   0                   9        TRUE               TRUE
-#>  2           A107    decimal         notBetween                   0                   9       FALSE              FALSE
-#>  3           A108       list               <NA>              $B$108                <NA>        TRUE               TRUE
-#>  4           A109       list               <NA>              $B$108                <NA>        TRUE               TRUE
-#>  5           A110       date            between 2017-01-01 00:00:00 2017-01-09 09:00:00        TRUE               TRUE
-#>  6           A111       time            between            00:00:00            09:00:00        TRUE               TRUE
-#>  7           A112 textLength            between                   0                   9        TRUE               TRUE
-#>  8           A113     custom               <NA>     A113<=LEN(B113)                <NA>        TRUE               TRUE
-#>  9           A114      whole         notBetween                   0                   9        TRUE               TRUE
-#> 10 A115,A121:A122      whole              equal                   0                <NA>        TRUE               TRUE
-#> 11           A116      whole           notEqual                   0                <NA>        TRUE               TRUE
-#> 12           A117      whole        greaterThan                   0                <NA>        TRUE               TRUE
-#> 13           A118      whole           lessThan                   0                <NA>        TRUE               TRUE
-#> 14           A119      whole greaterThanOrEqual                   0                <NA>        TRUE               TRUE
-#> 15           A120      whole    lessThanOrEqual                   0                <NA>        TRUE               TRUE
-#> # ... with 6 more variables: prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>, error_title <chr>,
-#> #   error_body <chr>, error_symbol <chr>
-#> 
-#> $`1~`!@#$%^&()_-+={}|;"'<,>.£¹÷¦°`
-#> # A tibble: 0 x 13
-#> # ... with 13 variables: ref <chr>, type <chr>, operator <chr>, formula1 <chr>, formula2 <chr>, allow_blank <lgl>,
-#> #   show_input_message <lgl>, prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>, error_title <chr>,
-#> #   error_body <chr>, error_symbol <chr>
-#> 
-#> $E09904.2
-#> # A tibble: 0 x 13
-#> # ... with 13 variables: ref <chr>, type <chr>, operator <chr>, formula1 <chr>, formula2 <chr>, allow_blank <lgl>,
-#> #   show_input_message <lgl>, prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>, error_title <chr>,
-#> #   error_body <chr>, error_symbol <chr>
+#> # A tibble: 15 x 14
+#>     sheet            ref       type           operator            formula1            formula2 allow_blank
+#>     <chr>          <chr>      <chr>              <chr>               <chr>               <chr>       <lgl>
+#>  1 Sheet1           A106      whole            between                   0                   9        TRUE
+#>  2 Sheet1           A108       list               <NA>              $B$108                <NA>        TRUE
+#>  3 Sheet1           A110       date            between 2017-01-01 00:00:00 2017-01-09 09:00:00        TRUE
+#>  4 Sheet1           A111       time            between            00:00:00            09:00:00        TRUE
+#>  5 Sheet1           A112 textLength            between                   0                   9        TRUE
+#>  6 Sheet1           A114      whole         notBetween                   0                   9        TRUE
+#>  7 Sheet1 A115,A121:A122      whole              equal                   0                <NA>        TRUE
+#>  8 Sheet1           A116      whole           notEqual                   0                <NA>        TRUE
+#>  9 Sheet1           A117      whole        greaterThan                   0                <NA>        TRUE
+#> 10 Sheet1           A119      whole greaterThanOrEqual                   0                <NA>        TRUE
+#> 11 Sheet1           A120      whole    lessThanOrEqual                   0                <NA>        TRUE
+#> 12 Sheet1           A118      whole           lessThan                   0                <NA>        TRUE
+#> 13 Sheet1           A107    decimal         notBetween                   0                   9       FALSE
+#> 14 Sheet1           A113     custom               <NA>     A113<=LEN(B113)                <NA>        TRUE
+#> 15 Sheet1           A109       list               <NA>              $B$108                <NA>        TRUE
+#> # ... with 7 more variables: show_input_message <lgl>, prompt_title <chr>, prompt_body <chr>, show_error_message <lgl>,
+#> #   error_title <chr>, error_body <chr>, error_symbol <chr>
 ```
 
 Philosophy
@@ -365,11 +348,12 @@ Roadmap
 -------
 
 -   \[ \] Propagate array formulas to all associated cells.
+-   \[ \] Dereference references in formulas to external files , e.g. `[0]`
 -   \[x\] Import data validation rules
 -   \[x\] Import named formulas (aka named ranges, defined names)
 -   \[x\] Create a general formula tokenizer.
--   \[x\] Parse shared formulas and propagate to all associated cells.
+-   \[x\] Parse shared formulas and propagate to all associated cells
 -   \[x\] Parse dates
 -   \[x\] Detect cell types (date, boolean, string, number)
--   \[x\] Implement formatting import in C++ for speed.
+-   \[x\] Implement formatting import in C++ for speed
 -   \[x\] Write more tests

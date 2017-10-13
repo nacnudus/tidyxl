@@ -22,10 +22,9 @@ LinkingTo: Rcpp,
 Imports: Rcpp
 URL: https://github.com/nacnudus/tidyxl
 BugReports: https://github.com/nacnudus/tidyxl/issues
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.0.1
 Suggests: testthat,
     here,
-    vdiffr,
     knitr,
     rmarkdown,
     readxl,
@@ -33,8 +32,7 @@ Suggests: testthat,
     tidyr,
     purrr,
     ggplot2,
-    igraph,
-    ggraph,
-    shiny
+    cellranger,
+    rlang
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

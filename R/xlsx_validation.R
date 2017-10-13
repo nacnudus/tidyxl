@@ -6,19 +6,15 @@
 #' entered into a cell, e.g. any whole number between 0 and 9, or one of several
 #' values from another part of the spreadsheet.
 #'
-#' Each data validation rule can only apply to cells on one worksheet, so
-#' `xlsx_validation()` returns a named list of data frames, one for each
-#' worksheet, describing the rules on that worksheet.
-#'
 #' @param path Path to the xlsx file.
 #' @param sheets Sheets to read. Either a character vector (the names of the
 #' sheets), an integer vector (the positions of the sheets), or NA (default, all
 #' sheets).
 #'
 #' @return
-#' A named list of data frames, one for each worksheet in the file.  Each data
-#' frame has the following columns.
+#' A data frame with the following columns.
 #'
+#' * `sheet` The worksheet that a validation rule cell is from.
 #' * `ref` Comma-delimited cell addresses to which the rules apply,
 #'     e.g. `A106` or A115,A121:A122`.
 #' * `type Data type of input, one of `whole`, `decimal`, `list`, `date`,
@@ -55,8 +51,8 @@
 #' @examples
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #' xlsx_validation(examples)
-#' xlsx_validation(examples, 1)[["Sheet1"]]
-#' xlsx_validation(examples, "Sheet1")[[1]]
+#' xlsx_validation(examples, 1)
+#' xlsx_validation(examples, "Sheet1")
 xlsx_validation <- function(path, sheets = NA) {
   path <- check_file(path)
   all_sheets <- utils_xlsx_sheet_files(path)
@@ -72,7 +68,5 @@ xlsx_validation <- function(path, sheets = NA) {
     }
   }
   sheets <- standardise_sheet(sheets, all_sheets)
-  out <- xlsx_validation_(path, sheets$sheet_path, sheets$name)
-  out <- lapply(out, function(x) x[order(x$ref), ])
-  out
+  xlsx_validation_(path, sheets$sheet_path, sheets$name)
 }

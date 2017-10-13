@@ -1,17 +1,18 @@
 # tidyxl 0.2.3.9000
 
-* Tokenizes formulas with `xlex()` and plots the parse tree with `plot_xlex()`.
-    There's a demo Shiny app `demo_xlex()`, hosted on [shinyapps.io](), and a
+* Tokenizes formulas with `xlex()`.
+    There's a [demo Shiny app](https://duncan-garmonsway.shinyapps.io/xlex/), and a
     new vignette, `vignette("smells", package = "tidyxl")`, showing how to use
     `xlex()` to detect spreadsheet smells like embedded constants and deep
-    nesting.  There are also some intermediate functions for working with the
-    parse tree: `xlex_edges()`, `xlex_vertices()`, and `xlex_igraph()`, and a
-    vector of Excel function names `excel_functions`.
+    nesting.  There are also a vector of Excel function names `excel_functions`.
+    More experimental features will be implemented in
+    [lexl](httsp://nacnudus.github.io/lexl) first.
 * Propogates shared formulas, handling relative cell references (for details see
     issue #7).  This introduces a dependency on
     [piton](https://cran.r-project.org/package=piton), which wraps the
     [PEGTL](https://github.com/taocpp/PEGTL) parser generator.
-* Imports data input validation rules with `xlsx_validation()`.
+* Imports data input validation rules with `xlsx_validation()`.  See the
+    vignette, `vignette("data-validation-rules", package = "tidyxl")`
 * Imports defined names (aka named ranges/formulas) with `xlsx_names()`.
 * Provides a utility function `is_range()` to check whether formulas are simply
     ranges of cells.
