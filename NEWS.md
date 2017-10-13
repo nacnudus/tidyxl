@@ -11,7 +11,8 @@
     issue #7).  This introduces a dependency on
     [piton](https://cran.r-project.org/package=piton), which wraps the
     [PEGTL](https://github.com/taocpp/PEGTL) parser generator.
-* Imports data input validation rules with `xlsx_validation()`.
+* Imports data input validation rules with `xlsx_validation()`.  See the
+    vignette, `vignette("data-validation-rules", package = "tidyxl")`
 * Imports defined names (aka named ranges/formulas) with `xlsx_names()`.
 * Provides a utility function `is_range()` to check whether formulas are simply
     ranges of cells.

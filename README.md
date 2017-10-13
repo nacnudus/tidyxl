@@ -287,7 +287,7 @@ xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
 
 ### Data validation rules
 
-Data validation rules are imported with `xlsx_validation()`. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell.
+Data validation rules are imported with `xlsx_validation()`. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell. Read the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/data-validation-rules.html) for details.
 
 ``` r
 xlsx_validation(system.file("extdata/examples.xlsx", package = "tidyxl"))
