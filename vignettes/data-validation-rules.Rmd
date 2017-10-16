@@ -32,7 +32,8 @@ displayed with the imaginative title "message title", the informative body text
 
 ```{r}
 library(tidyxl)
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 glimpse(xlsx_validation(examples)[1, ])
 ```

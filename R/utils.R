@@ -6,7 +6,8 @@ globalVariables(c(".",
                   "rels",
                   "row_number",
                   "index",
-                  "name"))
+                  "name",
+                  "hasArg"))
 
 check_file <- function(path) {
   if (!file.exists(path)) {
