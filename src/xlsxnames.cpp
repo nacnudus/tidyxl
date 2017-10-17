@@ -10,7 +10,7 @@ xlsxnames::xlsxnames(const std::string& path) {
   std::string book = zip_buffer(path, "xl/workbook.xml");
 
   rapidxml::xml_document<> xml;
-  xml.parse<0>(&book[0]);
+  xml.parse<rapidxml::parse_strip_xml_namespaces>(&book[0]);
 
   rapidxml::xml_node<>* workbook = xml.first_node("workbook");
   rapidxml::xml_node<>* definedNames = workbook->first_node("definedNames");

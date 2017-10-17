@@ -121,7 +121,7 @@ void xlsxsheet::cacheComments(String comments_path) {
   if (comments_path != NA_STRING) {
     std::string comments_file = zip_buffer(book_.path_, comments_path);
     rapidxml::xml_document<> xml;
-    xml.parse<0>(&comments_file[0]);
+    xml.parse<rapidxml::parse_strip_xml_namespaces>(&comments_file[0]);
 
     // Iterate over the comments to store the ref and text
     rapidxml::xml_node<>* comments = xml.first_node("comments");

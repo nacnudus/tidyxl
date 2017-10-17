@@ -12,7 +12,7 @@ xlsxbook::xlsxbook(const std::string& path): path_(path), styles_(path_) {
   std::string book = zip_buffer(path_, "xl/workbook.xml");
 
   rapidxml::xml_document<> xml;
-  xml.parse<0>(&book[0]);
+  xml.parse<rapidxml::parse_strip_xml_namespaces>(&book[0]);
 
   rapidxml::xml_node<>* workbook = xml.first_node("workbook");
 
@@ -33,7 +33,7 @@ xlsxbook::xlsxbook(
   std::string book = zip_buffer(path_, "xl/workbook.xml");
 
   rapidxml::xml_document<> xml;
-  xml.parse<0>(&book[0]);
+  xml.parse<rapidxml::parse_strip_xml_namespaces>(&book[0]);
 
   rapidxml::xml_node<>* workbook = xml.first_node("workbook");
 
@@ -53,7 +53,7 @@ void xlsxbook::cacheStrings() {
 
   std::string xml = zip_buffer(path_, "xl/sharedStrings.xml");
   rapidxml::xml_document<> sharedStrings;
-  sharedStrings.parse<0>(&xml[0]);
+  sharedStrings.parse<rapidxml::parse_strip_xml_namespaces>(&xml[0]);
 
   rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
   rapidxml::xml_attribute<>* uniqueCount = sst->first_attribute("uniqueCount");
@@ -168,7 +168,7 @@ void xlsxbook::cacheInformation() {
       xml != sheet_xml_.end();
       ++xml, ++sheet, ++sheet_list_it) {
     rapidxml::xml_document<> doc;
-    doc.parse<0>(&(*xml)[0]);
+    doc.parse<rapidxml::parse_strip_xml_namespaces>(&(*xml)[0]);
     rapidxml::xml_node<>* workbook = doc.first_node("worksheet");
     rapidxml::xml_node<>* sheetData = workbook->first_node("sheetData");
     sheet->parseSheetData(sheetData, i);

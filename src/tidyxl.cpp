@@ -40,7 +40,7 @@ inline String comments_path_(std::string path, std::string sheet_target) {
   if (zip_has_file(path, sheet_rels)) {
     std::string targets_text = zip_buffer(path, sheet_rels);
     rapidxml::xml_document<> targets_xml;
-    targets_xml.parse<0>(&targets_text[0]);
+    targets_xml.parse<rapidxml::parse_strip_xml_namespaces>(&targets_text[0]);
     rapidxml::xml_node<>* relationships = targets_xml.first_node("Relationships");
     for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
         relationship; relationship = relationship->next_sibling()) {
@@ -68,7 +68,7 @@ DataFrame xlsx_sheet_files_(std::string path) {
   std::map<std::string, String> comments;
   std::string rels_text = zip_buffer(path, "xl/_rels/workbook.xml.rels");
   rapidxml::xml_document<> rels_xml;
-  rels_xml.parse<0>(&rels_text[0]);
+  rels_xml.parse<rapidxml::parse_strip_xml_namespaces>(&rels_text[0]);
   rapidxml::xml_node<>* relationships = rels_xml.first_node("Relationships");
   for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
       relationship; relationship = relationship->next_sibling()) {
@@ -89,21 +89,16 @@ DataFrame xlsx_sheet_files_(std::string path) {
   std::map<std::string, int> sheetIds;
   std::string workbook_text = zip_buffer(path, "xl/workbook.xml");
   rapidxml::xml_document<> workbook_xml;
-  workbook_xml.parse<0>(&workbook_text[0]);
+  workbook_xml.parse<rapidxml::parse_strip_xml_namespaces>(&workbook_text[0]);
   rapidxml::xml_node<>* workbook = workbook_xml.first_node("workbook");
   rapidxml::xml_node<>* sheets = workbook->first_node("sheets");
   for (rapidxml::xml_node<>* sheet = sheets->first_node("sheet");
       sheet; sheet = sheet->next_sibling()) {
-    rapidxml::xml_attribute<>* r_id = sheet->first_attribute("r:id");
+    rapidxml::xml_attribute<>* r_id = sheet->first_attribute("id");
     if (r_id != NULL) {
       id = r_id->value();
     } else {
-      rapidxml::xml_attribute<>* ns_id = sheet->first_attribute("ns:id");
-      if (ns_id != NULL) {
-        id = ns_id->value();
-      } else {
-        stop("Invalid xl/workbook.xml: sheet element lacks r:id or ns:id attribute");
-      }
+      stop("Invalid xl/workbook.xml: sheet element lacks id attribute");
     }
     names[id] = sheet->first_attribute("name")->value();
     sheetIds[id] = strtol(sheet->first_attribute("sheetId")->value(), NULL, 10);
