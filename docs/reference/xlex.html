@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -63,10 +64,31 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../articles/tidyxl.html">Get Started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/data-validation-rules.html">Data Validation Rules</a>
+    </li>
+    <li>
+      <a href="../articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -124,6 +146,8 @@ has been tested on millions of formulas in the Enron corpus.</p>
     <p>A data frame (a tibble, if you use the tidyverse) one row per token,
 giving the token itself, its type (e.g.  <code>number</code>, or <code>error</code>), and its
 level.</p>
+<p>A class attribute <code>xlex</code> is added, so that the <code><a href='http://www.rdocumentation.org/packages/base/topics/print'>base::print()</a></code> generic can be
+specialised to print the tree prettily.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -177,364 +201,238 @@ reproducible example (e.g. using the reprex package).</p>
 <p>The XLParser project was a great help in creating the grammar.
 https://github.com/spreadsheetlab/XLParser.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p><code>tidyxl::plot_xlex()</code>, <code>tidyxl::demo_xlex()</code></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># All explicit cell references/addresses are returned as a single 'ref' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"A1"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref    A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A$1"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref   A$1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"$A1"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref   $A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"$A$1"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref  $A$1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1:B2"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref A1:B2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1:1"</span>) <span class='co'># Whole row</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref   1:1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A:B"</span>) <span class='co'># Whole column</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref   A:B</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"A1"</span>)</div><div class='output co'>#&gt; root    
+#&gt; °-- A1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A$1"</span>)</div><div class='output co'>#&gt; root     
+#&gt; °-- A$1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"$A1"</span>)</div><div class='output co'>#&gt; root     
+#&gt; °-- $A1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"$A$1"</span>)</div><div class='output co'>#&gt; root      
+#&gt; °-- $A$1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1:B2"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- A1:B2  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1:1"</span>) <span class='co'># Whole row</span></div><div class='output co'>#&gt; root     
+#&gt; °-- 1:1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A:B"</span>) <span class='co'># Whole column</span></div><div class='output co'>#&gt; root     
+#&gt; °-- A:B  ref </div><div class='input'>
 <span class='co'># If one part of an address is a name or a function, then the colon ':' is</span>
 <span class='co'># regarded as a 'range operator', so is tagged 'operator'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"A1:SOME.NAME"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type     token
-#&gt;   &lt;int&gt;    &lt;chr&gt;     &lt;chr&gt;
-#&gt; 1     0      ref        A1
-#&gt; 2     0 operator         :
-#&gt; 3     0     name SOME.NAME</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SOME_FUNCTION():B2"</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 3
-#&gt;   level      type         token
-#&gt;   &lt;int&gt;     &lt;chr&gt;         &lt;chr&gt;
-#&gt; 1     0  function SOME_FUNCTION
-#&gt; 2     0  fun_open             (
-#&gt; 3     0 fun_close             )
-#&gt; 4     0  operator             :
-#&gt; 5     0       ref            B2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SOME_FUNCTION():SOME.NAME"</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 3
-#&gt;   level      type         token
-#&gt;   &lt;int&gt;     &lt;chr&gt;         &lt;chr&gt;
-#&gt; 1     0  function SOME_FUNCTION
-#&gt; 2     0  fun_open             (
-#&gt; 3     0 fun_close             )
-#&gt; 4     0  operator             :
-#&gt; 5     0      name     SOME.NAME</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"A1:SOME.NAME"</span>)</div><div class='output co'>#&gt; root           
+#&gt; ¦-- A1         ref
+#&gt; ¦-- :          operator
+#&gt; °-- SOME.NAME  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SOME_FUNCTION():B2"</span>)</div><div class='output co'>#&gt; root               
+#&gt; ¦-- SOME_FUNCTION  function
+#&gt; ¦-- (              fun_open
+#&gt; ¦-- )              fun_close
+#&gt; ¦-- :              operator
+#&gt; °-- B2             ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SOME_FUNCTION():SOME.NAME"</span>)</div><div class='output co'>#&gt; root               
+#&gt; ¦-- SOME_FUNCTION  function
+#&gt; ¦-- (              fun_open
+#&gt; ¦-- )              fun_close
+#&gt; ¦-- :              operator
+#&gt; °-- SOME.NAME      name </div><div class='input'>
 <span class='co'># Sheet names are recognised by the terminal exclamation mark '!'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"Sheet1!A1"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type   token
-#&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0 sheet Sheet1!
-#&gt; 2     0   ref      A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Sheet 1'!A1"</span>)       <span class='co'># Quoted names may contain some punctuation</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type      token
-#&gt;   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;
-#&gt; 1     0 sheet 'Sheet 1'!
-#&gt; 2     0   ref         A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'It''s a sheet'!A1"</span>) <span class='co'># Quotes are escaped by doubling</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type            token
-#&gt;   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;
-#&gt; 1     0 sheet 'It''s a sheet'!
-#&gt; 2     0   ref               A1</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"Sheet1!A1"</span>)</div><div class='output co'>#&gt; root         
+#&gt; ¦-- Sheet1!  sheet
+#&gt; °-- A1       ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Sheet 1'!A1"</span>)       <span class='co'># Quoted names may contain some punctuation</span></div><div class='output co'>#&gt; root            
+#&gt; ¦-- 'Sheet 1'!  sheet
+#&gt; °-- A1          ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'It''s a sheet'!A1"</span>) <span class='co'># Quotes are escaped by doubling</span></div><div class='output co'>#&gt; root                  
+#&gt; ¦-- 'It''s a sheet'!  sheet
+#&gt; °-- A1                ref </div><div class='input'>
 <span class='co'># Sheets can be ranged together in so-called 'three-dimensional formulas'.</span>
 <span class='co'># Both sheets are returned in a single 'sheet' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"Sheet1:Sheet2!A1"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type          token
-#&gt;   &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;
-#&gt; 1     0 sheet Sheet1:Sheet2!
-#&gt; 2     0   ref             A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Sheet 1:Sheet 2'!A1"</span>) <span class='co'># Quotes surround both (rather than each) sheet</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type              token
-#&gt;   &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;
-#&gt; 1     0 sheet 'Sheet 1:Sheet 2'!
-#&gt; 2     0   ref                 A1</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"Sheet1:Sheet2!A1"</span>)</div><div class='output co'>#&gt; root                
+#&gt; ¦-- Sheet1:Sheet2!  sheet
+#&gt; °-- A1              ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Sheet 1:Sheet 2'!A1"</span>) <span class='co'># Quotes surround both (rather than each) sheet</span></div><div class='output co'>#&gt; root                    
+#&gt; ¦-- 'Sheet 1:Sheet 2'!  sheet
+#&gt; °-- A1                  ref </div><div class='input'>
 <span class='co'># Sheets from other files are prefixed by the filename, which Excel</span>
 <span class='co'># normalizes the filenames into indexes.  Either way, xlex() includes the</span>
 <span class='co'># file/index in the 'sheet' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"[1]Sheet1!A1"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type      token
-#&gt;   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;
-#&gt; 1     0 sheet [1]Sheet1!
-#&gt; 2     0   ref         A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'[1]Sheet 1'!A1"</span>) <span class='co'># Quotes surround both the file index and the sheet</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type         token
-#&gt;   &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;
-#&gt; 1     0 sheet '[1]Sheet 1'!
-#&gt; 2     0   ref            A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'C:\\My Documents\\[file.xlsx]Sheet1'!A1"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type                                    token
-#&gt;   &lt;int&gt; &lt;chr&gt;                                    &lt;chr&gt;
-#&gt; 1     0 sheet "'C:\\My Documents\\[file.xlsx]Sheet1'!"
-#&gt; 2     0   ref                                       A1</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"[1]Sheet1!A1"</span>)</div><div class='output co'>#&gt; root            
+#&gt; ¦-- [1]Sheet1!  sheet
+#&gt; °-- A1          ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'[1]Sheet 1'!A1"</span>) <span class='co'># Quotes surround both the file index and the sheet</span></div><div class='output co'>#&gt; root               
+#&gt; ¦-- '[1]Sheet 1'!  sheet
+#&gt; °-- A1             ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'C:\\My Documents\\[file.xlsx]Sheet1'!A1"</span>)</div><div class='output co'>#&gt; root                                      
+#&gt; ¦-- 'C:\My Documents\[file.xlsx]Sheet1'!  sheet
+#&gt; °-- A1                                    ref </div><div class='input'>
 <span class='co'># Function names are recognised by the terminal open-parenthesis '('.  There</span>
 <span class='co'># is no distinction between custom functions and built-in Excel functions.</span>
 <span class='co'># The open-parenthesis is tagged 'fun_open', and the corresponding</span>
 <span class='co'># close-parenthesis at the end of the arguments is tagged 'fun_close'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX(1,2)"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function   MAX
-#&gt; 2     0  fun_open     (
-#&gt; 3     1    number     1
-#&gt; 4     1 separator     ,
-#&gt; 5     1    number     2
-#&gt; 6     0 fun_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"_xll.MY_CUSTOM_FUNCTION()"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level      type                   token
-#&gt;   &lt;int&gt;     &lt;chr&gt;                   &lt;chr&gt;
-#&gt; 1     0  function _xll.MY_CUSTOM_FUNCTION
-#&gt; 2     0  fun_open                       (
-#&gt; 3     0 fun_close                       )</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"MAX(1,2)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; ¦-- MAX    function
+#&gt; °-- (      fun_open
+#&gt;     ¦-- 1  number
+#&gt;     ¦-- ,  separator
+#&gt;     °-- 2  number
+#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"_xll.MY_CUSTOM_FUNCTION()"</span>)</div><div class='output co'>#&gt; root                         
+#&gt; ¦-- _xll.MY_CUSTOM_FUNCTION  function
+#&gt; ¦-- (                        fun_open
+#&gt; °-- )                        fun_close </div><div class='input'>
 <span class='co'># Named ranges (properly called 'named formulas') are a last resort after</span>
 <span class='co'># attempting to match a function (ending in an open parenthesis '(') or a</span>
 <span class='co'># sheet (ending in an exclamation mark '!')</span>
-<span class='fu'>xlex</span>(<span class='st'>"MY_NAMED_RANGE"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type          token
-#&gt;   &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;
-#&gt; 1     0  name MY_NAMED_RANGE</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"MY_NAMED_RANGE"</span>)</div><div class='output co'>#&gt; root                
+#&gt; °-- MY_NAMED_RANGE  name </div><div class='input'>
 <span class='co'># Some cell addresses/references, functions and names can look alike, but</span>
 <span class='co'># xlex() should always make the right choice.</span>
-<span class='fu'>xlex</span>(<span class='st'>"XFD1"</span>)     <span class='co'># A cell in the maximum column in Excel</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref  XFD1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"XFE1"</span>)     <span class='co'># Beyond the maximum column, must be a named range/formula</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  name  XFE1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1048576"</span>) <span class='co'># A cell in the maximum row in Excel</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type    token
-#&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;
-#&gt; 1     0   ref A1048576</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1048577"</span>) <span class='co'># Beyond the maximum row, must be a named range/formula</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type    token
-#&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;
-#&gt; 1     0  name A1048577</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG10"</span>)    <span class='co'># A cell address</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   ref LOG10</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG10()"</span>)  <span class='co'># A log function</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function LOG10
-#&gt; 2     0  fun_open     (
-#&gt; 3     0 fun_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG:LOG"</span>)  <span class='co'># The whole column 'LOG'</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type   token
-#&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0   ref LOG:LOG</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG"</span>)      <span class='co'># Not a cell address, must be a named range/formula</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  name   LOG</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG()"</span>)    <span class='co'># Another log function</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function   LOG
-#&gt; 2     0  fun_open     (
-#&gt; 3     0 fun_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1.2!A1"</span>)  <span class='co'># A sheet called 'A1.2'</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 sheet A1.2!
-#&gt; 2     0   ref    A1</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"XFD1"</span>)     <span class='co'># A cell in the maximum column in Excel</span></div><div class='output co'>#&gt; root      
+#&gt; °-- XFD1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"XFE1"</span>)     <span class='co'># Beyond the maximum column, must be a named range/formula</span></div><div class='output co'>#&gt; root      
+#&gt; °-- XFE1  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1048576"</span>) <span class='co'># A cell in the maximum row in Excel</span></div><div class='output co'>#&gt; root          
+#&gt; °-- A1048576  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1048577"</span>) <span class='co'># Beyond the maximum row, must be a named range/formula</span></div><div class='output co'>#&gt; root          
+#&gt; °-- A1048577  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG10"</span>)    <span class='co'># A cell address</span></div><div class='output co'>#&gt; root       
+#&gt; °-- LOG10  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG10()"</span>)  <span class='co'># A log function</span></div><div class='output co'>#&gt; root       
+#&gt; ¦-- LOG10  function
+#&gt; ¦-- (      fun_open
+#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG:LOG"</span>)  <span class='co'># The whole column 'LOG'</span></div><div class='output co'>#&gt; root         
+#&gt; °-- LOG:LOG  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG"</span>)      <span class='co'># Not a cell address, must be a named range/formula</span></div><div class='output co'>#&gt; root     
+#&gt; °-- LOG  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG()"</span>)    <span class='co'># Another log function</span></div><div class='output co'>#&gt; root     
+#&gt; ¦-- LOG  function
+#&gt; ¦-- (    fun_open
+#&gt; °-- )    fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1.2!A1"</span>)  <span class='co'># A sheet called 'A1.2'</span></div><div class='output co'>#&gt; root       
+#&gt; ¦-- A1.2!  sheet
+#&gt; °-- A1     ref </div><div class='input'>
 <span class='co'># Text is surrounded by double-quotes.</span>
-<span class='fu'>xlex</span>(<span class='st'>"\"Some text\""</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type           token
-#&gt;   &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;
-#&gt; 1     0  text "\"Some text\""</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"\"Some \"\"text\"\"\""</span>) <span class='co'># Double-quotes within text are escaped by</span></div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type                   token
-#&gt;   &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;
-#&gt; 1     0  text "\"Some \"\"text\"\"\""</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"\"Some text\""</span>)</div><div class='output co'>#&gt; root             
+#&gt; °-- "Some text"  text </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"\"Some \"\"text\"\"\""</span>) <span class='co'># Double-quotes within text are escaped by</span></div><div class='output co'>#&gt; root                 
+#&gt; °-- "Some ""text"""  text </div><div class='input'>
 <span class='co'># Numbers are signed where it makes sense, and can be scientific</span>
-<span class='fu'>xlex</span>(<span class='st'>"1"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level   type token
-#&gt;   &lt;int&gt;  &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 number     1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1.2"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level   type token
-#&gt;   &lt;int&gt;  &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 number   1.2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level   type token
-#&gt;   &lt;int&gt;  &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 number    -1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1-1"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number    -1
-#&gt; 2     0 operator     -
-#&gt; 3     0   number     1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1+-1"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number    -1
-#&gt; 2     0 operator     +
-#&gt; 3     0   number    -1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"MAX(-1-1)"</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function   MAX
-#&gt; 2     0  fun_open     (
-#&gt; 3     1  operator     -
-#&gt; 4     1    number     1
-#&gt; 5     1  operator     -
-#&gt; 6     1    number     1
-#&gt; 7     0 fun_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1.2E-3"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level   type   token
-#&gt;   &lt;int&gt;  &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0 number -1.2E-3</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"1"</span>)</div><div class='output co'>#&gt; root   
+#&gt; °-- 1  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1.2"</span>)</div><div class='output co'>#&gt; root     
+#&gt; °-- 1.2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1"</span>)</div><div class='output co'>#&gt; root    
+#&gt; °-- -1  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1-1"</span>)</div><div class='output co'>#&gt; root    
+#&gt; ¦-- -1  number
+#&gt; ¦-- -   operator
+#&gt; °-- 1   number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1+-1"</span>)</div><div class='output co'>#&gt; root    
+#&gt; ¦-- -1  number
+#&gt; ¦-- +   operator
+#&gt; °-- -1  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"MAX(-1-1)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; ¦-- MAX    function
+#&gt; °-- (      fun_open
+#&gt;     ¦-- -  operator
+#&gt;     ¦-- 1  number
+#&gt;     ¦-- -  operator
+#&gt;     °-- 1  number
+#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1.2E-3"</span>)</div><div class='output co'>#&gt; root         
+#&gt; °-- -1.2E-3  number </div><div class='input'>
 <span class='co'># Booleans can be constants or functions, and names can look like booleans,</span>
 <span class='co'># but xlex() should always make the right choice.</span>
-<span class='fu'>xlex</span>(<span class='st'>"TRUE"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  bool  TRUE</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUEISH"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type   token
-#&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0  name TRUEISH</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUE!A1"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 sheet TRUE!
-#&gt; 2     0   ref    A1</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUE()"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function  TRUE
-#&gt; 2     0  fun_open     (
-#&gt; 3     0 fun_close     )</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"TRUE"</span>)</div><div class='output co'>#&gt; root      
+#&gt; °-- TRUE  bool </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUEISH"</span>)</div><div class='output co'>#&gt; root         
+#&gt; °-- TRUEISH  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUE!A1"</span>)</div><div class='output co'>#&gt; root       
+#&gt; ¦-- TRUE!  sheet
+#&gt; °-- A1     ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUE()"</span>)</div><div class='output co'>#&gt; root      
+#&gt; ¦-- TRUE  function
+#&gt; ¦-- (     fun_open
+#&gt; °-- )     fun_close </div><div class='input'>
 <span class='co'># Errors are tagged 'error'</span>
-<span class='fu'>xlex</span>(<span class='st'>"#DIV/0!"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type   token
-#&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0 error #DIV/0!</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#N/A"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 error  #N/A</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NAME?"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type  token
-#&gt;   &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1     0 error #NAME?</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NULL!"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type  token
-#&gt;   &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1     0 error #NULL!</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NUM!"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 error #NUM!</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#REF!"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type token
-#&gt;   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0 error #REF!</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#VALUE!"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type   token
-#&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0 error #VALUE!</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"#DIV/0!"</span>)</div><div class='output co'>#&gt; root         
+#&gt; °-- #DIV/0!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#N/A"</span>)</div><div class='output co'>#&gt; root      
+#&gt; °-- #N/A  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NAME?"</span>)</div><div class='output co'>#&gt; root        
+#&gt; °-- #NAME?  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NULL!"</span>)</div><div class='output co'>#&gt; root        
+#&gt; °-- #NULL!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NUM!"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- #NUM!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#REF!"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- #REF!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#VALUE!"</span>)</div><div class='output co'>#&gt; root         
+#&gt; °-- #VALUE!  error </div><div class='input'>
 <span class='co'># Operators with more than one character are treated as single tokens</span>
-<span class='fu'>xlex</span>(<span class='st'>"1&lt;&gt;2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator    &lt;&gt;
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&lt;=2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator    &lt;=
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&lt;2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator     &lt;
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1=2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator     =
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&amp;2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator     &amp;
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1 2"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator      
-#&gt; 3     0   number     2</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"(1,2)"</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 3
-#&gt;   level        type token
-#&gt;   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  paren_open     (
-#&gt; 2     1      number     1
-#&gt; 3     1    operator     ,
-#&gt; 4     1      number     2
-#&gt; 5     0 paren_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1%"</span>)   <span class='co'># postfix operator</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0   number     1
-#&gt; 2     0 operator     %</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"1&lt;&gt;2"</span>)</div><div class='output co'>#&gt; root    
+#&gt; ¦-- 1   number
+#&gt; ¦-- &lt;&gt;  operator
+#&gt; °-- 2   number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&lt;=2"</span>)</div><div class='output co'>#&gt; root    
+#&gt; ¦-- 1   number
+#&gt; ¦-- &lt;=  operator
+#&gt; °-- 2   number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&lt;2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; ¦-- 1  number
+#&gt; ¦-- &lt;  operator
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1=2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; ¦-- 1  number
+#&gt; ¦-- =  operator
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&amp;2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; ¦-- 1  number
+#&gt; ¦-- &amp;  operator
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1 2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; ¦-- 1  number
+#&gt; ¦--    operator
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"(1,2)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- (      paren_open
+#&gt;     ¦-- 1  number
+#&gt;     ¦-- ,  operator
+#&gt;     °-- 2  number
+#&gt; °-- )      paren_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1%"</span>)   <span class='co'># postfix operator</span></div><div class='output co'>#&gt; root   
+#&gt; ¦-- 1  number
+#&gt; °-- %  operator </div><div class='input'>
 <span class='co'># The union operator is a comma ',', which is the same symbol that is used</span>
 <span class='co'># to separate function arguments or array columns.  It is tagged 'operator'</span>
 <span class='co'># only when it is inside parentheses that are not function parentheses or</span>
 <span class='co'># array curly braces.  The curly braces are tagged 'array_open' and</span>
 <span class='co'># 'array_close'.</span>
-<span class='kw'>tidyxl</span><span class='kw'>::</span><span class='fu'>xlex</span>(<span class='st'>"A1,B2"</span>) <span class='co'># invalid formula, defaults to 'union' to avoid a crash</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;   level     type token
-#&gt;   &lt;int&gt;    &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0      ref    A1
-#&gt; 2     0 operator     ,
-#&gt; 3     0      ref    B2</div><div class='input'><span class='kw'>tidyxl</span><span class='kw'>::</span><span class='fu'>xlex</span>(<span class='st'>"(A1,B2)"</span>)</div><div class='output co'>#&gt; # A tibble: 5 x 3
-#&gt;   level        type token
-#&gt;   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  paren_open     (
-#&gt; 2     1         ref    A1
-#&gt; 3     1    operator     ,
-#&gt; 4     1         ref    B2
-#&gt; 5     0 paren_close     )</div><div class='input'><span class='kw'>tidyxl</span><span class='kw'>::</span><span class='fu'>xlex</span>(<span class='st'>"MAX(A1,B2)"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function   MAX
-#&gt; 2     0  fun_open     (
-#&gt; 3     1       ref    A1
-#&gt; 4     1 separator     ,
-#&gt; 5     1       ref    B2
-#&gt; 6     0 fun_close     )</div><div class='input'><span class='kw'>tidyxl</span><span class='kw'>::</span><span class='fu'>xlex</span>(<span class='st'>"SMALL((A1,B2),1)"</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 3
-#&gt;    level        type token
-#&gt;    &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-#&gt;  1     0    function SMALL
-#&gt;  2     0    fun_open     (
-#&gt;  3     1  paren_open     (
-#&gt;  4     2         ref    A1
-#&gt;  5     2    operator     ,
-#&gt;  6     2         ref    B2
-#&gt;  7     1 paren_close     )
-#&gt;  8     1   separator     ,
-#&gt;  9     1      number     1
-#&gt; 10     0   fun_close     )</div><div class='input'>
+<span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/tidyxl/topics/xlex'>xlex</a></span>(<span class='st'>"A1,B2"</span>) <span class='co'># invalid formula, defaults to 'union' to avoid a crash</span></div><div class='output co'>#&gt; root    
+#&gt; ¦-- A1  ref
+#&gt; ¦-- ,   operator
+#&gt; °-- B2  ref </div><div class='input'><span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/tidyxl/topics/xlex'>xlex</a></span>(<span class='st'>"(A1,B2)"</span>)</div><div class='output co'>#&gt; root        
+#&gt; °-- (       paren_open
+#&gt;     ¦-- A1  ref
+#&gt;     ¦-- ,   operator
+#&gt;     °-- B2  ref
+#&gt; °-- )       paren_close </div><div class='input'><span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/tidyxl/topics/xlex'>xlex</a></span>(<span class='st'>"MAX(A1,B2)"</span>)</div><div class='output co'>#&gt; root        
+#&gt; ¦-- MAX     function
+#&gt; °-- (       fun_open
+#&gt;     ¦-- A1  ref
+#&gt;     ¦-- ,   separator
+#&gt;     °-- B2  ref
+#&gt; °-- )       fun_close </div><div class='input'><span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/tidyxl/topics/xlex'>xlex</a></span>(<span class='st'>"SMALL((A1,B2),1)"</span>)</div><div class='output co'>#&gt; root            
+#&gt; ¦-- SMALL       function
+#&gt; °-- (           fun_open
+#&gt;     °-- (       paren_open
+#&gt;         ¦-- A1  ref
+#&gt;         ¦-- ,   operator
+#&gt;         °-- B2  ref
+#&gt;     ¦-- )       paren_close
+#&gt;     ¦-- ,       separator
+#&gt;     °-- 1       number
+#&gt; °-- )           fun_close </div><div class='input'>
 <span class='co'># Function arguments are separated by commas ',', which are tagged</span>
 <span class='co'># 'separator'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX(1,2)"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  function   MAX
-#&gt; 2     0  fun_open     (
-#&gt; 3     1    number     1
-#&gt; 4     1 separator     ,
-#&gt; 5     1    number     2
-#&gt; 6     0 fun_close     )</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"MAX(1,2)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; ¦-- MAX    function
+#&gt; °-- (      fun_open
+#&gt;     ¦-- 1  number
+#&gt;     ¦-- ,  separator
+#&gt;     °-- 2  number
+#&gt; °-- )      fun_close </div><div class='input'>
 <span class='co'># Nested functions are marked by an increase in the 'level'.  The level</span>
 <span class='co'># increases inside parentheses, rather than at the parentheses.  Curly</span>
 <span class='co'># braces, for arrays, have the same behaviour, as do subexpressions inside</span>
-<span class='co'># ordinary parenthesis, tagged 'paren_open' and 'paren_close'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX(MIN(1,2),3)"</span>)</div><div class='output co'>#&gt; # A tibble: 11 x 3
-#&gt;    level      type token
-#&gt;    &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt;  1     0  function   MAX
-#&gt;  2     0  fun_open     (
-#&gt;  3     1  function   MIN
-#&gt;  4     1  fun_open     (
-#&gt;  5     2    number     1
-#&gt;  6     2 separator     ,
-#&gt;  7     2    number     2
-#&gt;  8     1 fun_close     )
-#&gt;  9     1 separator     ,
-#&gt; 10     1    number     3
-#&gt; 11     0 fun_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"{1,2;3,4}"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 3
-#&gt;   level        type token
-#&gt;   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  open_array     {
-#&gt; 2     1      number     1
-#&gt; 3     1   separator     ,
-#&gt; 4     1      number     2
-#&gt; 5     1   separator     ;
-#&gt; 6     1      number     3
-#&gt; 7     1   separator     ,
-#&gt; 8     1      number     4
-#&gt; 9     0 close_array     }</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1*(2+3)"</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 3
+<span class='co'># ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the</span>
+<span class='co'># levels explicitly (rather than by the pretty printing), print as a normal</span>
+<span class='co'># data frame or tibble by specifying `pretty = FALSE`.</span>
+<span class='co'># class with as.data.frame.</span>
+<span class='fu'>xlex</span>(<span class='st'>"MAX(MIN(1,2),3)"</span>)</div><div class='output co'>#&gt; root           
+#&gt; ¦-- MAX        function
+#&gt; °-- (          fun_open
+#&gt;     ¦-- MIN    function
+#&gt;     °-- (      fun_open
+#&gt;         ¦-- 1  number
+#&gt;         ¦-- ,  separator
+#&gt;         °-- 2  number
+#&gt;     ¦-- )      fun_close
+#&gt;     ¦-- ,      separator
+#&gt;     °-- 3      number
+#&gt; °-- )          fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"{1,2;3,4}"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- {      open_array
+#&gt;     ¦-- 1  number
+#&gt;     ¦-- ,  separator
+#&gt;     ¦-- 2  number
+#&gt;     ¦-- ;  separator
+#&gt;     ¦-- 3  number
+#&gt;     ¦-- ,  separator
+#&gt;     °-- 4  number
+#&gt; °-- }      close_array </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1*(2+3)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; ¦-- 1      number
+#&gt; ¦-- *      operator
+#&gt; °-- (      paren_open
+#&gt;     ¦-- 2  number
+#&gt;     ¦-- +  operator
+#&gt;     °-- 3  number
+#&gt; °-- )      paren_close </div><div class='input'><span class='fu'>print</span>(<span class='fu'>xlex</span>(<span class='st'>"1*(2+3)"</span>), <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 3
 #&gt;   level        type token
 #&gt;   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
 #&gt; 1     0      number     1
@@ -548,87 +446,75 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class='co'># between columns, and semicolons ';' between rows  Commas and semicolons are</span>
 <span class='co'># both tagged 'separator'.  Arrays contain only constants, which are</span>
 <span class='co'># booleans, numbers, text, and errors.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX({1,2;3,4})"</span>)</div><div class='output co'>#&gt; # A tibble: 12 x 3
-#&gt;    level        type token
-#&gt;    &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-#&gt;  1     0    function   MAX
-#&gt;  2     0    fun_open     (
-#&gt;  3     1  open_array     {
-#&gt;  4     2      number     1
-#&gt;  5     2   separator     ,
-#&gt;  6     2      number     2
-#&gt;  7     2   separator     ;
-#&gt;  8     2      number     3
-#&gt;  9     2   separator     ,
-#&gt; 10     2      number     4
-#&gt; 11     1 close_array     }
-#&gt; 12     0   fun_close     )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})"</span>)</div><div class='output co'>#&gt; # A tibble: 13 x 3
-#&gt;    level        type               token
-#&gt;    &lt;int&gt;       &lt;chr&gt;               &lt;chr&gt;
-#&gt;  1     0    operator                   =
-#&gt;  2     0    function                 MAX
-#&gt;  3     0    fun_open                   (
-#&gt;  4     1  open_array                   {
-#&gt;  5     2      number               -1E-2
-#&gt;  6     2   separator                   ,
-#&gt;  7     2        bool                TRUE
-#&gt;  8     2   separator                   ;
-#&gt;  9     2       error                #N/A
-#&gt; 10     2   separator                   ,
-#&gt; 11     2        text "\"Hello, World!\""
-#&gt; 12     1 close_array                   }
-#&gt; 13     0   fun_close                   )</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"MAX({1,2;3,4})"</span>)</div><div class='output co'>#&gt; root           
+#&gt; ¦-- MAX        function
+#&gt; °-- (          fun_open
+#&gt;     °-- {      open_array
+#&gt;         ¦-- 1  number
+#&gt;         ¦-- ,  separator
+#&gt;         ¦-- 2  number
+#&gt;         ¦-- ;  separator
+#&gt;         ¦-- 3  number
+#&gt;         ¦-- ,  separator
+#&gt;         °-- 4  number
+#&gt;     °-- }      close_array
+#&gt; °-- )          fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})"</span>)</div><div class='output co'>#&gt; root                         
+#&gt; ¦-- =                        operator
+#&gt; ¦-- MAX                      function
+#&gt; °-- (                        fun_open
+#&gt;     °-- {                    open_array
+#&gt;         ¦-- -1E-2            number
+#&gt;         ¦-- ,                separator
+#&gt;         ¦-- TRUE             bool
+#&gt;         ¦-- ;                separator
+#&gt;         ¦-- #N/A             error
+#&gt;         ¦-- ,                separator
+#&gt;         °-- "Hello, World!"  text
+#&gt;     °-- }                    close_array
+#&gt; °-- )                        fun_close </div><div class='input'>
 <span class='co'># Structured references are surrounded by square brackets.  Subexpressions</span>
 <span class='co'># may also be surrounded by square brackets, but xlex() returns the whole</span>
 <span class='co'># expression in a single 'structured_ref' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"[@col2]"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level           type   token
-#&gt;   &lt;int&gt;          &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0 structured_ref [@col2]</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SUM([col22])"</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 3
-#&gt;   level           type   token
-#&gt;   &lt;int&gt;          &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1     0       function     SUM
-#&gt; 2     0       fun_open       (
-#&gt; 3     1 structured_ref [col22]
-#&gt; 4     0      fun_close       )</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[col1]"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level           type        token
-#&gt;   &lt;int&gt;          &lt;chr&gt;        &lt;chr&gt;
-#&gt; 1     0 structured_ref Table1[col1]</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[col1]:[col2]]"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level           type                 token
-#&gt;   &lt;int&gt;          &lt;chr&gt;                 &lt;chr&gt;
-#&gt; 1     0 structured_ref Table1[[col1]:[col2]]</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[#Headers]"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level           type            token
-#&gt;   &lt;int&gt;          &lt;chr&gt;            &lt;chr&gt;
-#&gt; 1     0 structured_ref Table1[#Headers]</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[#Headers],[col1]]"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level           type                     token
-#&gt;   &lt;int&gt;          &lt;chr&gt;                     &lt;chr&gt;
-#&gt; 1     0 structured_ref Table1[[#Headers],[col1]]</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[#Headers],[col1]:[col2]]"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level           type                            token
-#&gt;   &lt;int&gt;          &lt;chr&gt;                            &lt;chr&gt;
-#&gt; 1     0 structured_ref Table1[[#Headers],[col1]:[col2]]</div><div class='input'>
+<span class='fu'>xlex</span>(<span class='st'>"[@col2]"</span>)</div><div class='output co'>#&gt; root         
+#&gt; °-- [@col2]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SUM([col22])"</span>)</div><div class='output co'>#&gt; root             
+#&gt; ¦-- SUM          function
+#&gt; °-- (            fun_open
+#&gt;     °-- [col22]  structured_ref
+#&gt; °-- )            fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[col1]"</span>)</div><div class='output co'>#&gt; root              
+#&gt; °-- Table1[col1]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[col1]:[col2]]"</span>)</div><div class='output co'>#&gt; root                       
+#&gt; °-- Table1[[col1]:[col2]]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[#Headers]"</span>)</div><div class='output co'>#&gt; root                  
+#&gt; °-- Table1[#Headers]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[#Headers],[col1]]"</span>)</div><div class='output co'>#&gt; root                           
+#&gt; °-- Table1[[#Headers],[col1]]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[#Headers],[col1]:[col2]]"</span>)</div><div class='output co'>#&gt; root                                  
+#&gt; °-- Table1[[#Headers],[col1]:[col2]]  structured_ref </div><div class='input'>
 <span class='co'># DDE calls (Dynamic Data Exchange) are normalized by Excel into indexes.</span>
 <span class='co'># Either way, xlex() includes everything in one token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"[1]!'DDE_parameter=1'"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type                 token
-#&gt;   &lt;int&gt; &lt;chr&gt;                 &lt;chr&gt;
-#&gt; 1     0   DDE [1]!'DDE_parameter=1'</div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Quote'|'NYSE'!ZAXX"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
-#&gt;   level  type               token
-#&gt;   &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;
-#&gt; 1     0   DDE 'Quote'|'NYSE'!ZAXX</div><div class='input'><span class='co'># Meaningless spaces that appear in some old files are returned as 'space'</span>
+<span class='fu'>xlex</span>(<span class='st'>"[1]!'DDE_parameter=1'"</span>)</div><div class='output co'>#&gt; root                       
+#&gt; °-- [1]!'DDE_parameter=1'  DDE </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Quote'|'NYSE'!ZAXX"</span>)</div><div class='output co'>#&gt; root                     
+#&gt; °-- 'Quote'|'NYSE'!ZAXX  DDE </div><div class='input'><span class='co'># Meaningless spaces that appear in some old files are returned as 'space'</span>
 <span class='co'># tokens, so that the original formula can still be recovered by</span>
 <span class='co'># concatenating all the tokens.  Spaces between function names and their open</span>
 <span class='co'># parenthesis have not been observed, so are not permitted.</span>
-<span class='fu'>xlex</span>(<span class='st'>" MAX( A1 ) "</span>)</div><div class='output co'>#&gt; # A tibble: 8 x 3
-#&gt;   level      type token
-#&gt;   &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0  operator      
-#&gt; 2     0  function   MAX
-#&gt; 3     0  fun_open     (
-#&gt; 4     1  operator      
-#&gt; 5     1       ref    A1
-#&gt; 6     1  operator      
-#&gt; 7     0 fun_close     )
-#&gt; 8     0  operator      </div></pre>
+<span class='fu'>xlex</span>(<span class='st'>" MAX( A1 ) "</span>)</div><div class='output co'>#&gt; root        
+#&gt; ¦--         operator
+#&gt; ¦-- MAX     function
+#&gt; °-- (       fun_open
+#&gt;     ¦--     operator
+#&gt;     ¦-- A1  ref
+#&gt;     °--     operator
+#&gt; ¦-- )       fun_close
+#&gt; °--         operator </div><div class='input'>
+<span class='co'># print.xlex() invisibly returns the original argument, so that it can be</span>
+<span class='co'># used in magrittr pipelines.</span>
+<span class='fu'>str</span>(<span class='fu'>print</span>(<span class='fu'>xlex</span>(<span class='st'>"ROUND(A1*2"</span>)))</div><div class='output co'>#&gt; root        
+#&gt; ¦-- ROUND   function
+#&gt; °-- (       fun_open
+#&gt;     ¦-- A1  ref
+#&gt;     ¦-- *   operator
+#&gt;     °-- 2   number 
+#&gt; Classes ‘xlex’, ‘tbl_df’, ‘tbl’ and 'data.frame':	5 obs. of  3 variables:
+#&gt;  $ level: int  0 0 1 1 1
+#&gt;  $ type : chr  "function" "fun_open" "ref" "operator" ...
+#&gt;  $ token: chr  "ROUND" "(" "A1" "*" ...</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -638,8 +524,6 @@ https://github.com/spreadsheetlab/XLParser.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

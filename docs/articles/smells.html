@@ -38,10 +38,31 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../articles/tidyxl.html">Get Started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/data-validation-rules.html">Data Validation Rules</a>
+    </li>
+    <li>
+      <a href="../articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -69,13 +90,13 @@
       <h1>Detecting Spreadsheet Smells with xlex()</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-09-09</h4>
+            <h4 class="date">2017-10-17</h4>
           </div>
 
     
     
 <div class="contents">
-<p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or run <code><a href="../reference/demo_xlex.html">demo_xlex()</a></code> locally.</p>
+<p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or install the more experimental <a href="https://nacnuds.github.io/lexl">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
 <p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
 <div id="inspecting-the-parse-tree" class="section level2">
 <h2 class="hasAnchor">
@@ -84,22 +105,18 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyxl)
 x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MIN(3,MAX(2,A1))"</span>)
 x</code></pre></div>
-<pre><code>##    level      type token
-## 1      0  function   MIN
-## 2      0  fun_open     (
-## 3      1    number     3
-## 4      1 separator     ,
-## 5      1  function   MAX
-## 6      1  fun_open     (
-## 7      2    number     2
-## 8      2 separator     ,
-## 9      2       ref    A1
-## 10     1 fun_close     )
-## 11     0 fun_close     )</code></pre>
-<p>If you have the <code>igraph</code> and <code>ggraph</code> packages installed (<code>install.packages(c("igraph", "ggraph"))</code>), then you can visualise the parse tree with <code><a href="../reference/plot_xlex.html">plot_xlex()</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/plot_xlex.html">plot_xlex</a></span>(x)</code></pre></div>
-<p><img src="smells_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
-<p>Intermediate functions between <code><a href="../reference/xlex.html">xlex()</a></code> and <code><a href="../reference/plot_xlex.html">plot_xlex()</a></code> that work on the parse tree are also exported: <code><a href="../reference/plot_xlex.html">xlex_edges()</a></code>, <code><a href="../reference/plot_xlex.html">xlex_vertices()</a></code> and <code><a href="../reference/plot_xlex.html">xlex_igraph()</a></code>.</p>
+<pre><code>## root            
+## ¦-- MIN         function
+## °-- (           fun_open
+##     ¦-- 3       number
+##     ¦-- ,       separator
+##     ¦-- MAX     function
+##     °-- (       fun_open
+##         ¦-- 2   number
+##         ¦-- ,   separator
+##         °-- A1  ref
+##     °-- )       fun_close
+## °-- )           fun_close</code></pre>
 </div>
 <div id="detecting-constants-inside-formulas" class="section level2">
 <h2 class="hasAnchor">
@@ -127,22 +144,22 @@ x</code></pre></div>
 <span class="co"># The original filename was "barry_tycholiz__848__2002 Plan Worksheet CC107322.xlsx"</span>
 sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"extdata/enron-constants.xlsx"</span>,
                                <span class="dt">package =</span> <span class="st">"tidyxl"</span>),
-                   <span class="st">"Detail Breakdown"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]
-sheet<span class="op">$</span>formula[<span class="dv">22</span>]</code></pre></div>
+                   <span class="st">"Detail Breakdown"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## Warning: 'tidy_xlsx()' is deprecated.
+## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sheet<span class="op">$</span>formula[<span class="dv">22</span>]</code></pre></div>
 <pre><code>## [1] "(C8/7)*12-48000"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(sheet<span class="op">$</span>formula[<span class="dv">22</span>])</code></pre></div>
-<pre><code>## # A tibble: 9 x 3
-##   level        type token
-##   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-## 1     0  paren_open     (
-## 2     1         ref    C8
-## 3     1    operator     /
-## 4     1      number     7
-## 5     0 paren_close     )
-## 6     0    operator     *
-## 7     0      number    12
-## 8     0    operator     -
-## 9     0      number 48000</code></pre>
+<pre><code>## root        
+## °-- (       paren_open
+##     ¦-- C8  ref
+##     ¦-- /   operator
+##     °-- 7   number
+## ¦-- )       paren_close
+## ¦-- *       operator
+## ¦-- 12      number
+## ¦-- -       operator
+## °-- 48000   number</code></pre>
 <p>The formula is <code>(C8/7)*12-48000</code>, and <code><a href="../reference/xlex.html">xlex()</a></code> separates it into its components. There are the parentheses, the operators (division, multiplication, subtraction), a reference to another cell (<code>C8</code>), and a few numeric constants: 7, 12, and 48000. What could they be?</p>
 <p>The 7 is probably the 7th month, July, because of the column header “July YTD”. A year-to-date figure is being divided by 7, then multiplied by 12 to forecast the year-end figure. The 48000 is more mysterious – perhaps a future payment is expected.</p>
 <p>Embedding these constants inside a formula is bad practice. Better practice would be to put the constants into their own cells, where they could be annotated with their meaning, and perhaps even named. Then formulas could refer to them, by name, e.g.</p>
@@ -154,10 +171,10 @@ sheet<span class="op">$</span>formula[<span class="dv">22</span>]</code></pre></
 <p>The <code><a href="../reference/xlex.html">xlex()</a></code> function isn’t vectorized (because it returns a data frame), so we map it over each of the formulas to create a ‘nest’ column of individual data frames.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tokens &lt;-
 <span class="st">  </span>sheet <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(row, col, formula) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">tokens =</span> <span class="kw">map</span>(formula, xlex)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>formula)
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, formula) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>formula)
 tokens</code></pre></div>
 <pre><code>## # A tibble: 154 x 3
 ##      row   col           tokens
@@ -176,8 +193,8 @@ tokens</code></pre></div>
 <p>Then we can unnest the data frames and filter for tokens that are constants, to find out which cells have constants in their formulas.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants &lt;-
 <span class="st">  </span>tokens <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">unnest</span>(tokens) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(tokens) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))
 constants</code></pre></div>
 <pre><code>## # A tibble: 201 x 5
 ##      row   col level   type token
@@ -195,7 +212,7 @@ constants</code></pre></div>
 ## # ... with 191 more rows</code></pre>
 <p>Which constants are most common? Unsurprisingly, 12 and 7 are almost equally abundant, but there are also lots of 6s and 9s – two- and three-quarterly figures? Then there are some 150000s and the familiar 48000s, followed by some fractions that look like percentages, and then several one-offs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">count</span>(token, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tally.html">count</a></span>(token, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">n =</span> <span class="ot">Inf</span>)</code></pre></div>
 <pre><code>## # A tibble: 24 x 2
 ##     token     n
@@ -232,12 +249,12 @@ constants</code></pre></div>
 <p>This time there doesn’t seem to be any particular pattern, which is perhaps suspicious in itself.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_constants &lt;-
 <span class="st">  </span>constants <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">distinct</span>(row, col) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">has_constant =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">right_join</span>(sheet, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(content)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(row, col, has_constant) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">replace_na</span>(<span class="kw">list</span>(<span class="dt">has_constant =</span> <span class="ot">FALSE</span>))
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">has_constant =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">right_join</a></span>(sheet, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>is_blank) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, has_constant) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/replace_na">replace_na</a></span>(<span class="kw">list</span>(<span class="dt">has_constant =</span> <span class="ot">FALSE</span>))
 has_constants</code></pre></div>
 <pre><code>## # A tibble: 412 x 3
 ##      row   col has_constant
@@ -255,11 +272,11 @@ has_constants</code></pre></div>
 ## # ... with 402 more rows</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_constants <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="co"># filter(row &lt;= 28) %&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(col, row, <span class="dt">fill =</span> has_constant)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_tile</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_y_reverse</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</code></pre></div>
-<p><img src="smells_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(col, row, <span class="dt">fill =</span> has_constant)) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_tile">geom_tile</a></span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_reverse</a></span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</code></pre></div>
+<p><img src="smells_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 </div>
 <div id="detecting-deeply-nested-formulas" class="section level2">
@@ -268,34 +285,33 @@ has_constants</code></pre></div>
 <p>Using the same techniques as for detecting constants, we map <code><a href="../reference/xlex.html">xlex()</a></code> over the formulas in a spreadsheet, unnest the result, and filter for tokens with particular properties. In this case, we are interested in the <code>level</code> of each token, which tells how deeply a token is nested in other functions and expressions.</p>
 <p>This time, we use another spreadsheet from the Enron corpus. First, an illustration. Notice that inside the first function, the level increases to 1. Inside the second function, the level increases to 2.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MAX(3,MIN(2,4))"</span>)</code></pre></div>
-<pre><code>## # A tibble: 11 x 3
-##    level      type token
-##    &lt;int&gt;     &lt;chr&gt; &lt;chr&gt;
-##  1     0  function   MAX
-##  2     0  fun_open     (
-##  3     1    number     3
-##  4     1 separator     ,
-##  5     1  function   MIN
-##  6     1  fun_open     (
-##  7     2    number     2
-##  8     2 separator     ,
-##  9     2    number     4
-## 10     1 fun_close     )
-## 11     0 fun_close     )</code></pre>
+<pre><code>## root           
+## ¦-- MAX        function
+## °-- (          fun_open
+##     ¦-- 3      number
+##     ¦-- ,      separator
+##     ¦-- MIN    function
+##     °-- (      fun_open
+##         ¦-- 2  number
+##         ¦-- ,  separator
+##         °-- 4  number
+##     °-- )      fun_close
+## °-- )          fun_close</code></pre>
 <p>Now let’s apply the same test to all the formulas in a sheet. The deepest level of nesting turns out to be 7, and is seen in all the cells in row 171.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The original filename was "albert_meyers__1__1-25act.xlsx"</span>
 sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"extdata/enron-nested.xlsx"</span>,
                                <span class="dt">package =</span> <span class="st">"tidyxl"</span>),
-                   <span class="st">"Preschedule"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]
-
-deepest &lt;-
+                   <span class="st">"Preschedule"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## Warning: 'tidy_xlsx()' is deprecated.
+## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deepest &lt;-
 <span class="st">  </span>sheet <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">tokens =</span> <span class="kw">map</span>(formula, xlex)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">select</span>(row, col, tokens) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">unnest</span>(tokens) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">filter</span>(level <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(level)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">distinct</span>(row, col, level)
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, tokens) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(tokens) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(level <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(level)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col, level)
 deepest</code></pre></div>
 <pre><code>## # A tibble: 48 x 3
 ##      row   col level
@@ -313,8 +329,8 @@ deepest</code></pre></div>
 ## # ... with 38 more rows</code></pre>
 <p>Do you wonder what those formulas look like?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sheet <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">filter</span>(row <span class="op">==</span><span class="st"> </span><span class="dv">171</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">pull</span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></code></pre></div>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(row <span class="op">==</span><span class="st"> </span><span class="dv">171</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></code></pre></div>
 <pre><code>## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</code></pre>
 </div>
 </div>
@@ -322,7 +338,8 @@ deepest</code></pre></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#inspecting-the-parse-tree">Inspecting the parse tree</a></li>
       <li><a href="#detecting-constants-inside-formulas">Detecting constants inside formulas</a></li>

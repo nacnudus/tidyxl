@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run a shiny app to demonstrate xlex() — demo_xlex • tidyxl</title>
+<title>tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures. — tidyxl • tidyxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,6 +83,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/data-validation-rules.html">Data Validation Rules</a>
+    </li>
+    <li>
       <a href="../articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
     </li>
   </ul>
@@ -110,36 +113,40 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run a shiny app to demonstrate xlex()</h1>
+    <h1>tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures.</h1>
     </div>
 
     
-    <p>Requires the <code>shiny</code>, <code>igraph</code> and <code>ggraph</code> packages, which you
-can install with <code>install.packages(c("shiny", "igraph", "ggraph"))</code>.  Runs a
-shiny app to demonstrate tokenizing an Excel formula with <code><a href='xlex.html'>xlex()</a></code> and
-plotting the parse tree with <code><a href='plot_xlex.html'>plot_xlex()</a></code></p>
+    <p>Tidyxl imports data from spreadsheets without coercing it into a rectangle,
+and retains information encoded in cell formatting (e.g. font/fill/border).
+This data structure is compatible with the 'unpivotr' package for
+recognising information expressed by relative cell positions and cell
+formatting, and re-expressing it in a tidy way.</p>
     
 
-    <pre class="usage"><span class='fu'>demo_xlex</span>()</pre>
         
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code><a href='xlex.html'>tidyxl::xlex()</a></code>, <code><a href='plot_xlex.html'>tidyxl::plot_xlex()</a></code></p>
+    <ul>
+<li><p><code><a href='tidy_xlsx.html'>tidyxl::tidy_xlsx()</a></code> Import cells and formatting from an xlsx file.</p></li>
+<li><p><code><a href='xlsx_sheet_names.html'>tidyxl::xlsx_sheet_names()</a></code> List the names of sheets in an xlsx file.</p></li>
+<li><p><code><a href='xlsx_names.html'>tidyxl::xlsx_names()</a></code> Import names and definitions of named ranges (aka named</p></li>
+<li><p><code><a href='is_range.html'>tidyxl::is_range()</a></code> Test whether a 'name' from <code><a href='xlsx_names.html'>tidyxl::xlsx_names()</a></code>
+refers to a range or not.
+formulas, defined names) from an xlsx file.</p></li>
+<li><p><code><a href='xlsx_validation.html'>tidyxl::xlsx_validation()</a></code> Import cell input validation rules (e.g.
+'must be from this drop-down list') from an xlsx file.</p></li>
+<li><p><code><a href='xlex.html'>tidyxl::xlex()</a></code> Tokenise (lex) an Excel formula.</p></li>
+</ul>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-  <span class='fu'>demo_xlex</span>()
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import xlsx (Excel) cell contents into a tidy structure. — tidy_xlsx • tidyxl</title>
+<title>Import xlsx (Excel) cell contents into a tidy structure. — xlsx_cells • tidyxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -117,17 +117,13 @@
     </div>
 
     
-    <p><code>tidy_xlsx()</code> is deprecated.  Please use <code><a href='xlsx_cells.html'>xlsx_cells()</a></code> or <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>
-instead.
-
-    <code>tidy_xlsx()</code> imports data from spreadsheets without coercing it into a
+    <p><code>xlsx_cells()</code> imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
-cell's formatting in an adjacent data structure within the list returned by
-this function.</p>
+cell's formatting in the return value of <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.</p>
     
 
-    <pre class="usage"><span class='fu'>tidy_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_cells</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -146,12 +142,8 @@ sheets).</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of the data within each sheet (<code>$data</code>), and the formatting applied to
-each cell (<code>$formats</code>).</p>
-<p>Each sheet's data is returned as a data frames, one per sheet, by the sheet
-name.  For example, the data in a sheet named 'My Worksheet' is in
-x$data$<code>My Worksheet</code>.  Each data frame has the following
-columns:</p><ul>
+    <p>A data frame with the following columns.</p><ul>
+<li><p><code>sheet</code> The worksheet that the cell is from.</p></li>
 <li><p><code>address</code> The cell address in A1 notation.</p></li>
 <li><p><code>row</code> The row number of a cell address (integer).</p></li>
 <li><p><code>col</code> The column number of a cell address (integer).</p></li>
@@ -179,53 +171,15 @@ formula or shared formula applies (see 'Details').</p></li>
 <code>x$formats$local</code> (see 'Details').</p></li>
 </ul>
 
-<h3>Formula</h3>
-
-When a cell has a formula, the value in the 'content' column is the result
-of the formula the last time it was evaluated.
-
-Certain groups of cells may share a formula that differs only by addresses
-referred to in the formula; such groups are identified by an index, the
-'formula_group'.  The xlsx (Excel) file format only records the formula
-against one cell in any group.  <code><a href='xlsx_cells.html'>xlsx_cells()</a></code> propogates such formulas to
-the other cells in a group, making the necessary changes to relative
-addresses in the formula.
-
-Array formulas may also apply to a group of cells, identified by an address
-'formula_ref', but xlsx (Excel) file format only records the formula
-against one cell in the group.  <code><a href='xlsx_cells.html'>xlsx_cells()</a></code> propogates such formulas to
-the other cells in a group.  Unlike shared formulas, no changes to
-addresses in array formulas are necessary.
-
-Formulas that refer to other workbooks currently do not name the workbooks
-directly, instead via indices such as <code>[1]</code>.  It is planned to
-dereference these.
-
-
-<h3>Formatting</h3>
-
-Cell formatting is returned in <code>x$formats</code>.  There are two types or scopes
-of formatting: 'style' formatting, such as Excel's built-in styles
+<p>Cell formatting is returned in <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.  There are two types
+or scopes of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides particular
-elements of the style, e.g. by making it bold.  Both types of  are returned
-in <code>x$formats$style</code> and <code>x$formats$local</code>, with identical structures.  To
-look up the local formatting of a given cell, take the cell's
-'local_format_id' value (<code>x$data$Sheet1[1, "local_format_id"]</code>), and use it
-as an index into the format structure.  E.g. to look up the font size,
-<code>x$formats$local$font$size[local_format_id]</code>.  To see all available
-formats, type <code>str(x$formats$local)</code>.
-
-Colours may be recorded in any of three ways: a hexadecimal RGB string with
-or without alpha, an 'indexed' colour, and an index into a 'theme'.
-<code>tidy_xlsx</code> dereferences 'indexed' and 'theme' colours to their hexadecimal
-RGB string representation, and standardises all RGB strings to have an
-alpha channel in the first two characters.  The 'index' and the 'theme'
-name are still provided.  To filter by an RGB string, you could  look up
-the RGB values in a spreadsheet program (e.g. Excel, LibreOffice,
-Gnumeric), and use the <code><a href='http://www.rdocumentation.org/packages/grDevices/topics/rgb'>grDevices::rgb()</a></code> function to convert these to a
-hexadecimal string.
-
-
+elements of the style, e.g. by making it bold.  Both types are returned, in
+the <code>$style</code> and <code>$local</code> sublists of <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>, with
+identical structures.  To look up the local formatting of a given cell, take
+the cell's 'local_format_id' value (<code>my_cells$data$Sheet1[1, "local_format_id"]</code>), and use it as an index into the format structure.  E.g.
+to look up the font size, <code>my_formats$local$font$size[local_format_id]</code>.  To
+see all available formats, type <code>str(my_formats$local)</code>.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -234,7 +188,7 @@ has formatting applied at the 'style' level, which can be locally overridden.</p
     Depending on the cell, the content may be a numeric value such as 365 or
 365.25, it may represent a date/datetime in one of Excel's date/datetime
 systems, or it may be an index into an internal table of strings.
-<code>tidy_xlsx()</code> attempts to infer the correct data type of each cell,
+<code>xlsx_cells()</code> attempts to infer the correct data type of each cell,
 returning its value in the appropriate column (error, logical, numeric,
 date, character). In case this cleverness is unhelpful, the unparsed value
 and type information is available in the 'content' and 'type' columns.
@@ -244,57 +198,106 @@ of the formula the last time it was evaluated.
     Certain groups of cells may share a formula that differs only by addresses
 referred to in the formula; such groups are identified by an index, the
 'formula_group'.  The xlsx (Excel) file format only records the formula
-against one cell in any group, but <code>tidy_xlsx()</code> propagates the formula to
-all the cells in the group, making the necessary changes to relative
+against one cell in any group.  <code>xlsx_cells()</code> propogates such formulas to
+the other cells in a group, making the necessary changes to relative
 addresses in the formula.
     Array formulas may also apply to a group of cells, identified by an address
 'formula_ref', but xlsx (Excel) file format only records the formula
-against one cell in the group.  Unlike ordinary formulas, <code>tidy_xlsx()</code>
-does not propagate these to the other cells in the group.
+against one cell in the group.  <code>xlsx_cells()</code> propogates such formulas to
+the other cells in a group.  Unlike shared formulas, no changes to
+addresses in array formulas are necessary.
     Formulas that refer to other workbooks currently do not name the workbooks
 directly, instead via indices such as <code>[1]</code>.  It is planned to
 dereference these.
     <h3>Formatting</h3>
-    Cell formatting is returned in <code>x$formats</code>.  There are two types of
-formatting: 'style' formatting, such as Excel's built-in styles 'normal',
-'bad', etc., and 'local' formatting, which overrides the style.  These are
-returned in <code>x$formats$style</code> and <code>x$formats$local</code>, with
-identical structures.  To look up the local formatting of a given cell,
-take the cell's 'local_format_id' value (<code>x$data$Sheet1[1, "local_format_id"]</code>), and use it as an index into the format structure.
-E.g. to look up the font size,
-<code>x$formats$local$font$size[local_format_id]</code>.  To see all available
-formats, type <code>str(x$formats$local)</code>.
+    Cell formatting is returned by <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.  There are two
+types of formatting: 'style' formatting, such as Excel's built-in styles
+'normal', 'bad', etc., and 'local' formatting, which overrides the style.
+These are returned in the <code>$style</code> and <code>$local</code> sublists of
+<code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>, with identical structures.
+    To look up the local formatting of a given cell, take the cell's
+<code>local_format_id</code> value (<code>my_cells$Sheet1[1, "local_format_id"]</code>), and use
+it as an index into the format structure.  E.g. to look up the font size,
+<code>my_formats$local$font$size[local_format_id]</code>.  To see all available
+formats, type <code>str(my_formats$local)</code>.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+    <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
 
 <span class='co'># All sheets</span>
-<span class='fu'>str</span>(<span class='fu'>tidy_xlsx</span>(<span class='no'>examples</span>)$<span class='no'>data</span>)
-
+<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	247 obs. of  20 variables:
+#&gt;  $ sheet          : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
+#&gt;  $ address        : chr  "A1" "B1" "A2" "B2" ...
+#&gt;  $ row            : int  1 1 2 2 3 3 4 4 5 5 ...
+#&gt;  $ col            : int  1 2 1 2 1 2 1 2 1 2 ...
+#&gt;  $ is_blank       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ data_type      : chr  "error" "character" "logical" "character" ...
+#&gt;  $ error          : chr  "#DIV/0!" NA NA NA ...
+#&gt;  $ logical        : logi  NA NA TRUE NA FALSE NA ...
+#&gt;  $ numeric        : num  NA NA NA NA NA ...
+#&gt;  $ date           : POSIXct, format: NA NA ...
+#&gt;  $ character      : chr  NA "Error" NA "Boolean (true)" ...
+#&gt;  $ formula        : chr  "1/0" NA NA NA ...
+#&gt;  $ is_array       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ formula_ref    : chr  NA NA NA NA ...
+#&gt;  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;  $ comment        : chr  NA NA NA NA ...
+#&gt;  $ height         : num  14.2 14.2 14.2 14.2 14.2 ...
+#&gt;  $ width          : num  19.4 68 19.4 68 19.4 ...
+#&gt;  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...
+#&gt;  $ local_format_id: int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># Specific sheet either by position or by name</span>
-<span class='fu'>str</span>(<span class='fu'>tidy_xlsx</span>(<span class='no'>examples</span>, <span class='fl'>2</span>)$<span class='no'>data</span>)
-<span class='fu'>str</span>(<span class='fu'>tidy_xlsx</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)$<span class='no'>data</span>)
-
-<span class='co'># Data (cell values)</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>tidy_xlsx</span>(<span class='no'>examples</span>)
-<span class='fu'>str</span>(<span class='no'>x</span>$<span class='no'>data</span>$<span class='no'>Sheet1</span>)
-
-<span class='co'># Formatting</span>
-<span class='fu'>str</span>(<span class='no'>x</span>$<span class='no'>formats</span>$<span class='no'>local</span>)
-
+<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  20 variables:
+#&gt;  $ sheet          : chr  "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°" "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°"
+#&gt;  $ address        : chr  "B2" "B6"
+#&gt;  $ row            : int  2 6
+#&gt;  $ col            : int  2 2
+#&gt;  $ is_blank       : logi  FALSE FALSE
+#&gt;  $ data_type      : chr  "character" "character"
+#&gt;  $ error          : chr  NA NA
+#&gt;  $ logical        : logi  NA NA
+#&gt;  $ numeric        : num  NA NA
+#&gt;  $ date           : POSIXct, format: NA NA
+#&gt;  $ character      : chr  "empty first row and col" "This worksheet has a nasty name but can be imported nevertheless"
+#&gt;  $ formula        : chr  NA NA
+#&gt;  $ is_array       : logi  FALSE FALSE
+#&gt;  $ formula_ref    : chr  NA NA
+#&gt;  $ formula_group  : int  NA NA
+#&gt;  $ comment        : chr  "nacnudus:\nComment3" NA
+#&gt;  $ height         : num  14.2 14.2
+#&gt;  $ width          : num  8.38 8.38
+#&gt;  $ style_format   : chr  "Normal" "Normal"
+#&gt;  $ local_format_id: int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	245 obs. of  20 variables:
+#&gt;  $ sheet          : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
+#&gt;  $ address        : chr  "A1" "B1" "A2" "B2" ...
+#&gt;  $ row            : int  1 1 2 2 3 3 4 4 5 5 ...
+#&gt;  $ col            : int  1 2 1 2 1 2 1 2 1 2 ...
+#&gt;  $ is_blank       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ data_type      : chr  "error" "character" "logical" "character" ...
+#&gt;  $ error          : chr  "#DIV/0!" NA NA NA ...
+#&gt;  $ logical        : logi  NA NA TRUE NA FALSE NA ...
+#&gt;  $ numeric        : num  NA NA NA NA NA ...
+#&gt;  $ date           : POSIXct, format: NA NA ...
+#&gt;  $ character      : chr  NA "Error" NA "Boolean (true)" ...
+#&gt;  $ formula        : chr  "1/0" NA NA NA ...
+#&gt;  $ is_array       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ formula_ref    : chr  NA NA NA NA ...
+#&gt;  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;  $ comment        : chr  NA NA NA NA ...
+#&gt;  $ height         : num  14.2 14.2 14.2 14.2 14.2 ...
+#&gt;  $ width          : num  19.4 68 19.4 68 19.4 ...
+#&gt;  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...
+#&gt;  $ local_format_id: int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># The formats of particular cells can be retrieved like this:</span>
 
-<span class='no'>Sheet1</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>$<span class='no'>data</span>$<span class='no'>Sheet1</span>
-<span class='no'>x</span>$<span class='no'>formats</span>$<span class='no'>style</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>style_format</span>]
-<span class='no'>x</span>$<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span>]
+<span class='no'>Sheet1</span> <span class='kw'>&lt;-</span> <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>Sheet1</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: 'Sheet1'.</span></div><div class='input'><span class='no'>formats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xlsx_formats.html'>xlsx_formats</a></span>(<span class='no'>examples</span>)
 
+<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span>]</div><div class='output co'>#&gt; logical(0)</div><div class='input'><span class='no'>formats</span>$<span class='no'>style</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>style_format</span>]</div><div class='output co'>#&gt; named logical(0)</div><div class='input'>
 <span class='co'># To filter for cells of a particular format, first filter the formats to get</span>
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
-<span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>x</span>$<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
-<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]
-<span class='co'># }</span></pre>
+<span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
+<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; NULL</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -23,7 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -63,10 +64,31 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="..//index.html">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../articles/tidyxl.html">Get Started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/data-validation-rules.html">Data Validation Rules</a>
+    </li>
+    <li>
+      <a href="../articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -99,7 +121,7 @@
 ranges) in xlsx (Excel) files.</p>
 <p>Most names refer to ranges of cells, but they can also be defined as
 formulas.  <code>xlsx_names()</code> tells you whether or not they are a range, using
-<code>tidyxl::is_range()</code> to work this out.</p>
+<code><a href='is_range.html'>tidyxl::is_range()</a></code> to work this out.</p>
 <p>Names are scoped either globally (used only once in the file), or locally to
 each sheet (can be reused with different definitions in different sheets).
 For sheet-scoped names, <code>xlsx_names()</code> provides the name of the sheet.</p>
@@ -127,7 +149,7 @@ the sheet.  Otherwise <code>NA</code> for names defined globally.</p></li>
 <li><p><code>is_range</code> Whether or not the <code>formula</code> is a range of cells.  This is handy
 for joining to the set of cells referred to by a name.  In this context,
 commas between cell addresses are always regarded as union operators --
-this differs from <code>tidyxl::xlex()</code>, see that help file for details.</p></li>
+this differs from <code><a href='xlex.html'>tidyxl::xlex()</a></code>, see that help file for details.</p></li>
 </ul>
 
     
