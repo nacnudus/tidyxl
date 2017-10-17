@@ -24,6 +24,7 @@ test_that("1900 and 1904 dates are parsed correctly", {
                as.POSIXct("1900-01-01", tz = "UTC"))
 })
 
-test_that("Custom number formats using [Red] aren't detected as dates", {
-  expect_equal(xlsx_cells("./examples.xlsx")$data_type[188], "numeric")
+test_that("Colours in custom number formats aren't detected as date formats", {
+  x <- xlsx_cells("./rainbow.xlsx")
+  expect_equal(x[x$col == 2, ]$data_type, rep("numeric", 8))
 })
