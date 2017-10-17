@@ -169,8 +169,6 @@ void xlsxcell::cacheFormula(
     xlsxbook& book,
     unsigned long long int& i
     ) {
-  // TODO: Formulas are more complicated than this, because they're shared.
-  // p.1629 'shared' and 'si' attributes
   // TODO: Array formulas use the ref attribute for their range, and t to
   // state that they're 'array'.
   rapidxml::xml_node<>* f = cell->first_node("f");
@@ -192,6 +190,8 @@ void xlsxcell::cacheFormula(
       book.formula_ref_[i] = ref->value();
     }
 
+    // Formulas are sometimes defined once, and then 'shared' with a range
+    // p.1629 'shared' and 'si' attributes
     rapidxml::xml_attribute<>* si = f->first_attribute("si");
     if (si != NULL) {
       si_number = strtol(si->value(), NULL, 10);
