@@ -25,28 +25,21 @@ columns:
 \item \code{address} The cell address in A1 notation.
 \item \code{row} The row number of a cell address (integer).
 \item \code{col} The column number of a cell address (integer).
-\item \code{content} The content of a cell before type inference (see
-'Details').
-\item \code{formula} The formula in a cell (see 'Details').
-\item \code{formula_type} NA for ordinary formulas, or 'array' for array
-formulas.
-\item \code{formula_ref} The address (in A1 notation) of the cell that defines
-the formula of this cell (see 'Details').
-\item \code{formula_group} The formula group to which the cell belongs (see
-'Details').
-\item \code{formula_ref} The address of a range of cells group to which an array
-formula or shared formula applies (see 'Details').
-\item \code{formula_group} An index of a group of cells to which a shared formula
-applies (see 'Details').
-\item \code{type} The type of a cell in Excel's notation (b = boolean, e = error,
-s = string, str = formula).
-\item \code{data_type} The type of a cell, referring to the following columns
-(error, logical, numeric, date).
+\item \code{is_blank} Whether or not the cell has a value
+\item \code{data_type} The type of a cell, referring to the following columns:
+error, logical, numeric, date, character, blank.
 \item \code{error} The error value of a cell.
 \item \code{logical} The boolean value of a cell.
 \item \code{numeric} The numeric value of a cell.
 \item \code{date} The date value of a cell.
 \item \code{character} The string value of a cell.
+\item \code{formula} The formula in a cell (see 'Details').
+\item \code{formula_type} NA for ordinary formulas, or 'array' for array
+formulas.
+\item \code{formula_ref} The address of a range of cells group to which an array
+formula or shared formula applies (see 'Details').
+\item \code{formula_group} The formula group to which the cell belongs (see
+'Details').
 \item \code{comment} The text of a comment attached to a cell.
 \item \code{height} The height of a cell's row, in Excel's units.
 \item \code{width} The width of a cell's column, in Excel's units.
@@ -56,25 +49,50 @@ s = string, str = formula).
 \code{x$formats$local} (see 'Details').
 }
 
-Cell formatting is returned in \code{x$formats}.  There are two types or
-scopes of formatting: 'style' formatting, such as Excel's built-in styles
+\subsection{Formula}{
+When a cell has a formula, the value in the 'content' column is the result
+of the formula the last time it was evaluated.
+
+Certain groups of cells may share a formula that differs only by addresses
+referred to in the formula; such groups are identified by an index, the
+'formula_group'.  The xlsx (Excel) file format only records the formula
+against one cell in any group.  \code{xlsx_cells()} propogates such formulas to
+the other cells in a group, making the necessary changes to relative
+addresses in the formula.
+
+Array formulas may also apply to a group of cells, identified by an address
+'formula_ref', but xlsx (Excel) file format only records the formula
+against one cell in the group.  \code{xlsx_cells()} propogates such formulas to
+the other cells in a group.  Unlike shared formulas, no changes to
+addresses in array formulas are necessary.
+
+Formulas that refer to other workbooks currently do not name the workbooks
+directly, instead via indices such as \code{[1]}.  It is planned to
+dereference these.
+}
+
+\subsection{Formatting}{
+Cell formatting is returned in \code{x$formats}.  There are two types or scopes
+of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides particular
 elements of the style, e.g. by making it bold.  Both types of  are returned
-in \code{x$formats$style} and \code{x$formats$local}, with identical
-structures.  To look up the local formatting of a given cell, take the cell's
-'local_format_id' value (\code{x$data$Sheet1[1, "local_format_id"]}), and use
-it as an index into the format structure.  E.g. to look up the font size,
+in \code{x$formats$style} and \code{x$formats$local}, with identical structures.  To
+look up the local formatting of a given cell, take the cell's
+'local_format_id' value (\code{x$data$Sheet1[1, "local_format_id"]}), and use it
+as an index into the format structure.  E.g. to look up the font size,
 \code{x$formats$local$font$size[local_format_id]}.  To see all available
 formats, type \code{str(x$formats$local)}.
 
 Colours may be recorded in any of three ways: a hexadecimal RGB string with
 or without alpha, an 'indexed' colour, and an index into a 'theme'.
 \code{tidy_xlsx} dereferences 'indexed' and 'theme' colours to their hexadecimal
-RGB string representation, and standardises all RGB strings to have an alpha
-channel in the first two characters.  The 'index' and the 'theme' name are
-still provided.  To filter by an RGB string, you could  look up the RGB
-values in a spreadsheet program (e.g. Excel, LibreOffice, Gnumeric), and use
-the \code{\link[grDevices:rgb]{grDevices::rgb()}} function to convert these to a hexadecimal string.
+RGB string representation, and standardises all RGB strings to have an
+alpha channel in the first two characters.  The 'index' and the 'theme'
+name are still provided.  To filter by an RGB string, you could  look up
+the RGB values in a spreadsheet program (e.g. Excel, LibreOffice,
+Gnumeric), and use the \code{\link[grDevices:rgb]{grDevices::rgb()}} function to convert these to a
+hexadecimal string.
+}
 }
 \description{
 \code{tidy_xlsx()} is deprecated.  Please use \code{\link[=xlsx_cells]{xlsx_cells()}} or \code{\link[=xlsx_formats]{xlsx_formats()}}

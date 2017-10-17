@@ -18,35 +18,28 @@
 #' * `address` The cell address in A1 notation.
 #' * `row` The row number of a cell address (integer).
 #' * `col` The column number of a cell address (integer).
-#' * `content` The content of a cell before type inference (see
-#'     'Details').
-#' * `formula` The formula in a cell (see 'Details').
-#' * `formula_type` NA for ordinary formulas, or 'array' for array
-#'     formulas.
-#' * `formula_ref` The address (in A1 notation) of the cell that defines
-#'     the formula of this cell (see 'Details').
-#' * `formula_group` The formula group to which the cell belongs (see
-#'     'Details').
-#' * `formula_ref` The address of a range of cells group to which an array
-#'     formula or shared formula applies (see 'Details').
-#' * `formula_group` An index of a group of cells to which a shared formula
-#'     applies (see 'Details').
-#' * `type` The type of a cell in Excel's notation (b = boolean, e = error,
-#'     s = string, str = formula).
-#' * `data_type` The type of a cell, referring to the following columns
-#'     (error, logical, numeric, date).
+#' * `is_blank` Whether or not the cell has a value
+#' * `data_type` The type of a cell, referring to the following columns:
+#'     error, logical, numeric, date, character, blank.
 #' * `error` The error value of a cell.
 #' * `logical` The boolean value of a cell.
 #' * `numeric` The numeric value of a cell.
 #' * `date` The date value of a cell.
 #' * `character` The string value of a cell.
+#' * `formula` The formula in a cell (see 'Details').
+#' * `formula_type` NA for ordinary formulas, or 'array' for array
+#'     formulas.
+#' * `formula_ref` The address of a range of cells group to which an array
+#'     formula or shared formula applies (see 'Details').
+#' * `formula_group` The formula group to which the cell belongs (see
+#'     'Details').
 #' * `comment` The text of a comment attached to a cell.
 #' * `height` The height of a cell's row, in Excel's units.
 #' * `width` The width of a cell's column, in Excel's units.
 #' * `style_format` An index into a table of style formats
-#'     [tidyxl::xlsx_formats()] (see 'Details').
+#'     `x$formats$style` (see 'Details').
 #' * `local_format_id` An index into a table of local cell formats
-#'     [tidyxl::xlsx_formats()` (see 'Details').
+#'     `x$formats$local` (see 'Details').
 #'
 #' Cell formatting is returned in [tidyxl::xlsx_formats()].  There are two types
 #' or scopes of formatting: 'style' formatting, such as Excel's built-in styles

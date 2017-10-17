@@ -20,35 +20,28 @@ A data frame with the following columns.
 \item \code{address} The cell address in A1 notation.
 \item \code{row} The row number of a cell address (integer).
 \item \code{col} The column number of a cell address (integer).
-\item \code{content} The content of a cell before type inference (see
-'Details').
-\item \code{formula} The formula in a cell (see 'Details').
-\item \code{formula_type} NA for ordinary formulas, or 'array' for array
-formulas.
-\item \code{formula_ref} The address (in A1 notation) of the cell that defines
-the formula of this cell (see 'Details').
-\item \code{formula_group} The formula group to which the cell belongs (see
-'Details').
-\item \code{formula_ref} The address of a range of cells group to which an array
-formula or shared formula applies (see 'Details').
-\item \code{formula_group} An index of a group of cells to which a shared formula
-applies (see 'Details').
-\item \code{type} The type of a cell in Excel's notation (b = boolean, e = error,
-s = string, str = formula).
-\item \code{data_type} The type of a cell, referring to the following columns
-(error, logical, numeric, date).
+\item \code{is_blank} Whether or not the cell has a value
+\item \code{data_type} The type of a cell, referring to the following columns:
+error, logical, numeric, date, character, blank.
 \item \code{error} The error value of a cell.
 \item \code{logical} The boolean value of a cell.
 \item \code{numeric} The numeric value of a cell.
 \item \code{date} The date value of a cell.
 \item \code{character} The string value of a cell.
+\item \code{formula} The formula in a cell (see 'Details').
+\item \code{formula_type} NA for ordinary formulas, or 'array' for array
+formulas.
+\item \code{formula_ref} The address of a range of cells group to which an array
+formula or shared formula applies (see 'Details').
+\item \code{formula_group} The formula group to which the cell belongs (see
+'Details').
 \item \code{comment} The text of a comment attached to a cell.
 \item \code{height} The height of a cell's row, in Excel's units.
 \item \code{width} The width of a cell's column, in Excel's units.
 \item \code{style_format} An index into a table of style formats
-\code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}} (see 'Details').
+\code{x$formats$style} (see 'Details').
 \item \code{local_format_id} An index into a table of local cell formats
-[tidyxl::xlsx_formats()` (see 'Details').
+\code{x$formats$local} (see 'Details').
 }
 
 Cell formatting is returned in \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}.  There are two types
@@ -60,14 +53,6 @@ identical structures.  To look up the local formatting of a given cell, take
 the cell's 'local_format_id' value (\code{my_cells$data$Sheet1[1, "local_format_id"]}), and use it as an index into the format structure.  E.g.
 to look up the font size, \code{my_formats$local$font$size[local_format_id]}.  To
 see all available formats, type \code{str(my_formats$local)}.
-
-[tidyxl::xlsx_formats()` (see 'Details').
-
-Cell formatting is returned in \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}: R:tidyxl::xlsx_formats()%60%20(see%20'Details').%0A%0ACell%20formatting%20is%20returned%20in%20[tidyxl::xlsx_formats()
-\code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}: R:tidyxl::xlsx_formats()
-[1,
-"local_format_id"]: R:1,%0A%22local_format_id%22
-[local_format_id]: R:local_format_id
 }
 \description{
 \code{xlsx_cells()} imports data from spreadsheets without coercing it into a
