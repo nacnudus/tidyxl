@@ -40,7 +40,7 @@ class xlsxbook {
     Rcpp::NumericVector   date_;      // Parsed value
     Rcpp::CharacterVector character_; // Parsed value
     Rcpp::CharacterVector formula_;   // If present
-    Rcpp::CharacterVector formula_type_;  // If present
+    Rcpp::LogicalVector   is_array_;  // If formulaType is present
     Rcpp::CharacterVector formula_ref_;   // If present
     Rcpp::IntegerVector   formula_group_; // If present
     Rcpp::CharacterVector comment_;

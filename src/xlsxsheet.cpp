@@ -210,7 +210,7 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
     book_.date_[i] = NA_REAL;
     book_.character_[i] = NA_STRING;
     book_.formula_[i] = NA_STRING;
-    book_.formula_type_[i] = NA_STRING;
+    book_.is_array_[i] = false;
     book_.formula_ref_[i] = NA_STRING;
     book_.formula_group_[i] = NA_INTEGER;
     book_.comment_[i] = it->second.c_str();

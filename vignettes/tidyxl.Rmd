@@ -150,7 +150,7 @@ options(width = 120)
 y <- xlsx_cells(system.file("/extdata/examples.xlsx", package = "tidyxl"),
                "Sheet1")
 y[!is.na(y$formula),
-  c("address", "formula", "formula_type", "formula_ref", "formula_group",
+  c("address", "formula", "is_array", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
 ```
 
@@ -174,7 +174,7 @@ whose output is an array (of cells).
 Both kinds are distinguished in
 spreadsheet programs by curly braces, e.g. `{SUM(A19:A21*B19:B21)}`.  In
 `tidyxl`, the curly braces are ommitted (as they are from the file itself), and
-instead the `formula_type` column has the value `array`.
+instead the `is_array` column has the value `TRUE`.
 
 The first kind (those that compute over arrays) is illustrated by cell `A22`.
 

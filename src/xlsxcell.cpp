@@ -182,7 +182,9 @@ void xlsxcell::cacheFormula(
     book.formula_[i] = formula;
     rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
     if (f_t != NULL) {
-      book.formula_type_[i] = f_t->value();
+      if (f_t->value() == "array") {
+        book.is_array_[i] = true;
+      }
     }
 
     rapidxml::xml_attribute<>* ref = f->first_attribute("ref");

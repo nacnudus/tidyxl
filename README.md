@@ -80,7 +80,7 @@ str(x)
 #>  $ date           : POSIXct, format: NA NA ...
 #>  $ character      : chr  "Age" "Child" NA "Adult" ...
 #>  $ formula        : chr  NA NA NA NA ...
-#>  $ formula_type   : chr  NA NA NA NA ...
+#>  $ is_array       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
 #>  $ formula_ref    : chr  NA NA NA NA ...
 #>  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
 #>  $ comment        : chr  NA NA NA NA ...
@@ -200,21 +200,21 @@ options(width = 120)
 y <- xlsx_cells(system.file("/extdata/examples.xlsx", package = "tidyxl"),
                "Sheet1")
 y[!is.na(y$formula),
-  c("address", "formula", "formula_type", "formula_ref", "formula_group",
+  c("address", "formula", "is_array", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
 #> # A tibble: 32 x 10
-#>    address             formula formula_type formula_ref formula_group   error logical numeric       date     character
-#>      <chr>               <chr>        <chr>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
-#>  1      A1                 1/0         <NA>        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
-#>  2     A14                 1=1         <NA>        <NA>            NA    <NA>    TRUE      NA         NA          <NA>
-#>  3     A15                A4+1         <NA>        <NA>            NA    <NA>      NA    1338         NA          <NA>
-#>  4     A16     DATE(2017,1,18)         <NA>        <NA>            NA    <NA>      NA      NA 2017-01-18          <NA>
-#>  5     A17 "\"Hello, World!\""         <NA>        <NA>            NA    <NA>      NA      NA         NA Hello, World!
-#>  6     A19             $A$18+1         <NA>        <NA>            NA    <NA>      NA       2         NA          <NA>
-#>  7     B19               A18+2         <NA>        <NA>            NA    <NA>      NA       3         NA          <NA>
-#>  8     A20             $A$18+1       shared     A20:A21             0    <NA>      NA       2         NA          <NA>
-#>  9     B20               A19+2       shared     B20:B21             1    <NA>      NA       4         NA          <NA>
-#> 10     A21             $A$18+1       shared        <NA>             0    <NA>      NA       2         NA          <NA>
+#>    address             formula is_array formula_ref formula_group   error logical numeric       date     character
+#>      <chr>               <chr>    <lgl>       <chr>         <int>   <chr>   <lgl>   <dbl>     <dttm>         <chr>
+#>  1      A1                 1/0    FALSE        <NA>            NA #DIV/0!      NA      NA         NA          <NA>
+#>  2     A14                 1=1    FALSE        <NA>            NA    <NA>    TRUE      NA         NA          <NA>
+#>  3     A15                A4+1    FALSE        <NA>            NA    <NA>      NA    1338         NA          <NA>
+#>  4     A16     DATE(2017,1,18)    FALSE        <NA>            NA    <NA>      NA      NA 2017-01-18          <NA>
+#>  5     A17 "\"Hello, World!\""    FALSE        <NA>            NA    <NA>      NA      NA         NA Hello, World!
+#>  6     A19             $A$18+1    FALSE        <NA>            NA    <NA>      NA       2         NA          <NA>
+#>  7     B19               A18+2    FALSE        <NA>            NA    <NA>      NA       3         NA          <NA>
+#>  8     A20             $A$18+1    FALSE     A20:A21             0    <NA>      NA       2         NA          <NA>
+#>  9     B20               A19+2    FALSE     B20:B21             1    <NA>      NA       4         NA          <NA>
+#> 10     A21             $A$18+1    FALSE        <NA>             0    <NA>      NA       2         NA          <NA>
 #> # ... with 22 more rows
 ```
 
@@ -228,7 +228,7 @@ Cells `A20` and `A21` illustrate how formulas are normalised before being writte
 
 There are two kinds of array formulas: ones that compute over arrays, and ones whose output is an array (of cells).
 
-Both kinds are distinguished in spreadsheet programs by curly braces, e.g. `{SUM(A19:A21*B19:B21)}`. In `tidyxl`, the curly braces are ommitted (as they are from the file itself), and instead the `formula_type` column has the value `array`.
+Both kinds are distinguished in spreadsheet programs by curly braces, e.g. `{SUM(A19:A21*B19:B21)}`. In `tidyxl`, the curly braces are ommitted (as they are from the file itself), and instead the `is_array` column has the value `TRUE`.
 
 The first kind (those that compute over arrays) is illustrated by cell `A22`.
 
@@ -247,20 +247,18 @@ It is useful for detecting spreadsheet smells, which are poor practices in sprea
 ``` r
 x <- xlex("MIN(3,MAX(2,A1))")
 x
-#> # A tibble: 11 x 3
-#>    level      type token
-#>    <int>     <chr> <chr>
-#>  1     0  function   MIN
-#>  2     0  fun_open     (
-#>  3     1    number     3
-#>  4     1 separator     ,
-#>  5     1  function   MAX
-#>  6     1  fun_open     (
-#>  7     2    number     2
-#>  8     2 separator     ,
-#>  9     2       ref    A1
-#> 10     1 fun_close     )
-#> 11     0 fun_close     )
+#> root            
+#> ¦-- MIN         function
+#> °-- (           fun_open
+#>     ¦-- 3       number
+#>     ¦-- ,       separator
+#>     ¦-- MAX     function
+#>     °-- (       fun_open
+#>         ¦-- 2   number
+#>         ¦-- ,   separator
+#>         °-- A1  ref
+#>     °-- )       fun_close
+#> °-- )           fun_close
 ```
 
 See the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for more examples and details.

@@ -143,7 +143,7 @@ void xlsxbook::initializeColumns() {
   date_.attr("tzone") = "UTC";
   character_       = CharacterVector(cellcount_, NA_STRING);
   formula_         = CharacterVector(cellcount_, NA_STRING);
-  formula_type_    = CharacterVector(cellcount_, NA_STRING);
+  is_array_        = LogicalVector(cellcount_,   false);
   formula_ref_     = CharacterVector(cellcount_, NA_STRING);
   formula_group_   = IntegerVector(cellcount_,   NA_INTEGER);
   comment_         = CharacterVector(cellcount_, NA_STRING);
@@ -190,7 +190,7 @@ void xlsxbook::cacheInformation() {
       _["date"] = date_,
       _["character"] = character_,
       _["formula"] = formula_,
-      _["formula_type"] = formula_type_,
+      _["is_array"] = is_array_,
       _["formula_ref"] = formula_ref_,
       _["formula_group"] = formula_group_,
       _["comment"] = comment_,

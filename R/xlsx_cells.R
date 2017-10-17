@@ -27,8 +27,7 @@
 #' * `date` The date value of a cell.
 #' * `character` The string value of a cell.
 #' * `formula` The formula in a cell (see 'Details').
-#' * `formula_type` NA for ordinary formulas, or 'array' for array
-#'     formulas.
+#' * `is_array` Whether or not the formula is an array formula.
 #' * `formula_ref` The address of a range of cells group to which an array
 #'     formula or shared formula applies (see 'Details').
 #' * `formula_group` The formula group to which the cell belongs (see
