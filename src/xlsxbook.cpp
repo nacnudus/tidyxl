@@ -177,27 +177,74 @@ void xlsxbook::cacheInformation() {
 
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
-  information_ = List::create(
-      _["sheet"] = sheet_,
-      _["address"] = address_,
-      _["row"] = row_,
-      _["col"] = col_,
-      _["is_blank"] = is_blank_,
-      _["data_type"] = data_type_,
-      _["error"] = error_,
-      _["logical"] = logical_,
-      _["numeric"] = numeric_,
-      _["date"] = date_,
-      _["character"] = character_,
-      _["formula"] = formula_,
-      _["is_array"] = is_array_,
-      _["formula_ref"] = formula_ref_,
-      _["formula_group"] = formula_group_,
-      _["comment"] = comment_,
-      _["height"] = height_,
-      _["width"] = width_,
-      _["style_format"] = style_format_,
-      _["local_format_id"] = local_format_id_);
+
+  /* information_ = List::create( */
+  /*     _["sheet"] = sheet_, */
+  /*     _["address"] = address_, */
+  /*     _["row"] = row_, */
+  /*     _["col"] = col_, */
+  /*     _["is_blank"] = is_blank_, */
+  /*     _["data_type"] = data_type_, */
+  /*     _["error"] = error_, */
+  /*     _["logical"] = logical_, */
+  /*     _["numeric"] = numeric_, */
+  /*     _["date"] = date_, */
+  /*     _["character"] = character_, */
+  /*     _["formula"] = formula_, */
+  /*     _["is_array"] = is_array_, */
+  /*     _["formula_ref"] = formula_ref_, */
+  /*     _["formula_group"] = formula_group_, */
+  /*     _["character_formatted"] = character_formatted_, */
+  /*     _["height"] = height_, */
+  /*     _["width"] = width_, */
+  /*     _["style_format"] = style_format_, */
+  /*     _["local_format_id"] = local_format_id_); */
+
+  information_ = List(20);
+  information_[0] = sheet_;
+  information_[1] = address_;
+  information_[2] = row_;
+  information_[3] = col_;
+  information_[4] = is_blank_;
+  information_[5] = data_type_;
+  information_[6] = error_;
+  information_[7] = logical_;
+  information_[8] = numeric_;
+  information_[9] = date_;
+  information_[10] = character_;
+  information_[11] = formula_;
+  information_[12] = is_array_;
+  information_[13] = formula_ref_;
+  information_[14] = formula_group_;
+  information_[15] = comment_;
+  information_[16] = height_;
+  information_[17] = width_;
+  information_[18] = style_format_;
+  information_[19] = local_format_id_;
+
+  std::vector<std::string> names(20);
+  names[0]  = "sheet";
+  names[1]  = "address";
+  names[2]  = "row";
+  names[3]  = "col";
+  names[4]  = "is_blank";
+  names[5]  = "data_type";
+  names[6]  = "error";
+  names[7]  = "logical";
+  names[8]  = "numeric";
+  names[9]  = "date";
+  names[10] = "character";
+  names[11] = "formula";
+  names[12] = "is_array";
+  names[13] = "formula_ref";
+  names[14] = "formula_group";
+  names[15] = "comment";
+  names[16] = "height";
+  names[17] = "width";
+  names[18] = "style_format";
+  names[19] = "local_format_id";
+
+  information_.attr("names") = names;
 
   // Turn list of vectors into a data frame without checking anything
   int n = Rf_length(information_[0]);
