@@ -253,7 +253,7 @@ void xlsxstyles::cacheNumFmts(rapidxml::xml_node<>* styleSheet) {
 
 // From @reviewher https://github.com/tidyverse/readxl/issues/388
 #define CASEI(c) case c: case c | 0x20
-#define CMPLC(i,n) if(x[i+i] | 0x20 == n)
+#define CMPLC(j,n) if(x[i+j] | 0x20 == n)
 bool xlsxstyles::isDateFormat(std::string x) {
   char escaped = 0;
   char bracket = 0;
