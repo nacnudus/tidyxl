@@ -157,11 +157,11 @@ inline Rcpp::List parseFormattedString(
     ++n;
   }
 
-  std::vector<std::string> character;
   std::vector<int> bold;
   std::vector<int> italic;
   std::vector<int> underline;
   std::vector<double> size;
+  Rcpp::CharacterVector character(n, NA_STRING);
   Rcpp::CharacterVector color_rgb(n, NA_STRING);
   std::vector<int> color_theme;
   std::vector<int> color_indexed;
@@ -175,7 +175,6 @@ inline Rcpp::List parseFormattedString(
        node = node->next_sibling()) {
     std::string node_name = node->name();
     if (node_name == "t") {
-        character.push_back(node->value());
         bold.push_back(NA_LOGICAL);
         italic.push_back(NA_LOGICAL);
         underline.push_back(NA_LOGICAL);
@@ -183,8 +182,9 @@ inline Rcpp::List parseFormattedString(
         color_theme.push_back(NA_INTEGER);
         color_indexed.push_back(NA_INTEGER);
         family.push_back(NA_INTEGER);
+      SET_STRING_ELT(character, i, Rf_mkCharCE(node->value(), CE_UTF8));
     } else {
-      character.push_back(node->first_node("t")->value());
+      SET_STRING_ELT(character, i, Rf_mkCharCE(node->first_node("t")->value(), CE_UTF8));
       rapidxml::xml_node<>* rPr = node->first_node("rPr");
       if (rPr != NULL) {
         bold.push_back(rPr->first_node("b") != NULL);
