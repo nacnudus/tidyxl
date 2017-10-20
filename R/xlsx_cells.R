@@ -99,6 +99,12 @@
 #'   it as an index into the format structure.  E.g. to look up the font size,
 #'   `my_formats$local$font$size[local_format_id]`.  To see all available
 #'   formats, type `str(my_formats$local)`.
+#'
+#'   Strings can be formatted within a cell, so that a single cell can contain
+#'   substrings with different formatting.  This in-cell formatting is available
+#'   in the column `character_formatted`, which is a list-column of data frames.
+#'   Each row of each data frame describes a substring and its formatting.
+#'   When a particular format is `NA`, the overall cell format applies.
 #' }
 #'
 #' @export
@@ -124,6 +130,11 @@
 #' # the relevant indices, and then filter the cells by those indices.
 #' bold_indices <- which(formats$local$font$bold)
 #' Sheet1[Sheet1$local_format_id %in% bold_indices, ]
+#'
+#' # In-cell formatting is available in the `character_formatted` column as a
+#' # data frame, one row per substring.  When a particular format is `NA`, the
+#' # overall cell format applies.
+#' xlsx_cells(examples)$character_formatted[77]
 xlsx_cells <- function(path, sheets = NA) {
   path <- check_file(path)
   all_sheets <- utils_xlsx_sheet_files(path)

@@ -68,6 +68,9 @@ void xlsxbook::cacheStrings() {
     std::string out;
     parseString(string, out);    // missing strings are treated as empty ""
     strings_.push_back(out);
+
+    Rcpp::List out_df = parseFormattedString(string, styles_);
+    strings_formatted_.push_back(out_df);
   }
 }
 
@@ -147,6 +150,7 @@ void xlsxbook::initializeColumns() {
   formula_ref_     = CharacterVector(cellcount_, NA_STRING);
   formula_group_   = IntegerVector(cellcount_,   NA_INTEGER);
   comment_         = CharacterVector(cellcount_, NA_STRING);
+  character_formatted_ = List(cellcount_);
   height_          = NumericVector(cellcount_,   NA_REAL);
   width_           = NumericVector(cellcount_,   NA_REAL);
   style_format_    = CharacterVector(cellcount_, NA_STRING);
@@ -200,7 +204,7 @@ void xlsxbook::cacheInformation() {
   /*     _["style_format"] = style_format_, */
   /*     _["local_format_id"] = local_format_id_); */
 
-  information_ = List(20);
+  information_ = List(21);
   information_[0] = sheet_;
   information_[1] = address_;
   information_[2] = row_;
@@ -212,17 +216,18 @@ void xlsxbook::cacheInformation() {
   information_[8] = numeric_;
   information_[9] = date_;
   information_[10] = character_;
-  information_[11] = formula_;
-  information_[12] = is_array_;
-  information_[13] = formula_ref_;
-  information_[14] = formula_group_;
-  information_[15] = comment_;
-  information_[16] = height_;
-  information_[17] = width_;
-  information_[18] = style_format_;
-  information_[19] = local_format_id_;
+  information_[11] = character_formatted_;
+  information_[12] = formula_;
+  information_[13] = is_array_;
+  information_[14] = formula_ref_;
+  information_[15] = formula_group_;
+  information_[16] = comment_;
+  information_[17] = height_;
+  information_[18] = width_;
+  information_[19] = style_format_;
+  information_[20] = local_format_id_;
 
-  std::vector<std::string> names(20);
+  std::vector<std::string> names(21);
   names[0]  = "sheet";
   names[1]  = "address";
   names[2]  = "row";
@@ -234,15 +239,16 @@ void xlsxbook::cacheInformation() {
   names[8]  = "numeric";
   names[9]  = "date";
   names[10] = "character";
-  names[11] = "formula";
-  names[12] = "is_array";
-  names[13] = "formula_ref";
-  names[14] = "formula_group";
-  names[15] = "comment";
-  names[16] = "height";
-  names[17] = "width";
-  names[18] = "style_format";
-  names[19] = "local_format_id";
+  names[11] = "character_formatted";
+  names[12] = "formula";
+  names[13] = "is_array";
+  names[14] = "formula_ref";
+  names[15] = "formula_group";
+  names[16] = "comment";
+  names[17] = "height";
+  names[18] = "width";
+  names[19] = "style_format";
+  names[20] = "local_format_id";
 
   information_.attr("names") = names;
 

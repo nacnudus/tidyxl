@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include "rapidxml.h"
+#include "xlsxstyles.h"
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
 
 // Follow tidyverse/readxl
@@ -143,6 +144,124 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
     }
   }
   return found;
+}
+
+// Return a dataframe, one row per substring, columns for formatting
+inline Rcpp::List parseFormattedString(
+    const rapidxml::xml_node<>* string,
+    xlsxstyles& styles) {
+  int n(0); // number of substrings
+  for (rapidxml::xml_node<>* node = string->first_node();
+       node != NULL;
+       node = node->next_sibling()) {
+    ++n;
+  }
+
+  std::vector<std::string> character;
+  std::vector<int> bold;
+  std::vector<int> italic;
+  std::vector<int> underline;
+  std::vector<double> size;
+  Rcpp::CharacterVector color_rgb(n, NA_STRING);
+  std::vector<int> color_theme;
+  std::vector<int> color_indexed;
+  Rcpp::CharacterVector font(n, NA_STRING);
+  std::vector<int> family;
+  Rcpp::CharacterVector scheme(n, NA_STRING);
+
+  int i(0); // ith substring
+  for (rapidxml::xml_node<>* node = string->first_node();
+       node != NULL;
+       node = node->next_sibling()) {
+    std::string node_name = node->name();
+    if (node_name == "t") {
+        character.push_back(node->value());
+        bold.push_back(NA_LOGICAL);
+        italic.push_back(NA_LOGICAL);
+        underline.push_back(NA_LOGICAL);
+        size.push_back(NA_REAL);
+        color_theme.push_back(NA_INTEGER);
+        color_indexed.push_back(NA_INTEGER);
+        family.push_back(NA_INTEGER);
+    } else {
+      character.push_back(node->first_node("t")->value());
+      rapidxml::xml_node<>* rPr = node->first_node("rPr");
+      if (rPr != NULL) {
+        bold.push_back(rPr->first_node("b") != NULL);
+        italic.push_back(rPr->first_node("i") != NULL);
+        underline.push_back(rPr->first_node("u") != NULL);
+        rapidxml::xml_node<>* sz = rPr->first_node("sz");
+        if (sz != NULL) {
+          size.push_back(strtod(sz->value(), NULL));
+        } else {
+          size.push_back(NA_REAL);
+        }
+        rapidxml::xml_node<>* color = rPr->first_node("color");
+        if (color != NULL) {
+          rapidxml::xml_attribute<>* color_attr = color->first_attribute();
+          std::string attr_name = color_attr->name();
+          if (attr_name == "rgb") {
+            color_rgb[i] = color_attr->value();
+            color_theme.push_back(NA_INTEGER);
+            color_indexed.push_back(NA_INTEGER);
+          } else if (attr_name == "theme") {
+            int theme_int = strtol(color_attr->value(), NULL, 10) + 1;
+            color_rgb[i] = styles.theme_[theme_int - 1];
+            color_theme.push_back(theme_int);
+            color_indexed.push_back(NA_INTEGER);
+          } else if (attr_name == "indexed") {
+            // I haven't been able to force this in real life
+            int indexed_int = strtol(color_attr->value(), NULL, 10) + 1;
+            color_rgb[i] = styles.indexed_[indexed_int - 1];
+            color_theme.push_back(NA_INTEGER);
+            color_indexed.push_back(indexed_int);
+          }
+        } else {
+          color_theme.push_back(NA_INTEGER);
+          color_indexed.push_back(NA_INTEGER);
+        }
+        rapidxml::xml_node<>* rFont = rPr->first_node("rFont");
+        if (rFont != NULL) {
+          font[i] = rFont->first_attribute("val")->value();
+        }
+        rapidxml::xml_node<>* family_node = rPr->first_node("family");
+        if (family_node != NULL) {
+          family.push_back(strtol(family_node->first_attribute("val")->value(), NULL, 10));
+        } else {
+          family.push_back(NA_INTEGER);
+        }
+        rapidxml::xml_node<>* scheme_node = rPr->first_node("scheme");
+        if (scheme_node != NULL) {
+          scheme[i] = scheme_node->first_attribute("val")->value();
+        }
+      } else {
+        bold.push_back(NA_LOGICAL);
+        italic.push_back(NA_LOGICAL);
+        underline.push_back(NA_LOGICAL);
+        size.push_back(NA_REAL);
+        color_theme.push_back(NA_INTEGER);
+        color_indexed.push_back(NA_INTEGER);
+        family.push_back(NA_INTEGER);
+      }
+    }
+    ++i;
+  }
+  Rcpp::List out = Rcpp::List::create(
+      Rcpp::_["character"] = character,
+      Rcpp::_["bold"] = bold,
+      Rcpp::_["italic"] = italic,
+      Rcpp::_["underline"] = underline,
+      Rcpp::_["size"] = size,
+      Rcpp::_["color_rgb"] = color_rgb,
+      Rcpp::_["color_theme"] = color_theme,
+      Rcpp::_["color_indexed"] = color_indexed,
+      Rcpp::_["font"] = font,
+      Rcpp::_["family"] = family,
+      Rcpp::_["scheme"] = scheme);
+  // Turn list of vectors into a data frame without checking anything
+  out.attr("class") = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  out.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+  return out;
 }
 
 #endif

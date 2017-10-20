@@ -33,9 +33,10 @@ error, logical, numeric, date, character, blank.
 \item \code{numeric} The numeric value of a cell.
 \item \code{date} The date value of a cell.
 \item \code{character} The string value of a cell.
+\item \code{character_formatted} A data frame of substrings and their individual
+formatting.
 \item \code{formula} The formula in a cell (see 'Details').
-\item \code{formula_type} NA for ordinary formulas, or 'array' for array
-formulas.
+\item \code{is_array} Whether or not the formula is an array formula.
 \item \code{formula_ref} The address of a range of cells group to which an array
 formula or shared formula applies (see 'Details').
 \item \code{formula_group} The formula group to which the cell belongs (see
@@ -92,6 +93,12 @@ name are still provided.  To filter by an RGB string, you could  look up
 the RGB values in a spreadsheet program (e.g. Excel, LibreOffice,
 Gnumeric), and use the \code{\link[grDevices:rgb]{grDevices::rgb()}} function to convert these to a
 hexadecimal string.
+
+Strings can be formatted within a cell, so that a single cell can contain
+substrings with different formatting.  This in-cell formatting is available
+in the column \code{character_formatted}, which is a list-column of data frames.
+Each row of each data frame describes a substring and its formatting.
+When a particular format is \code{NA}, the overall cell format applies.
 }
 }
 \description{
@@ -179,5 +186,10 @@ x$formats$local$font$bold[Sheet1$local_format_id]
 # the relevant indices, and then filter the cells by those indices.
 bold_indices <- which(x$formats$local$font$bold)
 Sheet1[Sheet1$local_format_id \%in\% bold_indices, ]
+
+# In-cell formatting is available in the `character_formatted` column as a
+# data frame, one row per substring.  When a particular format is `NA`, the
+# overall cell format applies.
+tidy_xlsx(examples)$data$Sheet1$character_formatted[77]
 }
 }

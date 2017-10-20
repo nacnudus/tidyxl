@@ -15,7 +15,8 @@ class xlsxbook {
     Rcpp::CharacterVector sheet_names_;    // worksheet names
     Rcpp::CharacterVector comments_paths_; // comments files
     std::vector<std::string> strings_;     // strings table
-
+    std::vector<Rcpp::List> strings_formatted_; // strings with inline formatting
+                                                // list of data frames
     xlsxstyles styles_;
 
     int dateSystem_; // 1900 or 1904
@@ -44,6 +45,7 @@ class xlsxbook {
     Rcpp::CharacterVector formula_ref_;   // If present
     Rcpp::IntegerVector   formula_group_; // If present
     Rcpp::CharacterVector comment_;
+    Rcpp::List            character_formatted_; // data frame
     Rcpp::NumericVector   height_;          // Provided to cell constructor
     Rcpp::NumericVector   width_;           // Provided to cell constructor
     Rcpp::CharacterVector style_format_;    // cellXfs xfId links to cellStyleXfs entry

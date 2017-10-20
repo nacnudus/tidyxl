@@ -138,6 +138,7 @@ void xlsxcell::cacheValue(
     // into the string table.
     book.data_type_[i] = "character";
     SET_STRING_ELT(book.character_, i, Rf_mkCharCE(book.strings_[strtol(vvalue.c_str(), NULL, 10)].c_str(), CE_UTF8));
+    book.character_formatted_[i] = book.strings_formatted_[strtol(vvalue.c_str(), NULL, 10)];
     return;
   } else if (tvalue == "str") {
     // Formula, which could have evaluated to anything, so only a string is safe

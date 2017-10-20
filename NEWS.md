@@ -17,6 +17,7 @@
 * Provides a utility function `is_range()` to check whether formulas are simply
     ranges of cells.
 * Returns formatting of alignment and cell protection (#20).
+* Returns in-cell formatting of strings (#5)
 
 # tidyxl 0.2.3
 
