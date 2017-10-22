@@ -43,6 +43,7 @@ class xf {
   Rcpp::LogicalVector   applyProtection_;
 
     xf(); // Default constructor
+    xf(int& n);
     xf(rapidxml::xml_node<>* xf);
 
     // boolean value of an attribute

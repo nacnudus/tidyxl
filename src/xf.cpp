@@ -6,6 +6,31 @@ using namespace Rcpp;
 
 xf::xf() {} // Default constructor
 
+xf::xf(int& n):
+  numFmtId_(n),
+  fontId_(n),
+  fillId_(n),
+  borderId_(n),
+  readingOrderChr_(n),
+  horizontal_(n),
+  vertical_(n),
+  wrapText_(n),
+  readingOrder_(n),
+  indent_(n),
+  justifyLastLine_(n),
+  shrinkToFit_(n),
+  textRotation_(n),
+  locked_(n),
+  hidden_(n),
+  xfId_(n),
+  applyNumberFormat_(n),
+  applyFont_(n),
+  applyFill_(n),
+  applyBorder_(n),
+  applyAlignment_(n),
+  applyProtection_(n)
+{}
+
 xf::xf(rapidxml::xml_node<>* xf):
   readingOrderChr_{"context", "left-to-right", "right-to-left"}
 {

@@ -13,6 +13,13 @@ struct colors {
   Rcpp::IntegerVector   theme;
   Rcpp::IntegerVector   indexed;
   Rcpp::NumericVector   tint;
+  colors() {}
+  colors(int n):
+    rgb(n, NA_STRING),
+    theme(n, NA_INTEGER),
+    indexed(n, NA_INTEGER),
+    tint(n, NA_REAL)
+  {}
 };
 
 class xlsxstyles {
@@ -56,7 +63,8 @@ class xlsxstyles {
     void cacheFills(rapidxml::xml_node<>* styleSheet);
     void cacheBorders(rapidxml::xml_node<>* styleSheet);
 
-    void clone_color(color& from, colors& to); // Append values in one color to vectors in another
+    // Insert values of one color object into vectors in another
+    void clone_color(color& from, colors& to, int& i);
     Rcpp::List list_color(colors& original, bool is_style); // Convert struct to list
 
     void applyFormats(); // Build each style on top of the normal style
