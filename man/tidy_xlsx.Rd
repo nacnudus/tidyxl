@@ -98,7 +98,10 @@ Strings can be formatted within a cell, so that a single cell can contain
 substrings with different formatting.  This in-cell formatting is available
 in the column \code{character_formatted}, which is a list-column of data frames.
 Each row of each data frame describes a substring and its formatting.
-When a particular format is \code{NA}, the overall cell format applies.
+When a particular format is \code{NA}, the overall cell format applies -- if
+required, this can be obtained via \code{xlsx_formats()}.  For cells without a
+character value, \code{character_formatted} is \code{NULL}, so for further processing
+you might need to filter out the \code{NULL}s first.
 }
 }
 \description{

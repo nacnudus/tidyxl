@@ -147,7 +147,10 @@
 #'   substrings with different formatting.  This in-cell formatting is available
 #'   in the column `character_formatted`, which is a list-column of data frames.
 #'   Each row of each data frame describes a substring and its formatting.
-#'   When a particular format is `NA`, the overall cell format applies.
+#'   When a particular format is `NA`, the overall cell format applies -- if
+#'   required, this can be obtained via `xlsx_formats()`.  For cells without a
+#'   character value, `character_formatted` is `NULL`, so for further processing
+#'   you might need to filter out the `NULL`s first.
 #' }
 #'
 #' @export
