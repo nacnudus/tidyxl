@@ -90,7 +90,7 @@
       <h1>Data Validation Rules</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-10-17</h4>
+            <h4 class="date">2017-10-22</h4>
           </div>
 
     
@@ -216,7 +216,7 @@ rules
 <span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   error_symbol &lt;chr&gt;</span>
 cells
-<span class="co">#&gt; # A tibble: 20 x 20</span>
+<span class="co">#&gt; # A tibble: 20 x 21</span>
 <span class="co">#&gt;     sheet address   row   col is_blank data_type  error logical numeric</span>
 <span class="co">#&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt;    &lt;lgl&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;lgl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 Sheet1    A106   106     1    FALSE   numeric   &lt;NA&gt;      NA     0.0</span>
@@ -239,12 +239,13 @@ cells
 <span class="co">#&gt; 18 Sheet1    A129   129     1    FALSE   numeric   &lt;NA&gt;      NA     0.0</span>
 <span class="co">#&gt; 19 Sheet1    A130   130     1    FALSE   numeric   &lt;NA&gt;      NA    -1.0</span>
 <span class="co">#&gt; 20 Sheet1    A131   131     1    FALSE   numeric   &lt;NA&gt;      NA     1.0</span>
-<span class="co">#&gt; # ... with 11 more variables: date &lt;dttm&gt;, character &lt;chr&gt;, formula &lt;chr&gt;,</span>
-<span class="co">#&gt; #   is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;,</span>
-<span class="co">#&gt; #   height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span>
+<span class="co">#&gt; # ... with 12 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,</span>
+<span class="co">#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span>
 
 <span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(rules, cells, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"sheet"</span> =<span class="st"> "sheet"</span>, <span class="st">"ref"</span> =<span class="st"> "address"</span>))
-<span class="co">#&gt; # A tibble: 9 x 32</span>
+<span class="co">#&gt; # A tibble: 9 x 33</span>
 <span class="co">#&gt;    sheet   ref       type   operator            formula1</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;</span>
 <span class="co">#&gt; 1 Sheet1  A106      whole    between                   0</span>
@@ -256,14 +257,15 @@ cells
 <span class="co">#&gt; 7 Sheet1  A107    decimal notBetween                   0</span>
 <span class="co">#&gt; 8 Sheet1  A113     custom       &lt;NA&gt;     A113&lt;=LEN(B113)</span>
 <span class="co">#&gt; 9 Sheet1  A109       list       &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt; # ... with 27 more variables: formula2 &lt;chr&gt;, allow_blank &lt;lgl&gt;,</span>
+<span class="co">#&gt; # ... with 28 more variables: formula2 &lt;chr&gt;, allow_blank &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   show_input_message &lt;lgl&gt;, prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   error_symbol &lt;chr&gt;, row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   data_type &lt;chr&gt;, error &lt;chr&gt;, logical &lt;lgl&gt;, numeric &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   date &lt;dttm&gt;, character &lt;chr&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></code></pre></div>
+<span class="co">#&gt; #   date &lt;dttm&gt;, character &lt;chr&gt;, character_formatted &lt;list&gt;,</span>
+<span class="co">#&gt; #   formula &lt;chr&gt;, is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;,</span>
+<span class="co">#&gt; #   comment &lt;chr&gt;, height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;,</span>
+<span class="co">#&gt; #   local_format_id &lt;int&gt;</span></code></pre></div>
 <p>Notice that only 9 cells were joined, even though 15 rules were defined. Surely at least 15 cells ought to be joined? The reason why they are not is that the cells for the other 6 rules don’t exist – rules can be defined for cells that have no value, and cells with no value are not returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, otherwise all 17179869184 cells in a worksheet must be returned.</p>
 <p>A more subtle reason for certain cells not to have joined successfully is that the <code>ref</code> column of the rules sometimes refers to more than one cell, and can even refer to several, non-contiguous ranges of cells. Specifically, the seventh rule’s <code>ref</code> column has <code>A115,A121:A122</code>.</p>
 <p>Special treatment is needed here. Ideally, some kind of join function would be defined that can compare indidual cells with ranges. But I haven’t written one, so what follows is a workaround. First, the two ranges of cells must be <code>unnested</code> into <code>A115</code> and <code>A121:122</code>. Then the range <code>A121:122</code> must be ‘unranged’ into <code>A121</code> and <code>A122</code>.</p>

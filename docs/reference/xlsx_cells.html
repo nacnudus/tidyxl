@@ -156,8 +156,7 @@ error, logical, numeric, date, character, blank.</p></li>
 <li><p><code>date</code> The date value of a cell.</p></li>
 <li><p><code>character</code> The string value of a cell.</p></li>
 <li><p><code>formula</code> The formula in a cell (see 'Details').</p></li>
-<li><p><code>formula_type</code> NA for ordinary formulas, or 'array' for array
-formulas.</p></li>
+<li><p><code>is_array</code> Whether or not the formula is an array formula.</p></li>
 <li><p><code>formula_ref</code> The address of a range of cells group to which an array
 formula or shared formula applies (see 'Details').</p></li>
 <li><p><code>formula_group</code> The formula group to which the cell belongs (see
@@ -220,75 +219,2304 @@ These are returned in the <code>$style</code> and <code>$local</code> sublists o
 it as an index into the format structure.  E.g. to look up the font size,
 <code>my_formats$local$font$size[local_format_id]</code>.  To see all available
 formats, type <code>str(my_formats$local)</code>.
+    Strings can be formatted within a cell, so that a single cell can contain
+substrings with different formatting.  This in-cell formatting is available
+in the column <code>character_formatted</code>, which is a list-column of data frames.
+Each row of each data frame describes a substring and its formatting.
+When a particular format is <code>NA</code>, the overall cell format applies -- if
+required, this can be obtained via <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.  For cells without a
+character value, <code>character_formatted</code> is <code>NULL</code>, so for further processing
+you might need to filter out the <code>NULL</code>s first.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
 
 <span class='co'># All sheets</span>
-<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	247 obs. of  20 variables:
-#&gt;  $ sheet          : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
-#&gt;  $ address        : chr  "A1" "B1" "A2" "B2" ...
-#&gt;  $ row            : int  1 1 2 2 3 3 4 4 5 5 ...
-#&gt;  $ col            : int  1 2 1 2 1 2 1 2 1 2 ...
-#&gt;  $ is_blank       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#&gt;  $ data_type      : chr  "error" "character" "logical" "character" ...
-#&gt;  $ error          : chr  "#DIV/0!" NA NA NA ...
-#&gt;  $ logical        : logi  NA NA TRUE NA FALSE NA ...
-#&gt;  $ numeric        : num  NA NA NA NA NA ...
-#&gt;  $ date           : POSIXct, format: NA NA ...
-#&gt;  $ character      : chr  NA "Error" NA "Boolean (true)" ...
-#&gt;  $ formula        : chr  "1/0" NA NA NA ...
-#&gt;  $ is_array       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#&gt;  $ formula_ref    : chr  NA NA NA NA ...
-#&gt;  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
-#&gt;  $ comment        : chr  NA NA NA NA ...
-#&gt;  $ height         : num  14.2 14.2 14.2 14.2 14.2 ...
-#&gt;  $ width          : num  19.4 68 19.4 68 19.4 ...
-#&gt;  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...
-#&gt;  $ local_format_id: int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
+<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	247 obs. of  21 variables:
+#&gt;  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
+#&gt;  $ address            : chr  "A1" "B1" "A2" "B2" ...
+#&gt;  $ row                : int  1 1 2 2 3 3 4 4 5 5 ...
+#&gt;  $ col                : int  1 2 1 2 1 2 1 2 1 2 ...
+#&gt;  $ is_blank           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ data_type          : chr  "error" "character" "logical" "character" ...
+#&gt;  $ error              : chr  "#DIV/0!" NA NA NA ...
+#&gt;  $ logical            : logi  NA NA TRUE NA FALSE NA ...
+#&gt;  $ numeric            : num  NA NA NA NA NA ...
+#&gt;  $ date               : POSIXct, format: NA NA ...
+#&gt;  $ character          : chr  NA "Error" NA "Boolean (true)" ...
+#&gt;  $ character_formatted:List of 247
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Error"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Boolean (true)"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Boolean (false)"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "integer"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "integer with higher-precision number formatting"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "default date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Different built-in date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "custom date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "character"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "character"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "comment"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "comment with formatting"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Currency format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Percent format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Scientific format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to logical"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to a number"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to date"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to a string"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "some formulas that are stored in groups"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "single-cell array formula"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "multi-cell array formula"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "multi-cell array formula"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula that refers to another file"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal' style but 'normal' has been modified from Excel's default to use Arial font"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "italic"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local italics applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local bold applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local underline applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local double underline applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "bad"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'bad' style applied to this cell"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "badboldrightupindent"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'bad' style modified with bold font, right-and-up-aligned with an indent."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "custom style with custom date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "auto-font"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Automatic font colour"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "standardred"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'indexed' or standard red text"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "themeblue"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Blue text from the theme"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "bluepattern"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Pattern but no background, blue from theme"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "stylealign"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Custom style 'stylealign' where the style is aligned to the centre."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	16 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr  "in-cell" "bold" "italic" "underline" ...
+#&gt;   .. ..$ bold         : logi  FALSE TRUE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..$ italic       : logi  FALSE FALSE TRUE FALSE FALSE FALSE ...
+#&gt;   .. ..$ underline    : chr  NA NA NA "single" ...
+#&gt;   .. ..$ strike       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..$ vertAlign    : chr  NA NA NA NA ...
+#&gt;   .. ..$ size         : num  0 0 0 0 0 0 0 0 0 0 ...
+#&gt;   .. ..$ color_rgb    : chr  NA "FF000000" "FF000000" "FF000000" ...
+#&gt;   .. ..$ color_theme  : int  NA 2 2 2 2 2 2 2 2 2 ...
+#&gt;   .. ..$ color_indexed: int  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;   .. ..$ color_tint   : num  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;   .. ..$ font         : chr  "Calibri" "Calibri" "Calibri" "Calibri" ...
+#&gt;   .. ..$ family       : int  2 2 2 2 2 2 2 2 2 2 ...
+#&gt;   .. ..$ scheme       : chr  "minor" "minor" "minor" "minor" ...
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "in-cellbolditalicunderlineunderlinedoublesingleaccountingdoubleaccountingstrikethroughsuperscriptsubscriptredth"| __truncated__
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "yellowfillunderline12arialstrikethroughsuperscript"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "More fancy inline-string formatting"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "bottomborderslant"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Slanted text"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "merged"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Cell merged into cell below"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "unprotected"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "A cell that is not 'protected'"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "unhidden"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "A cell that is not 'hidden'"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "locked"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "A cell that is 'locked'"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "themebackground1"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Text is formatted the colour 'Background1' from the theme, i.e. white."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr  "in-cell-bold" "-not-bold"
+#&gt;   .. ..$ bold         : logi  TRUE FALSE
+#&gt;   .. ..$ italic       : logi  FALSE FALSE
+#&gt;   .. ..$ underline    : chr  NA NA
+#&gt;   .. ..$ strike       : logi  FALSE FALSE
+#&gt;   .. ..$ vertAlign    : chr  NA NA
+#&gt;   .. ..$ size         : num  0 0
+#&gt;   .. ..$ color_rgb    : chr  "FF000000" NA
+#&gt;   .. ..$ color_theme  : int  2 NA
+#&gt;   .. ..$ color_indexed: int  NA NA
+#&gt;   .. ..$ color_tint   : num  NA NA
+#&gt;   .. ..$ font         : chr  "Calibri" "Arial"
+#&gt;   .. ..$ family       : int  2 2
+#&gt;   .. ..$ scheme       : chr  "minor" NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Bold applied in inline string (not at cell level)"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr  "in-cell-bold" "-not-bold"
+#&gt;   .. ..$ bold         : logi  NA FALSE
+#&gt;   .. ..$ italic       : logi  NA FALSE
+#&gt;   .. ..$ underline    : chr  NA NA
+#&gt;   .. ..$ strike       : logi  NA FALSE
+#&gt;   .. ..$ vertAlign    : chr  NA NA
+#&gt;   .. ..$ size         : num  NA 0
+#&gt;   .. ..$ color_rgb    : chr  NA NA
+#&gt;   .. ..$ color_theme  : int  NA NA
+#&gt;   .. ..$ color_indexed: int  NA NA
+#&gt;   .. ..$ color_tint   : num  NA NA
+#&gt;   .. ..$ font         : chr  NA "Arial"
+#&gt;   .. ..$ family       : int  NA 2
+#&gt;   .. ..$ scheme       : chr  NA NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Bold applied at cell level"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "diagonal-up"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Diagonal-up border"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   .. [list output truncated]
+#&gt;  $ formula            : chr  "1/0" NA NA NA ...
+#&gt;  $ is_array           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ formula_ref        : chr  NA NA NA NA ...
+#&gt;  $ formula_group      : int  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;  $ comment            : chr  NA NA NA NA ...
+#&gt;  $ height             : num  14.2 14.2 14.2 14.2 14.2 ...
+#&gt;  $ width              : num  19.4 68 19.4 68 19.4 ...
+#&gt;  $ style_format       : chr  "Normal" "Normal" "Normal" "Normal" ...
+#&gt;  $ local_format_id    : int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># Specific sheet either by position or by name</span>
-<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  20 variables:
-#&gt;  $ sheet          : chr  "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°" "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°"
-#&gt;  $ address        : chr  "B2" "B6"
-#&gt;  $ row            : int  2 6
-#&gt;  $ col            : int  2 2
-#&gt;  $ is_blank       : logi  FALSE FALSE
-#&gt;  $ data_type      : chr  "character" "character"
-#&gt;  $ error          : chr  NA NA
-#&gt;  $ logical        : logi  NA NA
-#&gt;  $ numeric        : num  NA NA
-#&gt;  $ date           : POSIXct, format: NA NA
-#&gt;  $ character      : chr  "empty first row and col" "This worksheet has a nasty name but can be imported nevertheless"
-#&gt;  $ formula        : chr  NA NA
-#&gt;  $ is_array       : logi  FALSE FALSE
-#&gt;  $ formula_ref    : chr  NA NA
-#&gt;  $ formula_group  : int  NA NA
-#&gt;  $ comment        : chr  "nacnudus:\nComment3" NA
-#&gt;  $ height         : num  14.2 14.2
-#&gt;  $ width          : num  8.38 8.38
-#&gt;  $ style_format   : chr  "Normal" "Normal"
-#&gt;  $ local_format_id: int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	245 obs. of  20 variables:
-#&gt;  $ sheet          : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
-#&gt;  $ address        : chr  "A1" "B1" "A2" "B2" ...
-#&gt;  $ row            : int  1 1 2 2 3 3 4 4 5 5 ...
-#&gt;  $ col            : int  1 2 1 2 1 2 1 2 1 2 ...
-#&gt;  $ is_blank       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#&gt;  $ data_type      : chr  "error" "character" "logical" "character" ...
-#&gt;  $ error          : chr  "#DIV/0!" NA NA NA ...
-#&gt;  $ logical        : logi  NA NA TRUE NA FALSE NA ...
-#&gt;  $ numeric        : num  NA NA NA NA NA ...
-#&gt;  $ date           : POSIXct, format: NA NA ...
-#&gt;  $ character      : chr  NA "Error" NA "Boolean (true)" ...
-#&gt;  $ formula        : chr  "1/0" NA NA NA ...
-#&gt;  $ is_array       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#&gt;  $ formula_ref    : chr  NA NA NA NA ...
-#&gt;  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
-#&gt;  $ comment        : chr  NA NA NA NA ...
-#&gt;  $ height         : num  14.2 14.2 14.2 14.2 14.2 ...
-#&gt;  $ width          : num  19.4 68 19.4 68 19.4 ...
-#&gt;  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...
-#&gt;  $ local_format_id: int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
+<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  21 variables:
+#&gt;  $ sheet              : chr  "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°" "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°"
+#&gt;  $ address            : chr  "B2" "B6"
+#&gt;  $ row                : int  2 6
+#&gt;  $ col                : int  2 2
+#&gt;  $ is_blank           : logi  FALSE FALSE
+#&gt;  $ data_type          : chr  "character" "character"
+#&gt;  $ error              : chr  NA NA
+#&gt;  $ logical            : logi  NA NA
+#&gt;  $ numeric            : num  NA NA
+#&gt;  $ date               : POSIXct, format: NA NA
+#&gt;  $ character          : chr  "empty first row and col" "This worksheet has a nasty name but can be imported nevertheless"
+#&gt;  $ character_formatted:List of 2
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "empty first row and col"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "This worksheet has a nasty name but can be imported nevertheless"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;  $ formula            : chr  NA NA
+#&gt;  $ is_array           : logi  FALSE FALSE
+#&gt;  $ formula_ref        : chr  NA NA
+#&gt;  $ formula_group      : int  NA NA
+#&gt;  $ comment            : chr  "nacnudus:\nComment3" NA
+#&gt;  $ height             : num  14.2 14.2
+#&gt;  $ width              : num  8.38 8.38
+#&gt;  $ style_format       : chr  "Normal" "Normal"
+#&gt;  $ local_format_id    : int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	245 obs. of  21 variables:
+#&gt;  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
+#&gt;  $ address            : chr  "A1" "B1" "A2" "B2" ...
+#&gt;  $ row                : int  1 1 2 2 3 3 4 4 5 5 ...
+#&gt;  $ col                : int  1 2 1 2 1 2 1 2 1 2 ...
+#&gt;  $ is_blank           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ data_type          : chr  "error" "character" "logical" "character" ...
+#&gt;  $ error              : chr  "#DIV/0!" NA NA NA ...
+#&gt;  $ logical            : logi  NA NA TRUE NA FALSE NA ...
+#&gt;  $ numeric            : num  NA NA NA NA NA ...
+#&gt;  $ date               : POSIXct, format: NA NA ...
+#&gt;  $ character          : chr  NA "Error" NA "Boolean (true)" ...
+#&gt;  $ character_formatted:List of 245
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Error"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Boolean (true)"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Boolean (false)"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "integer"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "integer with higher-precision number formatting"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "default date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Different built-in date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "custom date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "character"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "character"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "comment"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "comment with formatting"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Currency format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Percent format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Scientific format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to logical"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to a number"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to date"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula evaluating to a string"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "some formulas that are stored in groups"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "single-cell array formula"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "multi-cell array formula"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "multi-cell array formula"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "formula that refers to another file"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal' style but 'normal' has been modified from Excel's default to use Arial font"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "italic"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local italics applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local bold applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local underline applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "normal"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'normal' style but with local double underline applied to this cell."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "bad"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'bad' style applied to this cell"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "badboldrightupindent"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'bad' style modified with bold font, right-and-up-aligned with an indent."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "custom style with custom date format"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "auto-font"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Automatic font colour"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "standardred"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "'indexed' or standard red text"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "themeblue"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Blue text from the theme"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "bluepattern"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Pattern but no background, blue from theme"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "stylealign"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Custom style 'stylealign' where the style is aligned to the centre."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	16 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr  "in-cell" "bold" "italic" "underline" ...
+#&gt;   .. ..$ bold         : logi  FALSE TRUE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..$ italic       : logi  FALSE FALSE TRUE FALSE FALSE FALSE ...
+#&gt;   .. ..$ underline    : chr  NA NA NA "single" ...
+#&gt;   .. ..$ strike       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;   .. ..$ vertAlign    : chr  NA NA NA NA ...
+#&gt;   .. ..$ size         : num  0 0 0 0 0 0 0 0 0 0 ...
+#&gt;   .. ..$ color_rgb    : chr  NA "FF000000" "FF000000" "FF000000" ...
+#&gt;   .. ..$ color_theme  : int  NA 2 2 2 2 2 2 2 2 2 ...
+#&gt;   .. ..$ color_indexed: int  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;   .. ..$ color_tint   : num  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;   .. ..$ font         : chr  "Calibri" "Calibri" "Calibri" "Calibri" ...
+#&gt;   .. ..$ family       : int  2 2 2 2 2 2 2 2 2 2 ...
+#&gt;   .. ..$ scheme       : chr  "minor" "minor" "minor" "minor" ...
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "in-cellbolditalicunderlineunderlinedoublesingleaccountingdoubleaccountingstrikethroughsuperscriptsubscriptredth"| __truncated__
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "yellowfillunderline12arialstrikethroughsuperscript"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "More fancy inline-string formatting"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "bottomborderslant"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Slanted text"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "merged"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Cell merged into cell below"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ : NULL
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "unprotected"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "A cell that is not 'protected'"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "unhidden"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "A cell that is not 'hidden'"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "locked"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "A cell that is 'locked'"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "themebackground1"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Text is formatted the colour 'Background1' from the theme, i.e. white."
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr  "in-cell-bold" "-not-bold"
+#&gt;   .. ..$ bold         : logi  TRUE FALSE
+#&gt;   .. ..$ italic       : logi  FALSE FALSE
+#&gt;   .. ..$ underline    : chr  NA NA
+#&gt;   .. ..$ strike       : logi  FALSE FALSE
+#&gt;   .. ..$ vertAlign    : chr  NA NA
+#&gt;   .. ..$ size         : num  0 0
+#&gt;   .. ..$ color_rgb    : chr  "FF000000" NA
+#&gt;   .. ..$ color_theme  : int  2 NA
+#&gt;   .. ..$ color_indexed: int  NA NA
+#&gt;   .. ..$ color_tint   : num  NA NA
+#&gt;   .. ..$ font         : chr  "Calibri" "Arial"
+#&gt;   .. ..$ family       : int  2 2
+#&gt;   .. ..$ scheme       : chr  "minor" NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Bold applied in inline string (not at cell level)"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr  "in-cell-bold" "-not-bold"
+#&gt;   .. ..$ bold         : logi  NA FALSE
+#&gt;   .. ..$ italic       : logi  NA FALSE
+#&gt;   .. ..$ underline    : chr  NA NA
+#&gt;   .. ..$ strike       : logi  NA FALSE
+#&gt;   .. ..$ vertAlign    : chr  NA NA
+#&gt;   .. ..$ size         : num  NA 0
+#&gt;   .. ..$ color_rgb    : chr  NA NA
+#&gt;   .. ..$ color_theme  : int  NA NA
+#&gt;   .. ..$ color_indexed: int  NA NA
+#&gt;   .. ..$ color_tint   : num  NA NA
+#&gt;   .. ..$ font         : chr  NA "Arial"
+#&gt;   .. ..$ family       : int  NA 2
+#&gt;   .. ..$ scheme       : chr  NA NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Bold applied at cell level"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "diagonal-up"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
+#&gt;   .. ..$ character    : chr "Diagonal-up border"
+#&gt;   .. ..$ bold         : logi NA
+#&gt;   .. ..$ italic       : logi NA
+#&gt;   .. ..$ underline    : chr NA
+#&gt;   .. ..$ strike       : logi NA
+#&gt;   .. ..$ vertAlign    : chr NA
+#&gt;   .. ..$ size         : num NA
+#&gt;   .. ..$ color_rgb    : chr NA
+#&gt;   .. ..$ color_theme  : int NA
+#&gt;   .. ..$ color_indexed: int NA
+#&gt;   .. ..$ color_tint   : num NA
+#&gt;   .. ..$ font         : chr NA
+#&gt;   .. ..$ family       : int NA
+#&gt;   .. ..$ scheme       : chr NA
+#&gt;   .. [list output truncated]
+#&gt;  $ formula            : chr  "1/0" NA NA NA ...
+#&gt;  $ is_array           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#&gt;  $ formula_ref        : chr  NA NA NA NA ...
+#&gt;  $ formula_group      : int  NA NA NA NA NA NA NA NA NA NA ...
+#&gt;  $ comment            : chr  NA NA NA NA ...
+#&gt;  $ height             : num  14.2 14.2 14.2 14.2 14.2 ...
+#&gt;  $ width              : num  19.4 68 19.4 68 19.4 ...
+#&gt;  $ style_format       : chr  "Normal" "Normal" "Normal" "Normal" ...
+#&gt;  $ local_format_id    : int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># The formats of particular cells can be retrieved like this:</span>
 
 <span class='no'>Sheet1</span> <span class='kw'>&lt;-</span> <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>Sheet1</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: 'Sheet1'.</span></div><div class='input'><span class='no'>formats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xlsx_formats.html'>xlsx_formats</a></span>(<span class='no'>examples</span>)
@@ -297,7 +2525,34 @@ formats, type <code>str(my_formats$local)</code>.
 <span class='co'># To filter for cells of a particular format, first filter the formats to get</span>
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
-<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; NULL</div></pre>
+<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; NULL</div><div class='input'>
+<span class='co'># In-cell formatting is available in the `character_formatted` column as a</span>
+<span class='co'># data frame, one row per substring.  When a particular format is `NA`, the</span>
+<span class='co'># overall cell format applies.</span>
+<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]</div><div class='output co'>#&gt; [[1]]
+#&gt; # A tibble: 16 x 14
+#&gt;                                character  bold italic        underline strike
+#&gt;                                    &lt;chr&gt; &lt;lgl&gt;  &lt;lgl&gt;            &lt;chr&gt;  &lt;lgl&gt;
+#&gt;  1                               in-cell FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt;  2                                  bold  TRUE  FALSE             &lt;NA&gt;  FALSE
+#&gt;  3                                italic FALSE   TRUE             &lt;NA&gt;  FALSE
+#&gt;  4                             underline FALSE  FALSE           single  FALSE
+#&gt;  5                       underlinedouble FALSE  FALSE           double  FALSE
+#&gt;  6                      singleaccounting FALSE  FALSE singleAccounting  FALSE
+#&gt;  7                      doubleaccounting FALSE  FALSE doubleAccounting  FALSE
+#&gt;  8                         strikethrough FALSE  FALSE             &lt;NA&gt;   TRUE
+#&gt;  9                             subscript FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 10                           superscript FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 11                                   red FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 12                                 theme FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 13                                  tint FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 14                                  size FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 15                                 arial FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; 16 "UTF8Stéphane\nmultilinecustomheight" FALSE  FALSE             &lt;NA&gt;  FALSE
+#&gt; # ... with 9 more variables: vertAlign &lt;chr&gt;, size &lt;dbl&gt;, color_rgb &lt;chr&gt;,
+#&gt; #   color_theme &lt;int&gt;, color_indexed &lt;int&gt;, color_tint &lt;dbl&gt;, font &lt;chr&gt;,
+#&gt; #   family &lt;int&gt;, scheme &lt;chr&gt;
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

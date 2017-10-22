@@ -67,27 +67,396 @@ readxl::read_excel(titanic)
 library(tidyxl)
 x <- xlsx_cells(titanic)
 str(x)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  20 variables:
-#>  $ sheet          : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
-#>  $ address        : chr  "C1" "D1" "E1" "F1" ...
-#>  $ row            : int  1 1 1 1 1 2 2 2 2 2 ...
-#>  $ col            : int  3 4 5 6 7 3 4 5 6 7 ...
-#>  $ is_blank       : logi  FALSE FALSE TRUE FALSE TRUE FALSE ...
-#>  $ data_type      : chr  "character" "character" "blank" "character" ...
-#>  $ error          : chr  NA NA NA NA ...
-#>  $ logical        : logi  NA NA NA NA NA NA ...
-#>  $ numeric        : num  NA NA NA NA NA NA NA NA NA NA ...
-#>  $ date           : POSIXct, format: NA NA ...
-#>  $ character      : chr  "Age" "Child" NA "Adult" ...
-#>  $ formula        : chr  NA NA NA NA ...
-#>  $ is_array       : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#>  $ formula_ref    : chr  NA NA NA NA ...
-#>  $ formula_group  : int  NA NA NA NA NA NA NA NA NA NA ...
-#>  $ comment        : chr  NA NA NA NA ...
-#>  $ height         : num  15 15 15 15 15 15 15 15 15 15 ...
-#>  $ width          : num  8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 ...
-#>  $ style_format   : chr  "Normal" "Normal" "Normal" "Normal" ...
-#>  $ local_format_id: int  2 3 3 3 3 2 3 3 3 3 ...
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  21 variables:
+#>  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
+#>  $ address            : chr  "C1" "D1" "E1" "F1" ...
+#>  $ row                : int  1 1 1 1 1 2 2 2 2 2 ...
+#>  $ col                : int  3 4 5 6 7 3 4 5 6 7 ...
+#>  $ is_blank           : logi  FALSE FALSE TRUE FALSE TRUE FALSE ...
+#>  $ data_type          : chr  "character" "character" "blank" "character" ...
+#>  $ error              : chr  NA NA NA NA ...
+#>  $ logical            : logi  NA NA NA NA NA NA ...
+#>  $ numeric            : num  NA NA NA NA NA NA NA NA NA NA ...
+#>  $ date               : POSIXct, format: NA NA ...
+#>  $ character          : chr  "Age" "Child" NA "Adult" ...
+#>  $ character_formatted:List of 60
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Age"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Child"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Adult"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Survived"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "No"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Yes"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "No"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Yes"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Class"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Sex"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "1st"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Male"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Female"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "2nd"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Male"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Female"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "3rd"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Male"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Female"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Crew"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Male"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ :Classes 'tbl_df', 'tbl' and 'data.frame': 1 obs. of  14 variables:
+#>   .. ..$ character    : chr "Female"
+#>   .. ..$ bold         : logi NA
+#>   .. ..$ italic       : logi NA
+#>   .. ..$ underline    : chr NA
+#>   .. ..$ strike       : logi NA
+#>   .. ..$ vertAlign    : chr NA
+#>   .. ..$ size         : num NA
+#>   .. ..$ color_rgb    : chr NA
+#>   .. ..$ color_theme  : int NA
+#>   .. ..$ color_indexed: int NA
+#>   .. ..$ color_tint   : num NA
+#>   .. ..$ font         : chr NA
+#>   .. ..$ family       : int NA
+#>   .. ..$ scheme       : chr NA
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>   ..$ : NULL
+#>  $ formula            : chr  NA NA NA NA ...
+#>  $ is_array           : logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
+#>  $ formula_ref        : chr  NA NA NA NA ...
+#>  $ formula_group      : int  NA NA NA NA NA NA NA NA NA NA ...
+#>  $ comment            : chr  NA NA NA NA ...
+#>  $ height             : num  15 15 15 15 15 15 15 15 15 15 ...
+#>  $ width              : num  8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 8.38 ...
+#>  $ style_format       : chr  "Normal" "Normal" "Normal" "Normal" ...
+#>  $ local_format_id    : int  2 3 3 3 3 2 3 3 3 3 ...
 ```
 
 In this structure, the cells can be found by filtering.

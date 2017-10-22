@@ -163,9 +163,10 @@ error, logical, numeric, date, character, blank.</p></li>
 <li><p><code>numeric</code> The numeric value of a cell.</p></li>
 <li><p><code>date</code> The date value of a cell.</p></li>
 <li><p><code>character</code> The string value of a cell.</p></li>
+<li><p><code>character_formatted</code> A data frame of substrings and their individual
+formatting.</p></li>
 <li><p><code>formula</code> The formula in a cell (see 'Details').</p></li>
-<li><p><code>formula_type</code> NA for ordinary formulas, or 'array' for array
-formulas.</p></li>
+<li><p><code>is_array</code> Whether or not the formula is an array formula.</p></li>
 <li><p><code>formula_ref</code> The address of a range of cells group to which an array
 formula or shared formula applies (see 'Details').</p></li>
 <li><p><code>formula_group</code> The formula group to which the cell belongs (see
@@ -224,6 +225,15 @@ name are still provided.  To filter by an RGB string, you could  look up
 the RGB values in a spreadsheet program (e.g. Excel, LibreOffice,
 Gnumeric), and use the <code><a href='http://www.rdocumentation.org/packages/grDevices/topics/rgb'>grDevices::rgb()</a></code> function to convert these to a
 hexadecimal string.
+
+Strings can be formatted within a cell, so that a single cell can contain
+substrings with different formatting.  This in-cell formatting is available
+in the column <code>character_formatted</code>, which is a list-column of data frames.
+Each row of each data frame describes a substring and its formatting.
+When a particular format is <code>NA</code>, the overall cell format applies -- if
+required, this can be obtained via <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.  For cells without a
+character value, <code>character_formatted</code> is <code>NULL</code>, so for further processing
+you might need to filter out the <code>NULL</code>s first.
 
 
     
@@ -294,6 +304,11 @@ formats, type <code>str(x$formats$local)</code>.
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>x</span>$<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
 <span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]
+
+<span class='co'># In-cell formatting is available in the `character_formatted` column as a</span>
+<span class='co'># data frame, one row per substring.  When a particular format is `NA`, the</span>
+<span class='co'># overall cell format applies.</span>
+<span class='fu'>tidy_xlsx</span>(<span class='no'>examples</span>)$<span class='no'>data</span>$<span class='no'>Sheet1</span>$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
