@@ -281,6 +281,7 @@ inline Rcpp::List parseFormattedString(
       Rcpp::_["color_rgb"] = color_rgb,
       Rcpp::_["color_theme"] = color_theme,
       Rcpp::_["color_indexed"] = color_indexed,
+      Rcpp::_["color_tint"] = color_tint,
       Rcpp::_["font"] = font,
       Rcpp::_["family"] = family,
       Rcpp::_["scheme"] = scheme);
