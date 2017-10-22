@@ -16,7 +16,7 @@ class font {
     Rcpp::String        u_;         // underline (val attribute e.g. "none" or no attribute at all)
     Rcpp::LogicalVector strike_;    // strikethrough
     Rcpp::String        vertAlign_; // (val attribute)
-    Rcpp::IntegerVector size_;      // or sz for googlesheets
+    Rcpp::NumericVector size_;      // or sz for googlesheets
     color               color_;
     Rcpp::String        name_;
     Rcpp::IntegerVector family_;

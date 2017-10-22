@@ -19,7 +19,7 @@ font::font(rapidxml::xml_node<>* font,
 
   strike_    = LogicalVector::create(false);
   vertAlign_ = NA_STRING;
-  size_      = IntegerVector::create(NA_INTEGER);
+  size_      = NumericVector::create(NA_REAL);
 
   name_      = NA_STRING;
   family_    = IntegerVector::create(NA_INTEGER);
@@ -62,10 +62,10 @@ font::font(rapidxml::xml_node<>* font,
   rapidxml::xml_node<>* size = font->first_node("size");
   rapidxml::xml_node<>* sz = font->first_node("sz");
   if (size != NULL) {
-    size_[0] = strtol(size->first_attribute("val")->value(), NULL, 10);
+    size_[0] = strtod(size->first_attribute("val")->value(), NULL);
   } else {
     if (sz != NULL) {
-      size_[0] = strtol(sz->first_attribute("val")->value(), NULL, 10);
+      size_[0] = strtod(sz->first_attribute("val")->value(), NULL);
     }
   }
 
