@@ -182,28 +182,6 @@ void xlsxbook::cacheInformation() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
 
-  /* information_ = List::create( */
-  /*     _["sheet"] = sheet_, */
-  /*     _["address"] = address_, */
-  /*     _["row"] = row_, */
-  /*     _["col"] = col_, */
-  /*     _["is_blank"] = is_blank_, */
-  /*     _["data_type"] = data_type_, */
-  /*     _["error"] = error_, */
-  /*     _["logical"] = logical_, */
-  /*     _["numeric"] = numeric_, */
-  /*     _["date"] = date_, */
-  /*     _["character"] = character_, */
-  /*     _["formula"] = formula_, */
-  /*     _["is_array"] = is_array_, */
-  /*     _["formula_ref"] = formula_ref_, */
-  /*     _["formula_group"] = formula_group_, */
-  /*     _["character_formatted"] = character_formatted_, */
-  /*     _["height"] = height_, */
-  /*     _["width"] = width_, */
-  /*     _["style_format"] = style_format_, */
-  /*     _["local_format_id"] = local_format_id_); */
-
   information_ = List(21);
   information_[0] = sheet_;
   information_[1] = address_;
