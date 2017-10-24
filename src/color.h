@@ -11,10 +11,10 @@ class color {
 
   public:
 
-    Rcpp::String        rgb_;
-    Rcpp::IntegerVector theme_;
-    Rcpp::IntegerVector indexed_;
-    Rcpp::NumericVector tint_;
+    Rcpp::String rgb_;
+    int          theme_;
+    int          indexed_;
+    double       tint_;
 
     color(); // default constructor
     color(rapidxml::xml_node<>* color, xlsxstyles* styles);

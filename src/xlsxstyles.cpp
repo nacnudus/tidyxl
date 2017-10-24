@@ -357,9 +357,9 @@ void xlsxstyles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
 
 void xlsxstyles::clone_color(color& from, colors& to, int& i) {
     to.rgb[i] = from.rgb_;
-    to.theme[i] = from.theme_[0];
-    to.indexed[i] = from.indexed_[0];
-    to.tint[i] = from.tint_[0];
+    to.theme[i] = from.theme_;
+    to.indexed[i] = from.indexed_;
+    to.tint[i] = from.tint_;
 }
 
 List xlsxstyles::list_color(colors& original, bool is_style) {
@@ -600,15 +600,15 @@ List xlsxstyles::zipFormats(xf styles, bool is_style) {
 
     numFmts[i] = numFmts_[styles.numFmtId_[i]];
 
-    fonts_b[i] = font->b_[0];
-    fonts_i[i] = font->i_[0];
+    fonts_b[i] = font->b_;
+    fonts_i[i] = font->i_;
     fonts_u[i] = font->u_;
-    fonts_strike[i] = font->strike_[0];
+    fonts_strike[i] = font->strike_;
     fonts_vertAlign[i] = font->vertAlign_;
-    fonts_size[i] = font->size_[0];
+    fonts_size[i] = font->size_;
     clone_color(font->color_, fonts_color, i);
     fonts_name[i] = font->name_;
-    fonts_family[i] = font->family_[0];
+    fonts_family[i] = font->family_;
     fonts_scheme[i] = font->scheme_;
 
     clone_color(fill->patternFill_.fgColor_, fills_patternFill_fgColor, i);
@@ -616,17 +616,17 @@ List xlsxstyles::zipFormats(xf styles, bool is_style) {
     fills_patternFill_patternType[i] = fill->patternFill_.patternType_;
 
     fills_gradientFill_type[i] = fill->gradientFill_.type_;
-    fills_gradientFill_degree[i] = fill->gradientFill_.degree_[0];
-    fills_gradientFill_left[i] = fill->gradientFill_.left_[0];
-    fills_gradientFill_right[i] = fill->gradientFill_.right_[0];
-    fills_gradientFill_top[i] = fill->gradientFill_.top_[0];
-    fills_gradientFill_bottom[i] = fill->gradientFill_.bottom_[0];
+    fills_gradientFill_degree[i] = fill->gradientFill_.degree_;
+    fills_gradientFill_left[i] = fill->gradientFill_.left_;
+    fills_gradientFill_right[i] = fill->gradientFill_.right_;
+    fills_gradientFill_top[i] = fill->gradientFill_.top_;
+    fills_gradientFill_bottom[i] = fill->gradientFill_.bottom_;
     clone_color(fill->gradientFill_.color1_, fills_gradientFill_color1, i);
     clone_color(fill->gradientFill_.color2_, fills_gradientFill_color2, i);
 
-    borders_diagonalDown[i] = border->diagonalDown_[0];
-    borders_diagonalUp[i] = border->diagonalUp_[0];
-    borders_outline[i] = border->outline_[0];
+    borders_diagonalDown[i] = border->diagonalDown_;
+    borders_diagonalUp[i] = border->diagonalUp_;
+    borders_outline[i] = border->outline_;
 
     borders_left_style[i] = border->left_.style_;
     borders_right_style[i] = border->right_.style_;

@@ -14,36 +14,54 @@ gradientFill::gradientFill(
     ) {
   // Initialize variables
   type_   = NA_STRING;
-  degree_ = IntegerVector::create(NA_INTEGER);
-  left_   = NumericVector::create(NA_REAL);
-  right_  = NumericVector::create(NA_REAL);
-  top_    = NumericVector::create(NA_REAL);
-  bottom_ = NumericVector::create(NA_REAL);
+  degree_ = NA_INTEGER;
+  left_   = NA_REAL;
+  right_  = NA_REAL;
+  top_    = NA_REAL;
+  bottom_ = NA_REAL;
 
   if (gradientFill != NULL) {
     rapidxml::xml_attribute<>* type = gradientFill->first_attribute("type");
-    if (type != NULL)
+    if (type != NULL) {
       type_ = type->value();
+    } else {
+      type_ = NA_STRING;
+    }
 
     rapidxml::xml_attribute<>* degree = gradientFill->first_attribute("degree");
-    if (degree != NULL)
-      degree_[0] = strtol(degree->value(), NULL, 10);
+    if (degree != NULL) {
+      degree_ = strtol(degree->value(), NULL, 10);
+    } else {
+      degree_ = NA_INTEGER;
+    }
 
     rapidxml::xml_attribute<>* left = gradientFill->first_attribute("left");
-    if (left != NULL)
-      left_[0] = strtod(left->value(), NULL);
+    if (left != NULL) {
+      left_ = strtod(left->value(), NULL);
+    } else {
+      left_ = NA_REAL;
+    }
 
     rapidxml::xml_attribute<>* right = gradientFill->first_attribute("right");
-    if (right != NULL)
-      right_[0] = strtod(right->value(), NULL);
+    if (right != NULL) {
+      right_ = strtod(right->value(), NULL);
+    } else {
+      right_ = NA_REAL;
+    }
 
     rapidxml::xml_attribute<>* top = gradientFill->first_attribute("top");
-    if (top != NULL)
-      top_[0] = strtod(top->value(), NULL);
+    if (top != NULL) {
+      top_ = strtod(top->value(), NULL);
+    } else {
+      top_ = NA_REAL;
+    }
 
     rapidxml::xml_attribute<>* bottom = gradientFill->first_attribute("bottom");
-    if (bottom != NULL)
-      bottom_[0] = strtod(bottom->value(), NULL);
+    if (bottom != NULL) {
+      bottom_ = strtod(bottom->value(), NULL);
+    } else {
+      bottom_ = NA_REAL;
+    }
 
     rapidxml::xml_node<>* stop_node = gradientFill->first_node("stop");
     color1_ = color(stop_node, styles);
