@@ -81,7 +81,7 @@ describes the cell's address, value and other properties.
 ```{r, echo = TRUE}
 library(tidyxl)
 x <- xlsx_cells(titanic)
-str(x)
+dplyr::glimpse(x)
 ```
 
 In this structure, the cells can be found by filtering.
