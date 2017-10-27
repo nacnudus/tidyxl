@@ -18,6 +18,7 @@
     ranges of cells.
 * Returns formatting of alignment and cell protection (#20).
 * Returns in-cell formatting of strings (#5)
+* Improves the performance of parsing formats vastly.
 
 # tidyxl 0.2.3
 

@@ -324,10 +324,12 @@ void xlsxstyles::cacheCellXfs(rapidxml::xml_node<>* styleSheet) {
 
 void xlsxstyles::cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet) {
   rapidxml::xml_node<>* cellStyleXfs = styleSheet->first_node("cellStyleXfs");
+  int i(0);
   for (rapidxml::xml_node<>* xf_node = cellStyleXfs->first_node("xf");
       xf_node; xf_node = xf_node->next_sibling()) {
     xf xf(xf_node);
     cellStyleXfs_.push_back(xf);
+    ++i;
   }
 
   // Get the names of the styles, if available
@@ -381,156 +383,155 @@ List xlsxstyles::list_color(colors& original, bool is_style) {
 void xlsxstyles::applyFormats() {
   // Get the normal style
   xf normal = cellStyleXfs_[0];
-  int n = cellStyleXfs_.size();
-  style_formats_ = xf(n);
 
-  style_formats_.numFmtId_[0] = normal.numFmtId_[0];
-  style_formats_.fontId_[0] = normal.fontId_[0];
-  style_formats_.fillId_[0] = normal.fillId_[0];
-  style_formats_.borderId_[0] = normal.borderId_[0];
-  style_formats_.horizontal_[0] = normal.horizontal_[0];
-  style_formats_.vertical_[0] = normal.vertical_[0];
-  style_formats_.wrapText_[0] = normal.wrapText_[0];
-  style_formats_.readingOrder_[0] = normal.readingOrder_[0];
-  style_formats_.indent_[0] = normal.indent_[0];
-  style_formats_.justifyLastLine_[0] = normal.justifyLastLine_[0];
-  style_formats_.shrinkToFit_[0] = normal.shrinkToFit_[0];
-  style_formats_.textRotation_[0] = normal.textRotation_[0];
-  style_formats_.locked_[0] = normal.locked_[0];
-  style_formats_.hidden_[0] = normal.hidden_[0];
+  style_formats_.emplace_back(xf());
+  style_formats_[0].numFmtId_ = normal.numFmtId_;
+  style_formats_[0].fontId_ = normal.fontId_;
+  style_formats_[0].fillId_ = normal.fillId_;
+  style_formats_[0].borderId_ = normal.borderId_;
+  style_formats_[0].horizontal_ = normal.horizontal_.get_sexp(); // force copy
+  style_formats_[0].vertical_ = normal.vertical_.get_sexp();
+  style_formats_[0].wrapText_ = normal.wrapText_;
+  style_formats_[0].readingOrder_ = normal.readingOrder_.get_sexp();
+  style_formats_[0].indent_ = normal.indent_;
+  style_formats_[0].justifyLastLine_ = normal.justifyLastLine_;
+  style_formats_[0].shrinkToFit_ = normal.shrinkToFit_;
+  style_formats_[0].textRotation_ = normal.textRotation_;
+  style_formats_[0].locked_ = normal.locked_;
+  style_formats_[0].hidden_ = normal.hidden_;
 
   // For all other style_formats_, override the normal style if 'apply X' is 1 or NA
-  int i(0);
+  int i(1);
   for(std::vector<xf>::iterator it = cellStyleXfs_.begin() + 1;
       it != cellStyleXfs_.end(); ++it) {
-    if (it->applyNumberFormat_[0] != 0) {
-      style_formats_.numFmtId_[i] = (it->numFmtId_[0]);
+    style_formats_.emplace_back(xf());
+    if (it->applyNumberFormat_ != 0) {
+      style_formats_[i].numFmtId_ = (it->numFmtId_);
     } else {
-      style_formats_.numFmtId_[i] = (normal.numFmtId_[0]);
+      style_formats_[i].numFmtId_ = (normal.numFmtId_);
     }
 
-    if (it->applyFont_[0] != 0) {
-      style_formats_.fontId_[i] = (it->fontId_[0]);
+    if (it->applyFont_ != 0) {
+      style_formats_[i].fontId_ = (it->fontId_);
     } else {
-      style_formats_.fontId_[i] = (normal.fontId_[0]);
+      style_formats_[i].fontId_ = (normal.fontId_);
     }
 
-    if (it->applyFill_[0] != 0) {
-      style_formats_.fillId_[i] = (it->fillId_[0]);
+    if (it->applyFill_ != 0) {
+      style_formats_[i].fillId_ = (it->fillId_);
     } else {
-      style_formats_.fillId_[i] = (normal.fillId_[0]);
+      style_formats_[i].fillId_ = (normal.fillId_);
     }
 
-    if (it->applyBorder_[0] != 0) {
-      style_formats_.borderId_[i] = (it->borderId_[0]);
+    if (it->applyBorder_ != 0) {
+      style_formats_[i].borderId_ = (it->borderId_);
     } else {
-      style_formats_.borderId_[i] = (normal.borderId_[0]);
+      style_formats_[i].borderId_ = (normal.borderId_);
     }
 
-    if (it->applyAlignment_[0] != 0) {
+    if (it->applyAlignment_ != 0) {
       // Apply the style's style
-      style_formats_.horizontal_[i] = (it->horizontal_[0]);
-      style_formats_.vertical_[i] = (it->vertical_[0]);
-      style_formats_.wrapText_[i] = (it->wrapText_[0]);
-      style_formats_.readingOrder_[i] = (it->readingOrder_[0]);
-      style_formats_.indent_[i] = (it->indent_[0]);
-      style_formats_.justifyLastLine_[i] = (it->justifyLastLine_[0]);
-      style_formats_.shrinkToFit_[i] = (it->shrinkToFit_[0]);
-      style_formats_.textRotation_[i] = (it->textRotation_[0]);
+      style_formats_[i].horizontal_ = it->horizontal_.get_sexp();
+      style_formats_[i].vertical_ = it->vertical_.get_sexp();
+      style_formats_[i].wrapText_ = it->wrapText_;
+      style_formats_[i].readingOrder_ = it->readingOrder_.get_sexp();
+      style_formats_[i].indent_ = it->indent_;
+      style_formats_[i].justifyLastLine_ = it->justifyLastLine_;
+      style_formats_[i].shrinkToFit_ = it->shrinkToFit_;
+      style_formats_[i].textRotation_ = it->textRotation_;
     } else {
       // Inherit the 'normal' style
-      style_formats_.horizontal_[i] = (normal.horizontal_[0]);
-      style_formats_.vertical_[i] = (normal.vertical_[0]);
-      style_formats_.wrapText_[i] = (normal.wrapText_[0]);
-      style_formats_.readingOrder_[i] = (normal.readingOrder_[0]);
-      style_formats_.indent_[i] = (normal.indent_[0]);
-      style_formats_.justifyLastLine_[i] = (normal.justifyLastLine_[0]);
-      style_formats_.shrinkToFit_[i] = (normal.shrinkToFit_[0]);
-      style_formats_.textRotation_[i] = (normal.textRotation_[0]);
+      style_formats_[i].horizontal_ = normal.horizontal_.get_sexp();
+      style_formats_[i].vertical_ = normal.vertical_.get_sexp();
+      style_formats_[i].wrapText_ = normal.wrapText_;
+      style_formats_[i].readingOrder_ = normal.readingOrder_.get_sexp();
+      style_formats_[i].indent_ = normal.indent_;
+      style_formats_[i].justifyLastLine_ = normal.justifyLastLine_;
+      style_formats_[i].shrinkToFit_ = normal.shrinkToFit_;
+      style_formats_[i].textRotation_ = normal.textRotation_;
     }
 
-    if (it->applyProtection_[0] == 1) {
+    if (it->applyProtection_ == 1) {
       // Apply the style's style
       // I can't produce this situation in Excel 2016
-      style_formats_.locked_[i] = (it->locked_[0]);
-      style_formats_.hidden_[i] = (it->hidden_[0]);
+      style_formats_[i].locked_ = (it->locked_);
+      style_formats_[i].hidden_ = (it->hidden_);
     } else {
       // Inherit the 'normal' style
-      style_formats_.locked_[i] = (normal.locked_[0]);
-      style_formats_.hidden_[i] = (normal.hidden_[0]);
+      style_formats_[i].locked_ = (normal.locked_);
+      style_formats_[i].hidden_ = (normal.hidden_);
     }
     ++i;
   }
 
   // Similarly, override local formatting with the local style unless 'apply X' is true
-  n = cellXfs_.size();
-  local_formats_ = xf(n);
   i = 0;
   for(std::vector<xf>::iterator it = cellXfs_.begin();
       it != cellXfs_.end(); ++it) {
-    int xfId = it->xfId_[0]; // Use to look up the overall 'style', which is locally modified
+    local_formats_.emplace_back(xf());
+    int xfId = it->xfId_; // Use to look up the overall 'style', which is locally modified
 
-    if (it->applyNumberFormat_[0] == 1) {
-      local_formats_.numFmtId_[i] = (it->numFmtId_[0]);
+    if (it->applyNumberFormat_ == 1) {
+      local_formats_[i].numFmtId_ = (it->numFmtId_);
     } else {
-      local_formats_.numFmtId_[i] = (style_formats_.numFmtId_[xfId]);
+      local_formats_[i].numFmtId_ = (style_formats_[xfId].numFmtId_);
     }
 
-    if (it->applyFont_[0] == 1) {
-      local_formats_.fontId_[i] = (it->fontId_[0]);
+    if (it->applyFont_ == 1) {
+      local_formats_[i].fontId_ = (it->fontId_);
     } else {
-      local_formats_.fontId_[i] = (style_formats_.fontId_[xfId]);
+      local_formats_[i].fontId_ = (style_formats_[xfId].fontId_);
     }
 
-    if (it->applyFill_[0] == 1) {
-      local_formats_.fillId_[i] = (it->fillId_[0]);
+    if (it->applyFill_ == 1) {
+      local_formats_[i].fillId_ = (it->fillId_);
     } else {
-      local_formats_.fillId_[i] = (style_formats_.fillId_[xfId]);
+      local_formats_[i].fillId_ = (style_formats_[xfId].fillId_);
     }
 
-    if (it->applyBorder_[0] == 1) {
-      local_formats_.borderId_[i] = (it->borderId_[0]);
+    if (it->applyBorder_ == 1) {
+      local_formats_[i].borderId_ = (it->borderId_);
     } else {
-      local_formats_.borderId_[i] = (style_formats_.borderId_[xfId]);
+      local_formats_[i].borderId_ = (style_formats_[xfId].borderId_);
     }
 
-    if (it->applyAlignment_[0] == 1) {
+    if (it->applyAlignment_ == 1) {
       // Apply the style's style
-      local_formats_.horizontal_[i] = (it->horizontal_[0]);
-      local_formats_.vertical_[i] = (it->vertical_[0]);
-      local_formats_.wrapText_[i] = (it->wrapText_[0]);
-      local_formats_.readingOrder_[i] = (it->readingOrder_[0]);
-      local_formats_.indent_[i] = (it->indent_[0]);
-      local_formats_.justifyLastLine_[i] = (it->justifyLastLine_[0]);
-      local_formats_.shrinkToFit_[i] = (it->shrinkToFit_[0]);
-      local_formats_.textRotation_[i] = (it->textRotation_[0]);
+      local_formats_[i].horizontal_ = it->horizontal_.get_sexp();
+      local_formats_[i].vertical_ = it->vertical_.get_sexp();
+      local_formats_[i].wrapText_ = it->wrapText_;
+      local_formats_[i].readingOrder_ = it->readingOrder_.get_sexp();
+      local_formats_[i].indent_ = it->indent_;
+      local_formats_[i].justifyLastLine_ = it->justifyLastLine_;
+      local_formats_[i].shrinkToFit_ = it->shrinkToFit_;
+      local_formats_[i].textRotation_ = it->textRotation_;
     } else {
       // Inherit the 'style_formats_' style
-      local_formats_.horizontal_[i] = (style_formats_.horizontal_[xfId]);
-      local_formats_.vertical_[i] = (style_formats_.vertical_[xfId]);
-      local_formats_.wrapText_[i] = (style_formats_.wrapText_[xfId]);
-      local_formats_.readingOrder_[i] = (style_formats_.readingOrder_[xfId]);
-      local_formats_.indent_[i] = (style_formats_.indent_[xfId]);
-      local_formats_.justifyLastLine_[i] = (style_formats_.justifyLastLine_[xfId]);
-      local_formats_.shrinkToFit_[i] = (style_formats_.shrinkToFit_[xfId]);
-      local_formats_.textRotation_[i] = (style_formats_.textRotation_[xfId]);
+      local_formats_[i].horizontal_ = style_formats_[xfId].horizontal_.get_sexp();
+      local_formats_[i].vertical_ = style_formats_[xfId].vertical_.get_sexp();
+      local_formats_[i].wrapText_ = style_formats_[xfId].wrapText_;
+      local_formats_[i].readingOrder_ = style_formats_[xfId].readingOrder_.get_sexp();
+      local_formats_[i].indent_ = style_formats_[xfId].indent_;
+      local_formats_[i].justifyLastLine_ = style_formats_[xfId].justifyLastLine_;
+      local_formats_[i].shrinkToFit_ = style_formats_[xfId].shrinkToFit_;
+      local_formats_[i].textRotation_ = style_formats_[xfId].textRotation_;
     }
 
-    if (it->applyProtection_[0] == 1) {
+    if (it->applyProtection_ == 1) {
       // Apply the style's style
-      local_formats_.locked_[i] = (it->locked_[0]);
-      local_formats_.hidden_[i] = (it->hidden_[0]);
+      local_formats_[i].locked_ = (it->locked_);
+      local_formats_[i].hidden_ = (it->hidden_);
     } else {
       // Inherit the 'style_formats_' style
-      local_formats_.locked_[i] = (style_formats_.locked_[xfId]);
-      local_formats_.hidden_[i] = (style_formats_.hidden_[xfId]);
+      local_formats_[i].locked_ = (style_formats_[xfId].locked_);
+      local_formats_[i].hidden_ = (style_formats_[xfId].hidden_);
     }
     ++i;
   }
 }
 
-List xlsxstyles::zipFormats(xf styles, bool is_style) {
-  int n(styles.numFmtId_.size());
+List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
+  int n(styles.size());
 
   CharacterVector numFmts(n);
 
@@ -593,12 +594,12 @@ List xlsxstyles::zipFormats(xf styles, bool is_style) {
   LogicalVector   protections_locked(n, NA_LOGICAL);
   LogicalVector   protections_hidden(n, NA_LOGICAL);
 
-  for(int i = 0; i < styles.numFmtId_.size(); ++i) {
-    font* font = &fonts_[styles.fontId_[i]];
-    fill* fill = &fills_[styles.fillId_[i]];
-    border* border = &borders_[styles.borderId_[i]];
+  for(int i = 0; i < styles.size(); ++i) {
+    font* font = &fonts_[styles[i].fontId_];
+    fill* fill = &fills_[styles[i].fillId_];
+    border* border = &borders_[styles[i].borderId_];
 
-    numFmts[i] = numFmts_[styles.numFmtId_[i]];
+    numFmts[i] = numFmts_[styles[i].numFmtId_];
 
     fonts_b[i] = font->b_;
     fonts_i[i] = font->i_;
@@ -648,17 +649,17 @@ List xlsxstyles::zipFormats(xf styles, bool is_style) {
     clone_color(border->vertical_.color_, borders_vertical_color, i);
     clone_color(border->horizontal_.color_, borders_horizontal_color, i);
 
-    alignments_horizontal[i] = styles.horizontal_[i];
-    alignments_vertical[i] = styles.vertical_[i];
-    alignments_wrapText[i] = styles.wrapText_[i];
-    alignments_readingOrder[i] = styles.readingOrder_[i];
-    alignments_indent[i] = styles.indent_[i];
-    alignments_justifyLastLine[i] = styles.justifyLastLine_[i];
-    alignments_shrinkToFit[i] = styles.shrinkToFit_[i];
-    alignments_textRotation[i] = styles.textRotation_[i];
+    alignments_horizontal[i] = styles[i].horizontal_;
+    alignments_vertical[i] = styles[i].vertical_;
+    alignments_wrapText[i] = styles[i].wrapText_;
+    alignments_readingOrder[i] = styles[i].readingOrder_;
+    alignments_indent[i] = styles[i].indent_;
+    alignments_justifyLastLine[i] = styles[i].justifyLastLine_;
+    alignments_shrinkToFit[i] = styles[i].shrinkToFit_;
+    alignments_textRotation[i] = styles[i].textRotation_;
 
-    protections_locked[i] = styles.locked_[i];
-    protections_hidden[i] = styles.hidden_[i];
+    protections_locked[i] = styles[i].locked_;
+    protections_hidden[i] = styles[i].hidden_;
   }
 
   if (is_style) {

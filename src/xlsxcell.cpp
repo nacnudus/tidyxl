@@ -87,7 +87,7 @@ void xlsxcell::cacheValue(
     svalue = 0;
   }
   book.local_format_id_[i] = svalue + 1;
-  book.style_format_[i] = book.styles_.cellStyles_map_[book.styles_.cellXfs_[svalue].xfId_[0]];
+  book.style_format_[i] = book.styles_.cellStyles_map_[book.styles_.cellXfs_[svalue].xfId_];
 
   if (t != NULL && tvalue == "inlineStr") {
     book.data_type_[i] = "character";
@@ -103,9 +103,9 @@ void xlsxcell::cacheValue(
     book.data_type_[i] = "blank";
     return;
   } else if (t == NULL || tvalue == "n") {
-    if (book.styles_.cellXfs_[svalue].applyNumberFormat_[0] == 1) {
+    if (book.styles_.cellXfs_[svalue].applyNumberFormat_ == 1) {
       // local number format applies
-      if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_[0]]) {
+      if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_]) {
         // local number format is a date format
         book.data_type_[i] = "date";
         double date = strtod(vvalue.c_str(), NULL);
@@ -119,8 +119,8 @@ void xlsxcell::cacheValue(
     } else if (
           book.styles_.isDate_[
             book.styles_.cellStyleXfs_[
-              book.styles_.cellXfs_[svalue].xfId_[0]
-            ].numFmtId_[0]
+              book.styles_.cellXfs_[svalue].xfId_
+            ].numFmtId_
           ]
         ) {
       // style number format is a date format

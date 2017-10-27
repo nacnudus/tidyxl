@@ -42,8 +42,8 @@ class xlsxstyles {
     std::vector<fill> fills_;
     std::vector<border> borders_;
 
-    xf style_formats_; // built up by applyFormats() from xf definitions
-    xf local_formats_; // built up by applyFormats() from xf definitions
+    std::vector<xf> style_formats_; // built up by applyFormats() from xf definitions
+    std::vector<xf> local_formats_; // built up by applyFormats() from xf definitions
 
     Rcpp::List style_; // inside-out List version of style_formats_
     Rcpp::List local_; // inside-out List version of local_formats_
@@ -68,7 +68,7 @@ class xlsxstyles {
     Rcpp::List list_color(colors& original, bool is_style); // Convert struct to list
 
     void applyFormats(); // Build each style on top of the normal style
-    Rcpp::List zipFormats(xf styles, bool is_style); // Turn the formats inside-out to return to R
+    Rcpp::List zipFormats(std::vector<xf> styles, bool is_style); // Turn the formats inside-out to return to R
 
 };
 
