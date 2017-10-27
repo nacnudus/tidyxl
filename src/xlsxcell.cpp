@@ -170,8 +170,6 @@ void xlsxcell::cacheFormula(
     xlsxbook& book,
     unsigned long long int& i
     ) {
-  // TODO: Array formulas use the ref attribute for their range, and t to
-  // state that they're 'array'.
   rapidxml::xml_node<>* f = cell->first_node("f");
   std::string formula;
   int si_number;
