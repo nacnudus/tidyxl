@@ -1,5 +1,8 @@
 # tidyxl 0.2.3.9000
 
+* Breaking change: the column `content` has been replaced by `is_empty`, a
+    logical value indication whether the cell contains data.  Please replace
+    `!is.na(content)` with `!is_empty` to filter out empty cells.
 * Tokenizes formulas with `xlex()`.
     There's a [demo Shiny app](https://duncan-garmonsway.shinyapps.io/xlex/), and a
     new vignette, `vignette("smells", package = "tidyxl")`, showing how to use
