@@ -66,6 +66,28 @@ readxl::read_excel(titanic)
 ``` r
 library(tidyxl)
 x <- xlsx_cells(titanic)
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
 str(x)
 #> Classes 'tbl_df', 'tbl' and 'data.frame':    60 obs. of  21 variables:
 #>  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
@@ -544,6 +566,200 @@ head(x[x$style_format == "Normal", c("address", "character")])
 #> 4      F1     Adult
 #> 5      G1      <NA>
 #> 6      C2  Survived
+
+# In-cell formatting is available in the `character_formatted` column as a data
+# frame, one row per substring.
+examples <- system.file("/extdata/examples.xlsx", package = "tidyxl")
+xlsx_cells(examples)$character_formatted[77]
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> FFFF0000
+#> NA
+#> FFFF0000
+#> NA
+#> NA
+#> NA
+#> FFFF0000
+#> NA
+#> FF9C0006
+#> NA
+#> FF9C0006
+#> NA
+#> NA
+#> NA
+#> NA
+#> FFFF0000
+#> NA
+#> FF4F81BD
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> FFFFFFFF
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> NA
+#> FF000000
+#> FFEEECE1
+#> FF000000
+#> FF1F497D
+#> FF000000
+#> FF4F81BD
+#> FF000000
+#> FFC0504D
+#> FF000000
+#> FF9BBB59
+#> FF000000
+#> FF8064A2
+#> FF000000
+#> FF4BACC6
+#> FF000000
+#> FFF79646
+#> FF000000
+#> FF0000FF
+#> FF000000
+#> FF0000FF
+#> FF000000
+#> FF000000
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> [[1]]
+#> # A tibble: 16 x 14
+#>                                character  bold italic        underline
+#>                                    <chr> <lgl>  <lgl>            <chr>
+#>  1                               in-cell FALSE  FALSE             <NA>
+#>  2                                  bold  TRUE  FALSE             <NA>
+#>  3                                italic FALSE   TRUE             <NA>
+#>  4                             underline FALSE  FALSE           single
+#>  5                       underlinedouble FALSE  FALSE           double
+#>  6                      singleaccounting FALSE  FALSE singleAccounting
+#>  7                      doubleaccounting FALSE  FALSE doubleAccounting
+#>  8                         strikethrough FALSE  FALSE             <NA>
+#>  9                             subscript FALSE  FALSE             <NA>
+#> 10                           superscript FALSE  FALSE             <NA>
+#> 11                                   red FALSE  FALSE             <NA>
+#> 12                                 theme FALSE  FALSE             <NA>
+#> 13                                  tint FALSE  FALSE             <NA>
+#> 14                                  size FALSE  FALSE             <NA>
+#> 15                                 arial FALSE  FALSE             <NA>
+#> 16 "UTF8Stéphane\nmultilinecustomheight" FALSE  FALSE             <NA>
+#> # ... with 10 more variables: strike <lgl>, vertAlign <chr>, size <dbl>,
+#> #   color_rgb <chr>, color_theme <int>, color_indexed <int>,
+#> #   color_tint <dbl>, font <chr>, family <int>, scheme <chr>
 ```
 
 To see all the available kinds of formats, use `str(formats)`.
@@ -566,8 +782,171 @@ Formulas are available, but with a few quirks.
 
 ``` r
 options(width = 120)
-y <- xlsx_cells(system.file("/extdata/examples.xlsx", package = "tidyxl"),
-               "Sheet1")
+y <- xlsx_cells(examples, "Sheet1")
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> FFFF0000
+#> NA
+#> FFFF0000
+#> NA
+#> NA
+#> NA
+#> FFFF0000
+#> NA
+#> FF9C0006
+#> NA
+#> FF9C0006
+#> NA
+#> NA
+#> NA
+#> NA
+#> FFFF0000
+#> NA
+#> FF4F81BD
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> FFFFFFFF
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> FF000000
+#> NA
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> FF000000
+#> NA
+#> FF000000
+#> FFEEECE1
+#> FF000000
+#> FF1F497D
+#> FF000000
+#> FF4F81BD
+#> FF000000
+#> FFC0504D
+#> FF000000
+#> FF9BBB59
+#> FF000000
+#> FF8064A2
+#> FF000000
+#> FF4BACC6
+#> FF000000
+#> FFF79646
+#> FF000000
+#> FF0000FF
+#> FF000000
+#> FF0000FF
+#> FF000000
+#> FF000000
+#> FF000000
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
+#> NA
 y[!is.na(y$formula),
   c("address", "formula", "is_array", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
@@ -639,7 +1018,7 @@ Names are imported with `xlex_names()`. AKA 'named formulas' and 'defined names'
 When the scope of the name is within a particular sheet, rather than global, the sheet name is given.
 
 ``` r
-xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
+xlsx_names(examples)
 #>                   name                     formula sheet_name is_range
 #> 1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1     Sheet1    FALSE
 #> 2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1   E09904.2     TRUE
@@ -653,7 +1032,7 @@ xlsx_names(system.file("extdata/examples.xlsx", package = "tidyxl"))
 Data validation rules are imported with `xlsx_validation()`. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell. Read the [vignette](file:///home/nacnudus/R/tidyxl/docs/articles/data-validation-rules.html) for details.
 
 ``` r
-xlsx_validation(system.file("extdata/examples.xlsx", package = "tidyxl"))
+xlsx_validation(examples)
 #> # A tibble: 15 x 14
 #>     sheet            ref       type           operator            formula1            formula2 allow_blank
 #>     <chr>          <chr>      <chr>              <chr>               <chr>               <chr>       <lgl>
