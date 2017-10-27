@@ -222,18 +222,16 @@ formats, type <code>str(my_formats$local)</code>.
     Strings can be formatted within a cell, so that a single cell can contain
 substrings with different formatting.  This in-cell formatting is available
 in the column <code>character_formatted</code>, which is a list-column of data frames.
-Each row of each data frame describes a substring and its formatting.
-When a particular format is <code>NA</code>, the overall cell format applies -- if
-required, this can be obtained via <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.  For cells without a
-character value, <code>character_formatted</code> is <code>NULL</code>, so for further processing
-you might need to filter out the <code>NULL</code>s first.
+Each row of each data frame describes a substring and its formatting.  For
+cells without a character value, <code>character_formatted</code> is <code>NULL</code>, so for
+further processing you might need to filter out the <code>NULL</code>s first.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
 
 <span class='co'># All sheets</span>
-<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	247 obs. of  21 variables:
+<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	249 obs. of  21 variables:
 #&gt;  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #&gt;  $ address            : chr  "A1" "B1" "A2" "B2" ...
 #&gt;  $ row                : int  1 1 2 2 3 3 4 4 5 5 ...
@@ -245,7 +243,7 @@ you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ numeric            : num  NA NA NA NA NA ...
 #&gt;  $ date               : POSIXct, format: NA NA ...
 #&gt;  $ character          : chr  NA "Error" NA "Boolean (true)" ...
-#&gt;  $ character_formatted:List of 247
+#&gt;  $ character_formatted:List of 249
 #&gt;   ..$ : NULL
 #&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
 #&gt;   .. ..$ character    : chr "Error"
@@ -1401,7 +1399,7 @@ you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ height             : num  14.2 14.2
 #&gt;  $ width              : num  8.38 8.38
 #&gt;  $ style_format       : chr  "Normal" "Normal"
-#&gt;  $ local_format_id    : int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	245 obs. of  21 variables:
+#&gt;  $ local_format_id    : int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	247 obs. of  21 variables:
 #&gt;  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #&gt;  $ address            : chr  "A1" "B1" "A2" "B2" ...
 #&gt;  $ row                : int  1 1 2 2 3 3 4 4 5 5 ...
@@ -1413,7 +1411,7 @@ you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ numeric            : num  NA NA NA NA NA ...
 #&gt;  $ date               : POSIXct, format: NA NA ...
 #&gt;  $ character          : chr  NA "Error" NA "Boolean (true)" ...
-#&gt;  $ character_formatted:List of 245
+#&gt;  $ character_formatted:List of 247
 #&gt;   ..$ : NULL
 #&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
 #&gt;   .. ..$ character    : chr "Error"
@@ -2527,8 +2525,7 @@ you might need to filter out the <code>NULL</code>s first.
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
 <span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; NULL</div><div class='input'>
 <span class='co'># In-cell formatting is available in the `character_formatted` column as a</span>
-<span class='co'># data frame, one row per substring.  When a particular format is `NA`, the</span>
-<span class='co'># overall cell format applies.</span>
+<span class='co'># data frame, one row per substring.</span>
 <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]</div><div class='output co'>#&gt; [[1]]
 #&gt; # A tibble: 16 x 14
 #&gt;                                character  bold italic        underline strike

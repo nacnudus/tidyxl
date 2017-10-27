@@ -90,7 +90,7 @@
       <h1>Detecting Spreadsheet Smells with xlex()</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-10-22</h4>
+            <h4 class="date">2017-10-27</h4>
           </div>
 
     
@@ -147,6 +147,107 @@ sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_
                    <span class="st">"Detail Breakdown"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</code></pre></div>
 <pre><code>## Warning: 'tidy_xlsx()' is deprecated.
 ## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
+<pre><code>## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sheet<span class="op">$</span>formula[<span class="dv">22</span>]</code></pre></div>
 <pre><code>## [1] "(C8/7)*12-48000"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(sheet<span class="op">$</span>formula[<span class="dv">22</span>])</code></pre></div>
@@ -171,10 +272,10 @@ sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_
 <p>The <code><a href="../reference/xlex.html">xlex()</a></code> function isn’t vectorized (because it returns a data frame), so we map it over each of the formulas to create a ‘nest’ column of individual data frames.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tokens &lt;-
 <span class="st">  </span>sheet <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, formula) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>formula)
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(row, col, formula) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/mutate">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(<span class="op">-</span>formula)
 tokens</code></pre></div>
 <pre><code>## # A tibble: 154 x 3
 ##      row   col           tokens
@@ -194,7 +295,7 @@ tokens</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants &lt;-
 <span class="st">  </span>tokens <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(tokens) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))
 constants</code></pre></div>
 <pre><code>## # A tibble: 201 x 5
 ##      row   col level   type token
@@ -212,7 +313,7 @@ constants</code></pre></div>
 ## # ... with 191 more rows</code></pre>
 <p>Which constants are most common? Unsurprisingly, 12 and 7 are almost equally abundant, but there are also lots of 6s and 9s – two- and three-quarterly figures? Then there are some 150000s and the familiar 48000s, followed by some fractions that look like percentages, and then several one-offs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tally.html">count</a></span>(token, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/tally">count</a></span>(token, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">n =</span> <span class="ot">Inf</span>)</code></pre></div>
 <pre><code>## # A tibble: 24 x 2
 ##     token     n
@@ -249,11 +350,11 @@ constants</code></pre></div>
 <p>This time there doesn’t seem to be any particular pattern, which is perhaps suspicious in itself.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_constants &lt;-
 <span class="st">  </span>constants <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">has_constant =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">right_join</a></span>(sheet, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>is_blank) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, has_constant) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/distinct">distinct</a></span>(row, col) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/mutate">mutate</a></span>(<span class="dt">has_constant =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/join">right_join</a></span>(sheet, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(<span class="op">!</span>is_blank) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(row, col, has_constant) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/replace_na">replace_na</a></span>(<span class="kw">list</span>(<span class="dt">has_constant =</span> <span class="ot">FALSE</span>))
 has_constants</code></pre></div>
 <pre><code>## # A tibble: 412 x 3
@@ -304,14 +405,207 @@ sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_
                    <span class="st">"Preschedule"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</code></pre></div>
 <pre><code>## Warning: 'tidy_xlsx()' is deprecated.
 ## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
+<pre><code>## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FFFF0000
+## FF000000
+## FF000000
+## FF000000
+## FFFF0000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## NA
+## FFFF0000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FFFF0000
+## FFFFFFFF
+## FF000080
+## FF000080
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## FFFF0000
+## FF000000
+## FF000000
+## NA
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## NA
+## NA
+## FF000000
+## FF000000
+## NA
+## NA
+## FF000000
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## FF000000
+## FF000000
+## FF000000
+## FF000000
+## NA
+## FFFF0000
+## FF000000
+## FF000000
+## FF000000
+## NA
+## FF0000FF
+## NA
+## FF0000FF
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA
+## NA</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deepest &lt;-
 <span class="st">  </span>sheet <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, tokens) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/mutate">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(row, col, tokens) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(tokens) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(level <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(level)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col, level)
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(level <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(level)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/distinct">distinct</a></span>(row, col, level)
 deepest</code></pre></div>
 <pre><code>## # A tibble: 48 x 3
 ##      row   col level
@@ -329,8 +623,8 @@ deepest</code></pre></div>
 ## # ... with 38 more rows</code></pre>
 <p>Do you wonder what those formulas look like?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sheet <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(row <span class="op">==</span><span class="st"> </span><span class="dv">171</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></code></pre></div>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(row <span class="op">==</span><span class="st"> </span><span class="dv">171</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/pull">pull</a></span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></code></pre></div>
 <pre><code>## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</code></pre>
 </div>
 </div>

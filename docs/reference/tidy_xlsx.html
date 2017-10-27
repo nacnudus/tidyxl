@@ -229,11 +229,9 @@ hexadecimal string.
 Strings can be formatted within a cell, so that a single cell can contain
 substrings with different formatting.  This in-cell formatting is available
 in the column <code>character_formatted</code>, which is a list-column of data frames.
-Each row of each data frame describes a substring and its formatting.
-When a particular format is <code>NA</code>, the overall cell format applies -- if
-required, this can be obtained via <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.  For cells without a
-character value, <code>character_formatted</code> is <code>NULL</code>, so for further processing
-you might need to filter out the <code>NULL</code>s first.
+Each row of each data frame describes a substring and its formatting.  For
+cells without a character value, <code>character_formatted</code> is <code>NULL</code>, so for
+further processing you might need to filter out the <code>NULL</code>s first.
 
 
     
@@ -306,8 +304,7 @@ formats, type <code>str(x$formats$local)</code>.
 <span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]
 
 <span class='co'># In-cell formatting is available in the `character_formatted` column as a</span>
-<span class='co'># data frame, one row per substring.  When a particular format is `NA`, the</span>
-<span class='co'># overall cell format applies.</span>
+<span class='co'># data frame, one row per substring.</span>
 <span class='fu'>tidy_xlsx</span>(<span class='no'>examples</span>)$<span class='no'>data</span>$<span class='no'>Sheet1</span>$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]
 <span class='co'># }</span></pre>
   </div>

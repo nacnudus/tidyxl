@@ -90,7 +90,7 @@
       <h1>Data Validation Rules</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-10-22</h4>
+            <h4 class="date">2017-10-27</h4>
           </div>
 
     
@@ -114,7 +114,7 @@
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
 <span class="kw">library</span>(tidyr)
 examples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/examples.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>)
-<span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)[<span class="dv">1</span>, ])
+<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/reexports">glimpse</a></span>(<span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)[<span class="dv">1</span>, ])
 <span class="co">#&gt; Observations: 1</span>
 <span class="co">#&gt; Variables: 14</span>
 <span class="co">#&gt; $ sheet              &lt;chr&gt; "Sheet1"</span>
@@ -190,7 +190,173 @@ examples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span
 </blockquote>
 <p>To join rules to cells, a naive method is to use the <code>sheet</code> and <code>ref</code> columns to match the <code>sheet</code> and <code>address</code> columns to the output of <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rules &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)
-cells &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(examples), row <span class="op">&gt;=</span><span class="st"> </span><span class="dv">106</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+cells &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/filter">filter</a></span>(<span class="kw"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(examples), row <span class="op">&gt;=</span><span class="st"> </span><span class="dv">106</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FFFF0000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FFFF0000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FFFF0000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF9C0006</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF9C0006</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FFFF0000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF4F81BD</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FFFFFFFF</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FFEEECE1</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF1F497D</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF4F81BD</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FFC0504D</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF9BBB59</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF8064A2</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF4BACC6</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FFF79646</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF0000FF</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF0000FF</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; FF000000</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
+<span class="co">#&gt; NA</span>
 
 rules
 <span class="co">#&gt; # A tibble: 15 x 14</span>
@@ -244,7 +410,7 @@ cells
 <span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span>
 
-<span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(rules, cells, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"sheet"</span> =<span class="st"> "sheet"</span>, <span class="st">"ref"</span> =<span class="st"> "address"</span>))
+<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/join">inner_join</a></span>(rules, cells, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"sheet"</span> =<span class="st"> "sheet"</span>, <span class="st">"ref"</span> =<span class="st"> "address"</span>))
 <span class="co">#&gt; # A tibble: 9 x 33</span>
 <span class="co">#&gt;    sheet   ref       type   operator            formula1</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;</span>
@@ -299,7 +465,7 @@ unnest_ref.default &lt;-<span class="st"> </span><span class="cf">function</span
   tidyr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(x, rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quasiquotation">UQ</a></span>(ref))
 }
 
-(nested_rule &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(rules, <span class="dv">7</span>))
+(nested_rule &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/slice">slice</a></span>(rules, <span class="dv">7</span>))
 <span class="co">#&gt; # A tibble: 1 x 14</span>
 <span class="co">#&gt;    sheet            ref  type operator formula1 formula2 allow_blank</span>
 <span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;lgl&gt;</span>
