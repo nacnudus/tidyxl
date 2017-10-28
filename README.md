@@ -300,12 +300,12 @@ When the scope of the name is within a particular sheet, rather than global, the
 
 ``` r
 xlsx_names(examples)
-#>                   name                     formula sheet_name is_range
-#> 1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1     Sheet1    FALSE
-#> 2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1   E09904.2     TRUE
-#> 3         intersection   Sheet1!$B:$B Sheet1!$8:$8       <NA>     TRUE
-#> 4 named_global_formula             Sheet1!$A$129-1       <NA>    FALSE
-#> 5          named_range               Sheet1!$A$129       <NA>     TRUE
+#>      sheet                 name                     formula    comment hidden is_range
+#> 1   Sheet1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1       <NA>  FALSE    FALSE
+#> 2 E09904.2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1       <NA>  FALSE     TRUE
+#> 3     <NA>         intersection   Sheet1!$B:$B Sheet1!$8:$8       <NA>  FALSE     TRUE
+#> 4     <NA> named_global_formula             Sheet1!$A$129-1       <NA>  FALSE    FALSE
+#> 5     <NA>          named_range               Sheet1!$A$129 My comment  FALSE     TRUE
 ```
 
 ### Data validation rules

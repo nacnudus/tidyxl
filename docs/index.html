@@ -356,12 +356,12 @@ x
 <p>Names are imported with <code>xlex_names()</code>. AKA ‘named formulas’ and ‘defined names’, these are usually used to name particular cells or ranges, making formulas that refer to them more readable. Ones that <em>are</em> ranges are identifed by the <code>is_range</code> column (using <code><a href="reference/is_range.html">is_range()</a></code>), making it easier to match the names to the cells returned by <code><a href="reference/xlsx_cells.html">xlsx_cells()</a></code> – e.g. by using the <a href="https://github.com/rsheets/cellranger"><code>cellranger</code></a> package.</p>
 <p>When the scope of the name is within a particular sheet, rather than global, the sheet name is given.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/xlsx_names.html">xlsx_names</a></span>(examples)
-<span class="co">#&gt;                   name                     formula sheet_name is_range</span>
-<span class="co">#&gt; 1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1     Sheet1    FALSE</span>
-<span class="co">#&gt; 2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1   E09904.2     TRUE</span>
-<span class="co">#&gt; 3         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;     TRUE</span>
-<span class="co">#&gt; 4 named_global_formula             Sheet1!$A$129-1       &lt;NA&gt;    FALSE</span>
-<span class="co">#&gt; 5          named_range               Sheet1!$A$129       &lt;NA&gt;     TRUE</span></code></pre></div>
+<span class="co">#&gt;      sheet                 name                     formula    comment hidden is_range</span>
+<span class="co">#&gt; 1   Sheet1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1       &lt;NA&gt;  FALSE    FALSE</span>
+<span class="co">#&gt; 2 E09904.2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1       &lt;NA&gt;  FALSE     TRUE</span>
+<span class="co">#&gt; 3     &lt;NA&gt;         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;  FALSE     TRUE</span>
+<span class="co">#&gt; 4     &lt;NA&gt; named_global_formula             Sheet1!$A$129-1       &lt;NA&gt;  FALSE    FALSE</span>
+<span class="co">#&gt; 5     &lt;NA&gt;          named_range               Sheet1!$A$129 My comment  FALSE     TRUE</span></code></pre></div>
 </div>
 <div id="data-validation-rules" class="section level3">
 <h3 class="hasAnchor">

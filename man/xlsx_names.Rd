@@ -12,11 +12,15 @@ xlsx_names(path)
 \value{
 A data frame, one row per name, with the following columns.
 \itemize{
+\item \code{sheet} If the name is defined only for a specific sheet, the name of
+the sheet.  Otherwise \code{NA} for names defined globally.
 \item \code{name}
 \item \code{formula} Usually a range of cells, but sometimes a whole formula, e.g.
 \code{MAX(A2,1)}.
-\item \code{sheet_name} If the name is defined only for a specific sheet, the name of
-the sheet.  Otherwise \code{NA} for names defined globally.
+\item \code{comment} A description given by the spreadsheet author.
+\item \code{hidden} Whether or not the name is visible to the user in spreadsheet
+applications.  Hidden names are usually ones that were created
+automatically by the spreadsheet application.
 \item \code{is_range} Whether or not the \code{formula} is a range of cells.  This is handy
 for joining to the set of cells referred to by a name.  In this context,
 commas between cell addresses are always regarded as union operators --

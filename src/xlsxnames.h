@@ -13,6 +13,8 @@ class xlsxnames {
     Rcpp::CharacterVector name_;
     Rcpp::IntegerVector   sheet_id_;
     Rcpp::CharacterVector formula_;
+    Rcpp::CharacterVector comment_;
+    Rcpp::LogicalVector   hidden_;
 
     xlsxnames(const std::string& path);
 

@@ -27,6 +27,8 @@ xlsxnames::xlsxnames(const std::string& path) {
   name_     = CharacterVector(n, NA_STRING);
   sheet_id_ = IntegerVector(n,   NA_INTEGER);
   formula_  = CharacterVector(n, NA_STRING);
+  comment_  = CharacterVector(n, NA_STRING);
+  hidden_   = LogicalVector(n,   NA_LOGICAL);
 
   if (definedNames != NULL) {
     int i(0);
@@ -45,6 +47,23 @@ xlsxnames::xlsxnames(const std::string& path) {
 
       formula_[i] = definedName->value();
 
+      rapidxml::xml_attribute<>* comment = definedName->first_attribute("comment");
+      if (comment != NULL) {
+        comment_[i] = comment->value();
+      }
+
+      rapidxml::xml_attribute<>* hidden = definedName->first_attribute("hidden");
+      if (hidden == NULL) {
+        hidden_[i] = false;
+      } else {
+        std::string hidden_value(hidden->value());
+        if (hidden_value == "1" || hidden_value == "true") {
+          hidden_[i] = true;
+        } else {
+          hidden_[i] = false;
+        }
+      }
+
       ++i;
     }
   }
@@ -54,9 +73,11 @@ List& xlsxnames::information() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
   information_ = List::create(
-      _["name"] = name_,
       _["sheet_id"] = sheet_id_,
-      _["formula"] = formula_);
+      _["name"] =     name_,
+      _["formula"] =  formula_,
+      _["comment"] =  comment_,
+      _["hidden"] =   hidden_);
 
   // Turn list of vectors into a data frame without checking anything
   int n = Rf_length(information_[0]);

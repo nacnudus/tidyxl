@@ -141,11 +141,15 @@ For sheet-scoped names, <code>xlsx_names()</code> provides the name of the sheet
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data frame, one row per name, with the following columns.</p><ul>
+<li><p><code>sheet</code> If the name is defined only for a specific sheet, the name of
+the sheet.  Otherwise <code>NA</code> for names defined globally.</p></li>
 <li><p><code>name</code></p></li>
 <li><p><code>formula</code> Usually a range of cells, but sometimes a whole formula, e.g.
 <code>MAX(A2,1)</code>.</p></li>
-<li><p><code>sheet_name</code> If the name is defined only for a specific sheet, the name of
-the sheet.  Otherwise <code>NA</code> for names defined globally.</p></li>
+<li><p><code>comment</code> A description given by the spreadsheet author.</p></li>
+<li><p><code>hidden</code> Whether or not the name is visible to the user in spreadsheet
+applications.  Hidden names are usually ones that were created
+automatically by the spreadsheet application.</p></li>
 <li><p><code>is_range</code> Whether or not the <code>formula</code> is a range of cells.  This is handy
 for joining to the set of cells referred to by a name.  In this context,
 commas between cell addresses are always regarded as union operators --
@@ -156,12 +160,18 @@ this differs from <code><a href='xlex.html'>tidyxl::xlex()</a></code>, see that 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='fu'>xlsx_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt;                   name                     formula sheet_name is_range
-#&gt; 1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1     Sheet1    FALSE
-#&gt; 2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1   E09904.2     TRUE
-#&gt; 3         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;     TRUE
-#&gt; 4 named_global_formula             Sheet1!$A$129-1       &lt;NA&gt;    FALSE
-#&gt; 5          named_range               Sheet1!$A$129       &lt;NA&gt;     TRUE</div></pre>
+<span class='fu'>xlsx_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt;      sheet                 name                     formula    comment hidden
+#&gt; 1   Sheet1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1       &lt;NA&gt;  FALSE
+#&gt; 2 E09904.2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1       &lt;NA&gt;  FALSE
+#&gt; 3     &lt;NA&gt;         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;  FALSE
+#&gt; 4     &lt;NA&gt; named_global_formula             Sheet1!$A$129-1       &lt;NA&gt;  FALSE
+#&gt; 5     &lt;NA&gt;          named_range               Sheet1!$A$129 My comment  FALSE
+#&gt;   is_range
+#&gt; 1    FALSE
+#&gt; 2     TRUE
+#&gt; 3     TRUE
+#&gt; 4    FALSE
+#&gt; 5     TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -17,11 +17,15 @@
 #' @return
 #' A data frame, one row per name, with the following columns.
 #'
+#' * `sheet` If the name is defined only for a specific sheet, the name of
+#'     the sheet.  Otherwise `NA` for names defined globally.
 #' * `name`
 #' * `formula` Usually a range of cells, but sometimes a whole formula, e.g.
 #'     `MAX(A2,1)`.
-#' * `sheet_name` If the name is defined only for a specific sheet, the name of
-#'     the sheet.  Otherwise `NA` for names defined globally.
+#' * `comment` A description given by the spreadsheet author.
+#' * `hidden` Whether or not the name is visible to the user in spreadsheet
+#'     applications.  Hidden names are usually ones that were created
+#'     automatically by the spreadsheet application.
 #' * `is_range` Whether or not the `formula` is a range of cells.  This is handy
 #'     for joining to the set of cells referred to by a name.  In this context,
 #'     commas between cell addresses are always regarded as union operators --
@@ -39,10 +43,10 @@ xlsx_names <- function(path) {
   # except that it isn't the 'id' of utils_xlsx_sheet_files().  For now, add 1
   # and interpret is as the 'order' of utils_xlsx_sheet_files().
   sheets <- utils_xlsx_sheet_files(path)[, c("name", "id")]
-  names(sheets)[1] <- "sheet_name"
+  names(sheets)[1] <- "sheet"
   out$sheet_id <- out$sheet_id + 1
-  out <- merge(out, sheets, by.x = "sheet_id", by.y = "id", all.x = TRUE)
-  out$sheet_id <- NULL
+  out <- merge(sheets, out, by.x = "id", by.y = "sheet_id", all.y = TRUE)
+  out$id <- NULL
   out$is_range <- is_range(out$formula)
   out
 }
