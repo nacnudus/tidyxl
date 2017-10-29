@@ -17,16 +17,17 @@ inline int bool_attr(rapidxml::xml_node<>* node, const char* name) {
   return(true);
 }
 
-// bool attribute value, defaults to no change of given int
-inline int bool_attr(int& out, rapidxml::xml_node<>* node, const char* name) {
+// bool attribute value, defaults to no change of given Rcpp::IntegerVector
+inline void bool_attr(Rcpp::IntegerVector& out, unsigned long long int i,
+    rapidxml::xml_node<>* node, const char* name) {
   std::string value;
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute != NULL) {
     value = attribute->value();
     if (value == "0" || value == "false") {
-      out = false;
+      out[i] = false;
     } else {
-      out = true;
+      out[i] = true;
     }
   }
 }
@@ -40,11 +41,12 @@ inline int int_attr(rapidxml::xml_node<>* node, const char* name) {
   return(NA_INTEGER);
 }
 
-// int attribute value, defaults to no change of given int
-inline int int_attr(int& out, rapidxml::xml_node<>* node, const char* name) {
+// int attribute value, defaults to no change of given Rcpp::IntegerVector
+inline void int_attr(Rcpp::IntegerVector& out, unsigned long long int i,
+    rapidxml::xml_node<>* node, const char* name) {
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute != NULL) {
-    out = std::stoi(attribute->value());
+    out[i] = std::stoi(attribute->value());
   }
 }
 
@@ -57,11 +59,12 @@ inline double double_attr(rapidxml::xml_node<>* node, const char* name) {
   return(NA_REAL);
 }
 
-// int attribute value, defaults to no change of given int
-inline double double_attr(double& out, rapidxml::xml_node<>* node, const char* name) {
+// double attribute value, defaults to no change of given Rcpp::NumericVector
+inline void double_attr(Rcpp::NumericVector& out, unsigned long long int i,
+    rapidxml::xml_node<>* node, const char* name) {
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute != NULL) {
-    out = std::stod(attribute->value());
+    out[i] = std::stod(attribute->value());
   }
 }
 
@@ -74,11 +77,13 @@ inline Rcpp::String string_attr(rapidxml::xml_node<>* node, const char* name) {
   return(NA_STRING);
 }
 
-// Rcpp::String attribute value, defaults to no change of givin Rcpp::String
-inline Rcpp::String string_attr(Rcpp::String& out, rapidxml::xml_node<>* node, const char* name) {
+// Rcpp::String attribute value, defaults to no change of given
+// Rcpp::CharacterVector
+inline void string_attr(Rcpp::CharacterVector out, unsigned long long int i,
+    rapidxml::xml_node<>* node, const char* name) {
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute != NULL) {
-    return(attribute->value());
+    out[i] = attribute->value();
   }
 }
 
