@@ -34,7 +34,7 @@ inline int bool_attr(bool& out, rapidxml::xml_node<>* node, const char* name,
 }
 
 // bool attribute value, defaults to no change of given Rcpp::IntegerVector
-inline void bool_attr(Rcpp::IntegerVector& out, unsigned long long int i,
+inline void bool_attr(Rcpp::LogicalVector& out, unsigned long long int i,
     rapidxml::xml_node<>* node, const char* name) {
   std::string value;
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
