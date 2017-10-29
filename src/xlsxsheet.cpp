@@ -4,7 +4,7 @@
 #include "xlsxcell.h"
 #include "xlsxsheet.h"
 #include "xlsxbook.h"
-#include "utils.h"
+#include "string.h"
 
 using namespace Rcpp;
 

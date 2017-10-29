@@ -3,7 +3,7 @@
 #include "rapidxml.h"
 #include "xlsxvalidation.h"
 #include "xlsxbook.h"
-#include "utils.h"
+#include "date.h"
 
 using namespace Rcpp;
 

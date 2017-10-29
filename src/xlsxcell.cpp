@@ -3,7 +3,8 @@
 #include "xlsxbook.h"
 #include "xlsxcell.h"
 #include "xlsxsheet.h"
-#include "utils.h"
+#include "string.h"
+#include "date.h"
 
 using namespace Rcpp;
 
