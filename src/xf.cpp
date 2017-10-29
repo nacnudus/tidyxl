@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "xf.h"
+#include "xml_value.h"
 
 using namespace Rcpp;
 
@@ -9,19 +10,19 @@ xf::xf() {} // Default constructor
 xf::xf(rapidxml::xml_node<>* xf):
   readingOrderChr_{"context", "left-to-right", "right-to-left"}
 {
-  numFmtId_          = int_value(xf, "numFmtId");
-  fontId_            = int_value(xf, "fontId");
-  fillId_            = int_value(xf, "fillId");
-  borderId_          = int_value(xf, "borderId");
+  numFmtId_          = int_attr(xf, "numFmtId");
+  fontId_            = int_attr(xf, "fontId");
+  fillId_            = int_attr(xf, "fillId");
+  borderId_          = int_attr(xf, "borderId");
 
-  applyNumberFormat_ = bool_value(xf, "applyNumberFormat");
-  applyFont_         = bool_value(xf, "applyFont");
-  applyFill_         = bool_value(xf, "applyFill");
-  applyBorder_       = bool_value(xf, "applyBorder");
-  applyAlignment_    = bool_value(xf, "applyAlignment");
-  applyProtection_   = bool_value(xf, "applyProtection");
+  applyNumberFormat_ = bool_attr(xf, "applyNumberFormat");
+  applyFont_         = bool_attr(xf, "applyFont");
+  applyFill_         = bool_attr(xf, "applyFill");
+  applyBorder_       = bool_attr(xf, "applyBorder");
+  applyAlignment_    = bool_attr(xf, "applyAlignment");
+  applyProtection_   = bool_attr(xf, "applyProtection");
 
-  xfId_ = int_value(xf, "xfId");
+  xfId_ = int_attr(xf, "xfId");
   if (xfId_ == NA_INTEGER) xfId_ = 0;
 
   rapidxml::xml_node<>* alignment = xf->first_node("alignment");
@@ -35,14 +36,14 @@ xf::xf(rapidxml::xml_node<>* xf):
     shrinkToFit_     = NA_LOGICAL;
     textRotation_    = NA_INTEGER;
   } else {
-    horizontal_      = string_value(alignment, "horizontal");
-    vertical_        = string_value(alignment, "vertical");
-    wrapText_        = bool_value(alignment, "wrapText");
+    horizontal_      = string_attr(alignment, "horizontal");
+    vertical_        = string_attr(alignment, "vertical");
+    wrapText_        = bool_attr(alignment, "wrapText");
     readingOrder_    = readingOrder(alignment);
-    indent_          = int_value(alignment, "indent");
-    justifyLastLine_ = bool_value(alignment, "justifyLastLine");
-    shrinkToFit_     = bool_value(alignment, "shrinkToFit");
-    textRotation_    = int_value(alignment, "textRotation");
+    indent_          = int_attr(alignment, "indent");
+    justifyLastLine_ = bool_attr(alignment, "justifyLastLine");
+    shrinkToFit_     = bool_attr(alignment, "shrinkToFit");
+    textRotation_    = int_attr(alignment, "textRotation");
   }
 
   rapidxml::xml_node<>* protection = xf->first_node("protection");
@@ -50,38 +51,9 @@ xf::xf(rapidxml::xml_node<>* xf):
     locked_          = NA_LOGICAL;
     hidden_          = NA_LOGICAL;
   } else {
-    locked_          = bool_value(protection, "locked");
-    hidden_          = bool_value(protection, "hidden");
+    locked_          = bool_attr(protection, "locked");
+    hidden_          = bool_attr(protection, "hidden");
   }
-}
-
-int xf::bool_value(rapidxml::xml_node<>* node, const char* name) {
-  std::string value;
-  rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
-  if (attribute == NULL) {
-    return(true);
-  }
-  value = attribute->value();
-  if (value == "0" || value == "false") {
-    return(false);
-  }
-  return(true);
-}
-
-int xf::int_value(rapidxml::xml_node<>* node, const char* name) {
-  rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
-  if (attribute != NULL) {
-    return(strtol(attribute->value(), NULL, 10));
-  }
-  return(NA_INTEGER);
-}
-
-String xf::string_value(rapidxml::xml_node<>* node, const char* name) {
-  rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
-  if (attribute != NULL) {
-    return(attribute->value());
-  }
-  return(NA_STRING);
 }
 
 String xf::readingOrder(rapidxml::xml_node<>* node) {
