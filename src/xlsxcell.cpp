@@ -5,6 +5,7 @@
 #include "xlsxsheet.h"
 #include "string.h"
 #include "date.h"
+#include "xml_value.h"
 
 using namespace Rcpp;
 
@@ -79,14 +80,7 @@ void xlsxcell::cacheValue(
   }
 
   // 's' for 'style' indexes into data structures of formatting
-  rapidxml::xml_attribute<>* s = cell->first_attribute("s");
-  // Default the local format id to '1' if not present
-  int svalue;
-  if (s != NULL) {
-    svalue = strtol(s->value(), NULL, 10);
-  } else {
-    svalue = 0;
-  }
+  int svalue = int_attr(cell, "s", 0);
   book.local_format_id_[i] = svalue + 1;
   book.style_format_[i] = book.styles_.cellStyles_map_[book.styles_.cellXfs_[svalue].xfId_];
 
@@ -185,16 +179,13 @@ void xlsxcell::cacheFormula(
       }
     }
 
-    rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
-    if (ref != NULL) {
-      book.formula_ref_[i] = ref->value();
-    }
+    string_attr(book.formula_ref_, i, f, "ref");
 
     // Formulas are sometimes defined once, and then 'shared' with a range
     // p.1629 'shared' and 'si' attributes
     rapidxml::xml_attribute<>* si = f->first_attribute("si");
     if (si != NULL) {
-      si_number = strtol(si->value(), NULL, 10);
+      si_number = std::stoi(si->value());
       book.formula_group_[i] = si_number;
       if (formula.length() == 0) { // inherits definition
         it = sheet->shared_formulas_.find(si_number);
