@@ -105,10 +105,8 @@ inline std::string unescape(const std::string& s) {
 // Based on hadley/readxl
 // Parser for <si> and <is> inlineStr tags CT_Rst [p3893]
 // returns true if a string is found, false if missing.
-inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
-  bool found = false;
+inline void parseString(const rapidxml::xml_node<>* string, std::string& out) {
   out.clear();
-
   const rapidxml::xml_node<>* t = string->first_node("t");
   if (t != NULL) {
     // According to the spec (CT_Rst, p3893) a single <t> element
@@ -130,7 +128,6 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
     // We read the <t> tag, if present, first, then concatenate any <r> tags.
     // All Excel 2010 sheets will read correctly under this regime.
     out = unescape(std::string(t->value(), t->value_size()));
-    found = true;
   }
   // iterate over all r elements
   for (const rapidxml::xml_node<>* r = string->first_node("r"); r != NULL;
@@ -140,10 +137,8 @@ inline bool parseString(const rapidxml::xml_node<>* string, std::string& out) {
     const rapidxml::xml_node<>* t = r->first_node("t");
     if (t != NULL) {
       out += unescape(std::string(t->value(), t->value_size()));
-      found = true;
     }
   }
-  return found;
 }
 
 // Return a dataframe, one row per substring, columns for formatting
