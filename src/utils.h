@@ -19,10 +19,6 @@ inline double dateRound(double date) {
   return ms / 10000;
 }
 
-inline std::string ref(std::string& sheet, std::string& cell) {
-  return "'" + sheet + "'!" + cell;
-}
-
 // Follow tidyverse/readxl
 // https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb
 // by correcting for Excel's faithful re-implementation of the Lotus 1-2-3 bug,

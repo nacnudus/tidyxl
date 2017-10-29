@@ -110,7 +110,7 @@ void xlsxcell::cacheValue(
         book.data_type_[i] = "date";
         double date = strtod(vvalue.c_str(), NULL);
         book.date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
-                                    ref(sheet->name_, address_));
+                                  "'" + sheet->name_ + "'!" + address_);
         return;
       } else {
         book.data_type_[i] = "numeric";
@@ -127,7 +127,7 @@ void xlsxcell::cacheValue(
       book.data_type_[i] = "date";
       double date = strtod(vvalue.c_str(), NULL);
       book.date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
-                                  ref(sheet->name_, address_));
+                                  "'" + sheet->name_ + "'!" + address_);
       return;
     } else {
       book.data_type_[i] = "numeric";
