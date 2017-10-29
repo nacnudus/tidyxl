@@ -58,7 +58,7 @@ void xlsxbook::cacheStrings() {
   rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
   rapidxml::xml_attribute<>* uniqueCount = sst->first_attribute("uniqueCount");
   if (uniqueCount != NULL) {
-    unsigned long int n = strtol(uniqueCount->value(), NULL, 10);
+    unsigned long int n = std::stol(uniqueCount->value());
     strings_.reserve(n);
   }
 
