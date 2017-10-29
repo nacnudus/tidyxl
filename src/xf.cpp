@@ -15,12 +15,12 @@ xf::xf(rapidxml::xml_node<>* xf):
   fillId_            = int_attr(xf, "fillId");
   borderId_          = int_attr(xf, "borderId");
 
-  applyNumberFormat_ = bool_attr(xf, "applyNumberFormat");
-  applyFont_         = bool_attr(xf, "applyFont");
-  applyFill_         = bool_attr(xf, "applyFill");
-  applyBorder_       = bool_attr(xf, "applyBorder");
-  applyAlignment_    = bool_attr(xf, "applyAlignment");
-  applyProtection_   = bool_attr(xf, "applyProtection");
+  applyNumberFormat_ = bool_attr(xf, "applyNumberFormat", true);
+  applyFont_         = bool_attr(xf, "applyFont",         true);
+  applyFill_         = bool_attr(xf, "applyFill",         true);
+  applyBorder_       = bool_attr(xf, "applyBorder",       true);
+  applyAlignment_    = bool_attr(xf, "applyAlignment",    true);
+  applyProtection_   = bool_attr(xf, "applyProtection",   true);
 
   xfId_ = int_attr(xf, "xfId");
   if (xfId_ == NA_INTEGER) xfId_ = 0;
