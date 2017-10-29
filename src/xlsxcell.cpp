@@ -103,13 +103,13 @@ void xlsxcell::cacheValue(
       if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_]) {
         // local number format is a date format
         book.data_type_[i] = "date";
-        double date = strtod(vvalue.c_str(), NULL);
+        double date = std::stod(vvalue.c_str());
         book.date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
                                   "'" + sheet->name_ + "'!" + address_);
         return;
       } else {
         book.data_type_[i] = "numeric";
-        book.numeric_[i] = strtod(vvalue.c_str(), NULL);
+        book.numeric_[i] = std::stod(vvalue.c_str());
       }
     } else if (
           book.styles_.isDate_[
@@ -120,20 +120,20 @@ void xlsxcell::cacheValue(
         ) {
       // style number format is a date format
       book.data_type_[i] = "date";
-      double date = strtod(vvalue.c_str(), NULL);
+      double date = std::stod(vvalue.c_str());
       book.date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
                                   "'" + sheet->name_ + "'!" + address_);
       return;
     } else {
       book.data_type_[i] = "numeric";
-      book.numeric_[i] = strtod(vvalue.c_str(), NULL);
+      book.numeric_[i] = std::stod(vvalue.c_str());
     }
   } else if (tvalue == "s") {
     // the t attribute exists and its value is exactly "s", so v is an index
     // into the string table.
     book.data_type_[i] = "character";
-    SET_STRING_ELT(book.character_, i, Rf_mkCharCE(book.strings_[strtol(vvalue.c_str(), NULL, 10)].c_str(), CE_UTF8));
-    book.character_formatted_[i] = book.strings_formatted_[strtol(vvalue.c_str(), NULL, 10)];
+    SET_STRING_ELT(book.character_, i, Rf_mkCharCE(book.strings_[std::stol(vvalue.c_str())].c_str(), CE_UTF8));
+    book.character_formatted_[i] = book.strings_formatted_[std::stol(vvalue.c_str())];
     return;
   } else if (tvalue == "str") {
     // Formula, which could have evaluated to anything, so only a string is safe
@@ -142,7 +142,7 @@ void xlsxcell::cacheValue(
     return;
   } else if (tvalue == "b"){
     book.data_type_[i] = "logical";
-    book.logical_[i] = strtod(vvalue.c_str(), NULL);
+    book.logical_[i] = std::stod(vvalue.c_str());
     return;
   } else if (tvalue == "e") {
     book.data_type_[i] = "error";
