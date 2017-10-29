@@ -5,6 +5,7 @@
 #include "xlsxsheet.h"
 #include "xlsxbook.h"
 #include "string.h"
+#include "xml_value.h"
 
 using namespace Rcpp;
 
@@ -21,9 +22,6 @@ xlsxsheet::xlsxsheet(
   rapidxml::xml_node<>* worksheet = xml.first_node("worksheet");
   rapidxml::xml_node<>* sheetData = worksheet->first_node("sheetData");
 
-  defaultRowHeight_ = 15;
-  defaultColWidth_ = 8.47;
-
   cacheDefaultRowColDims(worksheet);
   cacheColWidths(worksheet);
   cacheComments(comments_path);
@@ -34,24 +32,13 @@ void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
   rapidxml::xml_node<>* sheetFormatPr_ = worksheet->first_node("sheetFormatPr");
 
   if (sheetFormatPr_ != NULL) {
-    // Don't use utils::getAttributeValueDouble because it might overwrite the
-    // default value with NA_REAL.
-    rapidxml::xml_attribute<>* defaultRowHeight =
-      sheetFormatPr_->first_attribute("defaultRowHeight");
-    if (defaultRowHeight != NULL)
-      defaultRowHeight_ = strtod(defaultRowHeight->value(), NULL);
+    double_attr(defaultRowHeight_, sheetFormatPr_, "defaultRowHeight", 15);
 
-    rapidxml::xml_attribute<>*defaultColWidth =
-      sheetFormatPr_->first_attribute("defaultColWidth");
-    if (defaultColWidth != NULL) {
-      defaultColWidth_ = strtod(defaultColWidth->value(), NULL);
-    } else {
-      // If defaultColWidth not given, ECMA says you can work it out based on
-      // baseColWidth, but that isn't necessarily given either, and the formula
-      // is wrong because the reality is so complicated, see
-      // https://support.microsoft.com/en-gb/kb/214123.
-      defaultColWidth_ = 8.38;
-    }
+    // If defaultColWidth not given, ECMA says you can work it out based on
+    // baseColWidth, but that isn't necessarily given either, and the formula
+    // is wrong because the reality is so complicated, see
+    // https://support.microsoft.com/en-gb/kb/214123.
+    double_attr(defaultColWidth_, sheetFormatPr_, "defaultColWidth", 8.38);
   }
 }
 
@@ -72,9 +59,9 @@ void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
       col; col = col->next_sibling("col")) {
 
     // <col> applies to columns from a min to a max, which must be iterated over
-    unsigned int min  = strtol(col->first_attribute("min")->value(), NULL, 10);
-    unsigned int max  = strtol(col->first_attribute("max")->value(), NULL, 10);
-    double width = strtod(col->first_attribute("width")->value(), NULL);
+    unsigned int min  = std::stol(col->first_attribute("min")->value());
+    unsigned int max  = std::stol(col->first_attribute("max")->value());
+    double width = std::stod(col->first_attribute("width")->value());
 
     for (unsigned int column = min; column <= max; ++column)
       colWidths_[column - 1] = width;
@@ -151,12 +138,12 @@ void xlsxsheet::parseSheetData(
     rapidxml::xml_attribute<>* r = row->first_attribute("r");
     if (r == NULL)
       stop("Invalid row or cell: lacks 'r' attribute");
-    rowNumber = strtod(r->value(), NULL);
+    rowNumber = std::stod(r->value());
     // Check for custom row height
     double rowHeight = defaultRowHeight_;
     rapidxml::xml_attribute<>* ht = row->first_attribute("ht");
     if (ht != NULL) {
-      rowHeight = strtod(ht->value(), NULL);
+      rowHeight = std::stod(ht->value());
       rowHeights_[rowNumber - 1] = rowHeight;
     }
 
