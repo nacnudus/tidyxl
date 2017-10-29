@@ -59,7 +59,7 @@ xf::xf(rapidxml::xml_node<>* xf):
 String xf::readingOrder(rapidxml::xml_node<>* node) {
   rapidxml::xml_attribute<>* attribute = node->first_attribute("readingOrder");
   if (attribute != NULL) {
-    return(readingOrderChr_[strtol(attribute->value(), NULL, 10)]);
+    return(readingOrderChr_[std::stoi(attribute->value())]);
   }
   return(NA_STRING);
 }
