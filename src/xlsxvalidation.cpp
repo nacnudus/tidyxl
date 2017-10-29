@@ -4,6 +4,7 @@
 #include "xlsxvalidation.h"
 #include "xlsxbook.h"
 #include "date.h"
+#include "xml_value.h"
 
 using namespace Rcpp;
 
@@ -21,7 +22,7 @@ int count_validations(std::string& xml) {
     rapidxml::xml_attribute<>* count =
       dataValidations->first_attribute("count");
     if (count != NULL) {
-      n = strtol(count->value(), NULL, 10);
+      n = std::stol(count->value());
     } else {
       for (rapidxml::xml_node<>* dataValidation =
              dataValidations->first_node("dataValidation");
@@ -74,15 +75,12 @@ void parseValidations(
         validation.operator_[i] = NA_STRING;
     }
 
-    rapidxml::xml_attribute<>* Operator =
-      dataValidation->first_attribute("operator");
-    if (Operator != NULL)
-      validation.operator_[i] = Operator->value();
+    string_attr(validation.operator_, i, dataValidation, "operator");
 
     rapidxml::xml_node<>* formula1 = dataValidation->first_node("formula1");
     if (formula1 != NULL) {
       if (type_string == "date" || type_string == "time") {
-        double date_double = strtod(formula1->value(), NULL);
+        double date_double = std::stod(formula1->value());
         validation.formula1_[i] =
           formatDate(date_double, book.dateSystem_, book.dateOffset_);
       } else {
@@ -93,7 +91,7 @@ void parseValidations(
     rapidxml::xml_node<>* formula2 = dataValidation->first_node("formula2");
     if (formula2 != NULL) {
       if (type_string == "date" || type_string == "time") {
-        double date_double = strtod(formula2->value(), NULL);
+        double date_double = std::stod(formula2->value());
         validation.formula2_[i] =
           formatDate(date_double, book.dateSystem_, book.dateOffset_);
       } else {
@@ -101,46 +99,14 @@ void parseValidations(
       }
     }
 
-    rapidxml::xml_attribute<>* allowBlank =
-      dataValidation->first_attribute("allowBlank");
-    if (allowBlank != NULL)
-      validation.allow_blank_[i] = strtod(allowBlank->value(), NULL);
-
-    rapidxml::xml_attribute<>* showInputMessage =
-      dataValidation->first_attribute("showInputMessage");
-    if (showInputMessage != NULL)
-      validation.show_input_message_[i] =
-        strtod(showInputMessage->value(), NULL);
-
-    rapidxml::xml_attribute<>* promptTitle =
-      dataValidation->first_attribute("promptTitle");
-    if (promptTitle != NULL)
-      validation.prompt_title_[i] = promptTitle->value();
-
-    rapidxml::xml_attribute<>* prompt =
-      dataValidation->first_attribute("prompt");
-    if (prompt != NULL)
-      validation.prompt_[i] = prompt->value();
-
-    rapidxml::xml_attribute<>* showErrorMessage =
-      dataValidation->first_attribute("showErrorMessage");
-    if (showErrorMessage != NULL)
-      validation.show_error_message_[i] =
-        strtod(showErrorMessage->value(), NULL);
-
-    rapidxml::xml_attribute<>* errorTitle =
-      dataValidation->first_attribute("errorTitle");
-    if (errorTitle != NULL)
-      validation.error_title_[i] = errorTitle->value();
-
-    rapidxml::xml_attribute<>* error = dataValidation->first_attribute("error");
-    if (error != NULL)
-      validation.error_[i] = error->value();
-
-    rapidxml::xml_attribute<>* errorStyle =
-      dataValidation->first_attribute("errorStyle");
-    if (errorStyle != NULL)
-      validation.error_style_[i] = errorStyle->value();
+    bool_attr(validation.allow_blank_, i, dataValidation, "allowBlank");
+    bool_attr(validation.show_input_message_, i, dataValidation, "showInputMessage");
+    string_attr(validation.prompt_title_, i, dataValidation, "promptTitle");
+    string_attr(validation.prompt_, i, dataValidation, "prompt");
+    bool_attr(validation.show_error_message_, i, dataValidation, "showErrorMessage");
+    string_attr(validation.error_title_, i, dataValidation, "errorTitle");
+    string_attr(validation.error_, i, dataValidation, "error");
+    string_attr(validation.error_style_, i, dataValidation, "errorStyle");
 
     ++i;
   }
