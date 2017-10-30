@@ -19,7 +19,7 @@ inline int bool_attr(rapidxml::xml_node<>* node, const char* name,
 }
 
 // bool attribute value, defaults to no change of given bool
-inline int bool_attr(bool& out, rapidxml::xml_node<>* node, const char* name,
+inline void bool_attr(bool& out, rapidxml::xml_node<>* node, const char* name,
     int default_ = NA_LOGICAL) {
   std::string value;
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
@@ -86,7 +86,7 @@ inline double double_attr(int& out, rapidxml::xml_node<>* node, const char* name
 }
 
 // double attribute value, defaults to no change of given double
-inline double double_attr(double& out, rapidxml::xml_node<>* node, const char* name,
+inline void double_attr(double& out, rapidxml::xml_node<>* node, const char* name,
     double default_ = NA_REAL) {
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute != NULL) {
@@ -114,7 +114,7 @@ inline Rcpp::String string_attr(rapidxml::xml_node<>* node, const char* name,
 }
 
 // Rcpp::String attribute value, defaults to no change of given Rcpp::String
-inline Rcpp::String string_attr(Rcpp::String& out, rapidxml::xml_node<>* node,
+inline void string_attr(Rcpp::String& out, rapidxml::xml_node<>* node,
     const char* name, Rcpp::String default_ = NA_STRING) {
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute != NULL) {
