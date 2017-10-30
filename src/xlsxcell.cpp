@@ -5,7 +5,6 @@
 #include "xlsxsheet.h"
 #include "string.h"
 #include "date.h"
-#include "xml_value.h"
 
 using namespace Rcpp;
 
@@ -80,7 +79,14 @@ void xlsxcell::cacheValue(
   }
 
   // 's' for 'style' indexes into data structures of formatting
-  int svalue = int_attr(cell, "s", 0);
+  rapidxml::xml_attribute<>* s = cell->first_attribute("s");
+  // Default the local format id to '1' if not present
+  int svalue;
+  if (s != NULL) {
+    svalue = strtol(s->value(), NULL, 10);
+  } else {
+    svalue = 0;
+  }
   book.local_format_id_[i] = svalue + 1;
   book.style_format_[i] = book.styles_.cellStyles_map_[book.styles_.cellXfs_[svalue].xfId_];
 
@@ -103,13 +109,13 @@ void xlsxcell::cacheValue(
       if (book.styles_.isDate_[book.styles_.cellXfs_[svalue].numFmtId_]) {
         // local number format is a date format
         book.data_type_[i] = "date";
-        double date = std::stod(vvalue.c_str());
+        double date = strtod(vvalue.c_str(), NULL);
         book.date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
                                   "'" + sheet->name_ + "'!" + address_);
         return;
       } else {
         book.data_type_[i] = "numeric";
-        book.numeric_[i] = std::stod(vvalue.c_str());
+        book.numeric_[i] = strtod(vvalue.c_str(), NULL);
       }
     } else if (
           book.styles_.isDate_[
@@ -120,20 +126,20 @@ void xlsxcell::cacheValue(
         ) {
       // style number format is a date format
       book.data_type_[i] = "date";
-      double date = std::stod(vvalue.c_str());
+      double date = strtod(vvalue.c_str(), NULL);
       book.date_[i] = checkDate(date, book.dateSystem_, book.dateOffset_,
                                   "'" + sheet->name_ + "'!" + address_);
       return;
     } else {
       book.data_type_[i] = "numeric";
-      book.numeric_[i] = std::stod(vvalue.c_str());
+      book.numeric_[i] = strtod(vvalue.c_str(), NULL);
     }
   } else if (tvalue == "s") {
     // the t attribute exists and its value is exactly "s", so v is an index
     // into the string table.
     book.data_type_[i] = "character";
-    SET_STRING_ELT(book.character_, i, Rf_mkCharCE(book.strings_[std::stol(vvalue.c_str())].c_str(), CE_UTF8));
-    book.character_formatted_[i] = book.strings_formatted_[std::stol(vvalue.c_str())];
+    SET_STRING_ELT(book.character_, i, Rf_mkCharCE(book.strings_[strtol(vvalue.c_str(), NULL, 10)].c_str(), CE_UTF8));
+    book.character_formatted_[i] = book.strings_formatted_[strtol(vvalue.c_str(), NULL, 10)];
     return;
   } else if (tvalue == "str") {
     // Formula, which could have evaluated to anything, so only a string is safe
@@ -142,7 +148,7 @@ void xlsxcell::cacheValue(
     return;
   } else if (tvalue == "b"){
     book.data_type_[i] = "logical";
-    book.logical_[i] = std::stod(vvalue.c_str());
+    book.logical_[i] = strtod(vvalue.c_str(), NULL);
     return;
   } else if (tvalue == "e") {
     book.data_type_[i] = "error";
@@ -179,13 +185,16 @@ void xlsxcell::cacheFormula(
       }
     }
 
-    string_attr(book.formula_ref_, i, f, "ref");
+    rapidxml::xml_attribute<>* ref = f->first_attribute("ref");
+    if (ref != NULL) {
+      book.formula_ref_[i] = ref->value();
+    }
 
     // Formulas are sometimes defined once, and then 'shared' with a range
     // p.1629 'shared' and 'si' attributes
     rapidxml::xml_attribute<>* si = f->first_attribute("si");
     if (si != NULL) {
-      si_number = std::stoi(si->value());
+      si_number = strtol(si->value(), NULL, 10);
       book.formula_group_[i] = si_number;
       if (formula.length() == 0) { // inherits definition
         it = sheet->shared_formulas_.find(si_number);

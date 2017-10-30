@@ -101,7 +101,7 @@ DataFrame xlsx_sheet_files_(std::string path) {
       stop("Invalid xl/workbook.xml: sheet element lacks id attribute");
     }
     names[id] = sheet->first_attribute("name")->value();
-    sheetIds[id] = std::stoi(sheet->first_attribute("sheetId")->value());
+    sheetIds[id] = strtol(sheet->first_attribute("sheetId")->value(), NULL, 10);
   }
 
   // Join by id
@@ -113,7 +113,7 @@ DataFrame xlsx_sheet_files_(std::string path) {
   for(std::vector<std::string>::iterator it = ids.begin(); it != ids.end(); ++it) {
     std::string key(*it);
     out_name.push_back(names[key]);
-    out_rId.push_back(std::stoi(key.substr(3, std::string::npos).c_str()));
+    out_rId.push_back(std::strtol(key.substr(3, std::string::npos).c_str(), NULL, 10));
     out_sheetId.push_back(sheetIds[key]);
     out_target.push_back(targets[key]);
     out_comments_path.push_back(comments[key]);

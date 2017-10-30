@@ -45,6 +45,15 @@ class xf {
     xf(); // Default constructor
     xf(rapidxml::xml_node<>* xf);
 
+    // boolean value of an attribute
+    int bool_value(rapidxml::xml_node<>* xf, const char* name);
+
+    // integer value of an attribute
+    int int_value(rapidxml::xml_node<>* xf, const char* name);
+
+    // string value of an attribute
+    Rcpp::String string_value(rapidxml::xml_node<>* xf, const char* name);
+
     // looked-up value of readingOrder attribute
     Rcpp::String readingOrder(rapidxml::xml_node<>* xf);
 };
