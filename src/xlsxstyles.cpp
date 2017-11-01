@@ -726,7 +726,7 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
           _["patternType"] = fills_patternFill_patternType),
         _["gradientFill"] = List::create(
           _["type"] = fills_gradientFill_type,
-          _["degree_"] = fills_gradientFill_degree,
+          _["degree"] = fills_gradientFill_degree,
           _["left"] = fills_gradientFill_left,
           _["right"] = fills_gradientFill_right,
           _["top"] = fills_gradientFill_top,
