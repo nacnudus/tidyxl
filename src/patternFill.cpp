@@ -16,6 +16,9 @@ patternFill::patternFill(rapidxml::xml_node<>* patternFill,
   if (patternFill != NULL) {
     fgColor_ = color(patternFill->first_node("fgColor"), styles);
     bgColor_ = color(patternFill->first_node("bgColor"), styles);
-    patternType_ = patternFill->first_attribute("patternType")->value();
+    std::string patternType = patternFill->first_attribute("patternType")->value();
+    if (patternType != "none") {
+      patternType_ = patternFill->first_attribute("patternType")->value();
+    }
   }
 }
