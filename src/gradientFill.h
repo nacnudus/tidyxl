@@ -18,8 +18,9 @@ class gradientFill {
     double       top_;
     double       bottom_;
 
+    color        color0_;
+    color        color05_;
     color        color1_;
-    color        color2_;
 
     gradientFill(); // Default constructor
     gradientFill(rapidxml::xml_node<>* gradientFill, xlsxstyles* styles);
