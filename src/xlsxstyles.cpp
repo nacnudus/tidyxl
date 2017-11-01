@@ -538,9 +538,8 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
   colors fonts_color(n);
   colors fills_patternFill_fgColor(n);
   colors fills_patternFill_bgColor(n);
-  colors fills_gradientFill_color0(n);
-  colors fills_gradientFill_color05(n);
-  colors fills_gradientFill_color1(n);
+  colors fills_gradientFill_stop1_color(n);
+  colors fills_gradientFill_stop2_color(n);
   colors borders_left_color(n);
   colors borders_right_color(n);
   colors borders_start_color(n); // gnumeric
@@ -568,6 +567,8 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
   NumericVector fills_gradientFill_right(n, NA_REAL);
   NumericVector fills_gradientFill_top(n, NA_REAL);
   NumericVector fills_gradientFill_bottom(n, NA_REAL);
+  NumericVector fills_gradientFill_stop1_position(n, NA_REAL);
+  NumericVector fills_gradientFill_stop2_position(n, NA_REAL);
 
   IntegerVector borders_diagonalDown(n, NA_INTEGER);
   IntegerVector borders_diagonalUp(n, NA_INTEGER);
@@ -623,9 +624,10 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
     fills_gradientFill_right[i] = fill->gradientFill_.right_;
     fills_gradientFill_top[i] = fill->gradientFill_.top_;
     fills_gradientFill_bottom[i] = fill->gradientFill_.bottom_;
-    clone_color(fill->gradientFill_.color0_, fills_gradientFill_color0, i);
-    clone_color(fill->gradientFill_.color05_, fills_gradientFill_color05, i);
-    clone_color(fill->gradientFill_.color1_, fills_gradientFill_color1, i);
+    fills_gradientFill_stop1_position[i] = fill->gradientFill_.stop1_.position_;
+    fills_gradientFill_stop2_position[i] = fill->gradientFill_.stop2_.position_;
+    clone_color(fill->gradientFill_.stop1_.color_, fills_gradientFill_stop1_color, i);
+    clone_color(fill->gradientFill_.stop2_.color_, fills_gradientFill_stop2_color, i);
 
     borders_diagonalDown[i] = border->diagonalDown_;
     borders_diagonalUp[i] = border->diagonalUp_;
@@ -683,6 +685,8 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
     fills_gradientFill_right.attr("names") = cellStyles_;
     fills_gradientFill_top.attr("names") = cellStyles_;
     fills_gradientFill_bottom.attr("names") = cellStyles_;
+    fills_gradientFill_stop1_position.attr("names") = cellStyles_;
+    fills_gradientFill_stop2_position.attr("names") = cellStyles_;
     borders_diagonalDown.attr("names") = cellStyles_;
     borders_diagonalUp.attr("names") = cellStyles_;
     borders_outline.attr("names") = cellStyles_;
@@ -733,9 +737,12 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
           _["right"] = fills_gradientFill_right,
           _["top"] = fills_gradientFill_top,
           _["bottom"] = fills_gradientFill_bottom,
-          _["color0"] = list_color(fills_gradientFill_color0, is_style),
-          _["color0.5"] = list_color(fills_gradientFill_color05, is_style),
-          _["color1"] = list_color(fills_gradientFill_color1, is_style))),
+          _["stop1"] = List::create(
+            _["position"] = fills_gradientFill_stop1_position,
+            _["color"] = list_color(fills_gradientFill_stop1_color, is_style)),
+          _["stop2"] = List::create(
+            _["position"] = fills_gradientFill_stop2_position,
+            _["color"] = list_color(fills_gradientFill_stop2_color, is_style)))),
       _["border"] = List::create(
           _["diagonalDown"] = borders_diagonalDown,
           _["diagonalUp"] = borders_diagonalUp,

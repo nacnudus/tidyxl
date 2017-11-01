@@ -70,7 +70,7 @@ test_that("font sizes are parsed correctly", {
   expect_equal(locals$font$size[local_id("A40")], 12)
 })
 
-test_that("fonts colours are parsed correctly", {
+test_that("fonts colours and colors in general are parsed correctly", {
   expect_equal(locals$font$color$rgb[local_id("A1")], NA_character_)
   expect_equal(locals$font$color$theme[local_id("A1")], NA_integer_)
   expect_equal(locals$font$color$indexed[local_id("A1")], NA_integer_)
@@ -87,4 +87,76 @@ test_that("fonts colours are parsed correctly", {
   expect_equal(locals$font$color$theme[local_id("A138")], 10L)
   expect_equal(locals$font$color$indexed[local_id("A138")], NA_integer_)
   expect_equal(locals$font$color$tint[local_id("A138")], -0.2499771) # Excel's precision
+})
+
+test_that("fill pattern colours are parsed correctly", {
+  expect_equal(locals$fill$patternFill$fgColor$rgb[local_id("A69")], NA_character_)
+  expect_equal(locals$fill$patternFill$fgColor$rgb[local_id("A70")], "FF00B0F0")
+  expect_equal(locals$fill$patternFill$bgColor$rgb[local_id("A69")], NA_character_)
+  expect_equal(locals$fill$patternFill$bgColor$rgb[local_id("A70")], "FFFF0000")
+})
+
+test_that("fill pattern types are parsed correctly", {
+  expect_equal(locals$fill$patternFill$patternType[local_id("A69")], "darkUp")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A70")], "solid")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A71")], "darkGray")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A72")], "mediumGray")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A73")], "lightGray")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A74")], "gray125")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A75")], "gray0625")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A76")], "darkHorizontal")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A77")], "darkVertical")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A78")], "darkDown")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A79")], "darkUp")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A80")], "darkGrid")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A81")], "darkTrellis")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A82")], "lightHorizontal")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A83")], "lightVertical")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A84")], "lightDown")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A85")], "lightUp")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A86")], "lightGrid")
+  expect_equal(locals$fill$patternFill$patternType[local_id("A87")], "lightTrellis")
+})
+
+test_that("fill pattern types are consistently NA when not set", {
+  expect_equal(locals$fill$patternFill$patternType[local_id("A68")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A88")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A89")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A90")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A91")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A92")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A93")], NA_character_)
+  expect_equal(locals$fill$patternFill$patternType[local_id("A94")], NA_character_)
+})
+
+test_that("fill gradient colours are parsed correctly", {
+  expect_equal(locals$fill$gradientFill$stop1$color$rgb[local_id("A87")], NA_character_)
+  expect_equal(locals$fill$gradientFill$stop1$color$rgb[local_id("A88")], "FFFFFFFF")
+  expect_equal(locals$fill$gradientFill$stop2$color$rgb[local_id("A88")], "FF4F81BD")
+  expect_equal(locals$fill$gradientFill$stop1$color$rgb[local_id("A139")], "FFF79646")
+  expect_equal(locals$fill$gradientFill$stop2$color$rgb[local_id("A139")], "FF4F81BD")
+})
+
+test_that("fill gradient stop positions are parsed correctly", {
+  expect_equal(locals$fill$gradientFill$stop1$position[local_id("A87")], NA_real_)
+  expect_equal(locals$fill$gradientFill$stop1$position[local_id("A88")], 0)
+  expect_equal(locals$fill$gradientFill$stop2$position[local_id("A88")], 1)
+  expect_equal(locals$fill$gradientFill$stop2$position[local_id("A141")], 0.5)
+})
+
+test_that("fill gradient types are parsed correctly", {
+  expect_equal(locals$fill$gradientFill$type[local_id("A91")], NA_character_)
+  expect_equal(locals$fill$gradientFill$type[local_id("A92")], "path")
+})
+
+test_that("fill gradient degrees are parsed correctly", {
+  expect_equal(locals$fill$gradientFill$degree[local_id("A88")], 90L)
+  expect_equal(locals$fill$gradientFill$degree[local_id("A89")], 0L)
+  expect_equal(locals$fill$gradientFill$degree[local_id("A92")], NA_integer_)
+})
+
+test_that("fill gradient directions are parsed correctly", {
+  expect_equal(locals$fill$gradientFill$left[local_id("A91")], NA_real_)
+  expect_equal(locals$fill$gradientFill$right[local_id("A92")], 0)
+  expect_equal(locals$fill$gradientFill$right[local_id("A93")], 0.5)
 })

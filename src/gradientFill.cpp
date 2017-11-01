@@ -44,27 +44,9 @@ gradientFill::gradientFill(
     }
 
     rapidxml::xml_node<>* stop1 = gradientFill->first_node("stop");
-    color color1(stop1->first_node("color"), styles);
-    std::string pos1 = stop1->first_attribute("position")->value();
+    stop1_ = gradientStop(stop1, styles);
 
     rapidxml::xml_node<>* stop2 = stop1->next_sibling();
-    color color2(stop2->first_node("color"), styles);
-    std::string pos2 = stop2->first_attribute("position")->value();
-
-    if (pos1 == "0") {
-        color0_ = color1;
-    } else if (pos1 == "0.5") {
-        color05_ = color1;
-    } else if (pos1 == "1") {
-        color1_ = color1;
-    }
-
-    if (pos2 == "0") {
-        color0_ = color2;
-    } else if (pos2 == "0.5") {
-        color05_ = color2;
-    } else if (pos2 == "1") {
-        color1_ = color2;
-    }
+    stop2_ = gradientStop(stop2, styles);
   }
 }
