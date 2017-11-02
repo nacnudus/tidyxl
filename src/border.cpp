@@ -6,6 +6,19 @@
 
 using namespace Rcpp;
 
+inline int bool_value(rapidxml::xml_node<>* node, const char* name) {
+  std::string value;
+  rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
+  if (attribute == NULL) {
+    return(false);
+  }
+  value = attribute->value();
+  if (value == "0" || value == "false") {
+    return(false);
+  }
+  return(true);
+}
+
 border::border() {} // default constructor
 
 border::border(rapidxml::xml_node<>* border,
@@ -21,25 +34,9 @@ border::border(rapidxml::xml_node<>* border,
   vertical_(border->first_node("vertical"), styles),
   horizontal_(border->first_node("horizontal"), styles)
 {
-  rapidxml::xml_attribute<>* diagonalDown = border->first_attribute("diagonalDown");
-  if (diagonalDown != NULL) {
-    diagonalDown_ = strtol(diagonalDown->value(), NULL, 10);
-  } else {
-    diagonalDown_ = NA_INTEGER;
-  }
-
-  rapidxml::xml_attribute<>* diagonalUp = border->first_attribute("diagonalUp");
-  if (diagonalUp != NULL) {
-    diagonalUp_ = strtol(diagonalUp->value(), NULL, 10);
-  } else {
-    diagonalUp_ = NA_INTEGER;
-  }
+  diagonalDown_ = bool_value(border, "diagonalDown");
+  diagonalUp_ = bool_value(border, "diagonalUp");
 
   // I haven't been able to create an outline attribute in Excel 2016
-  rapidxml::xml_attribute<>* outline = border->first_attribute("outline");
-  if (outline != NULL) {
-    outline_ = strtol(outline->value(), NULL, 10); // # nocov
-  } else {
-    outline_ = NA_INTEGER;
-  }
+  outline_ = bool_value(border, "outline");
 }

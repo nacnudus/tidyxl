@@ -160,3 +160,11 @@ test_that("fill gradient directions are parsed correctly", {
   expect_equal(locals$fill$gradientFill$right[local_id("A92")], 0)
   expect_equal(locals$fill$gradientFill$right[local_id("A93")], 0.5)
 })
+
+test_that("borders are parsed correctly", {
+  expect_equal(locals$border$outline[local_id("A49")], FALSE)
+  expect_equal(locals$border$diagonalUp[local_id("A49")], FALSE)
+  expect_equal(locals$border$diagonalUp[local_id("A50")], TRUE)
+  expect_equal(locals$border$diagonalDown[local_id("A50")], FALSE)
+  expect_equal(locals$border$diagonalDown[local_id("A51")], TRUE)
+})

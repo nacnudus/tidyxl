@@ -570,9 +570,9 @@ List xlsxstyles::zipFormats(std::vector<xf> styles, bool is_style) {
   NumericVector fills_gradientFill_stop1_position(n, NA_REAL);
   NumericVector fills_gradientFill_stop2_position(n, NA_REAL);
 
-  IntegerVector borders_diagonalDown(n, NA_INTEGER);
-  IntegerVector borders_diagonalUp(n, NA_INTEGER);
-  IntegerVector borders_outline(n, NA_INTEGER);
+  LogicalVector borders_diagonalDown(n, NA_LOGICAL);
+  LogicalVector borders_diagonalUp(n, NA_LOGICAL);
+  LogicalVector borders_outline(n, NA_LOGICAL);
 
   CharacterVector borders_left_style(n, NA_STRING);
   CharacterVector borders_right_style(n, NA_STRING);
