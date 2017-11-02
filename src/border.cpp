@@ -31,8 +31,8 @@ border::border(rapidxml::xml_node<>* border,
   top_(border->first_node("top"), styles),
   bottom_(border->first_node("bottom"), styles),
   diagonal_(border->first_node("diagonal"), styles),
-  vertical_(border->first_node("vertical"), styles),
-  horizontal_(border->first_node("horizontal"), styles)
+  vertical_(border->first_node("vertical"), styles),    // can't produce in Excel
+  horizontal_(border->first_node("horizontal"), styles) // can't produce in Excel
 {
   diagonalDown_ = bool_value(border, "diagonalDown");
   diagonalUp_ = bool_value(border, "diagonalUp");
