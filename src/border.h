@@ -24,7 +24,6 @@ class border {
     stroke vertical_;
     stroke horizontal_;
 
-    border(); // Default constructor
     border(rapidxml::xml_node<>* border, xlsxstyles* styles);
 };
 

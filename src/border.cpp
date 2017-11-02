@@ -19,8 +19,6 @@ inline int bool_value(rapidxml::xml_node<>* node, const char* name) {
   return(true);
 }
 
-border::border() {} // default constructor
-
 border::border(rapidxml::xml_node<>* border,
     xlsxstyles* styles
     ):
