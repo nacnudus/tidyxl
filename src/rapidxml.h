@@ -1,4 +1,4 @@
-#ifndef RAPIDXML_HPP_INCLUDED
+#ifndef RAPIDXML_HPP_INCLUDED // # nocov start
 #define RAPIDXML_HPP_INCLUDED
 
 // Copyright (C) 2006, 2009 Marcin Kalicinski
@@ -253,7 +253,9 @@ namespace rapidxml
     //! Can be combined with other flags by use of | operator.
     //! <br><br>
     //! See xml_document::parse() function.
+    // # nocov end
     const int parse_strip_xml_namespaces = 0x1000;
+    // # nocov start
 
     // Compound flags
 
@@ -1517,6 +1519,7 @@ namespace rapidxml
 
         // part of the readxl namespace-prefix-stripping patch
         // Detect element XML namespace prefix character
+        // # nocov end
         struct element_namespace_prefix_pred
         {
           static unsigned char test(Ch ch)
@@ -1534,6 +1537,7 @@ namespace rapidxml
             return ch != ':' && internal::lookup_tables<0>::lookup_attribute_name[static_cast<unsigned char>(ch)];
           }
         };
+        // # nocov start
 
         // Insert coded character, using UTF8 or 8-bit ASCII
         template<int Flags>
@@ -2282,6 +2286,7 @@ namespace rapidxml
                 if (text == name)
                     RAPIDXML_PARSE_ERROR("expected attribute name", name);
                 // part of the readxl namespace-prefix-stripping patch
+                // # nocov end
                 if (Flags & parse_strip_xml_namespaces)
                 {
                   Ch *saved_name = name;
@@ -2289,6 +2294,7 @@ namespace rapidxml
                   if (name++ == text)
                     name = saved_name;
                 }
+                // # nocov start
 
                 // Create new attribute
                 xml_attribute<Ch> *attribute = this->allocate_attribute();
@@ -2637,4 +2643,4 @@ namespace rapidxml
     #pragma warning(pop)
 #endif
 
-#endif
+#endif // # nocov end
