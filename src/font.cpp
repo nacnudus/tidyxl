@@ -43,17 +43,11 @@ font::font(rapidxml::xml_node<>* font,
     vertAlign_ = NA_STRING;
   }
 
-  // Excel seems to use 'sz', while googlesheets seems to use "size"
-  rapidxml::xml_node<>* size = font->first_node("size");
   rapidxml::xml_node<>* sz = font->first_node("sz");
-  if (size != NULL) {
-    size_ = strtod(size->first_attribute("val")->value(), NULL);
+  if (sz != NULL) {
+    size_ = strtod(sz->first_attribute("val")->value(), NULL);
   } else {
-    if (sz != NULL) {
-      size_ = strtod(sz->first_attribute("val")->value(), NULL);
-    } else {
-      size_ = NA_REAL;
-    }
+    size_ = NA_REAL;
   }
 
   rapidxml::xml_node<>* name = font->first_node("name");
