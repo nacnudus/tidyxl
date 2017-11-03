@@ -60,8 +60,8 @@ xlsxnames::xlsxnames(const std::string& path) {
         if (hidden_value == "1" || hidden_value == "true") {
           hidden_[i] = true;
         } else {
-          hidden_[i] = false; // # nocov end
-        }
+          hidden_[i] = false;
+        } // # nocov end
       }
 
       ++i;
