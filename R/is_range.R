@@ -20,9 +20,9 @@ is_range <- function(x) {
     len <- nrow(tokens)
     odds <- seq.int(1, len, by = 2)
     if (len %% 2 == 0 && len >= 2) {
-      evens <- seq.int(2, len, by = 2)
-      out <- all(tokens$type[odds] == "ref") &&
-               all(tokens$token[evens] %in% c(",", " "))
+      evens <- seq.int(2, len, by = 2) # nocov start
+      out <- all(tokens$type[odds] == "ref") && # covr doesn't realise these ARE tested
+               all(tokens$token[evens] %in% c(",", " ")) # nocov end
     } else {
       out <- all(tokens$type[odds] == "ref")
     }
