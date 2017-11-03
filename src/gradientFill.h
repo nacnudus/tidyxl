@@ -6,6 +6,7 @@ class xlsxstyles; // Forward declaration because font is included in xlsxstyles.
 #include <Rcpp.h>
 #include "rapidxml.h"
 #include "color.h"
+#include "gradientStop.h"
 
 class gradientFill {
 
@@ -17,9 +18,8 @@ class gradientFill {
     double       right_;
     double       top_;
     double       bottom_;
-
-    color        color1_;
-    color        color2_;
+    gradientStop stop1_;
+    gradientStop stop2_;
 
     gradientFill(); // Default constructor
     gradientFill(rapidxml::xml_node<>* gradientFill, xlsxstyles* styles);

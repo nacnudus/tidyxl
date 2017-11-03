@@ -1,4 +1,4 @@
-#ifndef RAPIDXML_PRINT_HPP_INCLUDED
+#ifndef RAPIDXML_PRINT_HPP_INCLUDED // # nocov start
 #define RAPIDXML_PRINT_HPP_INCLUDED
 
 // Copyright (C) 2006, 2009 Marcin Kalicinski
@@ -429,4 +429,4 @@ namespace rapidxml
 
 }
 
-#endif
+#endif // # nocov end

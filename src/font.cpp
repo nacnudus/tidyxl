@@ -26,6 +26,8 @@ font::font(rapidxml::xml_node<>* font,
     } else {
       u_ = "single";
     }
+  } else {
+    u_ = NA_STRING;
   }
 
   rapidxml::xml_node<>* strike = font->first_node("strike");
@@ -39,6 +41,8 @@ font::font(rapidxml::xml_node<>* font,
     } else {
       vertAlign_ = NA_STRING;
     }
+  } else {
+    vertAlign_ = NA_STRING;
   }
 
   // Excel seems to use 'sz', while googlesheets seems to use "size"
