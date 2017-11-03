@@ -21,7 +21,6 @@ class gradientFill {
     gradientStop stop1_;
     gradientStop stop2_;
 
-    gradientFill(); // Default constructor
     gradientFill(rapidxml::xml_node<>* gradientFill, xlsxstyles* styles);
 };
 

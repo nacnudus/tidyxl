@@ -6,8 +6,6 @@
 
 using namespace Rcpp;
 
-gradientFill::gradientFill() {} // Default constructor
-
 gradientFill::gradientFill(
     rapidxml::xml_node<>* gradientFill,
     xlsxstyles* styles
