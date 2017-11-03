@@ -32,3 +32,10 @@ test_that("allows user interruptions", {
 test_that("The highest cell address is parsed", {
   expect_error(xlsx_cells("./xfd1048576.xlsx"), NA)
 })
+
+test_that("array formulas are detected as such", {
+  cells <- xlsx_cells("./examples.xlsx")
+  expect_equal(cells$is_array[41], FALSE)
+  expect_equal(cells$is_array[43], TRUE)
+  expect_equal(cells$is_array[45], TRUE)
+})

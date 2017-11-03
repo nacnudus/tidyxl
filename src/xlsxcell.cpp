@@ -180,7 +180,8 @@ void xlsxcell::cacheFormula(
     book.formula_[i] = formula;
     rapidxml::xml_attribute<>* f_t = f->first_attribute("t");
     if (f_t != NULL) {
-      if (f_t->value() == "array") {
+      std::string ftvalue(f_t->value());
+      if (ftvalue == "array") {
         book.is_array_[i] = true;
       }
     }
