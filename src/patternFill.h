@@ -15,7 +15,6 @@ class patternFill {
     color        bgColor_;
     Rcpp::String patternType_;
 
-    patternFill(); // Default constructor
     patternFill(rapidxml::xml_node<>* patternFill, xlsxstyles* styles);
 };
 

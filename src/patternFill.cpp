@@ -6,8 +6,6 @@
 
 using namespace Rcpp;
 
-patternFill::patternFill() {} // Default constructor
-
 patternFill::patternFill(rapidxml::xml_node<>* patternFill,
     xlsxstyles* styles
     ) {
