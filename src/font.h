@@ -22,7 +22,6 @@ class font {
     int          family_;
     Rcpp::String scheme_;
 
-    font(); // default constructor
     font(rapidxml::xml_node<>* font, xlsxstyles* styles);
 };
 

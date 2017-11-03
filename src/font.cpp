@@ -6,8 +6,6 @@
 
 using namespace Rcpp;
 
-font::font() {} // Default constructor
-
 font::font(rapidxml::xml_node<>* font,
     xlsxstyles* styles
     ): color_(font->first_node("color"), styles)
