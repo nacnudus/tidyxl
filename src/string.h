@@ -162,12 +162,15 @@ inline Rcpp::List parseFormattedString(
 
             } else {
 
+              // no known case
+              // # nocov start
               rapidxml::xml_attribute<>* indexed_attr = color->first_attribute("indexed");
               if (indexed_attr != NULL) {
                 int indexed_int = strtol(indexed_attr->value(), NULL, 10) + 1;
                 color_rgb[i] = styles.indexed_[indexed_int - 1];
                 color_indexed[i] = indexed_int;
               }
+              // # nocov end
 
             }
           }

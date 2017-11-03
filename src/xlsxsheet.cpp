@@ -150,7 +150,7 @@ void xlsxsheet::parseSheetData(
       row; row = row->next_sibling()) {
     rapidxml::xml_attribute<>* r = row->first_attribute("r");
     if (r == NULL)
-      stop("Invalid row or cell: lacks 'r' attribute");
+      stop("Invalid row or cell: lacks 'r' attribute"); // # nocov
     rowNumber = strtod(r->value(), NULL);
     // Check for custom row height
     double rowHeight = defaultRowHeight_;

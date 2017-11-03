@@ -37,7 +37,7 @@ font::font(rapidxml::xml_node<>* font,
     if (val != NULL) {
       vertAlign_ = val->value();
     } else {
-      vertAlign_ = NA_STRING;
+      vertAlign_ = NA_STRING; // # nocov
     }
   } else {
     vertAlign_ = NA_STRING;

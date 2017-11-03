@@ -98,7 +98,7 @@ DataFrame xlsx_sheet_files_(std::string path) {
     if (r_id != NULL) {
       id = r_id->value();
     } else {
-      stop("Invalid xl/workbook.xml: sheet element lacks id attribute");
+      stop("Invalid xl/workbook.xml: sheet element lacks id attribute"); // # nocov
     }
     names[id] = sheet->first_attribute("name")->value();
     sheetIds[id] = strtol(sheet->first_attribute("sheetId")->value(), NULL, 10);

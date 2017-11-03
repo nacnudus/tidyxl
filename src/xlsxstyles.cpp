@@ -473,8 +473,8 @@ void xlsxstyles::applyFormats() {
 
     if (it->applyNumberFormat_ == 1) {
       local_formats_[i].numFmtId_ = (it->numFmtId_);
-    } else {
-      local_formats_[i].numFmtId_ = (style_formats_[xfId].numFmtId_);
+    } else { // no known case
+      local_formats_[i].numFmtId_ = (style_formats_[xfId].numFmtId_); // # nocov
     }
 
     if (it->applyFont_ == 1) {
@@ -485,8 +485,8 @@ void xlsxstyles::applyFormats() {
 
     if (it->applyFill_ == 1) {
       local_formats_[i].fillId_ = (it->fillId_);
-    } else {
-      local_formats_[i].fillId_ = (style_formats_[xfId].fillId_);
+    } else { // no known case
+      local_formats_[i].fillId_ = (style_formats_[xfId].fillId_); // # nocov
     }
 
     if (it->applyBorder_ == 1) {

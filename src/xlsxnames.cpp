@@ -55,12 +55,12 @@ xlsxnames::xlsxnames(const std::string& path) {
       rapidxml::xml_attribute<>* hidden = definedName->first_attribute("hidden");
       if (hidden == NULL) {
         hidden_[i] = false;
-      } else {
-        std::string hidden_value(hidden->value());
+      } else { // no known case
+        std::string hidden_value(hidden->value()); // # nocov start
         if (hidden_value == "1" || hidden_value == "true") {
           hidden_[i] = true;
         } else {
-          hidden_[i] = false;
+          hidden_[i] = false; // # nocov end
         }
       }
 

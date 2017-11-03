@@ -117,7 +117,7 @@ void xlsxcell::cacheValue(
         book.data_type_[i] = "numeric";
         book.numeric_[i] = strtod(vvalue.c_str(), NULL);
       }
-    } else if (
+    } else if ( // no known case # nocov start
           book.styles_.isDate_[
             book.styles_.cellStyleXfs_[
               book.styles_.cellXfs_[svalue].xfId_
@@ -132,7 +132,7 @@ void xlsxcell::cacheValue(
       return;
     } else {
       book.data_type_[i] = "numeric";
-      book.numeric_[i] = strtod(vvalue.c_str(), NULL);
+      book.numeric_[i] = strtod(vvalue.c_str(), NULL); // # nocov end
     }
   } else if (tvalue == "s") {
     // the t attribute exists and its value is exactly "s", so v is an index
@@ -154,14 +154,14 @@ void xlsxcell::cacheValue(
     book.data_type_[i] = "error";
     book.error_[i] = vvalue;
     return;
-  } else if (tvalue == "d") {
+  } else if (tvalue == "d") { // # nocov start
     // Does excel use this date type? Regardless, don't have cross-platform
     // ISO8601 parser (yet) so need to return as text.
     book.data_type_[i] = "date (ISO8601)";
-    return;
-  } else {
-    book.data_type_[i] = "unknown";
-    return;
+    return; // # nocov end
+  } else { // no known case
+    book.data_type_[i] = "unknown"; // # nocov start
+    return; // # nocov end
   }
 }
 

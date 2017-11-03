@@ -23,11 +23,13 @@ int count_validations(std::string& xml) {
     if (count != NULL) {
       n = strtol(count->value(), NULL, 10);
     } else {
+      // No known case, so # nocov start
       for (rapidxml::xml_node<>* dataValidation =
              dataValidations->first_node("dataValidation");
            dataValidation;
            dataValidation = dataValidation->next_sibling("dataValidation")) {
           ++n;
+      // # nocov end
       }
     }
   }
