@@ -6,8 +6,6 @@
 
 using namespace Rcpp;
 
-stroke::stroke() {} // Default constructor
-
 stroke::stroke(
     rapidxml::xml_node<>* stroke,
     xlsxstyles* styles

@@ -14,7 +14,6 @@ class stroke {
     Rcpp::String style_;
     color        color_;
 
-    stroke(); // default constructor
     stroke(rapidxml::xml_node<>* stroke, xlsxstyles* styles);
 };
 
