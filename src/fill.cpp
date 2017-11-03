@@ -7,8 +7,6 @@
 
 using namespace Rcpp;
 
-fill::fill() {} // Default constructor
-
 fill::fill(rapidxml::xml_node<>* fill,
     xlsxstyles* styles
     ):

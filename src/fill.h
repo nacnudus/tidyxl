@@ -15,7 +15,6 @@ class fill {
     patternFill  patternFill_;
     gradientFill gradientFill_;
 
-    fill(); // Default constructor
     fill(rapidxml::xml_node<>* fill, xlsxstyles* styles);
 };
 
