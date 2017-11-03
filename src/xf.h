@@ -46,13 +46,14 @@ class xf {
     xf(rapidxml::xml_node<>* xf);
 
     // boolean value of an attribute
-    int bool_value(rapidxml::xml_node<>* xf, const char* name);
+    int bool_value(rapidxml::xml_node<>* xf, const char* name, int _default);
 
     // integer value of an attribute
-    int int_value(rapidxml::xml_node<>* xf, const char* name);
+    int int_value(rapidxml::xml_node<>* xf, const char* name, int _default);
 
     // string value of an attribute
-    Rcpp::String string_value(rapidxml::xml_node<>* xf, const char* name);
+    Rcpp::String string_value(rapidxml::xml_node<>* xf, const char* name,
+      Rcpp::String _default);
 
     // looked-up value of readingOrder attribute
     Rcpp::String readingOrder(rapidxml::xml_node<>* xf);
