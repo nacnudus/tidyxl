@@ -47,11 +47,11 @@ xf::xf(rapidxml::xml_node<>* xf):
 
   rapidxml::xml_node<>* protection = xf->first_node("protection");
   if (protection == NULL) {
-    locked_          = NA_LOGICAL;
-    hidden_          = NA_LOGICAL;
+    locked_          = true;
+    hidden_          = false;
   } else {
     locked_          = bool_value(protection, "locked", true);
-    hidden_          = bool_value(protection, "hidden", true);
+    hidden_          = bool_value(protection, "hidden", false);
   }
 }
 
@@ -59,7 +59,7 @@ int xf::bool_value(rapidxml::xml_node<>* node, const char* name, int _default) {
   std::string value;
   rapidxml::xml_attribute<>* attribute = node->first_attribute(name);
   if (attribute == NULL) {
-    return(true);
+    return(_default);
   }
   value = attribute->value();
   if (value == "0" || value == "false") {
@@ -67,7 +67,6 @@ int xf::bool_value(rapidxml::xml_node<>* node, const char* name, int _default) {
   } else {
     return(true);
   }
-  return(_default);
 }
 
 int xf::int_value(rapidxml::xml_node<>* node, const char* name, int _default) {

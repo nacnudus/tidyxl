@@ -212,3 +212,10 @@ test_that("alignments are parsed correctly", {
   expect_equal(locals$alignment$textRotation[local_id("A186")], 0L)
   expect_equal(locals$alignment$textRotation[local_id("A187")], 105L)
 })
+
+test_that("protections are parsed correctly", {
+  expect_equal(locals$protection$locked[local_id("A43")], TRUE)
+  expect_equal(locals$protection$locked[local_id("A44")], FALSE)
+  expect_equal(locals$protection$hidden[local_id("A187")], FALSE)
+  expect_equal(locals$protection$hidden[local_id("A188")], TRUE)
+})
