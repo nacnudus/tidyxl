@@ -345,3 +345,8 @@ test_that("argument type and length is enforced", {
 test_that("unrecognised tokens are returned as 'other'", {
   expect_equal(xlex(".")$type, "other")
 })
+
+test_that("print.xlex() doesn't error", {
+  expect_error(print(xlex("1")), NA)
+  expect_error(print(xlex("1"), pretty = FALSE), NA)
+})
