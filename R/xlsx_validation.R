@@ -56,17 +56,6 @@
 xlsx_validation <- function(path, sheets = NA) {
   path <- check_file(path)
   all_sheets <- utils_xlsx_sheet_files(path)
-  if (anyNA(sheets)) {
-    if (length(sheets) > 1) {
-      warning("Argument 'sheets' included NAs, which were discarded.")
-      sheets <- sheets[!is.na(sheets)]
-      if (length(sheets) == 0) {
-        stop("All elements of argument 'sheets' were discarded.")
-      }
-    } else {
-      sheets <- all_sheets$order
-    }
-  }
-  sheets <- standardise_sheet(sheets, all_sheets)
+  sheets <- check_sheets(sheets, path)
   xlsx_validation_(path, sheets$sheet_path, sheets$name)
 }
