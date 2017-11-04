@@ -7,6 +7,7 @@
 #include "xlsxvalidation.h"
 #include "xlsxbook.h"
 #include "xlsxstyles.h"
+#include "date.h"
 
 using namespace Rcpp;
 
@@ -143,4 +144,17 @@ List xlsx_validation_(
 // [[Rcpp::export]]
 List xlsx_names_(std::string path) {
   return xlsxnames(path).information();
+}
+
+// [[Rcpp::export]]
+LogicalVector is_date_format_(CharacterVector formats) {
+  CharacterVector::iterator it;
+  std::vector<bool> out(formats.size());
+  size_t i(0);
+  for(it = formats.begin(); it != formats.end(); ++it) {
+    std::string format(*it);
+    out[i] = isDateFormat(format);
+    ++i;
+  }
+  return wrap(out);
 }

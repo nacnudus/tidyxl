@@ -55,10 +55,7 @@ class xlsxstyles {
 
     void cacheCellXfs(rapidxml::xml_node<>* styleSheet);
     void cacheCellStyleXfs(rapidxml::xml_node<>* styleSheet); // also cellStyles, if available
-
     void cacheNumFmts(rapidxml::xml_node<>* styleSheet);
-    bool isDateFormat(std::string formatCode);
-
     void cacheFonts(rapidxml::xml_node<>* styleSheet);
     void cacheFills(rapidxml::xml_node<>* styleSheet);
     void cacheBorders(rapidxml::xml_node<>* styleSheet);

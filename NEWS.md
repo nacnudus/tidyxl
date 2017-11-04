@@ -20,6 +20,8 @@
 * Imports defined names (aka named ranges/formulas) with `xlsx_names()`.
 * Provides a utility function `is_range()` to check whether formulas are simply
     ranges of cells.
+* Provides a utility function `is_date_format()` to check whether an Excel
+  number format string would resolve to a date in Excel.
 * Consistently returns `NA` and never `"none"` when
   `xlsx_formats(path)$fill$patternFill$patternType` has not been set.
 * Returns formatting of alignment and cell protection (#20).

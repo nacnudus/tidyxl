@@ -21,6 +21,10 @@ xlsx_names_ <- function(path) {
     .Call('_tidyxl_xlsx_names_', PACKAGE = 'tidyxl', path)
 }
 
+is_date_format_ <- function(formats) {
+    .Call('_tidyxl_is_date_format_', PACKAGE = 'tidyxl', formats)
+}
+
 xlex_ <- function(x) {
     .Call('_tidyxl_xlex_', PACKAGE = 'tidyxl', x)
 }

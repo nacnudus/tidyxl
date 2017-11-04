@@ -1,5 +1,5 @@
-#ifndef tidyxl_string_
-#define tidyxl_string_
+#ifndef TIDYXL_STRING_
+#define TIDYXL_STRING_
 
 #include <Rcpp.h>
 #include "rapidxml.h"

@@ -1,5 +1,5 @@
-#ifndef tidyxl_date_
-#define tidyxl_date_
+#ifndef TIDYXL_DATE_
+#define TIDYXL_DATE_
 
 #include <Rcpp.h>
 
@@ -70,5 +70,40 @@ inline std::string formatDate(double& date, int& dateSystem, int& dateOffset) {
                                                 false));
   return out;
 }
+
+// From @reviewher https://github.com/tidyverse/readxl/issues/388
+#define CASEI(c) case c: case c | 0x20
+#define CMPLC(j,n) if(x[i+j] | 0x20 == n)
+inline bool isDateFormat(std::string x) {
+  char escaped = 0;
+  char bracket = 0;
+  for (size_t i = 0; i < x.size(); ++i) switch (x[i]) {
+    CASEI('D'):
+    CASEI('E'):
+    CASEI('H'):
+    CASEI('M'):
+    CASEI('S'):
+    CASEI('Y'):
+      if(!escaped && !bracket) return true;
+      break;
+    case '"':
+      escaped = 1 - escaped; break;
+    case '\\': ++i; break;
+    case '[': if(!escaped) bracket = 1; break;
+    case ']': if(!escaped) bracket = 0; break;
+    CASEI('G'):
+      if(i + 6 < x.size())
+      CMPLC(1,'e')
+      CMPLC(2,'n')
+      CMPLC(3,'e')
+      CMPLC(4,'r')
+      CMPLC(5,'a')
+      CMPLC(6,'l')
+        return false;
+  }
+  return false;
+}
+#undef CMPLC
+#undef CASEI
 
 #endif
