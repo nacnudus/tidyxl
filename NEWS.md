@@ -23,7 +23,8 @@
 * Consistently returns `NA` and never `"none"` when
   `xlsx_formats(path)$fill$patternFill$patternType` has not been set.
 * Returns formatting of alignment and cell protection (#20).
-* Returns in-cell formatting of strings (#5)
+* Returns in-cell formatting of strings (#5).
+* Omits escape-backslashes from custom numFmts.
 * Improves the performance of parsing formats vastly.
 
 # tidyxl 0.2.3

@@ -7,6 +7,24 @@
 
 using namespace Rcpp;
 
+inline std::string unescape_numFmt(const std::string& s) {
+  std::string out;
+  out.reserve(s.size());
+  bool escaping(false);
+  for (size_t i = 0; i < s.size(); i++) {
+    if (escaping) {
+      escaping = false;
+      out.push_back(s[i]);
+    } else if (s[i] == '\\') {
+      escaping = true;
+      // skip
+    } else {
+      out.push_back(s[i]);
+    }
+  }
+  return out;
+}
+
 xlsxstyles::xlsxstyles(const std::string& path) {
   cacheThemeRgb(path);
   cacheIndexedRgb();
@@ -243,7 +261,7 @@ void xlsxstyles::cacheNumFmts(rapidxml::xml_node<>* styleSheet) {
         numFmt; numFmt = numFmt->next_sibling()) {
       int id = strtol(numFmt->first_attribute("numFmtId")->value(), NULL, 10);
       std::string formatCode = numFmt->first_attribute("formatCode")->value();
-      formatCodes[id] = formatCode;
+      formatCodes[id] = unescape_numFmt(formatCode);
       isDate[id] = isDateFormat(formatCode);
     }
   }

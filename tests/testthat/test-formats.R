@@ -23,7 +23,11 @@ test_that("the 'General' number format is parsed correctly", {
 })
 
 test_that("custom formats are parsed correctly", {
-  expect_equal(locals$numFmt[local_id("A7")], "[$-1409]d\\ mmmm\\ yyyy;@")
+  expect_equal(locals$numFmt[local_id("A7")], "[$-1409]d mmmm yyyy;@")
+})
+
+test_that("escape-backslashes in custom formats are omitted", {
+  expect_equal(locals$numFmt[local_id("A7")], "[$-1409]d mmmm yyyy;@")
 })
 
 test_that("font formats inherit from styles", {
