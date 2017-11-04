@@ -1,33 +1,81 @@
 # tidyxl 0.2.3.9000
 
-* Breaking change: the column `content` has been replaced by `is_blank`, a
-    logical value indication whether the cell contains data.  Please replace
-    `!is.na(content)` with `!is_blank` to filter out blank cells (ones with
-    formatting but no value).
-* Tokenizes formulas with `xlex()`.
-    There's a [demo Shiny app](https://duncan-garmonsway.shinyapps.io/xlex/), and a
-    new vignette, `vignette("smells", package = "tidyxl")`, showing how to use
-    `xlex()` to detect spreadsheet smells like embedded constants and deep
-    nesting.  There are also a vector of Excel function names `excel_functions`.
-    More experimental features will be implemented in
-    [lexl](httsp://nacnudus.github.io/lexl) first.
-* Propogates shared formulas, handling relative cell references (for details see
-    issue #7).  This introduces a dependency on
-    [piton](https://cran.r-project.org/package=piton), which wraps the
-    [PEGTL](https://github.com/taocpp/PEGTL) parser generator.
-* Imports data input validation rules with `xlsx_validation()`.  See the
-    vignette, `vignette("data-validation-rules", package = "tidyxl")`
-* Imports defined names (aka named ranges/formulas) with `xlsx_names()`.
-* Provides a utility function `is_range()` to check whether formulas are simply
-    ranges of cells.
-* Provides a utility function `is_date_format()` to check whether an Excel
-  number format string would resolve to a date in Excel.
-* Consistently returns `NA` and never `"none"` when
-  `xlsx_formats(path)$fill$patternFill$patternType` has not been set.
-* Returns formatting of alignment and cell protection (#20).
-* Returns in-cell formatting of strings (#5).
-* Omits escape-backslashes from custom numFmts.
-* Improves the performance of parsing formats vastly.
+## New features
+
+* `xlsx_cells()` and `xlsx_formats()` replace `tidy_xlsx()`, which has been
+    deprecated.  `xlsx_cells()` returns a single data frame of all the cells in
+    scope (the whole workbook, or chosen sheets), rather than a list of separate
+    data frames for each sheet.  `xlsx_formats()` performs orders of magnitude
+    faster.
+* `xlsx_validation()` imports validation rules from cells that restrict data
+    input, such as cells that require a selection from a drop-down list.  See
+    the
+    [vignette](https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html)
+    `vignette("data-validation-rules", package = "tidyxl")`.
+* `xlsx_names()` imports defined names (aka named ranges/formulas), which can
+    be used to filter for particular ranges of cells by name.  Use `is_range()`
+    to filter for ones that are named ranges, and then read
+    [joining rules to cells](https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html#joining-rules-to-cells)
+    for how to join cell ranges to cell addresses.  This will become easier in a
+    future release.
+* `is_range()` checks whether a formula is simply ranges of cells.
+* `xlex()` tokenises formulas.  This is useful for detecting
+    spreadsheet smells like embedded constants and deep nesting.  There is a
+    [demo Shiny app](https://duncan-garmonsway.shinyapps.io/xlex/), and a
+    [vignette](https://nacnudus.github.io/tidyxl/articles/smells.html)
+    `vignette("smells", package = "tidyxl")`.  A vector of Excel function names
+    `excel_functions` can be used to separated built-in functions from custom
+    functions.  More experimental features will be implemented in the off-CRAN
+    package [lexl](httsp://nacnudus.github.io/lexl) before becoming part of
+    tidyxl.
+* `xlsx_cells()$character_formatted` is a new column for the in-cell formatting
+    of text (#5).  This is for when different parts of text in a single cell
+    have been formatted differently from one another.
+* `is_date_format()` checks whether a number format string is a date format.
+    This is useful if a cell formula contains a number formatting string (e.g.
+    `TEXT(45678,"yyyy")`), and you need to know that the constant 45678 is a
+    date in order to recover it at full resolution (rather than parsing the
+    character output "2025" as a year).
+* Shared formulas are propogated to all the cells that use the same formula
+    definition.  Relative cell references are handled, so that the formula
+    `=A1*2` in cell `B1`  becomes `=A2*2` in cell `B2` (for more details see
+    issue #7).
+* Formatting of alignment and cell protection is returned (#20).
+
+## Breaking changes and deprecations
+
+* `tidy_xlsx()` has been deprecated in favour of `xlsx_cells()`,
+    which returns a data frame of all the cells in the workbook (or in the
+    requested sheets), and `xlsx_formats()`, which returns a lookup list of cell
+    formats.
+* In `tidy_xlsx()` and one of it's replacments `xlsx_cells()`
+  * the column `content` has been replaced by `is_blank`, a logical value
+    indicating whether the cell contains data.  Please replace `!is.na(content)`
+    with `!is_blank` to filter out blank cells (ones with formatting but no
+    value).
+  * the column `formula_type` has been replaced by `is_array`, a logical value
+    indicating whether the cell's formula is an array formula or not.  In Excel
+    array formulas are represented visually by being surrounded by curly braces
+    `{}`.
+  * The order of columns has been changed so that the more useful columns are
+      visible in narrow consoles.
+
+## Minor fixes and improvements
+
+* Certain unusual custom number formats that specify colours (e.g. `"[Cyan]0%"`)
+    are no longer mis-detect as dates (#21).  `is_date_format()` tests whether a
+    number format is a date format.
+* `xlsx_formats()` is now thoroughly tested, and several relatively minor bugs
+    fixed.  For example, `xlsx_formats(path)$local$fill$patternFill$patternType`
+    consistently returns `NA` and never `"none"` when a pattern fill has not
+    been set, and escape-backslashes are consistently omitted from numFmts.
+
+## New dependency
+
+`xlex()`, `is_range()` and the handling of relative references in shared
+formulas requires a dependency on the
+[piton](https://cran.r-project.org/package=piton) package, which wraps the
+[PEGTL](https://github.com/taocpp/PEGTL) C++ parser generator.
 
 # tidyxl 0.2.3
 
