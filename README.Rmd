@@ -306,16 +306,3 @@ complex and non-tabular data layouts using I not AI (intelligence, not
 artificial intelligence).  In this way it corresponds to
 [jailbreaker](https://github.com/rsheets/jailbreakr), but with a different
 philosophy.
-
-## Roadmap
-
-- [ ] Propagate array formulas to all associated cells.
-- [ ] Dereference references in formulas to external files , e.g. `[0]`
-- [x] Import data validation rules
-- [x] Import named formulas (aka named ranges, defined names)
-- [x] Create a general formula tokenizer.
-- [x] Parse shared formulas and propagate to all associated cells
-- [x] Parse dates
-- [x] Detect cell types (date, boolean, string, number)
-- [x] Implement formatting import in C++ for speed
-- [x] Write more tests
