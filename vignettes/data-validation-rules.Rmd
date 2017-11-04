@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-### What data validation rules are
+## What data validation rules are
 
 Data validation rules control what constants can be entered into a cell, e.g.
 any whole number between 0 and 9, or one of several values from another part of
@@ -44,7 +44,7 @@ The gamut of possible rules is given in the examples for `xlsx_validation()`.
 as.data.frame(xlsx_validation(examples))
 ```
 
-### Joining rules to cells
+## Joining rules to cells
 
 > There are no built-in functions for joining ranges like `A1:D5,G8` to single
 > cells like `B3`.  For now, use the snippets in this section.  In future I
