@@ -90,7 +90,7 @@
       <h1>Detecting Spreadsheet Smells with xlex()</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-10-28</h4>
+            <h4 class="date">2017-11-04</h4>
           </div>
 
     
@@ -177,8 +177,8 @@ sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>formula)
 tokens</code></pre></div>
 <pre><code>## # A tibble: 154 x 3
-##      row   col           tokens
-##    &lt;int&gt; &lt;int&gt;           &lt;list&gt;
+##      row   col tokens          
+##    &lt;int&gt; &lt;int&gt; &lt;list&gt;          
 ##  1     8     4 &lt;tibble [9 x 3]&gt;
 ##  2     9     4 &lt;tibble [7 x 3]&gt;
 ##  3    10     4 &lt;tibble [7 x 3]&gt;
@@ -197,50 +197,50 @@ tokens</code></pre></div>
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))
 constants</code></pre></div>
 <pre><code>## # A tibble: 201 x 5
-##      row   col level   type token
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;chr&gt; &lt;chr&gt;
-##  1     8     4     1 number     7
-##  2     8     4     0 number    12
+##      row   col level type   token
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+##  1     8     4     1 number 7    
+##  2     8     4     0 number 12   
 ##  3     8     4     0 number 48000
-##  4     9     4     1 number     7
-##  5     9     4     0 number    12
-##  6    10     4     1 number     7
-##  7    10     4     0 number    12
-##  8    12     4     1 number     7
-##  9    12     4     0 number    12
-## 10    13     4     1 number     7
+##  4     9     4     1 number 7    
+##  5     9     4     0 number 12   
+##  6    10     4     1 number 7    
+##  7    10     4     0 number 12   
+##  8    12     4     1 number 7    
+##  9    12     4     0 number 12   
+## 10    13     4     1 number 7    
 ## # ... with 191 more rows</code></pre>
 <p>Which constants are most common? Unsurprisingly, 12 and 7 are almost equally abundant, but there are also lots of 6s and 9s – two- and three-quarterly figures? Then there are some 150000s and the familiar 48000s, followed by some fractions that look like percentages, and then several one-offs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tally.html">count</a></span>(token, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">print</span>(<span class="dt">n =</span> <span class="ot">Inf</span>)</code></pre></div>
 <pre><code>## # A tibble: 24 x 2
-##     token     n
-##     &lt;chr&gt; &lt;int&gt;
-##  1     12    59
-##  2      7    58
-##  3      6    30
-##  4      9    30
+##    token      n
+##    &lt;chr&gt;  &lt;int&gt;
+##  1 12        59
+##  2 7         58
+##  3 6         30
+##  4 9         30
 ##  5 150000     4
-##  6  48000     2
-##  7   0.05     1
-##  8    0.1     1
-##  9   0.35     1
-## 10    0.5     1
-## 11   1.05     1
-## 12     10     1
-## 13  10000     1
-## 14  12000     1
-## 15  13000     1
-## 16  15000     1
-## 17   2000     1
-## 18  25000     1
-## 19   5000     1
-## 20   5320     1
-## 21   7314     1
-## 22   7800     1
-## 23    866     1
-## 24  95000     1</code></pre>
+##  6 48000      2
+##  7 0.05       1
+##  8 0.1        1
+##  9 0.35       1
+## 10 0.5        1
+## 11 1.05       1
+## 12 10         1
+## 13 10000      1
+## 14 12000      1
+## 15 13000      1
+## 16 15000      1
+## 17 2000       1
+## 18 25000      1
+## 19 5000       1
+## 20 5320       1
+## 21 7314       1
+## 22 7800       1
+## 23 866        1
+## 24 95000      1</code></pre>
 </div>
 <div id="visualising-constants" class="section level3">
 <h3 class="hasAnchor">
@@ -258,17 +258,17 @@ constants</code></pre></div>
 has_constants</code></pre></div>
 <pre><code>## # A tibble: 412 x 3
 ##      row   col has_constant
-##    &lt;int&gt; &lt;int&gt;        &lt;lgl&gt;
-##  1     1     1        FALSE
-##  2     2     1        FALSE
-##  3     3     3        FALSE
-##  4     3     4        FALSE
-##  5     3     5        FALSE
-##  6     3     6        FALSE
-##  7     4     3        FALSE
-##  8     4     4        FALSE
-##  9     4     5        FALSE
-## 10     4     6        FALSE
+##    &lt;int&gt; &lt;int&gt; &lt;lgl&gt;       
+##  1     1     1 F           
+##  2     2     1 F           
+##  3     3     3 F           
+##  4     3     4 F           
+##  5     3     5 F           
+##  6     3     6 F           
+##  7     4     3 F           
+##  8     4     4 F           
+##  9     4     5 F           
+## 10     4     6 F           
 ## # ... with 402 more rows</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_constants <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="co"># filter(row &lt;= 28) %&gt;%</span>

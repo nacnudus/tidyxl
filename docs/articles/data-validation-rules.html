@@ -90,15 +90,15 @@
       <h1>Data Validation Rules</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-10-28</h4>
+            <h4 class="date">2017-11-04</h4>
           </div>
 
     
     
 <div class="contents">
-<div id="what-data-validation-rules-are" class="section level3">
-<h3 class="hasAnchor">
-<a href="#what-data-validation-rules-are" class="anchor"></a>What data validation rules are</h3>
+<div id="what-data-validation-rules-are" class="section level2">
+<h2 class="hasAnchor">
+<a href="#what-data-validation-rules-are" class="anchor"></a>What data validation rules are</h2>
 <p>Data validation rules control what constants can be entered into a cell, e.g. any whole number between 0 and 9, or one of several values from another part of the spreadsheet.</p>
 <p>‘xlsx_validation()’ returns each of the data validation rules in an xlsx file, and the ranges of cells to which each rule applies.</p>
 <p>Here is a rule that restricts input to integers between 0 and 9 inclusive, or no value (blank). If any other value is attempted, then an error message is displayed with the imaginative title “message title”, the informative body text “message body”, and a “stop” symbol.</p>
@@ -182,9 +182,9 @@ examples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span
 <span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
 <span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></code></pre></div>
 </div>
-<div id="joining-rules-to-cells" class="section level3">
-<h3 class="hasAnchor">
-<a href="#joining-rules-to-cells" class="anchor"></a>Joining rules to cells</h3>
+<div id="joining-rules-to-cells" class="section level2">
+<h2 class="hasAnchor">
+<a href="#joining-rules-to-cells" class="anchor"></a>Joining rules to cells</h2>
 <blockquote>
 <p>There are no built-in functions for joining ranges like <code>A1:D5,G8</code> to single cells like <code>B3</code>. For now, use the snippets in this section. In future I might develop a dplyr-like join function (this is hard currently because dplyr doesn’t yet join on arbitrary functions, or even the standard inequalities like <code>&gt;=</code>). Help and advice would be gratefully accepted!</p>
 </blockquote>
@@ -194,68 +194,62 @@ cells &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyv
 
 rules
 <span class="co">#&gt; # A tibble: 15 x 14</span>
-<span class="co">#&gt;     sheet            ref       type           operator            formula1</span>
-<span class="co">#&gt;     &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;               &lt;chr&gt;</span>
-<span class="co">#&gt;  1 Sheet1           A106      whole            between                   0</span>
-<span class="co">#&gt;  2 Sheet1           A108       list               &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt;  3 Sheet1           A110       date            between 2017-01-01 00:00:00</span>
-<span class="co">#&gt;  4 Sheet1           A111       time            between            00:00:00</span>
-<span class="co">#&gt;  5 Sheet1           A112 textLength            between                   0</span>
-<span class="co">#&gt;  6 Sheet1           A114      whole         notBetween                   0</span>
-<span class="co">#&gt;  7 Sheet1 A115,A121:A122      whole              equal                   0</span>
-<span class="co">#&gt;  8 Sheet1           A116      whole           notEqual                   0</span>
-<span class="co">#&gt;  9 Sheet1           A117      whole        greaterThan                   0</span>
-<span class="co">#&gt; 10 Sheet1           A119      whole greaterThanOrEqual                   0</span>
-<span class="co">#&gt; 11 Sheet1           A120      whole    lessThanOrEqual                   0</span>
-<span class="co">#&gt; 12 Sheet1           A118      whole           lessThan                   0</span>
-<span class="co">#&gt; 13 Sheet1           A107    decimal         notBetween                   0</span>
-<span class="co">#&gt; 14 Sheet1           A113     custom               &lt;NA&gt;     A113&lt;=LEN(B113)</span>
-<span class="co">#&gt; 15 Sheet1           A109       list               &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt; # ... with 9 more variables: formula2 &lt;chr&gt;, allow_blank &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   show_input_message &lt;lgl&gt;, prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   error_symbol &lt;chr&gt;</span>
+<span class="co">#&gt;    sheet ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Shee… A106  whole betw… 0     9     T     T     mess… mess… T     erro…</span>
+<span class="co">#&gt;  2 Shee… A108  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  3 Shee… A110  date  betw… 2017… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  4 Shee… A111  time  betw… 00:0… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  5 Shee… A112  text… betw… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  6 Shee… A114  whole notB… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  7 Shee… A115… whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  8 Shee… A116  whole notE… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  9 Shee… A117  whole grea… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 10 Shee… A119  whole grea… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 11 Shee… A120  whole less… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 12 Shee… A118  whole less… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 13 Shee… A107  deci… notB… 0     9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; </span>
+<span class="co">#&gt; 14 Shee… A113  cust… &lt;NA&gt;  A113… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 15 Shee… A109  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span>
 cells
-<span class="co">#&gt; # A tibble: 21 x 21</span>
-<span class="co">#&gt;     sheet address   row   col is_blank data_type error logical numeric</span>
-<span class="co">#&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt;    &lt;lgl&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;lgl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Sheet1    A106   106     1    FALSE   numeric  &lt;NA&gt;      NA     0.0</span>
-<span class="co">#&gt;  2 Sheet1    A107   107     1    FALSE   numeric  &lt;NA&gt;      NA     0.1</span>
-<span class="co">#&gt;  3 Sheet1    A108   108     1    FALSE character  &lt;NA&gt;      NA      NA</span>
-<span class="co">#&gt;  4 Sheet1    A109   109     1    FALSE character  &lt;NA&gt;      NA      NA</span>
-<span class="co">#&gt;  5 Sheet1    A110   110     1    FALSE      date  &lt;NA&gt;      NA      NA</span>
-<span class="co">#&gt;  6 Sheet1    A111   111     1    FALSE      date  &lt;NA&gt;      NA      NA</span>
-<span class="co">#&gt;  7 Sheet1    A112   112     1    FALSE character  &lt;NA&gt;      NA      NA</span>
-<span class="co">#&gt;  8 Sheet1    A113   113     1    FALSE   numeric  &lt;NA&gt;      NA    10.0</span>
-<span class="co">#&gt;  9 Sheet1    A114   114     1    FALSE   numeric  &lt;NA&gt;      NA    -1.0</span>
-<span class="co">#&gt; 10 Sheet1    A115   115     1    FALSE   numeric  &lt;NA&gt;      NA     0.0</span>
-<span class="co">#&gt; # ... with 11 more rows, and 12 more variables: date &lt;dttm&gt;,</span>
+<span class="co">#&gt; # A tibble: 77 x 21</span>
+<span class="co">#&gt;    sheet  address   row   col is_blank data_type error logical numeric</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Sheet1 A106      106     1 F        numeric   &lt;NA&gt;  NA        0    </span>
+<span class="co">#&gt;  2 Sheet1 A107      107     1 F        numeric   &lt;NA&gt;  NA        0.100</span>
+<span class="co">#&gt;  3 Sheet1 A108      108     1 F        character &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  4 Sheet1 A109      109     1 F        character &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  5 Sheet1 A110      110     1 F        date      &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  6 Sheet1 A111      111     1 F        date      &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  7 Sheet1 A112      112     1 F        character &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  8 Sheet1 A113      113     1 F        numeric   &lt;NA&gt;  NA       10.0  </span>
+<span class="co">#&gt;  9 Sheet1 A114      114     1 F        numeric   &lt;NA&gt;  NA      - 1.00 </span>
+<span class="co">#&gt; 10 Sheet1 A115      115     1 F        numeric   &lt;NA&gt;  NA        0    </span>
+<span class="co">#&gt; # ... with 67 more rows, and 12 more variables: date &lt;dttm&gt;,</span>
 <span class="co">#&gt; #   character &lt;chr&gt;, character_formatted &lt;list&gt;, formula &lt;chr&gt;,</span>
 <span class="co">#&gt; #   is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;,</span>
 <span class="co">#&gt; #   height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span>
 
 <span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(rules, cells, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"sheet"</span> =<span class="st"> "sheet"</span>, <span class="st">"ref"</span> =<span class="st"> "address"</span>))
 <span class="co">#&gt; # A tibble: 9 x 33</span>
-<span class="co">#&gt;    sheet   ref       type   operator            formula1</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;               &lt;chr&gt;</span>
-<span class="co">#&gt; 1 Sheet1  A106      whole    between                   0</span>
-<span class="co">#&gt; 2 Sheet1  A108       list       &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt; 3 Sheet1  A110       date    between 2017-01-01 00:00:00</span>
-<span class="co">#&gt; 4 Sheet1  A111       time    between            00:00:00</span>
-<span class="co">#&gt; 5 Sheet1  A112 textLength    between                   0</span>
-<span class="co">#&gt; 6 Sheet1  A114      whole notBetween                   0</span>
-<span class="co">#&gt; 7 Sheet1  A107    decimal notBetween                   0</span>
-<span class="co">#&gt; 8 Sheet1  A113     custom       &lt;NA&gt;     A113&lt;=LEN(B113)</span>
-<span class="co">#&gt; 9 Sheet1  A109       list       &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt; # ... with 28 more variables: formula2 &lt;chr&gt;, allow_blank &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   show_input_message &lt;lgl&gt;, prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   error_symbol &lt;chr&gt;, row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   data_type &lt;chr&gt;, error &lt;chr&gt;, logical &lt;lgl&gt;, numeric &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   date &lt;dttm&gt;, character &lt;chr&gt;, character_formatted &lt;list&gt;,</span>
-<span class="co">#&gt; #   formula &lt;chr&gt;, is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;,</span>
-<span class="co">#&gt; #   comment &lt;chr&gt;, height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;,</span>
-<span class="co">#&gt; #   local_format_id &lt;int&gt;</span></code></pre></div>
+<span class="co">#&gt;   sheet  ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Sheet1 A106  whole betw… 0     9     T     T     mess… mess… T     erro…</span>
+<span class="co">#&gt; 2 Sheet1 A108  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 3 Sheet1 A110  date  betw… 2017… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 4 Sheet1 A111  time  betw… 00:0… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 5 Sheet1 A112  text… betw… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 6 Sheet1 A114  whole notB… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 7 Sheet1 A107  deci… notB… 0     9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; </span>
+<span class="co">#&gt; 8 Sheet1 A113  cust… &lt;NA&gt;  A113… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 9 Sheet1 A109  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 21 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;,</span>
+<span class="co">#&gt; #   row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;, data_type &lt;chr&gt;, error &lt;chr&gt;,</span>
+<span class="co">#&gt; #   logical &lt;lgl&gt;, numeric &lt;dbl&gt;, date &lt;dttm&gt;, character &lt;chr&gt;,</span>
+<span class="co">#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></code></pre></div>
 <p>Notice that only 9 cells were joined, even though 15 rules were defined. Surely at least 15 cells ought to be joined? The reason why they are not is that the cells for the other 6 rules don’t exist – rules can be defined for cells that have no value, and cells with no value are not returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, otherwise all 17179869184 cells in a worksheet must be returned.</p>
 <p>A more subtle reason for certain cells not to have joined successfully is that the <code>ref</code> column of the rules sometimes refers to more than one cell, and can even refer to several, non-contiguous ranges of cells. Specifically, the seventh rule’s <code>ref</code> column has <code>A115,A121:A122</code>.</p>
 <p>Special treatment is needed here. Ideally, some kind of join function would be defined that can compare indidual cells with ranges. But I haven’t written one, so what follows is a workaround. First, the two ranges of cells must be <code>unnested</code> into <code>A115</code> and <code>A121:122</code>. Then the range <code>A121:122</code> must be ‘unranged’ into <code>A121</code> and <code>A122</code>.</p>
@@ -291,22 +285,18 @@ unnest_ref.default &lt;-<span class="st"> </span><span class="cf">function</span
 
 (nested_rule &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(rules, <span class="dv">7</span>))
 <span class="co">#&gt; # A tibble: 1 x 14</span>
-<span class="co">#&gt;    sheet            ref  type operator formula1 formula2 allow_blank</span>
-<span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;lgl&gt;</span>
-<span class="co">#&gt; 1 Sheet1 A115,A121:A122 whole    equal        0     &lt;NA&gt;        TRUE</span>
-<span class="co">#&gt; # ... with 7 more variables: show_input_message &lt;lgl&gt;, prompt_title &lt;chr&gt;,</span>
-<span class="co">#&gt; #   prompt_body &lt;chr&gt;, show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;,</span>
-<span class="co">#&gt; #   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span>
+<span class="co">#&gt;   sheet  ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Sheet1 A115… whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span>
 <span class="kw">unnest_ref</span>(nested_rule, ref)
 <span class="co">#&gt; # A tibble: 3 x 14</span>
-<span class="co">#&gt;    sheet  type operator formula1 formula2 allow_blank show_input_message</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;lgl&gt;              &lt;lgl&gt;</span>
-<span class="co">#&gt; 1 Sheet1 whole    equal        0     &lt;NA&gt;        TRUE               TRUE</span>
-<span class="co">#&gt; 2 Sheet1 whole    equal        0     &lt;NA&gt;        TRUE               TRUE</span>
-<span class="co">#&gt; 3 Sheet1 whole    equal        0     &lt;NA&gt;        TRUE               TRUE</span>
-<span class="co">#&gt; # ... with 7 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   error_symbol &lt;chr&gt;, ref &lt;chr&gt;</span></code></pre></div>
+<span class="co">#&gt;   sheet  type  oper… form… form… allo… show… prom… prom… show… erro… erro…</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 2 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 3 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 2 more variables: error_symbol &lt;chr&gt;, ref &lt;chr&gt;</span></code></pre></div>
 <p>Finally the new data frame of rules can be joined to a data frame of cells in any of the usual ways, via the <code>sheet</code> and <code>ref</code> columns.</p>
 <p>Problems with this approach occur with rules that are defined over large ranges of cells: the ‘unnesting’ of those ranges results in very long vectors of individual cell addresses, or (worse) huge data frames of rules. Such cases are commonplace, because rules are often defined for entire columns of a spreadsheet, and a column has 1048576 rows.</p>
 </div>
@@ -314,6 +304,14 @@ unnest_ref.default &lt;-<span class="st"> </span><span class="cf">function</span
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#what-data-validation-rules-are">What data validation rules are</a></li>
+      <li><a href="#joining-rules-to-cells">Joining rules to cells</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

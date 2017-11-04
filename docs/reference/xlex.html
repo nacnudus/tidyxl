@@ -433,15 +433,15 @@ https://github.com/spreadsheetlab/XLParser.</p>
 #&gt;     ¦-- +  operator
 #&gt;     °-- 3  number
 #&gt; °-- )      paren_close </div><div class='input'><span class='fu'>print</span>(<span class='fu'>xlex</span>(<span class='st'>"1*(2+3)"</span>), <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; # A tibble: 7 x 3
-#&gt;   level        type token
-#&gt;   &lt;int&gt;       &lt;chr&gt; &lt;chr&gt;
-#&gt; 1     0      number     1
-#&gt; 2     0    operator     *
-#&gt; 3     0  paren_open     (
-#&gt; 4     1      number     2
-#&gt; 5     1    operator     +
-#&gt; 6     1      number     3
-#&gt; 7     0 paren_close     )</div><div class='input'>
+#&gt;   level type        token
+#&gt;   &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1     0 number      1    
+#&gt; 2     0 operator    *    
+#&gt; 3     0 paren_open  (    
+#&gt; 4     1 number      2    
+#&gt; 5     1 operator    +    
+#&gt; 6     1 number      3    
+#&gt; 7     0 paren_close )    </div><div class='input'>
 <span class='co'># Arrays are marked by opening and closing curly braces, with comma ','</span>
 <span class='co'># between columns, and semicolons ';' between rows  Commas and semicolons are</span>
 <span class='co'># both tagged 'separator'.  Arrays contain only constants, which are</span>

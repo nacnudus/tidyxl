@@ -121,18 +121,55 @@
     <div id="tidyxl-0-2-3-9000" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tidyxl-0-2-3-9000" class="anchor"></a>tidyxl 0.2.3.9000</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
-<li>Breaking change: the column <code>content</code> has been replaced by <code>is_blank</code>, a logical value indication whether the cell contains data. Please replace <code>!is.na(content)</code> with <code>!is_blank</code> to filter out blank cells (ones with formatting but no value).</li>
-<li>Tokenizes formulas with <code><a href="../reference/xlex.html">xlex()</a></code>. There’s a <a href="https://duncan-garmonsway.shinyapps.io/xlex/">demo Shiny app</a>, and a new vignette, <code><a href="https://cran.rstudio.com/web/packages/tidyxl/vignettes/smells.html">vignette("smells", package = "tidyxl")</a></code>, showing how to use <code><a href="../reference/xlex.html">xlex()</a></code> to detect spreadsheet smells like embedded constants and deep nesting. There are also a vector of Excel function names <code>excel_functions</code>. More experimental features will be implemented in <a href="httsp://nacnudus.github.io/lexl">lexl</a> first.</li>
-<li>Propogates shared formulas, handling relative cell references (for details see issue #7). This introduces a dependency on <a href="https://cran.r-project.org/package=piton">piton</a>, which wraps the <a href="https://github.com/taocpp/PEGTL">PEGTL</a> parser generator.</li>
-<li>Imports data input validation rules with <code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code>. See the vignette, <code><a href="https://cran.rstudio.com/web/packages/tidyxl/vignettes/data-validation-rules.html">vignette("data-validation-rules", package = "tidyxl")</a></code>
-</li>
-<li>Imports defined names (aka named ranges/formulas) with <code><a href="../reference/xlsx_names.html">xlsx_names()</a></code>.</li>
-<li>Provides a utility function <code><a href="../reference/is_range.html">is_range()</a></code> to check whether formulas are simply ranges of cells.</li>
-<li>Returns formatting of alignment and cell protection (#20).</li>
-<li>Returns in-cell formatting of strings (#5)</li>
-<li>Improves the performance of parsing formats vastly.</li>
+<li>
+<code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code> and <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> replace <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code>, which has been deprecated. <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code> returns a single data frame of all the cells in scope (the whole workbook, or chosen sheets), rather than a list of separate data frames for each sheet. <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> performs orders of magnitude faster.</li>
+<li>
+<code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code> imports validation rules from cells that restrict data input, such as cells that require a selection from a drop-down list. See the <a href="https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html">vignette</a> <code><a href="https://cran.rstudio.com/web/packages/tidyxl/vignettes/data-validation-rules.html">vignette("data-validation-rules", package = "tidyxl")</a></code>.</li>
+<li>
+<code><a href="../reference/xlsx_names.html">xlsx_names()</a></code> imports defined names (aka named ranges/formulas), which can be used to filter for particular ranges of cells by name. Use <code><a href="../reference/is_range.html">is_range()</a></code> to filter for ones that are named ranges, and then read <a href="https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html#joining-rules-to-cells">joining rules to cells</a> for how to join cell ranges to cell addresses. This will become easier in a future release.</li>
+<li>
+<code><a href="../reference/is_range.html">is_range()</a></code> checks whether a formula is simply ranges of cells.</li>
+<li>
+<code><a href="../reference/xlex.html">xlex()</a></code> tokenises formulas. This is useful for detecting spreadsheet smells like embedded constants and deep nesting. There is a <a href="https://duncan-garmonsway.shinyapps.io/xlex/">demo Shiny app</a>, and a <a href="https://nacnudus.github.io/tidyxl/articles/smells.html">vignette</a> <code><a href="https://cran.rstudio.com/web/packages/tidyxl/vignettes/smells.html">vignette("smells", package = "tidyxl")</a></code>. A vector of Excel function names <code>excel_functions</code> can be used to separated built-in functions from custom functions. More experimental features will be implemented in the off-CRAN package <a href="httsp://nacnudus.github.io/lexl">lexl</a> before becoming part of tidyxl.</li>
+<li>
+<code>xlsx_cells()$character_formatted</code> is a new column for the in-cell formatting of text (#5). This is for when different parts of text in a single cell have been formatted differently from one another.</li>
+<li>
+<code><a href="../reference/is_date_format.html">is_date_format()</a></code> checks whether a number format string is a date format. This is useful if a cell formula contains a number formatting string (e.g. <code>TEXT(45678,"yyyy")</code>), and you need to know that the constant 45678 is a date in order to recover it at full resolution (rather than parsing the character output “2025” as a year).</li>
+<li>Shared formulas are propogated to all the cells that use the same formula definition. Relative cell references are handled, so that the formula <code>=A1*2</code> in cell <code>B1</code> becomes <code>=A2*2</code> in cell <code>B2</code> (for more details see issue #7).</li>
+<li>Formatting of alignment and cell protection is returned (#20).</li>
 </ul>
+</div>
+<div id="breaking-changes-and-deprecations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes-and-deprecations" class="anchor"></a>Breaking changes and deprecations</h2>
+<ul>
+<li>
+<code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code> has been deprecated in favour of <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, which returns a data frame of all the cells in the workbook (or in the requested sheets), and <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code>, which returns a lookup list of cell formats.</li>
+<li>In <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code> and one of it’s replacments <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>
+</li>
+<li>the column <code>content</code> has been replaced by <code>is_blank</code>, a logical value indicating whether the cell contains data. Please replace <code>!is.na(content)</code> with <code>!is_blank</code> to filter out blank cells (ones with formatting but no value).</li>
+<li>the column <code>formula_type</code> has been replaced by <code>is_array</code>, a logical value indicating whether the cell’s formula is an array formula or not. In Excel array formulas are represented visually by being surrounded by curly braces <code>{}</code>.</li>
+<li>The order of columns has been changed so that the more useful columns are visible in narrow consoles.</li>
+</ul>
+</div>
+<div id="minor-fixes-and-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-fixes-and-improvements" class="anchor"></a>Minor fixes and improvements</h2>
+<ul>
+<li>Certain unusual custom number formats that specify colours (e.g. <code>"[Cyan]0%"</code>) are no longer mis-detect as dates (#21). <code><a href="../reference/is_date_format.html">is_date_format()</a></code> tests whether a number format is a date format.</li>
+<li>
+<code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> is now thoroughly tested, and several relatively minor bugs fixed. For example, <code>xlsx_formats(path)$local$fill$patternFill$patternType</code> consistently returns <code>NA</code> and never <code>"none"</code> when a pattern fill has not been set, and escape-backslashes are consistently omitted from numFmts.</li>
+</ul>
+</div>
+<div id="new-dependency" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-dependency" class="anchor"></a>New dependency</h2>
+<p><code><a href="../reference/xlex.html">xlex()</a></code>, <code><a href="../reference/is_range.html">is_range()</a></code> and the handling of relative references in shared formulas requires a dependency on the <a href="https://cran.r-project.org/package=piton">piton</a> package, which wraps the <a href="https://github.com/taocpp/PEGTL">PEGTL</a> C++ parser generator.</p>
+</div>
 </div>
     <div id="tidyxl-0-2-3" class="section level1">
 <h1 class="hasAnchor">

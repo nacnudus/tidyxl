@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • tidyxl</title>
+<title>Test that Excel number formats are date formats — is_date_format • tidyxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -49,7 +49,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -111,106 +111,47 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.2.3.9000</small>
-      </h1>
+    <h1>Test that Excel number formats are date formats</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    
+    <p><code>is_date_format()</code> tests whether an Excel number format string
+would a resolve to a date in Excel.  For example, the number format string
+<code>"yyyy-mm-dd"</code> would resolve to a date, whereas the string <code>"0.0\%"</code> would
+not.</p>
+<p>This is useful if a cell formula contains a number formatting string (e.g.
+<code>TEXT(45678,"yyyy")</code>), and you need to know that the constant 45678 is a date
+in order to recover it at full resolution (rather than parsing the character
+output "2025" as a year).</p>
+<p>It is used internally to convert the value of a cell to the correct data
+type.</p>
+    
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <pre class="usage"><span class='fu'>is_date_format</span>(<span class='no'>x</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>character vector of number format strings</p></td>
+    </tr>
+    </table>
+    
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="excel_functions.html">excel_functions</a></code> </p>
-          </td>
-          <td><p>Names of all Excel functions</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="is_date_format.html">is_date_format</a></code> </p>
-          </td>
-          <td><p>Test that Excel number formats are date formats</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="is_range.html">is_range</a></code> </p>
-          </td>
-          <td><p>Test that Excel formulas are ranges</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="tidy_xlsx.html">tidy_xlsx</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="tidyxl.html">tidyxl</a></code> </p>
-          </td>
-          <td><p>tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlex.html">xlex</a></code> </p>
-          </td>
-          <td><p>Parse xlsx (Excel) formulas into tokens</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_cells.html">xlsx_cells</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_formats.html">xlsx_formats</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) formatting definitions.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_names.html">xlsx_names</a></code> </p>
-          </td>
-          <td><p>Import named formulas from xlsx (Excel) files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_sheet_names.html">xlsx_sheet_names</a></code> </p>
-          </td>
-          <td><p>List sheets in an xlsx (Excel) file</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_validation.html">xlsx_validation</a></code> </p>
-          </td>
-          <td><p>Import data validation rules of cells in xlsx (Excel) files</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>is_date_format</span>(<span class='fu'>c</span>(<span class='st'>"yyyy-mm-dd"</span>, <span class='st'>"0.0%"</span>, <span class='st'>"h:m:s"</span>, <span class='st'>"£#,##0;[Red]-£#,##0"</span>))</div><div class='output co'>#&gt; [1]  TRUE FALSE  TRUE FALSE</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+            
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
