@@ -76,6 +76,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// xlsx_color_theme_
+List xlsx_color_theme_(std::string path);
+RcppExport SEXP _tidyxl_xlsx_color_theme_(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_color_theme_(path));
+    return rcpp_result_gen;
+END_RCPP
+}
 // xlex_
 List xlex_(CharacterVector x);
 RcppExport SEXP _tidyxl_xlex_(SEXP xSEXP) {
@@ -95,6 +106,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tidyxl_xlsx_validation_", (DL_FUNC) &_tidyxl_xlsx_validation_, 3},
     {"_tidyxl_xlsx_names_", (DL_FUNC) &_tidyxl_xlsx_names_, 1},
     {"_tidyxl_is_date_format_", (DL_FUNC) &_tidyxl_is_date_format_, 1},
+    {"_tidyxl_xlsx_color_theme_", (DL_FUNC) &_tidyxl_xlsx_color_theme_, 1},
     {"_tidyxl_xlex_", (DL_FUNC) &_tidyxl_xlex_, 1},
     {NULL, NULL, 0}
 };

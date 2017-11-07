@@ -25,6 +25,10 @@ is_date_format_ <- function(formats) {
     .Call('_tidyxl_is_date_format_', PACKAGE = 'tidyxl', formats)
 }
 
+xlsx_color_theme_ <- function(path) {
+    .Call('_tidyxl_xlsx_color_theme_', PACKAGE = 'tidyxl', path)
+}
+
 xlex_ <- function(x) {
     .Call('_tidyxl_xlex_', PACKAGE = 'tidyxl', x)
 }

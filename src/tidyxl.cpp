@@ -158,3 +158,61 @@ LogicalVector is_date_format_(CharacterVector formats) {
   }
   return wrap(out);
 }
+
+// [[Rcpp::export]]
+List xlsx_color_theme_(std::string path) {
+  CharacterVector theme_name =
+    CharacterVector::create("background1",
+                            "text1",
+                            "background2",
+                            "text2",
+                            "accent1",
+                            "accent2",
+                            "accent3",
+                            "accent4",
+                            "accent5",
+                            "accent6",
+                            "hyperlink",
+                            "followed-hyperlink");
+  CharacterVector theme_rgb(12, NA_STRING);
+  std::string FF = "FF";
+  if (zip_has_file(path, "xl/theme/theme1.xml")) {
+    std::string theme1 = zip_buffer(path, "xl/theme/theme1.xml");
+    rapidxml::xml_document<> theme1_xml;
+    theme1_xml.parse<0>(&theme1[0]);
+    rapidxml::xml_node<>* theme = theme1_xml.first_node("a:theme");
+    rapidxml::xml_node<>* themeElements = theme->first_node("a:themeElements");
+    rapidxml::xml_node<>* clrScheme = themeElements->first_node("a:clrScheme");
+
+    // First, two sysClr nodes in the wrong order
+    rapidxml::xml_node<>* color = clrScheme->first_node();
+    theme_rgb[1] = FF + color->first_node()->first_attribute("lastClr")->value();
+    color = color->next_sibling();
+    theme_rgb[0] = FF + color->first_node()->first_attribute("lastClr")->value();
+
+    // Then, two srgbClr nodes in the wrong order
+    color = color->next_sibling();
+    theme_rgb[3] = FF + color->first_node()->first_attribute("val")->value();
+    color = color->next_sibling();
+    theme_rgb[2] = FF + color->first_node()->first_attribute("val")->value();
+
+    // Finally, eight more srgbClr nodes in the correct order
+    // Can't reuse 'color' here, so use 'nextcolor'
+    int i = 4;
+    for (rapidxml::xml_node<>* nextcolor = color->next_sibling();
+        nextcolor; nextcolor = nextcolor->next_sibling()) {
+      theme_rgb[i] = FF + nextcolor->first_node()->first_attribute("val")->value();
+      i++;
+    }
+  }
+
+  List out = List::create(_["theme"] = theme_name,
+                          _["rgb"] = theme_rgb);
+
+  // Turn list of vectors into a data frame without checking anything
+  int n = Rf_length(out[0]);
+  out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
+  out.attr("row.names") = IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+
+  return out;
+}
