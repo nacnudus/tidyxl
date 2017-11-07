@@ -57,10 +57,10 @@
     indicating whether the cell's formula is an array formula or not.  In Excel
     array formulas are represented visually by being surrounded by curly braces
     `{}`.
-* in `xlsx_formats()` and `tidy_xlsx()`, theme colours are given by name rather
-    than by number, e.g. `"accent6"` instead of `4`.
   * The order of columns has been changed so that the more useful columns are
       visible in narrow consoles.
+* in `xlsx_formats()` and `tidy_xlsx()`, theme colours are given by name rather
+    than by number, e.g. `"accent6"` instead of `4`.
 
 ## Minor fixes and improvements
 
