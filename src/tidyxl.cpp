@@ -56,7 +56,7 @@ inline String comments_path_(std::string path, std::string sheet_target) {
 }
 
 // [[Rcpp::export]]
-DataFrame xlsx_sheet_files_(std::string path) {
+List xlsx_sheet_files_(std::string path) {
   // Return a list of worksheets,  their index numbers, names, and comments
   // paths.
 
@@ -121,15 +121,19 @@ DataFrame xlsx_sheet_files_(std::string path) {
   }
 
   // Return a data frame
-  DataFrame out = DataFrame::create(
+  List out = List::create(
       _["name"] = out_name,
       _["id"] = out_rId,
       _["index"] = out_sheetId,
       _["sheet_path"] = out_target,
-      _["comments_path"] = out_comments_path,
-      _["stringsAsFactors"] = false);
+      _["comments_path"] = out_comments_path);
 
-  return(out);
+  // Turn list of vectors into a data frame without checking anything
+  int n = Rf_length(out[0]);
+  out.attr("class") = CharacterVector::create("tbl_df", "tbl", "data.frame");
+  out.attr("row.names") = IntegerVector::create(NA_INTEGER, -n); // Dunno how this works (the -n part)
+
+  return out;
 }
 
 // [[Rcpp::export]]
