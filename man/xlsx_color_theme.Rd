@@ -15,8 +15,7 @@ xlsx_colour_theme(path)
 \value{
 A data frame, one row per colour, with the following columns.
 \itemize{
-\item \code{theme} The name of the theme.
-\item \code{name}
+\item \code{name} The name of the theme.
 \item \code{rgb} The RGB colour that has been set for the theme in this file.
 }
 }

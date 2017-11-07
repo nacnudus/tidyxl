@@ -210,7 +210,7 @@ List xlsx_color_theme_(std::string path) {
     }
   }
 
-  List out = List::create(_["theme"] = theme_name,
+  List out = List::create(_["name"] = theme_name,
                           _["rgb"] = theme_rgb);
 
   // Turn list of vectors into a data frame without checking anything

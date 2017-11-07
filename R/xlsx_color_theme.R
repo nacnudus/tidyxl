@@ -12,8 +12,7 @@
 #' @return
 #' A data frame, one row per colour, with the following columns.
 #'
-#' * `theme` The name of the theme.
-#' * `name`
+#' * `name` The name of the theme.
 #' * `rgb` The RGB colour that has been set for the theme in this file.
 #'
 #' @export
