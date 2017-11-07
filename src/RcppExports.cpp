@@ -31,7 +31,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // xlsx_sheet_files_
-DataFrame xlsx_sheet_files_(std::string path);
+List xlsx_sheet_files_(std::string path);
 RcppExport SEXP _tidyxl_xlsx_sheet_files_(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
