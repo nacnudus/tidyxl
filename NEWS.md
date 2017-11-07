@@ -36,6 +36,11 @@
     `TEXT(45678,"yyyy")`), and you need to know that the constant 45678 is a
     date in order to recover it at full resolution (rather than parsing the
     character output "2025" as a year).
+* `xlsx_color_theme()` and it's British alias `xlsx_colour_theme()` returns the
+    theme colour palette used in a file.  This is useful to monitor use of a
+    corporate standard theme.
+* `xlsx_color_standard` and it's British alias `xlsx_colour_standard` are data
+    frames of the standard Excel palette (`red`, `blue`, etc.).
 * Shared formulas are propogated to all the cells that use the same formula
     definition.  Relative cell references are handled, so that the formula
     `=A1*2` in cell `B1`  becomes `=A2*2` in cell `B2` (for more details see
