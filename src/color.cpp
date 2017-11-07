@@ -8,7 +8,7 @@ using namespace Rcpp;
 color::color() { // Default constructor
   // Initialize variables
   rgb_     = NA_STRING;
-  theme_   = NA_INTEGER;
+  theme_   = NA_STRING;
   indexed_ = NA_INTEGER;
   tint_    = NA_REAL;
 }
@@ -16,7 +16,7 @@ color::color() { // Default constructor
 color::color(rapidxml::xml_node<>* color, xlsxstyles* styles) {
   // Initialize variables
   rgb_     = NA_STRING;
-  theme_   = NA_INTEGER;
+  theme_   = NA_STRING;
   indexed_ = NA_INTEGER;
   tint_    = NA_REAL;
 
@@ -33,9 +33,9 @@ color::color(rapidxml::xml_node<>* color, xlsxstyles* styles) {
 
       rapidxml::xml_attribute<>* theme = color->first_attribute("theme");
       if (theme != NULL) {
-        int theme_int = strtol(theme->value(), NULL, 10) + 1;
-        theme_ = theme_int;
-        rgb_ = styles->theme_[theme_int - 1];
+        int theme_int = strtol(theme->value(), NULL, 10) ;
+        theme_ = styles->theme_name_[theme_int];
+        rgb_ = styles->theme_[theme_int];
       }
 
       rapidxml::xml_attribute<>* indexed = color->first_attribute("indexed");

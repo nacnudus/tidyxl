@@ -76,21 +76,33 @@ test_that("font sizes are parsed correctly", {
 
 test_that("fonts colours and colors in general are parsed correctly", {
   expect_equal(locals$font$color$rgb[local_id("A1")], NA_character_)
-  expect_equal(locals$font$color$theme[local_id("A1")], NA_integer_)
+  expect_equal(locals$font$color$theme[local_id("A1")], NA_character_)
   expect_equal(locals$font$color$indexed[local_id("A1")], NA_integer_)
   expect_equal(locals$font$color$tint[local_id("A1")], NA_real_)
   expect_equal(locals$font$color$rgb[local_id("A35")], "FFFF0000")
-  expect_equal(locals$font$color$theme[local_id("A35")], NA_integer_)
+  expect_equal(locals$font$color$theme[local_id("A35")], NA_character_)
   expect_equal(locals$font$color$indexed[local_id("A35")], NA_integer_)
   expect_equal(locals$font$color$tint[local_id("A35")], NA_real_)
   expect_equal(locals$font$color$rgb[local_id("A36")], "FF4F81BD")
-  expect_equal(locals$font$color$theme[local_id("A36")], 5L)
+  expect_equal(locals$font$color$theme[local_id("A36")], "accent1")
   expect_equal(locals$font$color$indexed[local_id("A36")], NA_integer_)
   expect_equal(locals$font$color$tint[local_id("A36")], NA_real_)
   expect_equal(locals$font$color$rgb[local_id("A138")], "FFF79646")
-  expect_equal(locals$font$color$theme[local_id("A138")], 10L)
+  expect_equal(locals$font$color$theme[local_id("A138")], "accent6")
   expect_equal(locals$font$color$indexed[local_id("A138")], NA_integer_)
   expect_equal(locals$font$color$tint[local_id("A138")], -0.2499771) # Excel's precision
+  expect_equal(locals$font$color$theme[local_id("A47")], "background1")
+  expect_equal(locals$font$color$theme[local_id("A57")], "text1")
+  expect_equal(locals$font$color$theme[local_id("A58")], "background2")
+  expect_equal(locals$font$color$theme[local_id("A59")], "text2")
+  expect_equal(locals$font$color$theme[local_id("A60")], "accent1")
+  expect_equal(locals$font$color$theme[local_id("A61")], "accent2")
+  expect_equal(locals$font$color$theme[local_id("A62")], "accent3")
+  expect_equal(locals$font$color$theme[local_id("A63")], "accent4")
+  expect_equal(locals$font$color$theme[local_id("A64")], "accent5")
+  expect_equal(locals$font$color$theme[local_id("A65")], "accent6")
+  expect_equal(locals$font$color$theme[local_id("A66")], "hyperlink")
+  # I can't get Excel to write the followed-hyperlink theme to a file
 })
 
 test_that("fill pattern colours are parsed correctly", {

@@ -12,7 +12,7 @@ class color {
   public:
 
     Rcpp::String rgb_;
-    int          theme_;
+    Rcpp::String theme_;
     int          indexed_;
     double       tint_;
 

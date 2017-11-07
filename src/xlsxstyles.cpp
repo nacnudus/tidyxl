@@ -65,8 +65,20 @@ xlsxstyles::xlsxstyles(const std::string& path) {
 }
 
 void xlsxstyles::cacheThemeRgb(const std::string& path) {
-  CharacterVector theme(12, NA_STRING);
-  theme_ = theme;
+  theme_name_ =
+    CharacterVector::create("background1",
+                            "text1",
+                            "background2",
+                            "text2",
+                            "accent1",
+                            "accent2",
+                            "accent3",
+                            "accent4",
+                            "accent5",
+                            "accent6",
+                            "hyperlink",
+                            "followed-hyperlink");
+  theme_ = CharacterVector(12, NA_STRING);
   std::string FF = "FF";
   if (zip_has_file(path, "xl/theme/theme1.xml")) {
     std::string theme1 = zip_buffer(path, "xl/theme/theme1.xml");

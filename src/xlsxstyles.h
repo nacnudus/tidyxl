@@ -10,15 +10,15 @@
 
 struct colors {
   Rcpp::CharacterVector rgb;
-  Rcpp::IntegerVector   theme;
+  Rcpp::CharacterVector theme;
   Rcpp::IntegerVector   indexed;
   Rcpp::NumericVector   tint;
   colors() {}
   colors(int n):
-    rgb(n, NA_STRING),
-    theme(n, NA_INTEGER),
-    indexed(n, NA_INTEGER),
-    tint(n, NA_REAL)
+    rgb     (n, NA_STRING),
+    theme   (n, NA_STRING),
+    indexed (n, NA_INTEGER),
+    tint    (n, NA_REAL)
   {}
 };
 
@@ -26,8 +26,9 @@ class xlsxstyles {
 
   public:
 
-    Rcpp::CharacterVector theme_;   // rgb equivalent of theme no.
-    Rcpp::CharacterVector indexed_;   // rgb equivalent of index no.
+    Rcpp::CharacterVector theme_name_; // name of theme, e.g. "accent1"
+    Rcpp::CharacterVector theme_;      // rgb equivalent of theme no.
+    Rcpp::CharacterVector indexed_;    // rgb equivalent of index no.
 
     std::vector<xf> cellXfs_;
 
