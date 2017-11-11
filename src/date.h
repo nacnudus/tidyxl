@@ -64,7 +64,7 @@ inline std::string formatDate(double& date, int& dateSystem, int& dateOffset) {
   Rcpp::Function r_as_POSIXlt("as.POSIXlt");
   Rcpp::Function r_format_POSIXlt("format.POSIXlt");
   out =  Rcpp::as<std::string>(r_format_POSIXlt(r_as_POSIXlt(date,
-                                                             "",
+                                                             "GMT",
                                                              "1970-01-01"),
                                                 format,
                                                 false));
