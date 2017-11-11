@@ -23,8 +23,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
-
+  
+  
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -64,9 +64,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-
+     
   </a>
 </li>
 <li>
@@ -78,7 +78,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -94,12 +94,12 @@
   <a href="../news/index.html">News</a>
 </li>
       </ul>
-
+      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nacnudus/tidyxl">
     <span class="fa fa-github fa-lg"></span>
-
+     
   </a>
 </li>
       </ul>
@@ -107,7 +107,7 @@
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-
+      
       </header>
 
       <div class="row">
@@ -139,6 +139,10 @@
 <code>xlsx_cells()$character_formatted</code> is a new column for the in-cell formatting of text (#5). This is for when different parts of text in a single cell have been formatted differently from one another.</li>
 <li>
 <code><a href="../reference/is_date_format.html">is_date_format()</a></code> checks whether a number format string is a date format. This is useful if a cell formula contains a number formatting string (e.g. <code>TEXT(45678,"yyyy")</code>), and you need to know that the constant 45678 is a date in order to recover it at full resolution (rather than parsing the character output “2025” as a year).</li>
+<li>
+<code><a href="../reference/xlsx_color_theme.html">xlsx_color_theme()</a></code> and it’s British alias <code><a href="../reference/xlsx_color_theme.html">xlsx_colour_theme()</a></code> returns the theme colour palette used in a file. This is useful to monitor use of a corporate standard theme.</li>
+<li>
+<code>xlsx_color_standard</code> and it’s British alias <code>xlsx_colour_standard</code> are data frames of the standard Excel palette (<code>red</code>, <code>blue</code>, etc.).</li>
 <li>Shared formulas are propogated to all the cells that use the same formula definition. Relative cell references are handled, so that the formula <code>=A1*2</code> in cell <code>B1</code> becomes <code>=A2*2</code> in cell <code>B2</code> (for more details see issue #7).</li>
 <li>Formatting of alignment and cell protection is returned (#20).</li>
 </ul>
@@ -154,6 +158,7 @@
 <li>the column <code>content</code> has been replaced by <code>is_blank</code>, a logical value indicating whether the cell contains data. Please replace <code>!is.na(content)</code> with <code>!is_blank</code> to filter out blank cells (ones with formatting but no value).</li>
 <li>the column <code>formula_type</code> has been replaced by <code>is_array</code>, a logical value indicating whether the cell’s formula is an array formula or not. In Excel array formulas are represented visually by being surrounded by curly braces <code>{}</code>.</li>
 <li>The order of columns has been changed so that the more useful columns are visible in narrow consoles.</li>
+<li>in <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> and <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code>, theme colours are given by name rather than by number, e.g. <code>"accent6"</code> instead of <code>4</code>.</li>
 </ul>
 </div>
 <div id="minor-fixes-and-improvements" class="section level2">

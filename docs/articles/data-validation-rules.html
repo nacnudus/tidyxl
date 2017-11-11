@@ -96,214 +96,210 @@
     
     
 <div class="contents">
-<section id="what-data-validation-rules-are" class="level2"><h2>What data validation rules are</h2>
+<div id="what-data-validation-rules-are" class="section level2">
+<h2 class="hasAnchor">
+<a href="#what-data-validation-rules-are" class="anchor"></a>What data validation rules are</h2>
 <p>Data validation rules control what constants can be entered into a cell, e.g. any whole number between 0 and 9, or one of several values from another part of the spreadsheet.</p>
 <p>‘xlsx_validation()’ returns each of the data validation rules in an xlsx file, and the ranges of cells to which each rule applies.</p>
 <p>Here is a rule that restricts input to integers between 0 and 9 inclusive, or no value (blank). If any other value is attempted, then an error message is displayed with the imaginative title “message title”, the informative body text “message body”, and a “stop” symbol.</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">library</span>(tidyxl)</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">
-<span class="kw">library</span>(dplyr)</div>
-<div class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; </span></div>
-<div class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Attaching package: 'dplyr'</span></div>
-<div class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></div>
-<div class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; </span></div>
-<div class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;     filter, lag</span></div>
-<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; The following objects are masked from 'package:base':</span></div>
-<div class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; </span></div>
-<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></div>
-<div class="sourceLine" id="cb1-11" data-line-number="11">
-<span class="kw">library</span>(tidyr)</div>
-<div class="sourceLine" id="cb1-12" data-line-number="12">examples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/examples.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>)</div>
-<div class="sourceLine" id="cb1-13" data-line-number="13">
-<span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)[<span class="dv">1</span>, ])</div>
-<div class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; Observations: 1</span></div>
-<div class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; Variables: 14</span></div>
-<div class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; $ sheet              &lt;chr&gt; "Sheet1"</span></div>
-<div class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; $ ref                &lt;chr&gt; "A106"</span></div>
-<div class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; $ type               &lt;chr&gt; "whole"</span></div>
-<div class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; $ operator           &lt;chr&gt; "between"</span></div>
-<div class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; $ formula1           &lt;chr&gt; "0"</span></div>
-<div class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; $ formula2           &lt;chr&gt; "9"</span></div>
-<div class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; $ allow_blank        &lt;lgl&gt; TRUE</span></div>
-<div class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; $ show_input_message &lt;lgl&gt; TRUE</span></div>
-<div class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt; $ prompt_title       &lt;chr&gt; "message title"</span></div>
-<div class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; $ prompt_body        &lt;chr&gt; "message body"</span></div>
-<div class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; $ show_error_message &lt;lgl&gt; TRUE</span></div>
-<div class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; $ error_title        &lt;chr&gt; "error title"</span></div>
-<div class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; $ error_body         &lt;chr&gt; "error body"</span></div>
-<div class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; $ error_symbol       &lt;chr&gt; "stop"</span></div></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyxl)
+<span class="kw">library</span>(dplyr)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="kw">library</span>(tidyr)
+examples &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata/examples.xlsx"</span>, <span class="dt">package =</span> <span class="st">"tidyxl"</span>)
+<span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)[<span class="dv">1</span>, ])
+<span class="co">#&gt; Observations: 1</span>
+<span class="co">#&gt; Variables: 14</span>
+<span class="co">#&gt; $ sheet              &lt;chr&gt; "Sheet1"</span>
+<span class="co">#&gt; $ ref                &lt;chr&gt; "A106"</span>
+<span class="co">#&gt; $ type               &lt;chr&gt; "whole"</span>
+<span class="co">#&gt; $ operator           &lt;chr&gt; "between"</span>
+<span class="co">#&gt; $ formula1           &lt;chr&gt; "0"</span>
+<span class="co">#&gt; $ formula2           &lt;chr&gt; "9"</span>
+<span class="co">#&gt; $ allow_blank        &lt;lgl&gt; TRUE</span>
+<span class="co">#&gt; $ show_input_message &lt;lgl&gt; TRUE</span>
+<span class="co">#&gt; $ prompt_title       &lt;chr&gt; "message title"</span>
+<span class="co">#&gt; $ prompt_body        &lt;chr&gt; "message body"</span>
+<span class="co">#&gt; $ show_error_message &lt;lgl&gt; TRUE</span>
+<span class="co">#&gt; $ error_title        &lt;chr&gt; "error title"</span>
+<span class="co">#&gt; $ error_body         &lt;chr&gt; "error body"</span>
+<span class="co">#&gt; $ error_symbol       &lt;chr&gt; "stop"</span></code></pre></div>
 <p>The gamut of possible rules is given in the examples for <code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code>.</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">
-<span class="kw">as.data.frame</span>(<span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples))</div>
-<div class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;     sheet            ref       type           operator            formula1</span></div>
-<div class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; 1  Sheet1           A106      whole            between                   0</span></div>
-<div class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; 2  Sheet1           A108       list               &lt;NA&gt;              $B$108</span></div>
-<div class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 3  Sheet1           A110       date            between 2017-01-01 00:00:00</span></div>
-<div class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 4  Sheet1           A111       time            between            00:00:00</span></div>
-<div class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 5  Sheet1           A112 textLength            between                   0</span></div>
-<div class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 6  Sheet1           A114      whole         notBetween                   0</span></div>
-<div class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 7  Sheet1 A115,A121:A122      whole              equal                   0</span></div>
-<div class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 8  Sheet1           A116      whole           notEqual                   0</span></div>
-<div class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 9  Sheet1           A117      whole        greaterThan                   0</span></div>
-<div class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 10 Sheet1           A119      whole greaterThanOrEqual                   0</span></div>
-<div class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 11 Sheet1           A120      whole    lessThanOrEqual                   0</span></div>
-<div class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; 12 Sheet1           A118      whole           lessThan                   0</span></div>
-<div class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 13 Sheet1           A107    decimal         notBetween                   0</span></div>
-<div class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 14 Sheet1           A113     custom               &lt;NA&gt;     A113&lt;=LEN(B113)</span></div>
-<div class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 15 Sheet1           A109       list               &lt;NA&gt;              $B$108</span></div>
-<div class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;               formula2 allow_blank show_input_message  prompt_title</span></div>
-<div class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 1                    9        TRUE               TRUE message title</span></div>
-<div class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 2                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; 3  2017-01-09 09:00:00        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 4             09:00:00        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 5                    9        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 6                    9        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 7                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; 8                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; 9                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; 10                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; 11                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; 12                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt; 13                   9       FALSE              FALSE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; 14                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; 15                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></div>
-<div class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt;     prompt_body show_error_message error_title error_body error_symbol</span></div>
-<div class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt; 1  message body               TRUE error title error body         stop</span></div>
-<div class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt; 2          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;      warning</span></div>
-<div class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; 3          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt; 4          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt; 5          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt; 6          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt; 7          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt; 8          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt; 9          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt; 10         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt; 11         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt; 12         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt; 13         &lt;NA&gt;              FALSE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
-<div class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></div></code></pre>
-</section><section id="joining-rules-to-cells" class="level2"><h2>Joining rules to cells</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as.data.frame</span>(<span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples))
+<span class="co">#&gt;     sheet            ref       type           operator            formula1</span>
+<span class="co">#&gt; 1  Sheet1           A106      whole            between                   0</span>
+<span class="co">#&gt; 2  Sheet1           A108       list               &lt;NA&gt;              $B$108</span>
+<span class="co">#&gt; 3  Sheet1           A110       date            between 2017-01-01 00:00:00</span>
+<span class="co">#&gt; 4  Sheet1           A111       time            between            00:00:00</span>
+<span class="co">#&gt; 5  Sheet1           A112 textLength            between                   0</span>
+<span class="co">#&gt; 6  Sheet1           A114      whole         notBetween                   0</span>
+<span class="co">#&gt; 7  Sheet1 A115,A121:A122      whole              equal                   0</span>
+<span class="co">#&gt; 8  Sheet1           A116      whole           notEqual                   0</span>
+<span class="co">#&gt; 9  Sheet1           A117      whole        greaterThan                   0</span>
+<span class="co">#&gt; 10 Sheet1           A119      whole greaterThanOrEqual                   0</span>
+<span class="co">#&gt; 11 Sheet1           A120      whole    lessThanOrEqual                   0</span>
+<span class="co">#&gt; 12 Sheet1           A118      whole           lessThan                   0</span>
+<span class="co">#&gt; 13 Sheet1           A107    decimal         notBetween                   0</span>
+<span class="co">#&gt; 14 Sheet1           A113     custom               &lt;NA&gt;     A113&lt;=LEN(B113)</span>
+<span class="co">#&gt; 15 Sheet1           A109       list               &lt;NA&gt;              $B$108</span>
+<span class="co">#&gt;               formula2 allow_blank show_input_message  prompt_title</span>
+<span class="co">#&gt; 1                    9        TRUE               TRUE message title</span>
+<span class="co">#&gt; 2                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 3  2017-01-09 09:00:00        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 4             09:00:00        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 5                    9        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 6                    9        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 7                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 8                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 9                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 10                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 11                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 12                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 13                   9       FALSE              FALSE          &lt;NA&gt;</span>
+<span class="co">#&gt; 14                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt; 15                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
+<span class="co">#&gt;     prompt_body show_error_message error_title error_body error_symbol</span>
+<span class="co">#&gt; 1  message body               TRUE error title error body         stop</span>
+<span class="co">#&gt; 2          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;      warning</span>
+<span class="co">#&gt; 3          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 4          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 5          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 6          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 7          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 8          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 9          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 10         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 11         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 12         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 13         &lt;NA&gt;              FALSE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
+<span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></code></pre></div>
+</div>
+<div id="joining-rules-to-cells" class="section level2">
+<h2 class="hasAnchor">
+<a href="#joining-rules-to-cells" class="anchor"></a>Joining rules to cells</h2>
 <blockquote>
 <p>There are no built-in functions for joining ranges like <code>A1:D5,G8</code> to single cells like <code>B3</code>. For now, use the snippets in this section. In future I might develop a dplyr-like join function (this is hard currently because dplyr doesn’t yet join on arbitrary functions, or even the standard inequalities like <code>&gt;=</code>). Help and advice would be gratefully accepted!</p>
 </blockquote>
 <p>To join rules to cells, a naive method is to use the <code>sheet</code> and <code>ref</code> columns to match the <code>sheet</code> and <code>address</code> columns to the output of <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>.</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">rules &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2">cells &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(examples), row <span class="op">&gt;=</span><span class="st"> </span><span class="dv">106</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</div>
-<div class="sourceLine" id="cb3-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb3-4" data-line-number="4">rules</div>
-<div class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; # A tibble: 15 x 14</span></div>
-<div class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt;    sheet ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span></div>
-<div class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt;  1 Shee… A106  whole betw… 0     9     T     T     mess… mess… T     erro…</span></div>
-<div class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;  2 Shee… A108  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;  3 Shee… A110  date  betw… 2017… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;  4 Shee… A111  time  betw… 00:0… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;  5 Shee… A112  text… betw… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;  6 Shee… A114  whole notB… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;  7 Shee… A115… whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;  8 Shee… A116  whole notE… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;  9 Shee… A117  whole grea… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; 10 Shee… A119  whole grea… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; 11 Shee… A120  whole less… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; 12 Shee… A118  whole less… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; 13 Shee… A107  deci… notB… 0     9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; 14 Shee… A113  cust… &lt;NA&gt;  A113… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; 15 Shee… A109  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb3-24" data-line-number="24">cells</div>
-<div class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; # A tibble: 77 x 21</span></div>
-<div class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt;    sheet  address   row   col is_blank data_type error logical numeric</span></div>
-<div class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;</span></div>
-<div class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt;  1 Sheet1 A106      106     1 F        numeric   &lt;NA&gt;  NA        0    </span></div>
-<div class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt;  2 Sheet1 A107      107     1 F        numeric   &lt;NA&gt;  NA        0.100</span></div>
-<div class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt;  3 Sheet1 A108      108     1 F        character &lt;NA&gt;  NA       NA    </span></div>
-<div class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt;  4 Sheet1 A109      109     1 F        character &lt;NA&gt;  NA       NA    </span></div>
-<div class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">#&gt;  5 Sheet1 A110      110     1 F        date      &lt;NA&gt;  NA       NA    </span></div>
-<div class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#&gt;  6 Sheet1 A111      111     1 F        date      &lt;NA&gt;  NA       NA    </span></div>
-<div class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">#&gt;  7 Sheet1 A112      112     1 F        character &lt;NA&gt;  NA       NA    </span></div>
-<div class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">#&gt;  8 Sheet1 A113      113     1 F        numeric   &lt;NA&gt;  NA       10.0  </span></div>
-<div class="sourceLine" id="cb3-36" data-line-number="36"><span class="co">#&gt;  9 Sheet1 A114      114     1 F        numeric   &lt;NA&gt;  NA      - 1.00 </span></div>
-<div class="sourceLine" id="cb3-37" data-line-number="37"><span class="co">#&gt; 10 Sheet1 A115      115     1 F        numeric   &lt;NA&gt;  NA        0    </span></div>
-<div class="sourceLine" id="cb3-38" data-line-number="38"><span class="co">#&gt; # ... with 67 more rows, and 12 more variables: date &lt;dttm&gt;,</span></div>
-<div class="sourceLine" id="cb3-39" data-line-number="39"><span class="co">#&gt; #   character &lt;chr&gt;, character_formatted &lt;list&gt;, formula &lt;chr&gt;,</span></div>
-<div class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">#&gt; #   is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;,</span></div>
-<div class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; #   height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></div>
-<div class="sourceLine" id="cb3-42" data-line-number="42"></div>
-<div class="sourceLine" id="cb3-43" data-line-number="43">
-<span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(rules, cells, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"sheet"</span> =<span class="st"> "sheet"</span>, <span class="st">"ref"</span> =<span class="st"> "address"</span>))</div>
-<div class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt; # A tibble: 9 x 33</span></div>
-<div class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt;   sheet  ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span></div>
-<div class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; 1 Sheet1 A106  whole betw… 0     9     T     T     mess… mess… T     erro…</span></div>
-<div class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; 2 Sheet1 A108  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; 3 Sheet1 A110  date  betw… 2017… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; 4 Sheet1 A111  time  betw… 00:0… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt; 5 Sheet1 A112  text… betw… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; 6 Sheet1 A114  whole notB… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-53" data-line-number="53"><span class="co">#&gt; 7 Sheet1 A107  deci… notB… 0     9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-54" data-line-number="54"><span class="co">#&gt; 8 Sheet1 A113  cust… &lt;NA&gt;  A113… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-55" data-line-number="55"><span class="co">#&gt; 9 Sheet1 A109  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb3-56" data-line-number="56"><span class="co">#&gt; # ... with 21 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;,</span></div>
-<div class="sourceLine" id="cb3-57" data-line-number="57"><span class="co">#&gt; #   row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;, data_type &lt;chr&gt;, error &lt;chr&gt;,</span></div>
-<div class="sourceLine" id="cb3-58" data-line-number="58"><span class="co">#&gt; #   logical &lt;lgl&gt;, numeric &lt;dbl&gt;, date &lt;dttm&gt;, character &lt;chr&gt;,</span></div>
-<div class="sourceLine" id="cb3-59" data-line-number="59"><span class="co">#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span></div>
-<div class="sourceLine" id="cb3-60" data-line-number="60"><span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span></div>
-<div class="sourceLine" id="cb3-61" data-line-number="61"><span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></div></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rules &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(examples)
+cells &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="kw"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(examples), row <span class="op">&gt;=</span><span class="st"> </span><span class="dv">106</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+
+rules
+<span class="co">#&gt; # A tibble: 15 x 14</span>
+<span class="co">#&gt;    sheet ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1 Shee… A106  whole betw… 0     9     T     T     mess… mess… T     erro…</span>
+<span class="co">#&gt;  2 Shee… A108  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  3 Shee… A110  date  betw… 2017… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  4 Shee… A111  time  betw… 00:0… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  5 Shee… A112  text… betw… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  6 Shee… A114  whole notB… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  7 Shee… A115… whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  8 Shee… A116  whole notE… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt;  9 Shee… A117  whole grea… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 10 Shee… A119  whole grea… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 11 Shee… A120  whole less… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 12 Shee… A118  whole less… 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 13 Shee… A107  deci… notB… 0     9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; </span>
+<span class="co">#&gt; 14 Shee… A113  cust… &lt;NA&gt;  A113… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 15 Shee… A109  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span>
+cells
+<span class="co">#&gt; # A tibble: 77 x 21</span>
+<span class="co">#&gt;    sheet  address   row   col is_blank data_type error logical numeric</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Sheet1 A106      106     1 F        numeric   &lt;NA&gt;  NA        0    </span>
+<span class="co">#&gt;  2 Sheet1 A107      107     1 F        numeric   &lt;NA&gt;  NA        0.100</span>
+<span class="co">#&gt;  3 Sheet1 A108      108     1 F        character &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  4 Sheet1 A109      109     1 F        character &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  5 Sheet1 A110      110     1 F        date      &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  6 Sheet1 A111      111     1 F        date      &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  7 Sheet1 A112      112     1 F        character &lt;NA&gt;  NA       NA    </span>
+<span class="co">#&gt;  8 Sheet1 A113      113     1 F        numeric   &lt;NA&gt;  NA       10.0  </span>
+<span class="co">#&gt;  9 Sheet1 A114      114     1 F        numeric   &lt;NA&gt;  NA      - 1.00 </span>
+<span class="co">#&gt; 10 Sheet1 A115      115     1 F        numeric   &lt;NA&gt;  NA        0    </span>
+<span class="co">#&gt; # ... with 67 more rows, and 12 more variables: date &lt;dttm&gt;,</span>
+<span class="co">#&gt; #   character &lt;chr&gt;, character_formatted &lt;list&gt;, formula &lt;chr&gt;,</span>
+<span class="co">#&gt; #   is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;,</span>
+<span class="co">#&gt; #   height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span>
+
+<span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(rules, cells, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"sheet"</span> =<span class="st"> "sheet"</span>, <span class="st">"ref"</span> =<span class="st"> "address"</span>))
+<span class="co">#&gt; # A tibble: 9 x 33</span>
+<span class="co">#&gt;   sheet  ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Sheet1 A106  whole betw… 0     9     T     T     mess… mess… T     erro…</span>
+<span class="co">#&gt; 2 Sheet1 A108  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 3 Sheet1 A110  date  betw… 2017… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 4 Sheet1 A111  time  betw… 00:0… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 5 Sheet1 A112  text… betw… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 6 Sheet1 A114  whole notB… 0     9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 7 Sheet1 A107  deci… notB… 0     9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; </span>
+<span class="co">#&gt; 8 Sheet1 A113  cust… &lt;NA&gt;  A113… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; 9 Sheet1 A109  list  &lt;NA&gt;  $B$1… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 21 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;,</span>
+<span class="co">#&gt; #   row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;, data_type &lt;chr&gt;, error &lt;chr&gt;,</span>
+<span class="co">#&gt; #   logical &lt;lgl&gt;, numeric &lt;dbl&gt;, date &lt;dttm&gt;, character &lt;chr&gt;,</span>
+<span class="co">#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></code></pre></div>
 <p>Notice that only 9 cells were joined, even though 15 rules were defined. Surely at least 15 cells ought to be joined? The reason why they are not is that the cells for the other 6 rules don’t exist – rules can be defined for cells that have no value, and cells with no value are not returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, otherwise all 17179869184 cells in a worksheet must be returned.</p>
 <p>A more subtle reason for certain cells not to have joined successfully is that the <code>ref</code> column of the rules sometimes refers to more than one cell, and can even refer to several, non-contiguous ranges of cells. Specifically, the seventh rule’s <code>ref</code> column has <code>A115,A121:A122</code>.</p>
 <p>Special treatment is needed here. Ideally, some kind of join function would be defined that can compare indidual cells with ranges. But I haven’t written one, so what follows is a workaround. First, the two ranges of cells must be <code>unnested</code> into <code>A115</code> and <code>A121:122</code>. Then the range <code>A121:122</code> must be ‘unranged’ into <code>A121</code> and <code>A122</code>.</p>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">unrange &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</div>
-<div class="sourceLine" id="cb4-2" data-line-number="2">  limits &lt;-<span class="st"> </span>cellranger<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/cellranger/topics/cell_limits">as.cell_limits</a></span>(x)</div>
-<div class="sourceLine" id="cb4-3" data-line-number="3">  rows &lt;-<span class="st"> </span><span class="kw">seq</span>(limits<span class="op">$</span>ul[<span class="dv">1</span>], limits<span class="op">$</span>lr[<span class="dv">1</span>])</div>
-<div class="sourceLine" id="cb4-4" data-line-number="4">  cols &lt;-<span class="st"> </span><span class="kw">seq</span>(limits<span class="op">$</span>ul[<span class="dv">2</span>], limits<span class="op">$</span>lr[<span class="dv">2</span>])</div>
-<div class="sourceLine" id="cb4-5" data-line-number="5">  rowcol &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(rows, cols)</div>
-<div class="sourceLine" id="cb4-6" data-line-number="6">  cell_addrs &lt;-<span class="st"> </span>cellranger<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/cellranger/topics/cell_addr">cell_addr</a></span>(rowcol[[<span class="dv">1</span>]], rowcol[[<span class="dv">2</span>]])</div>
-<div class="sourceLine" id="cb4-7" data-line-number="7">  cellranger<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/cellranger/topics/to_string">to_string</a></span>(cell_addrs, <span class="dt">fo =</span> <span class="st">"A1"</span>, <span class="dt">strict =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb4-8" data-line-number="8">}</div>
-<div class="sourceLine" id="cb4-9" data-line-number="9"></div>
-<div class="sourceLine" id="cb4-10" data-line-number="10">unnest_ref &lt;-<span class="st"> </span><span class="cf">function</span>(x, ref) {</div>
-<div class="sourceLine" id="cb4-11" data-line-number="11">  <span class="kw">UseMethod</span>(<span class="st">"unnest_ref"</span>)</div>
-<div class="sourceLine" id="cb4-12" data-line-number="12">}</div>
-<div class="sourceLine" id="cb4-13" data-line-number="13"></div>
-<div class="sourceLine" id="cb4-14" data-line-number="14">unnest_ref.default &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">ref_col =</span> ref) {</div>
-<div class="sourceLine" id="cb4-15" data-line-number="15">  <span class="kw">stopifnot</span>(<span class="kw">is.character</span>(x), <span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span>1L)</div>
-<div class="sourceLine" id="cb4-16" data-line-number="16">  refs &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">strsplit</span>(x, <span class="st">","</span>, <span class="dt">fixed =</span> <span class="ot">TRUE</span>))</div>
-<div class="sourceLine" id="cb4-17" data-line-number="17">  <span class="kw">unlist</span>(<span class="kw">lapply</span>(refs, unrange))</div>
-<div class="sourceLine" id="cb4-18" data-line-number="18">}</div>
-<div class="sourceLine" id="cb4-19" data-line-number="19"></div>
-<div class="sourceLine" id="cb4-20" data-line-number="20">
-<span class="kw">unrange</span>(<span class="st">"A121:A122"</span>)</div>
-<div class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; [1] "A121" "A122"</span></div>
-<div class="sourceLine" id="cb4-22" data-line-number="22">
-<span class="kw">unnest_ref</span>(<span class="st">"A115,A121:A122"</span>)</div>
-<div class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; [1] "A115" "A121" "A122"</span></div></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">unrange &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  limits &lt;-<span class="st"> </span>cellranger<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/cellranger/topics/cell_limits">as.cell_limits</a></span>(x)
+  rows &lt;-<span class="st"> </span><span class="kw">seq</span>(limits<span class="op">$</span>ul[<span class="dv">1</span>], limits<span class="op">$</span>lr[<span class="dv">1</span>])
+  cols &lt;-<span class="st"> </span><span class="kw">seq</span>(limits<span class="op">$</span>ul[<span class="dv">2</span>], limits<span class="op">$</span>lr[<span class="dv">2</span>])
+  rowcol &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(rows, cols)
+  cell_addrs &lt;-<span class="st"> </span>cellranger<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/cellranger/topics/cell_addr">cell_addr</a></span>(rowcol[[<span class="dv">1</span>]], rowcol[[<span class="dv">2</span>]])
+  cellranger<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/cellranger/topics/to_string">to_string</a></span>(cell_addrs, <span class="dt">fo =</span> <span class="st">"A1"</span>, <span class="dt">strict =</span> <span class="ot">FALSE</span>)
+}
+
+unnest_ref &lt;-<span class="st"> </span><span class="cf">function</span>(x, ref) {
+  <span class="kw">UseMethod</span>(<span class="st">"unnest_ref"</span>)
+}
+
+unnest_ref.default &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">ref_col =</span> ref) {
+  <span class="kw">stopifnot</span>(<span class="kw">is.character</span>(x), <span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span>1L)
+  refs &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">strsplit</span>(x, <span class="st">","</span>, <span class="dt">fixed =</span> <span class="ot">TRUE</span>))
+  <span class="kw">unlist</span>(<span class="kw">lapply</span>(refs, unrange))
+}
+
+<span class="kw">unrange</span>(<span class="st">"A121:A122"</span>)
+<span class="co">#&gt; [1] "A121" "A122"</span>
+<span class="kw">unnest_ref</span>(<span class="st">"A115,A121:A122"</span>)
+<span class="co">#&gt; [1] "A115" "A121" "A122"</span></code></pre></div>
 <p>The <code>unnest_ref()</code> function can also be defined for whole data frames, unnesting them by a column of references.</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">unnest_ref.data.frame &lt;-<span class="st"> </span><span class="cf">function</span>(x, ref_col) {</div>
-<div class="sourceLine" id="cb5-2" data-line-number="2">  ref &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quosure">enquo</a></span>(ref_col)</div>
-<div class="sourceLine" id="cb5-3" data-line-number="3">  x[[rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quo_expr">quo_name</a></span>(ref)]] &lt;-<span class="st"> </span><span class="kw">lapply</span>(x[[rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quo_expr">quo_name</a></span>(ref)]], unnest_ref)</div>
-<div class="sourceLine" id="cb5-4" data-line-number="4">  tidyr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(x, rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quasiquotation">UQ</a></span>(ref))</div>
-<div class="sourceLine" id="cb5-5" data-line-number="5">}</div>
-<div class="sourceLine" id="cb5-6" data-line-number="6"></div>
-<div class="sourceLine" id="cb5-7" data-line-number="7">(nested_rule &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(rules, <span class="dv">7</span>))</div>
-<div class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; # A tibble: 1 x 14</span></div>
-<div class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;   sheet  ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span></div>
-<div class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 1 Sheet1 A115… whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb5-13" data-line-number="13">
-<span class="kw">unnest_ref</span>(nested_rule, ref)</div>
-<div class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; # A tibble: 3 x 14</span></div>
-<div class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;   sheet  type  oper… form… form… allo… show… prom… prom… show… erro… erro…</span></div>
-<div class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span></div>
-<div class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 1 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 2 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 3 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span></div>
-<div class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; # ... with 2 more variables: error_symbol &lt;chr&gt;, ref &lt;chr&gt;</span></div></code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">unnest_ref.data.frame &lt;-<span class="st"> </span><span class="cf">function</span>(x, ref_col) {
+  ref &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quosure">enquo</a></span>(ref_col)
+  x[[rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quo_expr">quo_name</a></span>(ref)]] &lt;-<span class="st"> </span><span class="kw">lapply</span>(x[[rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quo_expr">quo_name</a></span>(ref)]], unnest_ref)
+  tidyr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(x, rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/quasiquotation">UQ</a></span>(ref))
+}
+
+(nested_rule &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(rules, <span class="dv">7</span>))
+<span class="co">#&gt; # A tibble: 1 x 14</span>
+<span class="co">#&gt;   sheet  ref   type  oper… form… form… allo… show… prom… prom… show… erro…</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Sheet1 A115… whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span>
+<span class="kw">unnest_ref</span>(nested_rule, ref)
+<span class="co">#&gt; # A tibble: 3 x 14</span>
+<span class="co">#&gt;   sheet  type  oper… form… form… allo… show… prom… prom… show… erro… erro…</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt; 1 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 2 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; 3 Sheet1 whole equal 0     &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; # ... with 2 more variables: error_symbol &lt;chr&gt;, ref &lt;chr&gt;</span></code></pre></div>
 <p>Finally the new data frame of rules can be joined to a data frame of cells in any of the usual ways, via the <code>sheet</code> and <code>ref</code> columns.</p>
 <p>Problems with this approach occur with rules that are defined over large ranges of cells: the ‘unnesting’ of those ranges results in very long vectors of individual cell addresses, or (worse) huge data frames of rules. Such cases are commonplace, because rules are often defined for entire columns of a spreadsheet, and a column has 1048576 rows.</p>
-</section>
+</div>
 </div>
   </div>
 
