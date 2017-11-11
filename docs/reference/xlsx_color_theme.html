@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List sheets in an xlsx (Excel) file — xlsx_sheet_names • tidyxl</title>
+<title>Import theme color definitions from xlsx (Excel) files — xlsx_color_theme • tidyxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -113,16 +113,20 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List sheets in an xlsx (Excel) file</h1>
+    <h1>Import theme color definitions from xlsx (Excel) files</h1>
     </div>
 
     
-    <p><code>xlsx_sheets()</code> returns the names of the sheets in a workbook, as a character
-vector.  They are in the same order as they appear in the spreadsheet when it
-is opened with a spreadsheet application like Excel or LibreOffice.</p>
+    <p><code>xlsx_color_theme()</code> (alias <code>xlsx_colour_theme()</code> returns the names and RGB
+values of theme colours defined in xlsx (Excel) files.  For example,
+<code>"accent6"</code> is the name of a theme colour in Excel, which could resolve to
+any RGB colour defined by the author of the file.  Themes are often defined
+to comply with corporate standards.</p>
     
 
-    <pre class="usage"><span class='fu'>xlsx_sheet_names</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_color_theme</span>(<span class='no'>path</span>)
+
+<span class='fu'>xlsx_colour_theme</span>(<span class='no'>path</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -135,13 +139,44 @@ is opened with a spreadsheet application like Excel or LibreOffice.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A character vector of the names of the worksheets in the file.</p>
+    <p>A data frame, one row per colour, with the following columns.</p><ul>
+<li><p><code>name</code> The name of the theme.</p></li>
+<li><p><code>rgb</code> The RGB colour that has been set for the theme in this file.</p></li>
+</ul>
+
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='fu'>xlsx_sheet_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; [1] "Sheet1"                           "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°"
-#&gt; [3] "E09904.2"                         "gradientFill"                    </div></pre>
+<span class='fu'>xlsx_color_theme</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; # A tibble: 12 x 2
+#&gt;    name               rgb     
+#&gt;    &lt;chr&gt;              &lt;chr&gt;   
+#&gt;  1 background1        FFFFFFFF
+#&gt;  2 text1              FF000000
+#&gt;  3 background2        FFEEECE1
+#&gt;  4 text2              FF1F497D
+#&gt;  5 accent1            FF4F81BD
+#&gt;  6 accent2            FFC0504D
+#&gt;  7 accent3            FF9BBB59
+#&gt;  8 accent4            FF8064A2
+#&gt;  9 accent5            FF4BACC6
+#&gt; 10 accent6            FFF79646
+#&gt; 11 hyperlink          FF0000FF
+#&gt; 12 followed-hyperlink FF800080</div><div class='input'><span class='fu'>xlsx_colour_theme</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; # A tibble: 12 x 2
+#&gt;    name               rgb     
+#&gt;    &lt;chr&gt;              &lt;chr&gt;   
+#&gt;  1 background1        FFFFFFFF
+#&gt;  2 text1              FF000000
+#&gt;  3 background2        FFEEECE1
+#&gt;  4 text2              FF1F497D
+#&gt;  5 accent1            FF4F81BD
+#&gt;  6 accent2            FFC0504D
+#&gt;  7 accent3            FF9BBB59
+#&gt;  8 accent4            FF8064A2
+#&gt;  9 accent5            FF4BACC6
+#&gt; 10 accent6            FFF79646
+#&gt; 11 hyperlink          FF0000FF
+#&gt; 12 followed-hyperlink FF800080</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

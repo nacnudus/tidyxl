@@ -64,7 +64,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -231,7 +231,7 @@ further processing you might need to filter out the <code>NULL</code>s first.
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
 
 <span class='co'># All sheets</span>
-<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	554 obs. of  21 variables:
+<span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	586 obs. of  21 variables:
 #&gt;  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #&gt;  $ address            : chr  "A1" "B1" "A2" "B2" ...
 #&gt;  $ row                : int  1 1 2 2 3 3 4 4 5 5 ...
@@ -243,7 +243,7 @@ further processing you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ numeric            : num  NA NA NA NA NA ...
 #&gt;  $ date               : POSIXct, format: NA NA ...
 #&gt;  $ character          : chr  NA "Error" NA "Boolean (true)" ...
-#&gt;  $ character_formatted:List of 554
+#&gt;  $ character_formatted:List of 586
 #&gt;   ..$ : NULL
 #&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
 #&gt;   .. ..$ character    : chr "Error"
@@ -1399,7 +1399,7 @@ further processing you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ height             : num  14.2 14.2
 #&gt;  $ width              : num  8.38 8.38
 #&gt;  $ style_format       : chr  "Normal" "Normal"
-#&gt;  $ local_format_id    : int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	363 obs. of  21 variables:
+#&gt;  $ local_format_id    : int  1 1</div><div class='input'><span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	395 obs. of  21 variables:
 #&gt;  $ sheet              : chr  "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #&gt;  $ address            : chr  "A1" "B1" "A2" "B2" ...
 #&gt;  $ row                : int  1 1 2 2 3 3 4 4 5 5 ...
@@ -1411,7 +1411,7 @@ further processing you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ numeric            : num  NA NA NA NA NA ...
 #&gt;  $ date               : POSIXct, format: NA NA ...
 #&gt;  $ character          : chr  NA "Error" NA "Boolean (true)" ...
-#&gt;  $ character_formatted:List of 363
+#&gt;  $ character_formatted:List of 395
 #&gt;   ..$ : NULL
 #&gt;   ..$ :Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	1 obs. of  14 variables:
 #&gt;   .. ..$ character    : chr "Error"

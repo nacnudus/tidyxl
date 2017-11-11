@@ -34,14 +34,6 @@ details.  It is useful for detecting 'spreadsheet smells' (poor practice such as
 embedding constants in formulas, or using deep levels of nesting), and for
 understanding the dependency structures within spreadsheets.
 
-## Mailing list
-
-For bugs and/or issues, create a new issue on
-[GitHub](https://github.com/nacnudus/tidyxl/issues) For other questions or
-comments, please subscribe to the [tidyxl-devel mailing
-list](https://groups.google.com/forum/#!forum/tidyxl-devel). You must be a
-member to post messages, but anyone can read the archived discussions.
-
 ## Installation
 
 ```{r, echo = TRUE, eval = FALSE}
@@ -196,7 +188,7 @@ numbers.
 The function `xlex()` separates formulas into tokens of different types, and
 gives their depth within a nested formula.  Its name is a bad pun on 'Excel' and
 'lexer'.  Try the [online demo](https://duncan-garmonsway.shinyapps.io/xlex/),
-or install the more experimental [lexl](https://nacnuds.github.io/lexl) package
+or install the more experimental [lexl](https://nacnudus.github.io/lexl) package
 to run `demo_lexl()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices in
@@ -306,3 +298,11 @@ complex and non-tabular data layouts using I not AI (intelligence, not
 artificial intelligence).  In this way it corresponds to
 [jailbreaker](https://github.com/rsheets/jailbreakr), but with a different
 philosophy.
+
+## Mailing list
+
+For bugs and/or issues, create a new issue on
+[GitHub](https://github.com/nacnudus/tidyxl/issues) For other questions or
+comments, please subscribe to the [tidyxl-devel mailing
+list](https://groups.google.com/forum/#!forum/tidyxl-devel). You must be a
+member to post messages, but anyone can read the archived discussions.

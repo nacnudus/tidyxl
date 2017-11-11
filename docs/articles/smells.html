@@ -38,7 +38,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -90,21 +90,20 @@
       <h1>Detecting Spreadsheet Smells with xlex()</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-11-04</h4>
+            <h4 class="date">2017-11-11</h4>
           </div>
 
     
     
 <div class="contents">
-<p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or install the more experimental <a href="https://nacnuds.github.io/lexl">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
+<p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or install the more experimental <a href="https://nacnudus.github.io/lexl">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
 <p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
-<div id="inspecting-the-parse-tree" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspecting-the-parse-tree" class="anchor"></a>Inspecting the parse tree</h2>
+<section id="inspecting-the-parse-tree" class="level2"><h2>Inspecting the parse tree</h2>
 <p>Here’s an example with a simple formula <code>MIN(3,MAX(2,A1))</code> (the <code>=</code> symbol at the beginning of the formula is implied, because Excel doesn’t write it to the file).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyxl)
-x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MIN(3,MAX(2,A1))"</span>)
-x</code></pre></div>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
+<span class="kw">library</span>(tidyxl)</div>
+<div class="sourceLine" id="cb1-2" data-line-number="2">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MIN(3,MAX(2,A1))"</span>)</div>
+<div class="sourceLine" id="cb1-3" data-line-number="3">x</div></code></pre>
 <pre><code>## root            
 ## ¦-- MIN         function
 ## °-- (           fun_open
@@ -117,18 +116,14 @@ x</code></pre></div>
 ##         °-- A1  ref
 ##     °-- )       fun_close
 ## °-- )           fun_close</code></pre>
-</div>
-<div id="detecting-constants-inside-formulas" class="section level2">
-<h2 class="hasAnchor">
-<a href="#detecting-constants-inside-formulas" class="anchor"></a>Detecting constants inside formulas</h2>
+</section><section id="detecting-constants-inside-formulas" class="level2"><h2>Detecting constants inside formulas</h2>
 <p>A smelly spreadsheet is distributed with the <code>tidyxl</code> package. It comes from the famous Enron subpoena, made available by <a href="http://www.felienne.com/archives/3634">Felienne Hermans</a>.</p>
 <p>How does it look at a glance? Here’s a screenshot of part of one sheet, showing the formulas rather than the cell values. It’s a financial plan, using formulas to forecast the rest of the year, and the plan for the following year.</p>
 <p>What we want to see is whether the formulas have any embedded constants; ones that are hidden from our attention, but that are driving the forecasts. While we could read each formula, one by one, it would be a lot easier to visualise the ones containing constants. We can do this with <code><a href="../reference/xlex.html">xlex()</a></code> and a graph plotting library like <code>ggplot2</code>.</p>
 <p>The first step, after importing the spreadsheet, is to tokenize the formulas, using <code>xlsx()</code>. Let’s tokenize one formula to see what it looks like.</p>
-<div id="one-formula" class="section level3">
-<h3 class="hasAnchor">
-<a href="#one-formula" class="anchor"></a>One formula</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
+<section id="one-formula" class="level3"><h3>One formula</h3>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
+<span class="kw">library</span>(dplyr)</div></code></pre>
 <pre><code>## 
 ## Attaching package: 'dplyr'</code></pre>
 <pre><code>## The following objects are masked from 'package:stats':
@@ -137,19 +132,23 @@ x</code></pre></div>
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr)
-<span class="kw">library</span>(purrr)
-<span class="kw">library</span>(ggplot2)
-
-<span class="co"># The original filename was "barry_tycholiz__848__2002 Plan Worksheet CC107322.xlsx"</span>
-sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"extdata/enron-constants.xlsx"</span>,
-                               <span class="dt">package =</span> <span class="st">"tidyxl"</span>),
-                   <span class="st">"Detail Breakdown"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</code></pre></div>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
+<span class="kw">library</span>(tidyr)</div>
+<div class="sourceLine" id="cb7-2" data-line-number="2">
+<span class="kw">library</span>(purrr)</div>
+<div class="sourceLine" id="cb7-3" data-line-number="3">
+<span class="kw">library</span>(ggplot2)</div>
+<div class="sourceLine" id="cb7-4" data-line-number="4"></div>
+<div class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># The original filename was "barry_tycholiz__848__2002 Plan Worksheet CC107322.xlsx"</span></div>
+<div class="sourceLine" id="cb7-6" data-line-number="6">sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"extdata/enron-constants.xlsx"</span>,</div>
+<div class="sourceLine" id="cb7-7" data-line-number="7">                               <span class="dt">package =</span> <span class="st">"tidyxl"</span>),</div>
+<div class="sourceLine" id="cb7-8" data-line-number="8">                   <span class="st">"Detail Breakdown"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</div></code></pre>
 <pre><code>## Warning: 'tidy_xlsx()' is deprecated.
 ## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sheet<span class="op">$</span>formula[<span class="dv">22</span>]</code></pre></div>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">sheet<span class="op">$</span>formula[<span class="dv">22</span>]</div></code></pre>
 <pre><code>## [1] "(C8/7)*12-48000"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(sheet<span class="op">$</span>formula[<span class="dv">22</span>])</code></pre></div>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">
+<span class="kw"><a href="../reference/xlex.html">xlex</a></span>(sheet<span class="op">$</span>formula[<span class="dv">22</span>])</div></code></pre>
 <pre><code>## root        
 ## °-- (       paren_open
 ##     ¦-- C8  ref
@@ -164,18 +163,24 @@ sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_
 <p>The 7 is probably the 7th month, July, because of the column header “July YTD”. A year-to-date figure is being divided by 7, then multiplied by 12 to forecast the year-end figure. The 48000 is more mysterious – perhaps a future payment is expected.</p>
 <p>Embedding these constants inside a formula is bad practice. Better practice would be to put the constants into their own cells, where they could be annotated with their meaning, and perhaps even named. Then formulas could refer to them, by name, e.g.</p>
 <pre><code>(Compensation/MonthsToDate)*12Months-FuturePayments</code></pre>
-</div>
-<div id="many-formulas" class="section level3">
-<h3 class="hasAnchor">
-<a href="#many-formulas" class="anchor"></a>Many formulas</h3>
+</section><section id="many-formulas" class="level3"><h3>Many formulas</h3>
 <p>The <code><a href="../reference/xlex.html">xlex()</a></code> function isn’t vectorized (because it returns a data frame), so we map it over each of the formulas to create a ‘nest’ column of individual data frames.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tokens &lt;-
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">tokens &lt;-</div>
+<div class="sourceLine" id="cb14-2" data-line-number="2">
 <span class="st">  </span>sheet <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb14-3" data-line-number="3">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb14-4" data-line-number="4">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, formula) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb14-5" data-line-number="5">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>formula)
-tokens</code></pre></div>
+</div>
+<div class="sourceLine" id="cb14-6" data-line-number="6">
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>formula)</div>
+<div class="sourceLine" id="cb14-7" data-line-number="7">tokens</div></code></pre>
 <pre><code>## # A tibble: 154 x 3
 ##      row   col tokens          
 ##    &lt;int&gt; &lt;int&gt; &lt;list&gt;          
@@ -191,11 +196,16 @@ tokens</code></pre></div>
 ## 10    17     4 &lt;tibble [7 x 3]&gt;
 ## # ... with 144 more rows</code></pre>
 <p>Then we can unnest the data frames and filter for tokens that are constants, to find out which cells have constants in their formulas.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants &lt;-
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">constants &lt;-</div>
+<div class="sourceLine" id="cb16-2" data-line-number="2">
 <span class="st">  </span>tokens <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb16-3" data-line-number="3">
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(tokens) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))
-constants</code></pre></div>
+</div>
+<div class="sourceLine" id="cb16-4" data-line-number="4">
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(type <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span>))</div>
+<div class="sourceLine" id="cb16-5" data-line-number="5">constants</div></code></pre>
 <pre><code>## # A tibble: 201 x 5
 ##      row   col level type   token
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
@@ -211,9 +221,13 @@ constants</code></pre></div>
 ## 10    13     4     1 number 7    
 ## # ... with 191 more rows</code></pre>
 <p>Which constants are most common? Unsurprisingly, 12 and 7 are almost equally abundant, but there are also lots of 6s and 9s – two- and three-quarterly figures? Then there are some 150000s and the familiar 48000s, followed by some fractions that look like percentages, and then several one-offs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constants <span class="op">%&gt;%</span>
+<pre class="sourceCode r" id="cb18"><code class="sourceCode r"><div class="sourceLine" id="cb18-1" data-line-number="1">constants <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb18-2" data-line-number="2">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/tally.html">count</a></span>(token, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">print</span>(<span class="dt">n =</span> <span class="ot">Inf</span>)</code></pre></div>
+</div>
+<div class="sourceLine" id="cb18-3" data-line-number="3">
+<span class="st">  </span><span class="kw">print</span>(<span class="dt">n =</span> <span class="ot">Inf</span>)</div></code></pre>
 <pre><code>## # A tibble: 24 x 2
 ##    token      n
 ##    &lt;chr&gt;  &lt;int&gt;
@@ -241,21 +255,31 @@ constants</code></pre></div>
 ## 22 7800       1
 ## 23 866        1
 ## 24 95000      1</code></pre>
-</div>
-<div id="visualising-constants" class="section level3">
-<h3 class="hasAnchor">
-<a href="#visualising-constants" class="anchor"></a>Visualising constants</h3>
+</section><section id="visualising-constants" class="level3"><h3>Visualising constants</h3>
 <p>A final step is to visualize the spreadsheet, highlighting cells that hide constants in their formulas. We already have a data frame of cells with constants, so we join it back to the full dataset, and pass the result into <code>ggplot</code>.</p>
 <p>This time there doesn’t seem to be any particular pattern, which is perhaps suspicious in itself.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_constants &lt;-
+<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><div class="sourceLine" id="cb20-1" data-line-number="1">has_constants &lt;-</div>
+<div class="sourceLine" id="cb20-2" data-line-number="2">
 <span class="st">  </span>constants <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb20-3" data-line-number="3">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb20-4" data-line-number="4">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">has_constant =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb20-5" data-line-number="5">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">right_join</a></span>(sheet, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb20-6" data-line-number="6">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>is_blank) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb20-7" data-line-number="7">
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, has_constant) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/replace_na">replace_na</a></span>(<span class="kw">list</span>(<span class="dt">has_constant =</span> <span class="ot">FALSE</span>))
-has_constants</code></pre></div>
+</div>
+<div class="sourceLine" id="cb20-8" data-line-number="8">
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/replace_na">replace_na</a></span>(<span class="kw">list</span>(<span class="dt">has_constant =</span> <span class="ot">FALSE</span>))</div>
+<div class="sourceLine" id="cb20-9" data-line-number="9">has_constants</div></code></pre>
 <pre><code>## # A tibble: 412 x 3
 ##      row   col has_constant
 ##    &lt;int&gt; &lt;int&gt; &lt;lgl&gt;       
@@ -270,21 +294,28 @@ has_constants</code></pre></div>
 ##  9     4     5 F           
 ## 10     4     6 F           
 ## # ... with 402 more rows</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">has_constants <span class="op">%&gt;%</span>
+<pre class="sourceCode r" id="cb22"><code class="sourceCode r"><div class="sourceLine" id="cb22-1" data-line-number="1">has_constants <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb22-2" data-line-number="2">
 <span class="st">  </span><span class="co"># filter(row &lt;= 28) %&gt;%</span>
+</div>
+<div class="sourceLine" id="cb22-3" data-line-number="3">
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(col, row, <span class="dt">fill =</span> has_constant)) <span class="op">+</span>
+</div>
+<div class="sourceLine" id="cb22-4" data-line-number="4">
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_tile">geom_tile</a></span>() <span class="op">+</span>
+</div>
+<div class="sourceLine" id="cb22-5" data-line-number="5">
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/scale_continuous">scale_y_reverse</a></span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</code></pre></div>
+</div>
+<div class="sourceLine" id="cb22-6" data-line-number="6">
+<span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</div></code></pre>
 <p><img src="smells_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-</div>
-</div>
-<div id="detecting-deeply-nested-formulas" class="section level2">
-<h2 class="hasAnchor">
-<a href="#detecting-deeply-nested-formulas" class="anchor"></a>Detecting deeply nested formulas</h2>
+</section></section><section id="detecting-deeply-nested-formulas" class="level2"><h2>Detecting deeply nested formulas</h2>
 <p>Using the same techniques as for detecting constants, we map <code><a href="../reference/xlex.html">xlex()</a></code> over the formulas in a spreadsheet, unnest the result, and filter for tokens with particular properties. In this case, we are interested in the <code>level</code> of each token, which tells how deeply a token is nested in other functions and expressions.</p>
 <p>This time, we use another spreadsheet from the Enron corpus. First, an illustration. Notice that inside the first function, the level increases to 1. Inside the second function, the level increases to 2.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MAX(3,MIN(2,4))"</span>)</code></pre></div>
+<pre class="sourceCode r" id="cb23"><code class="sourceCode r"><div class="sourceLine" id="cb23-1" data-line-number="1">
+<span class="kw"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MAX(3,MIN(2,4))"</span>)</div></code></pre>
 <pre><code>## root           
 ## ¦-- MAX        function
 ## °-- (          fun_open
@@ -298,21 +329,34 @@ has_constants</code></pre></div>
 ##     °-- )      fun_close
 ## °-- )          fun_close</code></pre>
 <p>Now let’s apply the same test to all the formulas in a sheet. The deepest level of nesting turns out to be 7, and is seen in all the cells in row 171.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The original filename was "albert_meyers__1__1-25act.xlsx"</span>
-sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"extdata/enron-nested.xlsx"</span>,
-                               <span class="dt">package =</span> <span class="st">"tidyxl"</span>),
-                   <span class="st">"Preschedule"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</code></pre></div>
+<pre class="sourceCode r" id="cb25"><code class="sourceCode r"><div class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># The original filename was "albert_meyers__1__1-25act.xlsx"</span></div>
+<div class="sourceLine" id="cb25-2" data-line-number="2">sheet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span>(<span class="kw">system.file</span>(<span class="st">"extdata/enron-nested.xlsx"</span>,</div>
+<div class="sourceLine" id="cb25-3" data-line-number="3">                               <span class="dt">package =</span> <span class="st">"tidyxl"</span>),</div>
+<div class="sourceLine" id="cb25-4" data-line-number="4">                   <span class="st">"Preschedule"</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]</div></code></pre>
 <pre><code>## Warning: 'tidy_xlsx()' is deprecated.
 ## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deepest &lt;-
+<pre class="sourceCode r" id="cb27"><code class="sourceCode r"><div class="sourceLine" id="cb27-1" data-line-number="1">deepest &lt;-</div>
+<div class="sourceLine" id="cb27-2" data-line-number="2">
 <span class="st">  </span>sheet <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb27-3" data-line-number="3">
 <span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span><span class="kw">is.na</span>(formula)) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb27-4" data-line-number="4">
 <span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tokens =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(formula, xlex)) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb27-5" data-line-number="5">
 <span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(row, col, tokens) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb27-6" data-line-number="6">
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tidyr/topics/unnest">unnest</a></span>(tokens) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb27-7" data-line-number="7">
 <span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(level <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(level)) <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col, level)
-deepest</code></pre></div>
+</div>
+<div class="sourceLine" id="cb27-8" data-line-number="8">
+<span class="st">    </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>(row, col, level)</div>
+<div class="sourceLine" id="cb27-9" data-line-number="9">deepest</div></code></pre>
 <pre><code>## # A tibble: 48 x 3
 ##      row   col level
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
@@ -328,11 +372,16 @@ deepest</code></pre></div>
 ## 10   171    11     7
 ## # ... with 38 more rows</code></pre>
 <p>Do you wonder what those formulas look like?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sheet <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(row <span class="op">==</span><span class="st"> </span><span class="dv">171</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></code></pre></div>
-<pre><code>## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</code></pre>
+<pre class="sourceCode r" id="cb29"><code class="sourceCode r"><div class="sourceLine" id="cb29-1" data-line-number="1">sheet <span class="op">%&gt;%</span>
 </div>
+<div class="sourceLine" id="cb29-2" data-line-number="2">
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(row <span class="op">==</span><span class="st"> </span><span class="dv">171</span>, col <span class="op">==</span><span class="st"> </span><span class="dv">2</span>) <span class="op">%&gt;%</span>
+</div>
+<div class="sourceLine" id="cb29-3" data-line-number="3">
+<span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span>
+</div></code></pre>
+<pre><code>## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</code></pre>
+</section>
 </div>
   </div>
 
