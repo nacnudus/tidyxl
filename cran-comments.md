@@ -37,4 +37,12 @@ That is all compiled code in the libs/ directory.
 > Possibly mis-spelled words in DESCRIPTION:
 >   Tokenizes (12:5)
 
-'Tokenizes' is correct.
+'tokenizes' is correct.
+
+## Downstream dependencies
+
+R CMD check will fail on the unpivotr package, for which a submission will be
+made very soon fixing the issue.  It isn't possible to avoid this situation by
+submitting the packages in a different order.
+
+There are no other reverse dependencies.
