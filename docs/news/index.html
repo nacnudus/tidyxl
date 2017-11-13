@@ -118,125 +118,6 @@
     </div>
 
     <div class="contents">
-    <div id="tidyxl-0-2-3-9000" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-2-3-9000" class="anchor"></a>tidyxl 0.2.3.9000</h1>
-<div id="new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
-<ul>
-<li>
-<code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code> and <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> replace <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code>, which has been deprecated. <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code> returns a single data frame of all the cells in scope (the whole workbook, or chosen sheets), rather than a list of separate data frames for each sheet. <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> performs orders of magnitude faster.</li>
-<li>
-<code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code> imports validation rules from cells that restrict data input, such as cells that require a selection from a drop-down list. See the <a href="https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html">vignette</a> <code><a href="https://cran.rstudio.com/web/packages/tidyxl/vignettes/data-validation-rules.html">vignette("data-validation-rules", package = "tidyxl")</a></code>.</li>
-<li>
-<code><a href="../reference/xlsx_names.html">xlsx_names()</a></code> imports defined names (aka named ranges/formulas), which can be used to filter for particular ranges of cells by name. Use <code><a href="../reference/is_range.html">is_range()</a></code> to filter for ones that are named ranges, and then read <a href="https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html#joining-rules-to-cells">joining rules to cells</a> for how to join cell ranges to cell addresses. This will become easier in a future release.</li>
-<li>
-<code><a href="../reference/is_range.html">is_range()</a></code> checks whether a formula is simply ranges of cells.</li>
-<li>
-<code><a href="../reference/xlex.html">xlex()</a></code> tokenises formulas. This is useful for detecting spreadsheet smells like embedded constants and deep nesting. There is a <a href="https://duncan-garmonsway.shinyapps.io/xlex/">demo Shiny app</a>, and a <a href="https://nacnudus.github.io/tidyxl/articles/smells.html">vignette</a> <code><a href="https://cran.rstudio.com/web/packages/tidyxl/vignettes/smells.html">vignette("smells", package = "tidyxl")</a></code>. A vector of Excel function names <code>excel_functions</code> can be used to separated built-in functions from custom functions. More experimental features will be implemented in the off-CRAN package <a href="https://nacnudus.github.io/lexl">lexl</a> before becoming part of tidyxl.</li>
-<li>
-<code>xlsx_cells()$character_formatted</code> is a new column for the in-cell formatting of text (#5). This is for when different parts of text in a single cell have been formatted differently from one another.</li>
-<li>
-<code><a href="../reference/is_date_format.html">is_date_format()</a></code> checks whether a number format string is a date format. This is useful if a cell formula contains a number formatting string (e.g. <code>TEXT(45678,"yyyy")</code>), and you need to know that the constant 45678 is a date in order to recover it at full resolution (rather than parsing the character output “2025” as a year).</li>
-<li>
-<code><a href="../reference/xlsx_color_theme.html">xlsx_color_theme()</a></code> and it’s British alias <code><a href="../reference/xlsx_color_theme.html">xlsx_colour_theme()</a></code> returns the theme colour palette used in a file. This is useful to monitor use of a corporate standard theme.</li>
-<li>
-<code>xlsx_color_standard</code> and it’s British alias <code>xlsx_colour_standard</code> are data frames of the standard Excel palette (<code>red</code>, <code>blue</code>, etc.).</li>
-<li>Shared formulas are propogated to all the cells that use the same formula definition. Relative cell references are handled, so that the formula <code>=A1*2</code> in cell <code>B1</code> becomes <code>=A2*2</code> in cell <code>B2</code> (for more details see issue #7).</li>
-<li>Formatting of alignment and cell protection is returned (#20).</li>
-</ul>
-</div>
-<div id="breaking-changes-and-deprecations" class="section level2">
-<h2 class="hasAnchor">
-<a href="#breaking-changes-and-deprecations" class="anchor"></a>Breaking changes and deprecations</h2>
-<ul>
-<li>
-<code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code> has been deprecated in favour of <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, which returns a data frame of all the cells in the workbook (or in the requested sheets), and <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code>, which returns a lookup list of cell formats.</li>
-<li>In <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code> and one of it’s replacments <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>
-</li>
-<li>the column <code>content</code> has been replaced by <code>is_blank</code>, a logical value indicating whether the cell contains data. Please replace <code>!is.na(content)</code> with <code>!is_blank</code> to filter out blank cells (ones with formatting but no value).</li>
-<li>the column <code>formula_type</code> has been replaced by <code>is_array</code>, a logical value indicating whether the cell’s formula is an array formula or not. In Excel array formulas are represented visually by being surrounded by curly braces <code>{}</code>.</li>
-<li>The order of columns has been changed so that the more useful columns are visible in narrow consoles.</li>
-<li>in <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> and <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code>, theme colours are given by name rather than by number, e.g. <code>"accent6"</code> instead of <code>4</code>.</li>
-</ul>
-</div>
-<div id="minor-fixes-and-improvements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#minor-fixes-and-improvements" class="anchor"></a>Minor fixes and improvements</h2>
-<ul>
-<li>Certain unusual custom number formats that specify colours (e.g. <code>"[Cyan]0%"</code>) are no longer mis-detect as dates (#21). <code><a href="../reference/is_date_format.html">is_date_format()</a></code> tests whether a number format is a date format.</li>
-<li>
-<code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> is now thoroughly tested, and several relatively minor bugs fixed. For example, <code>xlsx_formats(path)$local$fill$patternFill$patternType</code> consistently returns <code>NA</code> and never <code>"none"</code> when a pattern fill has not been set, and escape-backslashes are consistently omitted from numFmts.</li>
-</ul>
-</div>
-<div id="new-dependency" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-dependency" class="anchor"></a>New dependency</h2>
-<p><code><a href="../reference/xlex.html">xlex()</a></code>, <code><a href="../reference/is_range.html">is_range()</a></code> and the handling of relative references in shared formulas requires a dependency on the <a href="https://cran.r-project.org/package=piton">piton</a> package, which wraps the <a href="https://github.com/taocpp/PEGTL">PEGTL</a> C++ parser generator.</p>
-</div>
-</div>
-    <div id="tidyxl-0-2-3" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-2-3" class="anchor"></a>tidyxl 0.2.3</h1>
-<ul>
-<li>Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following <a href="https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb">readxl</a>).</li>
-<li>Fixes subsecond rounding (following <a href="https://github.com/tidyverse/readxl/commit/63ef215f57322dd5d7a27799a2a3fe463bd39fc7">readxl</a> (fixes #14))</li>
-<li>Imports styles correctly from LibreOffice files (interprets ‘true’ and ‘false’ as booleans, as well as the 0 and 1 used by Microsoft Excel, and defaults to ‘true’ when not present, e.g. applyFill)</li>
-<li>Fixes a bug that caused some LibreOffice files to crash R, when styles were declared with gaps in the sequence of xfIds.</li>
-<li>Imports comments attached to blank cells (fixes #10)</li>
-<li>Includes the sheet and cell address in warnings of impossible datetimes from 1900-02-29.</li>
-</ul>
-</div>
-    <div id="tidyxl-0-2-1-9000" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-2-1-9000" class="anchor"></a>tidyxl 0.2.1.9000</h1>
-<ul>
-<li>Checks the value of the <code>date1904</code> attribute for <code>"false"</code> or <code>"1"</code> to support files created by the <code>openxlsx</code> package (#8).</li>
-<li>Fixed a bug that only imported the first line of multiline comments (#9).</li>
-<li>Encodes cell and comment text as UTF-8 (#12).</li>
-<li>Finds worksheets more reliably in files not created by Excel (part of #13).</li>
-<li>Falls back to default styles when none defined (#13).</li>
-<li>Imports dates with greater precision (part of #14).</li>
-<li>Fixed the order of worksheets (#15)</li>
-</ul>
-</div>
-    <div id="tidyxl-0-2-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-2-1" class="anchor"></a>tidyxl 0.2.1</h1>
-<ul>
-<li>Fixed a major bug: dates were parsed incorrectly because the offsets for the 1900 and 1904 systems were the wrong way around.</li>
-<li>Added a warning when dates suffer from the Excel off-by-one bug.</li>
-<li>Fixed a bug that misinterpreted some number formats as dates (confused by the ‘d’ in ‘[Red]’, which looks like a ‘d’ in ‘d/m/y’.)</li>
-<li>Added support for xlsx files created by Gnumeric (a single, unnamed cell formatting style).</li>
-<li>Fixed the checkUserInterrupt to work every 1000th cell.</li>
-<li>Added many tests.</li>
-<li>Removed lots of redundant code.</li>
-</ul>
-</div>
-    <div id="tidyxl-0-2-0" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-2-0" class="anchor"></a>tidyxl 0.2.0</h1>
-<ul>
-<li>Breaking change: Look up style formats by style name (e.g. <code>"Normal"</code>) instead of by index integer. All the vectors under <code>x$formats$style</code> are named according to the style names. <code>x$data$sheet$style_format_id</code> has been renamed to <code>x$data$sheet$style_format</code> and its type changed from integer (index into style formats) to character (still an index, but looking up the named vectors by name). There are examples in the README and vignette.</li>
-<li>Simplified some variable names in the C++ code.</li>
-</ul>
-</div>
-    <div id="tidyxl-0-1-1" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-1-1" class="anchor"></a>tidyxl 0.1.1</h1>
-<ul>
-<li>Fixed many compilation errors on Travis/AppVeyor/r-hub</li>
-<li>Many small non-breaking changes</li>
-</ul>
-</div>
-    <div id="tidyxl-0-1-0" class="section level1">
-<h1 class="hasAnchor">
-<a href="#tidyxl-0-1-0" class="anchor"></a>tidyxl 0.1.0</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-</ul>
-</div>
     </div>
   </div>
 
@@ -244,13 +125,6 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#tidyxl-0-2-3-9000">0.2.3.9000</a></li>
-        <li><a href="#tidyxl-0-2-3">0.2.3</a></li>
-        <li><a href="#tidyxl-0-2-1-9000">0.2.1.9000</a></li>
-        <li><a href="#tidyxl-0-2-1">0.2.1</a></li>
-        <li><a href="#tidyxl-0-2-0">0.2.0</a></li>
-        <li><a href="#tidyxl-0-1-1">0.1.1</a></li>
-        <li><a href="#tidyxl-0-1-0">0.1.0</a></li>
       </ul>
     </div>
   </div>

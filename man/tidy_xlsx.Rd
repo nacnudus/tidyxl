@@ -57,13 +57,13 @@ of the formula the last time it was evaluated.
 Certain groups of cells may share a formula that differs only by addresses
 referred to in the formula; such groups are identified by an index, the
 'formula_group'.  The xlsx (Excel) file format only records the formula
-against one cell in any group.  \code{xlsx_cells()} propogates such formulas to
+against one cell in any group.  \code{xlsx_cells()} propagates such formulas to
 the other cells in a group, making the necessary changes to relative
 addresses in the formula.
 
 Array formulas may also apply to a group of cells, identified by an address
 'formula_ref', but xlsx (Excel) file format only records the formula
-against one cell in the group.  \code{xlsx_cells()} propogates such formulas to
+against one cell in the group.  \code{xlsx_cells()} propagates such formulas to
 the other cells in a group.  Unlike shared formulas, no changes to
 addresses in array formulas are necessary.
 
