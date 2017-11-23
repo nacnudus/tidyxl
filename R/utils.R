@@ -82,8 +82,8 @@ check_sheets <- function(sheets, path) {
 utils_xlsx_sheet_files <- function(path) {
   out <- xlsx_sheet_files_(path)
   out$order <- order(out$rId)
+  out <- out[out$order, ]
   # Omit chartsheets
   out <- out[grepl("^xl/worksheets\\.*", out$sheet_path), ]
-  out <- out[order(out$order), ]
   out
 }

@@ -39,8 +39,7 @@ xlsx_names <- function(path) {
   path <- check_file(path)
   out <- xlsx_names_(path)
   # Microsoft docs don't say what sheet_id links to.  Testing suggests it is the
-  # 'id' of
-  # except that it isn't the 'id' of utils_xlsx_sheet_files().  For now, add 1
+  # 'rId' of utils_xlsx_sheet_files() + 1.  For now, add 1
   # and interpret is as the 'order' of utils_xlsx_sheet_files().
   sheets <- utils_xlsx_sheet_files(path)[, c("name", "rId")]
   names(sheets)[1] <- "sheet"

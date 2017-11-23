@@ -137,7 +137,6 @@
 #' xlsx_cells(examples)$character_formatted[77]
 xlsx_cells <- function(path, sheets = NA) {
   path <- check_file(path)
-  all_sheets <- utils_xlsx_sheet_files(path)
   sheets <- check_sheets(sheets, path)
   xlsx_cells_(path,
               sheets$sheet_path,
