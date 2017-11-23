@@ -61,12 +61,14 @@ List xlsx_sheet_files_(std::string path) {
   // paths.
 
   // primary key of two 'tables' of worksheets and other objects
+  // e.g. workbook.xml.rels Id="rId1" target = "worksheets/sheet1.xml"
   std::string id;
   std::vector<std::string> ids;
 
-  // Get the id and target of worksheets, and look up any comments file
-  std::map<std::string, std::string> targets;
-  std::map<std::string, String> comments;
+  // Get the filenames of worksheets, indexed by rId, and the same of any
+  // comments files
+  std::map<std::string, std::string> sheet_paths;
+  std::map<std::string, String> comments_paths;
   std::string rels_text = zip_buffer(path, "xl/_rels/workbook.xml.rels");
   rapidxml::xml_document<> rels_xml;
   rels_xml.parse<rapidxml::parse_strip_xml_namespaces>(&rels_text[0]);
@@ -80,12 +82,13 @@ List xlsx_sheet_files_(std::string path) {
        // handled in the R wrapper
       id = relationship->first_attribute("Id")->value();
       ids.push_back(id);
-      targets.insert({id, "xl/" + target}) ;
-      comments.insert({id, comments_path_(path, target)});
+      sheet_paths.insert({id, "xl/" + target}) ;
+      comments_paths.insert({id, comments_path_(path, target)});
     }
   }
 
-  // Get the id, name and sheetId (display order) of all sheets/charts/etc.
+  // Get the name and sheetId (display order) of all sheets/charts/etc, indexed
+  // by rId
   std::map<std::string, std::string> names;
   std::map<std::string, int> sheetIds;
   std::string workbook_text = zip_buffer(path, "xl/workbook.xml");
@@ -109,23 +112,23 @@ List xlsx_sheet_files_(std::string path) {
   std::vector<std::string> out_name;
   std::vector<int> out_rId;
   std::vector<int> out_sheetId;
-  std::vector<std::string> out_target;
+  std::vector<std::string> out_sheet_path;
   CharacterVector out_comments_path;
   for(std::vector<std::string>::iterator it = ids.begin(); it != ids.end(); ++it) {
     std::string key(*it);
     out_name.push_back(names[key]);
     out_rId.push_back(std::strtol(key.substr(3, std::string::npos).c_str(), NULL, 10));
     out_sheetId.push_back(sheetIds[key]);
-    out_target.push_back(targets[key]);
-    out_comments_path.push_back(comments[key]);
+    out_sheet_path.push_back(sheet_paths[key]);
+    out_comments_path.push_back(comments_paths[key]);
   }
 
   // Return a data frame
   List out = List::create(
       _["name"] = out_name,
-      _["id"] = out_rId,
-      _["index"] = out_sheetId,
-      _["sheet_path"] = out_target,
+      _["rId"] = out_rId,
+      _["sheetId"] = out_sheetId,
+      _["sheet_path"] = out_sheet_path,
       _["comments_path"] = out_comments_path);
 
   // Turn list of vectors into a data frame without checking anything
