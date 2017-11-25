@@ -90,7 +90,7 @@
       <h1>Detecting Spreadsheet Smells with xlex()</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-11-13</h4>
+            <h4 class="date">2017-11-25</h4>
           </div>
 
     
@@ -98,7 +98,9 @@
 <div class="contents">
 <p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or install the more experimental <a href="https://nacnudus.github.io/lexl">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
 <p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
-<section id="inspecting-the-parse-tree" class="level2"><h2>Inspecting the parse tree</h2>
+<div id="inspecting-the-parse-tree" class="section level2">
+<h2 class="hasAnchor">
+<a href="#inspecting-the-parse-tree" class="anchor"></a>Inspecting the parse tree</h2>
 <p>Here’s an example with a simple formula <code>MIN(3,MAX(2,A1))</code> (the <code>=</code> symbol at the beginning of the formula is implied, because Excel doesn’t write it to the file).</p>
 <pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
 <span class="kw">library</span>(tidyxl)</div>
@@ -116,12 +118,17 @@
 ##         °-- A1  ref
 ##     °-- )       fun_close
 ## °-- )           fun_close</code></pre>
-</section><section id="detecting-constants-inside-formulas" class="level2"><h2>Detecting constants inside formulas</h2>
+</div>
+<div id="detecting-constants-inside-formulas" class="section level2">
+<h2 class="hasAnchor">
+<a href="#detecting-constants-inside-formulas" class="anchor"></a>Detecting constants inside formulas</h2>
 <p>A smelly spreadsheet is distributed with the <code>tidyxl</code> package. It comes from the famous Enron subpoena, made available by <a href="http://www.felienne.com/archives/3634">Felienne Hermans</a>.</p>
 <p>How does it look at a glance? Here’s a screenshot of part of one sheet, showing the formulas rather than the cell values. It’s a financial plan, using formulas to forecast the rest of the year, and the plan for the following year.</p>
 <p>What we want to see is whether the formulas have any embedded constants; ones that are hidden from our attention, but that are driving the forecasts. While we could read each formula, one by one, it would be a lot easier to visualise the ones containing constants. We can do this with <code><a href="../reference/xlex.html">xlex()</a></code> and a graph plotting library like <code>ggplot2</code>.</p>
 <p>The first step, after importing the spreadsheet, is to tokenize the formulas, using <code>xlsx()</code>. Let’s tokenize one formula to see what it looks like.</p>
-<section id="one-formula" class="level3"><h3>One formula</h3>
+<div id="one-formula" class="section level3">
+<h3 class="hasAnchor">
+<a href="#one-formula" class="anchor"></a>One formula</h3>
 <pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
 <span class="kw">library</span>(dplyr)</div></code></pre>
 <pre><code>## 
@@ -163,7 +170,10 @@
 <p>The 7 is probably the 7th month, July, because of the column header “July YTD”. A year-to-date figure is being divided by 7, then multiplied by 12 to forecast the year-end figure. The 48000 is more mysterious – perhaps a future payment is expected.</p>
 <p>Embedding these constants inside a formula is bad practice. Better practice would be to put the constants into their own cells, where they could be annotated with their meaning, and perhaps even named. Then formulas could refer to them, by name, e.g.</p>
 <pre><code>(Compensation/MonthsToDate)*12Months-FuturePayments</code></pre>
-</section><section id="many-formulas" class="level3"><h3>Many formulas</h3>
+</div>
+<div id="many-formulas" class="section level3">
+<h3 class="hasAnchor">
+<a href="#many-formulas" class="anchor"></a>Many formulas</h3>
 <p>The <code><a href="../reference/xlex.html">xlex()</a></code> function isn’t vectorized (because it returns a data frame), so we map it over each of the formulas to create a ‘nest’ column of individual data frames.</p>
 <pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">tokens &lt;-</div>
 <div class="sourceLine" id="cb14-2" data-line-number="2">
@@ -255,7 +265,10 @@
 ## 22 7800       1
 ## 23 866        1
 ## 24 95000      1</code></pre>
-</section><section id="visualising-constants" class="level3"><h3>Visualising constants</h3>
+</div>
+<div id="visualising-constants" class="section level3">
+<h3 class="hasAnchor">
+<a href="#visualising-constants" class="anchor"></a>Visualising constants</h3>
 <p>A final step is to visualize the spreadsheet, highlighting cells that hide constants in their formulas. We already have a data frame of cells with constants, so we join it back to the full dataset, and pass the result into <code>ggplot</code>.</p>
 <p>This time there doesn’t seem to be any particular pattern, which is perhaps suspicious in itself.</p>
 <pre class="sourceCode r" id="cb20"><code class="sourceCode r"><div class="sourceLine" id="cb20-1" data-line-number="1">has_constants &lt;-</div>
@@ -311,7 +324,11 @@
 <div class="sourceLine" id="cb22-6" data-line-number="6">
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</div></code></pre>
 <p><img src="smells_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-</section></section><section id="detecting-deeply-nested-formulas" class="level2"><h2>Detecting deeply nested formulas</h2>
+</div>
+</div>
+<div id="detecting-deeply-nested-formulas" class="section level2">
+<h2 class="hasAnchor">
+<a href="#detecting-deeply-nested-formulas" class="anchor"></a>Detecting deeply nested formulas</h2>
 <p>Using the same techniques as for detecting constants, we map <code><a href="../reference/xlex.html">xlex()</a></code> over the formulas in a spreadsheet, unnest the result, and filter for tokens with particular properties. In this case, we are interested in the <code>level</code> of each token, which tells how deeply a token is nested in other functions and expressions.</p>
 <p>This time, we use another spreadsheet from the Enron corpus. First, an illustration. Notice that inside the first function, the level increases to 1. Inside the second function, the level increases to 2.</p>
 <pre class="sourceCode r" id="cb23"><code class="sourceCode r"><div class="sourceLine" id="cb23-1" data-line-number="1">
@@ -381,7 +398,7 @@
 <span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(formula) <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span>
 </div></code></pre>
 <pre><code>## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</code></pre>
-</section>
+</div>
 </div>
   </div>
 

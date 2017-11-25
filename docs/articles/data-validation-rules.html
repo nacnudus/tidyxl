@@ -90,13 +90,15 @@
       <h1>Data Validation Rules</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2017-11-13</h4>
+            <h4 class="date">2017-11-25</h4>
           </div>
 
     
     
 <div class="contents">
-<section id="what-data-validation-rules-are" class="level2"><h2>What data validation rules are</h2>
+<div id="what-data-validation-rules-are" class="section level2">
+<h2 class="hasAnchor">
+<a href="#what-data-validation-rules-are" class="anchor"></a>What data validation rules are</h2>
 <p>Data validation rules control what constants can be entered into a cell, e.g. any whole number between 0 and 9, or one of several values from another part of the spreadsheet.</p>
 <p>‘xlsx_validation()’ returns each of the data validation rules in an xlsx file, and the ranges of cells to which each rule applies.</p>
 <p>Here is a rule that restricts input to integers between 0 and 9 inclusive, or no value (blank). If any other value is attempted, then an error message is displayed with the imaginative title “message title”, the informative body text “message body”, and a “stop” symbol.</p>
@@ -184,7 +186,10 @@
 <div class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt; 13         &lt;NA&gt;              FALSE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
 <div class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></div>
 <div class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></div></code></pre>
-</section><section id="joining-rules-to-cells" class="level2"><h2>Joining rules to cells</h2>
+</div>
+<div id="joining-rules-to-cells" class="section level2">
+<h2 class="hasAnchor">
+<a href="#joining-rules-to-cells" class="anchor"></a>Joining rules to cells</h2>
 <blockquote>
 <p>There are no built-in functions for joining ranges like <code>A1:D5,G8</code> to single cells like <code>B3</code>. For now, use the snippets in this section. In future I might develop a dplyr-like join function (this is hard currently because dplyr doesn’t yet join on arbitrary functions, or even the standard inequalities like <code>&gt;=</code>). Help and advice would be gratefully accepted!</p>
 </blockquote>
@@ -303,7 +308,7 @@
 <div class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; # ... with 2 more variables: error_symbol &lt;chr&gt;, ref &lt;chr&gt;</span></div></code></pre>
 <p>Finally the new data frame of rules can be joined to a data frame of cells in any of the usual ways, via the <code>sheet</code> and <code>ref</code> columns.</p>
 <p>Problems with this approach occur with rules that are defined over large ranges of cells: the ‘unnesting’ of those ranges results in very long vectors of individual cell addresses, or (worse) huge data frames of rules. Such cases are commonplace, because rules are often defined for entire columns of a spreadsheet, and a column has 1048576 rows.</p>
-</section>
+</div>
 </div>
   </div>
 
