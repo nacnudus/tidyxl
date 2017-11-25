@@ -1,4 +1,4 @@
-# tidyxl 0.2.3.9000
+# tidyxl 1.0.0
 
 ## New features
 
