@@ -14,14 +14,19 @@ formatting, and re-expressing it in a tidy way.
 }
 \details{
 \itemize{
-\item \code{\link[tidyxl:tidy_xlsx]{tidyxl::tidy_xlsx()}} Import cells and formatting from an xlsx file.
+\item \code{\link[tidyxl:xlsx_cells]{tidyxl::xlsx_cells()}} Import cells from an xlsx file.
+\item \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}} Import formatting from an xlsx file.
 \item \code{\link[tidyxl:xlsx_sheet_names]{tidyxl::xlsx_sheet_names()}} List the names of sheets in an xlsx file.
-\item \code{\link[tidyxl:xlsx_names]{tidyxl::xlsx_names()}} Import names and definitions of named ranges (aka named
+\item \code{\link[tidyxl:xlsx_names]{tidyxl::xlsx_names()}} Import names and definitions of named ranges (aka
+'named formulas', 'defined names') from an xlsx file.
 \item \code{\link[tidyxl:is_range]{tidyxl::is_range()}} Test whether a 'name' from \code{\link[tidyxl:xlsx_names]{tidyxl::xlsx_names()}}
 refers to a range or not.
-formulas, defined names) from an xlsx file.
 \item \code{\link[tidyxl:xlsx_validation]{tidyxl::xlsx_validation()}} Import cell input validation rules (e.g.
 'must be from this drop-down list') from an xlsx file.
+\item \code{\link[tidyxl:xlsx_colour_standard]{tidyxl::xlsx_colour_standard()}} A data frame of standard colour names and
+their RGB values.
+\item \code{\link[tidyxl:xlsx_colour_theme]{tidyxl::xlsx_colour_theme()}} Imports a data frame of theme colour names
+and their RGB values from an xlsx file.
 \item \code{\link[tidyxl:xlex]{tidyxl::xlex()}} Tokenise (lex) an Excel formula.
 }
 }
