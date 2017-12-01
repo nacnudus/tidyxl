@@ -28,6 +28,16 @@ such as embedding constants in formulas, or using deep levels of
 nesting), and for understanding the dependency structures within
 spreadsheets.
 
+***Breaking changes***
+
+The version 1.0.0 release has some breaking changes. See `NEWS.md` for
+details. The previous version can be installed as
+follows.
+
+``` r
+devtools::install_version("tidyxl", version = "0.2.3", repos = "http://cran.us.r-project.org")
+```
+
 ## Installation
 
 ``` r
