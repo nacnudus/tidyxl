@@ -10,6 +10,9 @@
 #' @param sheets Sheets to read. Either a character vector (the names of the
 #' sheets), an integer vector (the positions of the sheets), or NA (default, all
 #' sheets).
+#' @param check_filetype Logical. Whether to check that the filetype is xlsx (or
+#' xlsm) by looking at the file itself, rather than using the filename
+#' extension.
 #'
 #' @return
 #' A data frame with the following columns.
@@ -135,7 +138,7 @@
 #' # In-cell formatting is available in the `character_formatted` column as a
 #' # data frame, one row per substring.
 #' xlsx_cells(examples)$character_formatted[77]
-xlsx_cells <- function(path, sheets = NA) {
+xlsx_cells <- function(path, sheets = NA, check_filetype = TRUE) {
   path <- check_file(path)
   sheets <- check_sheets(sheets, path)
   xlsx_cells_(path,

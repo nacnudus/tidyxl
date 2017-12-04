@@ -4,7 +4,7 @@
 \alias{xlsx_cells}
 \title{Import xlsx (Excel) cell contents into a tidy structure.}
 \usage{
-xlsx_cells(path, sheets = NA)
+xlsx_cells(path, sheets = NA, check_filetype = TRUE)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
@@ -12,6 +12,10 @@ xlsx_cells(path, sheets = NA)
 \item{sheets}{Sheets to read. Either a character vector (the names of the
 sheets), an integer vector (the positions of the sheets), or NA (default, all
 sheets).}
+
+\item{check_filetype}{Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.}
 }
 \value{
 A data frame with the following columns.

@@ -8,6 +8,9 @@
 #' to comply with corporate standards.
 #'
 #' @param path Path to the xlsx file.
+#' @param check_filetype Logical. Whether to check that the filetype is xlsx (or
+#' xlsm) by looking at the file itself, rather than using the filename
+#' extension.
 #'
 #' @return
 #' A data frame, one row per colour, with the following columns.
@@ -20,7 +23,7 @@
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #' xlsx_color_theme(examples)
 #' xlsx_colour_theme(examples)
-xlsx_color_theme <- function(path) {
+xlsx_color_theme <- function(path, check_filetype = TRUE) {
   path <- check_file(path)
   xlsx_color_theme_(path)
 }

@@ -4,10 +4,14 @@
 \alias{xlsx_formats}
 \title{Import xlsx (Excel) formatting definitions.}
 \usage{
-xlsx_formats(path)
+xlsx_formats(path, check_filetype = TRUE)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
+
+\item{check_filetype}{Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.}
 }
 \value{
 A nested list of vectors, beginning at the top level with \code{$style} and

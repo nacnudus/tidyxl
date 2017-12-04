@@ -4,10 +4,14 @@
 \alias{xlsx_names}
 \title{Import named formulas from xlsx (Excel) files}
 \usage{
-xlsx_names(path)
+xlsx_names(path, check_filetype = TRUE)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
+
+\item{check_filetype}{Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.}
 }
 \value{
 A data frame, one row per name, with the following columns.

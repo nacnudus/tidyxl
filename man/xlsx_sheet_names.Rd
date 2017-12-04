@@ -4,10 +4,14 @@
 \alias{xlsx_sheet_names}
 \title{List sheets in an xlsx (Excel) file}
 \usage{
-xlsx_sheet_names(path)
+xlsx_sheet_names(path, check_filetype = TRUE)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
+
+\item{check_filetype}{Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.}
 }
 \value{
 A character vector of the names of the worksheets in the file.

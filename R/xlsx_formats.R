@@ -8,6 +8,9 @@
 #' indexing the bottom-level vectors.  See 'Details' for examples.
 #'
 #' @param path Path to the xlsx file.
+#' @param check_filetype Logical. Whether to check that the filetype is xlsx (or
+#' xlsm) by looking at the file itself, rather than using the filename
+#' extension.
 #'
 #' @return
 #' A nested list of vectors, beginning at the top level with `$style` and
@@ -53,7 +56,7 @@
 #' # the relevant indices, and then filter the cells by those indices.
 #' bold_indices <- which(formats$local$font$bold)
 #' cells[cells$local_format_id %in% bold_indices, ]
-xlsx_formats <- function(path) {
+xlsx_formats <- function(path, check_filetype = TRUE) {
   path <- check_file(path)
   xlsx_formats_(path)
 }

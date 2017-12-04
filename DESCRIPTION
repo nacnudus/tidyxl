@@ -4,6 +4,7 @@ Version: 1.0.0.9000
 Authors@R: c(
     person("Duncan", "Garmonsway", email = "nacnudus@gmail.com", role = c("aut", "cre")),
     person("Hadley", "Wickham", role = c("ctb"), comment = "Author of included readxl fragments"),
+    person("Jenny", "Bryan", role = c("ctb"), comment = "Author of included readxl fragments"),
     person("RStudio", role = "cph", comment = "Copyright holder of included readxl fragments"),
     person("Marcin", "Kalicinski", role = c("ctb", "cph"), comment = "Author of included RapidXML code")
     )

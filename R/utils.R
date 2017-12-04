@@ -9,7 +9,7 @@ globalVariables(c(".",
                   "name",
                   "hasArg"))
 
-check_file <- function(path) {
+check_file <- function(path, check_filetype = TRUE) {
   if (!file.exists(path)) {
     stop("'", path, "' does not exist",
       if (!is_absolute_path(path))
@@ -18,24 +18,21 @@ check_file <- function(path) {
       call. = FALSE)
   }
 
-  excel_format(path)
+  if (check_filetype && !maybe_xlsx(path)) {
+    stop("The file format does not appear to be xlsx or xlsm,",
+         "\neven if the filename extension says so.",
+         "\n  ", path,
+         "\n", "You could try converting it with a spreadsheet application.",
+         "\n", "If you need tidyxl to support files of this type, then please ",
+         "\n", "open an issue at https://github.com/nacnudus/tidyxl/issues.",
+         call. = FALSE)
+  }
 
   normalizePath(path, "/", mustWork = FALSE)
 }
 
 is_absolute_path <- function(path) {
   grepl("^(/|[A-Za-z]:|\\\\|~)", path)
-}
-
-excel_format <- function(path) {
-  ext <- tolower(tools::file_ext(path))
-
-  switch(ext,
-    xls = stop("Not implemented for xls files.", call. = FALSE),
-    xlsx = "xlsx",
-    xlsm = "xlsx",
-    stop("Unknown format .", ext, call. = FALSE)
-  )
 }
 
 standardise_sheet <- function(sheets, all_sheets) {

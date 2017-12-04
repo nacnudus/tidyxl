@@ -3,6 +3,7 @@
 S3method(print,xlex)
 export(is_date_format)
 export(is_range)
+export(maybe_xlsx)
 export(tidy_xlsx)
 export(xlex)
 export(xlsx_cells)

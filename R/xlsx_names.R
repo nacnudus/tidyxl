@@ -13,6 +13,9 @@
 #' For sheet-scoped names, `xlsx_names()` provides the name of the sheet.
 #'
 #' @param path Path to the xlsx file.
+#' @param check_filetype Logical. Whether to check that the filetype is xlsx (or
+#' xlsm) by looking at the file itself, rather than using the filename
+#' extension.
 #'
 #' @return
 #' A data frame, one row per name, with the following columns.
@@ -35,7 +38,7 @@
 #' @examples
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
 #' xlsx_names(examples)
-xlsx_names <- function(path) {
+xlsx_names <- function(path, check_filetype = TRUE) {
   path <- check_file(path)
   out <- xlsx_names_(path)
   # Microsoft docs don't say what sheet_id links to.  Testing suggests it is the

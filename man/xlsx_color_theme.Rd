@@ -5,12 +5,16 @@
 \alias{xlsx_colour_theme}
 \title{Import theme color definitions from xlsx (Excel) files}
 \usage{
-xlsx_color_theme(path)
+xlsx_color_theme(path, check_filetype = TRUE)
 
-xlsx_colour_theme(path)
+xlsx_colour_theme(path, check_filetype = TRUE)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
+
+\item{check_filetype}{Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.}
 }
 \value{
 A data frame, one row per colour, with the following columns.
