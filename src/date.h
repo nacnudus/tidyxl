@@ -72,7 +72,7 @@ inline std::string formatDate(double& date, int& dateSystem, int& dateOffset) {
 }
 
 // From @reviewher https://github.com/tidyverse/readxl/issues/388
-#define CASEI(c) case c: case c | 0x20
+#define CASEI(c) case c: case (c | 0x20)
 #define CMPLC(j,n) if(x[i+j] | 0x20 == n)
 inline bool isDateFormat(std::string x) {
   char escaped = 0;
