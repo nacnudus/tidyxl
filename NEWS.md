@@ -7,6 +7,7 @@
   impossible to be sure from the magic number alone, because the magic numbers
   are either common to all zip files, or common to other Microsoft Office files
   (e.g. .doc, .ppt).
+* Fixed a CRAN warning.
 
 # tidyxl 1.0.0
 
