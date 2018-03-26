@@ -18,13 +18,25 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Import xlsx (Excel) cell contents into a tidy structure. — tidy_xlsx" />
+
+<meta property="og:description" content="tidy_xlsx() is deprecated.  Please use xlsx_cells() or xlsx_formats()
+instead.
+tidy_xlsx() imports data from spreadsheets without coercing it into a
+rectangle.  Each cell is represented by a row in a data frame, giving the
+cell's address, contents, formula, height, width, and keys to look up the
+cell's formatting in an adjacent data structure within the list returned by
+this function." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +71,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +86,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +107,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,13 +130,13 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import xlsx (Excel) cell contents into a tidy structure.</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/tidy_xlsx.R'><code>R/tidy_xlsx.R</code></a></small>
     </div>
 
     
     <p><code>tidy_xlsx()</code> is deprecated.  Please use <code><a href='xlsx_cells.html'>xlsx_cells()</a></code> or <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>
-instead.
-
-    <code>tidy_xlsx()</code> imports data from spreadsheets without coercing it into a
+instead.</p>
+<p><code>tidy_xlsx()</code> imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
 cell's formatting in an adjacent data structure within the list returned by
@@ -129,7 +145,7 @@ this function.</p>
 
     <pre class="usage"><span class='fu'>tidy_xlsx</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -238,7 +254,8 @@ further processing you might need to filter out the <code>NULL</code>s first.
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A cell has two 'values': its content, and sometimes also a formula.  It also
-has formatting applied at the 'style' level, which can be locally overridden.</p><h3>Content</h3>
+has formatting applied at the 'style' level, which can be locally overridden.</p>
+<h3>Content</h3>
     Depending on the cell, the content may be a numeric value such as 365 or
 365.25, it may represent a date/datetime in one of Excel's date/datetime
 systems, or it may be an index into an internal table of strings.
@@ -329,7 +346,7 @@ formats, type <code>str(x$formats$local)</code>.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -337,3 +354,4 @@ formats, type <code>str(x$formats$local)</code>.
 
   </body>
 </html>
+

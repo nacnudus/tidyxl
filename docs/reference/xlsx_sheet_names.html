@@ -18,13 +18,21 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="List sheets in an xlsx (Excel) file — xlsx_sheet_names" />
+
+<meta property="og:description" content="xlsx_sheets() returns the names of the sheets in a workbook, as a character
+vector.  They are in the same order as they appear in the spreadsheet when it
+is opened with a spreadsheet application like Excel or LibreOffice." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +67,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +82,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +103,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +126,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>List sheets in an xlsx (Excel) file</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_sheet_names.R'><code>R/xlsx_sheet_names.R</code></a></small>
     </div>
 
     
@@ -122,14 +135,20 @@ vector.  They are in the same order as they appear in the spreadsheet when it
 is opened with a spreadsheet application like Excel or LibreOffice.</p>
     
 
-    <pre class="usage"><span class='fu'>xlsx_sheet_names</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_sheet_names</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
       <td><p>Path to the xlsx file.</p></td>
+    </tr>
+    <tr>
+      <th>check_filetype</th>
+      <td><p>Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.</p></td>
     </tr>
     </table>
     
@@ -140,8 +159,8 @@ is opened with a spreadsheet application like Excel or LibreOffice.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='fu'>xlsx_sheet_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; [1] "Sheet1"                           "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°"
-#&gt; [3] "E09904.2"                         "gradientFill"                    </div></pre>
+<span class='fu'>xlsx_sheet_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; [1] "Sheet1"                      "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;."
+#&gt; [3] "E09904.2"                    "gradientFill"               </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -162,7 +181,7 @@ is opened with a spreadsheet application like Excel or LibreOffice.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -170,3 +189,4 @@ is opened with a spreadsheet application like Excel or LibreOffice.</p>
 
   </body>
 </html>
+

@@ -18,13 +18,16 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Function reference" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +62,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +77,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +98,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -113,10 +120,7 @@
       <div class="row">
   <div class="col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;1.0.0</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
     <div class="contents">
@@ -143,19 +147,25 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="is_date_format.html">is_date_format</a></code> </p>
+            <p><code><a href="is_date_format.html">is_date_format()</a></code> </p>
           </td>
           <td><p>Test that Excel number formats are date formats</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="is_range.html">is_range</a></code> </p>
+            <p><code><a href="is_range.html">is_range()</a></code> </p>
           </td>
           <td><p>Test that Excel formulas are ranges</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="tidy_xlsx.html">tidy_xlsx</a></code> </p>
+            <p><code><a href="maybe_xlsx.html">maybe_xlsx()</a></code> </p>
+          </td>
+          <td><p>Determine file format</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="tidy_xlsx.html">tidy_xlsx()</a></code> </p>
           </td>
           <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
         </tr><tr>
@@ -167,13 +177,13 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlex.html">xlex</a></code> </p>
+            <p><code><a href="xlex.html">xlex()</a></code> </p>
           </td>
           <td><p>Parse xlsx (Excel) formulas into tokens</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlsx_cells.html">xlsx_cells</a></code> </p>
+            <p><code><a href="xlsx_cells.html">xlsx_cells()</a></code> </p>
           </td>
           <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
         </tr><tr>
@@ -185,31 +195,31 @@
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlsx_color_theme.html">xlsx_color_theme</a></code> <code><a href="xlsx_color_theme.html">xlsx_colour_theme</a></code> </p>
+            <p><code><a href="xlsx_color_theme.html">xlsx_color_theme()</a></code> <code><a href="xlsx_color_theme.html">xlsx_colour_theme()</a></code> </p>
           </td>
           <td><p>Import theme color definitions from xlsx (Excel) files</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlsx_formats.html">xlsx_formats</a></code> </p>
+            <p><code><a href="xlsx_formats.html">xlsx_formats()</a></code> </p>
           </td>
           <td><p>Import xlsx (Excel) formatting definitions.</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlsx_names.html">xlsx_names</a></code> </p>
+            <p><code><a href="xlsx_names.html">xlsx_names()</a></code> </p>
           </td>
           <td><p>Import named formulas from xlsx (Excel) files</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlsx_sheet_names.html">xlsx_sheet_names</a></code> </p>
+            <p><code><a href="xlsx_sheet_names.html">xlsx_sheet_names()</a></code> </p>
           </td>
           <td><p>List sheets in an xlsx (Excel) file</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="xlsx_validation.html">xlsx_validation</a></code> </p>
+            <p><code><a href="xlsx_validation.html">xlsx_validation()</a></code> </p>
           </td>
           <td><p>Import data validation rules of cells in xlsx (Excel) files</p></td>
         </tr>
@@ -232,7 +242,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -240,3 +250,4 @@
 
   </body>
 </html>
+

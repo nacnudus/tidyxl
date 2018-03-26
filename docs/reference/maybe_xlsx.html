@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Import named formulas from xlsx (Excel) files — xlsx_names • tidyxl</title>
+<title>Determine file format — maybe_xlsx • tidyxl</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -25,16 +25,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="Import named formulas from xlsx (Excel) files — xlsx_names" />
+<meta property="og:title" content="Determine file format — maybe_xlsx" />
 
-<meta property="og:description" content="xlsx_names() returns the names and definitions of named formulas (aka named
-ranges) in xlsx (Excel) files.
-Most names refer to ranges of cells, but they can also be defined as
-formulas.  xlsx_names() tells you whether or not they are a range, using
-tidyxl::is_range() to work this out.
-Names are scoped either globally (used only once in the file), or locally to
-each sheet (can be reused with different definitions in different sheets).
-For sheet-scoped names, xlsx_names() provides the name of the sheet." />
+<meta property="og:description" content="Whether a file may be be xlsx, xlsm, xltx or xltm (rather than xls or xlt),
+based on the filesignature or "magic
+number", rather than the filename extension." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -130,72 +125,51 @@ For sheet-scoped names, xlsx_names() provides the name of the sheet." />
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Import named formulas from xlsx (Excel) files</h1>
-    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_names.R'><code>R/xlsx_names.R</code></a></small>
+    <h1>Determine file format</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/maybe_xlsx.R'><code>R/maybe_xlsx.R</code></a></small>
     </div>
 
     
-    <p><code>xlsx_names()</code> returns the names and definitions of named formulas (aka named
-ranges) in xlsx (Excel) files.</p>
-<p>Most names refer to ranges of cells, but they can also be defined as
-formulas.  <code>xlsx_names()</code> tells you whether or not they are a range, using
-<code><a href='is_range.html'>tidyxl::is_range()</a></code> to work this out.</p>
-<p>Names are scoped either globally (used only once in the file), or locally to
-each sheet (can be reused with different definitions in different sheets).
-For sheet-scoped names, <code>xlsx_names()</code> provides the name of the sheet.</p>
+    <p>Whether a file may be be xlsx, xlsm, xltx or xltm (rather than xls or xlt),
+based on the <a href='https://en.wikipedia.org/wiki/List_of_file_signatures'>filesignature</a> or "magic
+number", rather than the filename extension.</p>
     
 
-    <pre class="usage"><span class='fu'>xlsx_names</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>maybe_xlsx</span>(<span class='no'>path</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>Path to the xlsx file.</p></td>
-    </tr>
-    <tr>
-      <th>check_filetype</th>
-      <td><p>Logical. Whether to check that the filetype is xlsx (or
-xlsm) by looking at the file itself, rather than using the filename
-extension.</p></td>
+      <td><p>File path</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame, one row per name, with the following columns.</p><ul>
-<li><p><code>sheet</code> If the name is defined only for a specific sheet, the name of
-the sheet.  Otherwise <code>NA</code> for names defined globally.</p></li>
-<li><p><code>name</code></p></li>
-<li><p><code>formula</code> Usually a range of cells, but sometimes a whole formula, e.g.
-<code>MAX(A2,1)</code>.</p></li>
-<li><p><code>comment</code> A description given by the spreadsheet author.</p></li>
-<li><p><code>hidden</code> Whether or not the name is visible to the user in spreadsheet
-applications.  Hidden names are usually ones that were created
-automatically by the spreadsheet application.</p></li>
-<li><p><code>is_range</code> Whether or not the <code>formula</code> is a range of cells.  This is handy
-for joining to the set of cells referred to by a name.  In this context,
-commas between cell addresses are always regarded as union operators --
-this differs from <code><a href='xlex.html'>tidyxl::xlex()</a></code>, see that help file for details.</p></li>
-</ul>
+    <p>Logicial</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>Only 'maybe', not 'is', because the xlsx magic number is common to all zip
+files, not specific to xlsx files.  The inverse, 'is_xls' isn't possible
+either, because the xls magic number is common to other Microsoft Office
+files such as .doc and .ppt.</p>
+<p>This uses some logic from Jenny Bryan's commit to the
+<a href='https://github.com/tidyverse/readxl/commit/ff071a4758da3677568362daff52e419c4e0cdfe'>readxl</a>
+package.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='fu'>xlsx_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt;   rId    sheet                 name                     formula    comment
-#&gt; 1   1   Sheet1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1       &lt;NA&gt;
-#&gt; 2   4 E09904.2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1       &lt;NA&gt;
-#&gt; 3  NA     &lt;NA&gt;         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;
-#&gt; 4  NA     &lt;NA&gt; named_global_formula             Sheet1!$A$129-1       &lt;NA&gt;
-#&gt; 5  NA     &lt;NA&gt;          named_range               Sheet1!$A$129 My comment
-#&gt;   hidden is_range
-#&gt; 1  FALSE    FALSE
-#&gt; 2  FALSE     TRUE
-#&gt; 3  FALSE     TRUE
-#&gt; 4  FALSE    FALSE
-#&gt; 5  FALSE     TRUE</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>examples_xlsx</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+<span class='no'>examples_xlsm</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsm"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+<span class='no'>examples_xltx</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xltx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+<span class='no'>examples_xltm</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xltm"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+<span class='no'>examples_xlsb</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsb"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+<span class='no'>examples_xls</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xls"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+
+<span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xlsx</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xlsm</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xltx</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xltm</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xlsb</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xls</span>)</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -203,6 +177,8 @@ this differs from <code><a href='xlex.html'>tidyxl::xlex()</a></code>, see that 
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

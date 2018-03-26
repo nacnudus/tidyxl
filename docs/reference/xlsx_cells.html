@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Import xlsx (Excel) cell contents into a tidy structure. — xlsx_cells" />
+
+<meta property="og:description" content="xlsx_cells() imports data from spreadsheets without coercing it into a
+rectangle.  Each cell is represented by a row in a data frame, giving the
+cell's address, contents, formula, height, width, and keys to look up the
+cell's formatting in the return value of tidyxl::xlsx_formats()." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +68,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +83,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +104,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import xlsx (Excel) cell contents into a tidy structure.</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_cells.R'><code>R/xlsx_cells.R</code></a></small>
     </div>
 
     
@@ -123,9 +137,9 @@ cell's address, contents, formula, height, width, and keys to look up the
 cell's formatting in the return value of <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.</p>
     
 
-    <pre class="usage"><span class='fu'>xlsx_cells</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_cells</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -137,6 +151,12 @@ cell's formatting in the return value of <code><a href='xlsx_formats.html'>tidyx
       <td><p>Sheets to read. Either a character vector (the names of the
 sheets), an integer vector (the positions of the sheets), or NA (default, all
 sheets).</p></td>
+    </tr>
+    <tr>
+      <th>check_filetype</th>
+      <td><p>Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.</p></td>
     </tr>
     </table>
     
@@ -183,7 +203,8 @@ see all available formats, type <code>str(my_formats$local)</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A cell has two 'values': its content, and sometimes also a formula.  It also
-has formatting applied at the 'style' level, which can be locally overridden.</p><h3>Content</h3>
+has formatting applied at the 'style' level, which can be locally overridden.</p>
+<h3>Content</h3>
     Depending on the cell, the content may be a numeric value such as 365 or
 365.25, it may represent a date/datetime in one of Excel's date/datetime
 systems, or it may be an index into an internal table of strings.
@@ -1349,7 +1370,7 @@ further processing you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ local_format_id    : int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># Specific sheet either by position or by name</span>
 <span class='fu'>str</span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; Classes ‘tbl_df’, ‘tbl’ and 'data.frame':	2 obs. of  21 variables:
-#&gt;  $ sheet              : chr  "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°" "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;.£¹÷¦°"
+#&gt;  $ sheet              : chr  "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;." "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;."
 #&gt;  $ address            : chr  "B2" "B6"
 #&gt;  $ row                : int  2 6
 #&gt;  $ col                : int  2 2
@@ -2528,25 +2549,26 @@ further processing you might need to filter out the <code>NULL</code>s first.
 <span class='co'># data frame, one row per substring.</span>
 <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]</div><div class='output co'>#&gt; [[1]]
 #&gt; # A tibble: 16 x 14
-#&gt;    charac… bold  italic under… stri… vert…  size colo… colo… colo… color… font 
-#&gt;    &lt;chr&gt;   &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;  &lt;lgl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;chr&gt;
-#&gt;  1 in-cell F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 &lt;NA&gt;     NA    NA NA     Cali…
-#&gt;  2 bold    T     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  3 italic  F     T      &lt;NA&gt;   F     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  4 underl… F     F      single F     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  5 underl… F     F      double F     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  6 single… F     F      singl… F     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  7 double… F     F      doubl… F     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  8 strike… F     F      &lt;NA&gt;   T     &lt;NA&gt;      0 FF00…     2    NA NA     Cali…
-#&gt;  9 subscr… F     F      &lt;NA&gt;   F     subs…     0 FF00…     2    NA NA     Cali…
-#&gt; 10 supers… F     F      &lt;NA&gt;   F     supe…     0 FF00…     2    NA NA     Cali…
-#&gt; 11 red     F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FFFF…    NA    NA NA     Cali…
-#&gt; 12 theme   F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FFC0…     6    NA NA     Cali…
-#&gt; 13 tint    F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FFC0…     6    NA  0.800 Cali…
-#&gt; 14 size    F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FFFF…    NA    NA NA     Cali…
-#&gt; 15 arial   F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FFFF…    NA    NA NA     Arial
-#&gt; 16 "UTF8S… F     F      &lt;NA&gt;   F     &lt;NA&gt;      0 FFFF…    NA    NA NA     Cali…
-#&gt; # ... with 2 more variables: family &lt;int&gt;, scheme &lt;chr&gt;
+#&gt;    character          bold  italic underline   strike vertAlign  size color_rgb
+#&gt;    &lt;chr&gt;              &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;       &lt;lgl&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    
+#&gt;  1 in-cell            FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. &lt;NA&gt;     
+#&gt;  2 bold               TRUE  FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FF000000 
+#&gt;  3 italic             FALSE TRUE   &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FF000000 
+#&gt;  4 underline          FALSE FALSE  single      FALSE  &lt;NA&gt;         0. FF000000 
+#&gt;  5 underlinedouble    FALSE FALSE  double      FALSE  &lt;NA&gt;         0. FF000000 
+#&gt;  6 singleaccounting   FALSE FALSE  singleAcco… FALSE  &lt;NA&gt;         0. FF000000 
+#&gt;  7 doubleaccounting   FALSE FALSE  doubleAcco… FALSE  &lt;NA&gt;         0. FF000000 
+#&gt;  8 strikethrough      FALSE FALSE  &lt;NA&gt;        TRUE   &lt;NA&gt;         0. FF000000 
+#&gt;  9 subscript          FALSE FALSE  &lt;NA&gt;        FALSE  subscript    0. FF000000 
+#&gt; 10 superscript        FALSE FALSE  &lt;NA&gt;        FALSE  superscr…    0. FF000000 
+#&gt; 11 red                FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
+#&gt; 12 theme              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFC0504D 
+#&gt; 13 tint               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFC0504D 
+#&gt; 14 size               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
+#&gt; 15 arial              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
+#&gt; 16 "UTF8Stéphane\nmu… FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
+#&gt; # ... with 6 more variables: color_theme &lt;int&gt;, color_indexed &lt;int&gt;,
+#&gt; #   color_tint &lt;dbl&gt;, font &lt;chr&gt;, family &lt;int&gt;, scheme &lt;chr&gt;
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -2570,7 +2592,7 @@ further processing you might need to filter out the <code>NULL</code>s first.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -2578,3 +2600,4 @@ further processing you might need to filter out the <code>NULL</code>s first.
 
   </body>
 </html>
+

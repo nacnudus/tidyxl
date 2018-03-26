@@ -18,13 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Import theme color definitions from xlsx (Excel) files — xlsx_color_theme" />
+
+<meta property="og:description" content="xlsx_color_theme() (alias xlsx_colour_theme() returns the names and RGB
+values of theme colours defined in xlsx (Excel) files.  For example,
+"accent6" is the name of a theme colour in Excel, which could resolve to
+any RGB colour defined by the author of the file.  Themes are often defined
+to comply with corporate standards." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +69,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +84,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +105,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +128,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import theme color definitions from xlsx (Excel) files</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_color_theme.R'><code>R/xlsx_color_theme.R</code></a></small>
     </div>
 
     
@@ -124,16 +139,22 @@ any RGB colour defined by the author of the file.  Themes are often defined
 to comply with corporate standards.</p>
     
 
-    <pre class="usage"><span class='fu'>xlsx_color_theme</span>(<span class='no'>path</span>)
+    <pre class="usage"><span class='fu'>xlsx_color_theme</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>xlsx_colour_theme</span>(<span class='no'>path</span>)</pre>
+<span class='fu'>xlsx_colour_theme</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
       <td><p>Path to the xlsx file.</p></td>
+    </tr>
+    <tr>
+      <th>check_filetype</th>
+      <td><p>Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.</p></td>
     </tr>
     </table>
     
@@ -197,7 +218,7 @@ to comply with corporate standards.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -205,3 +226,4 @@ to comply with corporate standards.</p>
 
   </body>
 </html>
+

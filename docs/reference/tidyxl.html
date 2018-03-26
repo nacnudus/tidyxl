@@ -18,13 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures. — tidyxl" />
+
+<meta property="og:description" content="Tidyxl imports data from spreadsheets without coercing it into a rectangle,
+and retains information encoded in cell formatting (e.g. font/fill/border).
+This data structure is compatible with the 'unpivotr' package for
+recognising information expressed by relative cell positions and cell
+formatting, and re-expressing it in a tidy way." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +69,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +84,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +105,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +128,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures.</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/tidyxl-package.R'><code>R/tidyxl-package.R</code></a></small>
     </div>
 
     
@@ -128,14 +143,19 @@ formatting, and re-expressing it in a tidy way.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <ul>
-<li><p><code><a href='tidy_xlsx.html'>tidyxl::tidy_xlsx()</a></code> Import cells and formatting from an xlsx file.</p></li>
+<li><p><code><a href='xlsx_cells.html'>tidyxl::xlsx_cells()</a></code> Import cells from an xlsx file.</p></li>
+<li><p><code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code> Import formatting from an xlsx file.</p></li>
 <li><p><code><a href='xlsx_sheet_names.html'>tidyxl::xlsx_sheet_names()</a></code> List the names of sheets in an xlsx file.</p></li>
-<li><p><code><a href='xlsx_names.html'>tidyxl::xlsx_names()</a></code> Import names and definitions of named ranges (aka named</p></li>
+<li><p><code><a href='xlsx_names.html'>tidyxl::xlsx_names()</a></code> Import names and definitions of named ranges (aka
+'named formulas', 'defined names') from an xlsx file.</p></li>
 <li><p><code><a href='is_range.html'>tidyxl::is_range()</a></code> Test whether a 'name' from <code><a href='xlsx_names.html'>tidyxl::xlsx_names()</a></code>
-refers to a range or not.
-formulas, defined names) from an xlsx file.</p></li>
+refers to a range or not.</p></li>
 <li><p><code><a href='xlsx_validation.html'>tidyxl::xlsx_validation()</a></code> Import cell input validation rules (e.g.
 'must be from this drop-down list') from an xlsx file.</p></li>
+<li><p><code><a href='xlsx_color_standard.html'>tidyxl::xlsx_colour_standard()</a></code> A data frame of standard colour names and
+their RGB values.</p></li>
+<li><p><code><a href='xlsx_color_theme.html'>tidyxl::xlsx_colour_theme()</a></code> Imports a data frame of theme colour names
+and their RGB values from an xlsx file.</p></li>
 <li><p><code><a href='xlex.html'>tidyxl::xlex()</a></code> Tokenise (lex) an Excel formula.</p></li>
 </ul>
     
@@ -157,7 +177,7 @@ formulas, defined names) from an xlsx file.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -165,3 +185,4 @@ formulas, defined names) from an xlsx file.</p></li>
 
   </body>
 </html>
+

@@ -18,13 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Import xlsx (Excel) formatting definitions. — xlsx_formats" />
+
+<meta property="og:description" content="xlsx_formats() imports formatting definitions from spreadsheets.  The
+structure is a nested list, e.g. bold is a vector within the list font,
+which is within the list local, which is within the list
+returned by xlsx_formats().  You can look up a cell's formatting by
+indexing the bottom-level vectors.  See 'Details' for examples." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +69,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +84,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +105,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +128,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import xlsx (Excel) formatting definitions.</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_formats.R'><code>R/xlsx_formats.R</code></a></small>
     </div>
 
     
@@ -124,14 +139,20 @@ returned by <code>xlsx_formats()</code>.  You can look up a cell's formatting by
 indexing the bottom-level vectors.  See 'Details' for examples.</p>
     
 
-    <pre class="usage"><span class='fu'>xlsx_formats</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_formats</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
       <td><p>Path to the xlsx file.</p></td>
+    </tr>
+    <tr>
+      <th>check_filetype</th>
+      <td><p>Logical. Whether to check that the filetype is xlsx (or
+xlsm) by looking at the file itself, rather than using the filename
+extension.</p></td>
     </tr>
     </table>
     
@@ -728,15 +749,15 @@ hexadecimal string.</p>
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
 <span class='no'>cells</span>[<span class='no'>cells</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; # A tibble: 3 x 21
-#&gt;   sheet  addre…   row   col is_bl… data_… error logi… nume… date               
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;lgl&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;lgl&gt; &lt;dbl&gt; &lt;dttm&gt;             
-#&gt; 1 Sheet1 A28       28     1 F      chara… &lt;NA&gt;  NA       NA NA                 
-#&gt; 2 Sheet1 A32       32     1 F      chara… &lt;NA&gt;  NA       NA NA                 
-#&gt; 3 Sheet1 A49       49     1 F      chara… &lt;NA&gt;  NA       NA NA                 
-#&gt; # ... with 11 more variables: character &lt;chr&gt;, character_formatted &lt;list&gt;,
-#&gt; #   formula &lt;chr&gt;, is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;,
-#&gt; #   comment &lt;chr&gt;, height &lt;dbl&gt;, width &lt;dbl&gt;, style_format &lt;chr&gt;,
-#&gt; #   local_format_id &lt;int&gt;</div></pre>
+#&gt;   sheet  address   row   col is_blank data_type error logical numeric
+#&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;
+#&gt; 1 Sheet1 A28        28     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 2 Sheet1 A32        32     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 3 Sheet1 A49        49     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; # ... with 12 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,
+#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,
+#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,
+#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -759,7 +780,7 @@ hexadecimal string.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -767,3 +788,4 @@ hexadecimal string.</p>
 
   </body>
 </html>
+

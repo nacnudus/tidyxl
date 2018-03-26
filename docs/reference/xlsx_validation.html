@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Import data validation rules of cells in xlsx (Excel) files — xlsx_validation" />
+
+<meta property="og:description" content="xlsx_validation() returns the data validation rules applied to cells in
+xlsx (Excel) files.  Data validation rules control what constants can be
+entered into a cell, e.g. any whole number between 0 and 9, or one of several
+values from another part of the spreadsheet." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +68,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +83,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +104,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import data validation rules of cells in xlsx (Excel) files</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_validation.R'><code>R/xlsx_validation.R</code></a></small>
     </div>
 
     
@@ -125,7 +139,7 @@ values from another part of the spreadsheet.</p>
 
     <pre class="usage"><span class='fu'>xlsx_validation</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -181,60 +195,66 @@ the user enters a forbidden value.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
 <span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
-#&gt;    sheet  ref    type   opera… formu… form… allo… show… prom… prom… show… erro…
-#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;
-#&gt;  1 Sheet1 A106   whole  betwe… 0      9     T     T     mess… mess… T     erro…
-#&gt;  2 Sheet1 A108   list   &lt;NA&gt;   $B$108 &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  3 Sheet1 A110   date   betwe… 2017-… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  4 Sheet1 A111   time   betwe… 00:00… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  5 Sheet1 A112   textL… betwe… 0      9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  6 Sheet1 A114   whole  notBe… 0      9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  7 Sheet1 A115,… whole  equal  0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  8 Sheet1 A116   whole  notEq… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  9 Sheet1 A117   whole  great… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 10 Sheet1 A119   whole  great… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 11 Sheet1 A120   whole  lessT… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 12 Sheet1 A118   whole  lessT… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 13 Sheet1 A107   decim… notBe… 0      9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; 
-#&gt; 14 Sheet1 A113   custom &lt;NA&gt;   A113&lt;… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 15 Sheet1 A109   list   &lt;NA&gt;   $B$108 &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
-#&gt;    sheet  ref    type   opera… formu… form… allo… show… prom… prom… show… erro…
-#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;
-#&gt;  1 Sheet1 A106   whole  betwe… 0      9     T     T     mess… mess… T     erro…
-#&gt;  2 Sheet1 A108   list   &lt;NA&gt;   $B$108 &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  3 Sheet1 A110   date   betwe… 2017-… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  4 Sheet1 A111   time   betwe… 00:00… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  5 Sheet1 A112   textL… betwe… 0      9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  6 Sheet1 A114   whole  notBe… 0      9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  7 Sheet1 A115,… whole  equal  0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  8 Sheet1 A116   whole  notEq… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  9 Sheet1 A117   whole  great… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 10 Sheet1 A119   whole  great… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 11 Sheet1 A120   whole  lessT… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 12 Sheet1 A118   whole  lessT… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 13 Sheet1 A107   decim… notBe… 0      9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; 
-#&gt; 14 Sheet1 A113   custom &lt;NA&gt;   A113&lt;… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 15 Sheet1 A109   list   &lt;NA&gt;   $B$108 &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
-#&gt;    sheet  ref    type   opera… formu… form… allo… show… prom… prom… show… erro…
-#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;lgl&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;
-#&gt;  1 Sheet1 A106   whole  betwe… 0      9     T     T     mess… mess… T     erro…
-#&gt;  2 Sheet1 A108   list   &lt;NA&gt;   $B$108 &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  3 Sheet1 A110   date   betwe… 2017-… 2017… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  4 Sheet1 A111   time   betwe… 00:00… 09:0… T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  5 Sheet1 A112   textL… betwe… 0      9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  6 Sheet1 A114   whole  notBe… 0      9     T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  7 Sheet1 A115,… whole  equal  0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  8 Sheet1 A116   whole  notEq… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt;  9 Sheet1 A117   whole  great… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 10 Sheet1 A119   whole  great… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 11 Sheet1 A120   whole  lessT… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 12 Sheet1 A118   whole  lessT… 0      &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 13 Sheet1 A107   decim… notBe… 0      9     F     F     &lt;NA&gt;  &lt;NA&gt;  F     &lt;NA&gt; 
-#&gt; 14 Sheet1 A113   custom &lt;NA&gt;   A113&lt;… &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; 15 Sheet1 A109   list   &lt;NA&gt;   $B$108 &lt;NA&gt;  T     T     &lt;NA&gt;  &lt;NA&gt;  T     &lt;NA&gt; 
-#&gt; # ... with 2 more variables: error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</div></pre>
+#&gt;    sheet  ref    type   operator formula1 formula2 allow_blank show_input_mess…
+#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
+#&gt;  1 Sheet1 A106   whole  between  0        9        TRUE        TRUE            
+#&gt;  2 Sheet1 A108   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;  3 Sheet1 A110   date   between  2017-01… 2017-01… TRUE        TRUE            
+#&gt;  4 Sheet1 A111   time   between  00:00:00 09:00:00 TRUE        TRUE            
+#&gt;  5 Sheet1 A112   textL… between  0        9        TRUE        TRUE            
+#&gt;  6 Sheet1 A114   whole  notBetw… 0        9        TRUE        TRUE            
+#&gt;  7 Sheet1 A115,… whole  equal    0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  8 Sheet1 A116   whole  notEqual 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  9 Sheet1 A117   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 10 Sheet1 A119   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 11 Sheet1 A120   whole  lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 12 Sheet1 A118   whole  lessThan 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 13 Sheet1 A107   decim… notBetw… 0        9        FALSE       FALSE           
+#&gt; 14 Sheet1 A113   custom &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
+#&gt; 15 Sheet1 A109   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt; # ... with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,
+#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,
+#&gt; #   error_symbol &lt;chr&gt;</div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
+#&gt;    sheet  ref    type   operator formula1 formula2 allow_blank show_input_mess…
+#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
+#&gt;  1 Sheet1 A106   whole  between  0        9        TRUE        TRUE            
+#&gt;  2 Sheet1 A108   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;  3 Sheet1 A110   date   between  2017-01… 2017-01… TRUE        TRUE            
+#&gt;  4 Sheet1 A111   time   between  00:00:00 09:00:00 TRUE        TRUE            
+#&gt;  5 Sheet1 A112   textL… between  0        9        TRUE        TRUE            
+#&gt;  6 Sheet1 A114   whole  notBetw… 0        9        TRUE        TRUE            
+#&gt;  7 Sheet1 A115,… whole  equal    0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  8 Sheet1 A116   whole  notEqual 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  9 Sheet1 A117   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 10 Sheet1 A119   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 11 Sheet1 A120   whole  lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 12 Sheet1 A118   whole  lessThan 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 13 Sheet1 A107   decim… notBetw… 0        9        FALSE       FALSE           
+#&gt; 14 Sheet1 A113   custom &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
+#&gt; 15 Sheet1 A109   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt; # ... with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,
+#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,
+#&gt; #   error_symbol &lt;chr&gt;</div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
+#&gt;    sheet  ref    type   operator formula1 formula2 allow_blank show_input_mess…
+#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
+#&gt;  1 Sheet1 A106   whole  between  0        9        TRUE        TRUE            
+#&gt;  2 Sheet1 A108   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;  3 Sheet1 A110   date   between  2017-01… 2017-01… TRUE        TRUE            
+#&gt;  4 Sheet1 A111   time   between  00:00:00 09:00:00 TRUE        TRUE            
+#&gt;  5 Sheet1 A112   textL… between  0        9        TRUE        TRUE            
+#&gt;  6 Sheet1 A114   whole  notBetw… 0        9        TRUE        TRUE            
+#&gt;  7 Sheet1 A115,… whole  equal    0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  8 Sheet1 A116   whole  notEqual 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  9 Sheet1 A117   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 10 Sheet1 A119   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 11 Sheet1 A120   whole  lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 12 Sheet1 A118   whole  lessThan 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 13 Sheet1 A107   decim… notBetw… 0        9        FALSE       FALSE           
+#&gt; 14 Sheet1 A113   custom &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
+#&gt; 15 Sheet1 A109   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt; # ... with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,
+#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,
+#&gt; #   error_symbol &lt;chr&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -255,7 +275,7 @@ the user enters a forbidden value.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -263,3 +283,4 @@ the user enters a forbidden value.</p></li>
 
   </body>
 </html>
+

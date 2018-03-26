@@ -18,13 +18,29 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+<meta property="og:title" content="Parse xlsx (Excel) formulas into tokens — xlex" />
+
+<meta property="og:description" content="xlex takes an Excel formula and separates it into tokens.  The name is
+a bad pun on 'Excel' and 'lexer'.  It returns a dataframe, one row per token,
+giving the token itself, its type (e.g.  number, or error), and its
+level.
+The level is a number to show the depth of a token within nested function
+calls.  The token A2 in the formula IF(A1=1,A2,MAX(A3,A4)) is at level 1.
+Tokens A3 and A4 are at level 2.  The token IF is at level 0, which is
+the outermost level.
+The output isn't enough to enable computation or validation of formulas, but
+it is enough to investigate the structure of formulas and spreadsheets.  It
+has been tested on millions of formulas in the Enron corpus." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +75,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">tidyxl</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">tidyxl</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -70,7 +90,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/tidyxl.html">Get Started</a>
+  <a href="../articles/tidyxl.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -91,7 +111,7 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -114,6 +134,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Parse xlsx (Excel) formulas into tokens</h1>
+    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlex.R'><code>R/xlex.R</code></a></small>
     </div>
 
     
@@ -132,7 +153,7 @@ has been tested on millions of formulas in the Enron corpus.</p>
 
     <pre class="usage"><span class='fu'>xlex</span>(<span class='no'>x</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -537,7 +558,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -545,3 +566,4 @@ https://github.com/spreadsheetlab/XLParser.</p>
 
   </body>
 </html>
+

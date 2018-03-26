@@ -1,0 +1,8 @@
+pandoc: 2.1.3
+pkgdown: 0.1.0.9000
+pkgdown_sha: ~
+articles:
+  data-validation-rules: data-validation-rules.html
+  smells: smells.html
+  tidyxl: tidyxl.html
+
