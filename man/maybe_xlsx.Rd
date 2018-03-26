@@ -13,9 +13,9 @@ maybe_xlsx(path)
 Logicial
 }
 \description{
-Whether a file may be be xlsx or xlsm (rather than xls), based on the
-\href{https://en.wikipedia.org/wiki/List_of_file_signatures}{file signature} or
-"magic number", rather than the filename extension.
+Whether a file may be be xlsx, xlsm, xltx or xltm (rather than xls or xlt),
+based on the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{filesignature} or "magic
+number", rather than the filename extension.
 }
 \details{
 Only 'maybe', not 'is', because the xlsx magic number is common to all zip
@@ -30,11 +30,15 @@ package.
 \examples{
 examples_xlsx <- system.file("extdata/examples.xlsx", package = "tidyxl")
 examples_xlsm <- system.file("extdata/examples.xlsm", package = "tidyxl")
+examples_xltx <- system.file("extdata/examples.xltx", package = "tidyxl")
+examples_xltm <- system.file("extdata/examples.xltm", package = "tidyxl")
 examples_xlsb <- system.file("extdata/examples.xlsb", package = "tidyxl")
 examples_xls <- system.file("extdata/examples.xls", package = "tidyxl")
 
 maybe_xlsx(examples_xlsx)
 maybe_xlsx(examples_xlsm)
+maybe_xlsx(examples_xltx)
+maybe_xlsx(examples_xltm)
 maybe_xlsx(examples_xlsb)
 maybe_xlsx(examples_xls)
 }

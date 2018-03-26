@@ -19,7 +19,7 @@ check_file <- function(path, check_filetype = TRUE) {
   }
 
   if (check_filetype && !maybe_xlsx(path)) {
-    stop("The file format does not appear to be xlsx or xlsm,",
+    stop("The file format does not appear to be xlsx, xlsm, xltx or xltm,",
          "\neven if the filename extension says so.",
          "\n  ", path,
          "\n", "You could try converting it with a spreadsheet application.",
