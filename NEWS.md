@@ -1,4 +1,4 @@
-# tidyxl 1.0.0.9000
+# tidyxl 1.0.1
 
 * Filetype checking is based on the [file
   signature](https://en.wikipedia.org/wiki/List_of_file_signatures) or "magic
