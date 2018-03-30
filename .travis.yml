@@ -2,29 +2,14 @@
 
 language: R
 
-sudo: required
-dist: trusty
-
 r:
   - oldrel
   - release
+  - devel
 
 cache: packages
 
-r_binary_packages:
-  - testthat
-  - covr
-  - knitr
-  - rmarkdown
-  - readxl
-  - dplyr
-  - tidyr
-  - purrr
-  - ggplot2
-  - cellranger
-
-r_packages:
-  - rlang
+sudo: false
 
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
 # This was causing the error:
