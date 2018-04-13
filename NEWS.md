@@ -1,4 +1,4 @@
-# tidyxl 1.0.1.9000
+# tidyxl 1.0.2
 
 * No longer misinterprets date formats that use underscores `_` as dates when
     the underscore is followed by a date-ish character like `M` (#24).

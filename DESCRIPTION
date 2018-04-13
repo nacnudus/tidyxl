@@ -1,6 +1,6 @@
 Package: tidyxl
 Title: Read Untidy Excel Files
-Version: 1.0.1.9000
+Version: 1.0.2
 Authors@R: c(
     person("Duncan", "Garmonsway", email = "nacnudus@gmail.com", role = c("aut", "cre")),
     person("Hadley", "Wickham", role = c("ctb"), comment = "Author of included readxl fragments"),
