@@ -1,21 +1,22 @@
 ## Test environments
 
 ### Local
-* Arch Linux 4.15.1-2-ARCH               R-release 3.4.4
+* Arch Linux 4.15.15-1-ARCH              R-release 3.4.4
 
 ### Win-builder
-* Windows Server 2008 (64-bit)           R-devel   2018-03-23 r74448
+* Windows Server 2008 (64-bit)           R-devel   2018-04-10 r74581
 * Windows Server 2008 (64-bit)           R-release 3.4.4
 * Windows Server 2008 (64-bit)           R-oldrel  3.3.3
 
 ### Travis
+* Ubuntu Linux 12.04 LTS                 R-devel   2018-04-13 r74591
 * Ubuntu Linux 12.04 LTS                 R-release 3.4.4
 * Ubuntu Linux 12.04 LTS                 R-oldrel  3.3.3
 
 ### AppVeyor
 * Windows Server 2012 R2 (x64) x64 GCC   R-release 3.4.4
 * Windows Server 2012 R2 (x64) i386 GCC  R-stable  3.4.4
-* Windows Server 2012 R2 (x64) i386 GCC  R-patched 3.4.4 2018-03-19 r74453
+* Windows Server 2012 R2 (x64) i386 GCC  R-patched 3.5.0 2018-04-12 r74589
 * Windows Server 2012 R2 (x64) i386 GCC  R-oldrel  3.3.3
 
 ### Rhub
