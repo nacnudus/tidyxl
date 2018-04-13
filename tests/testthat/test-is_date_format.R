@@ -21,4 +21,5 @@ test_that("is_date_format() is not flummoxed by colours", {
   expect_equal(is_date_format("[red]0%"),     FALSE)
   expect_equal(is_date_format("[white]0%"),   FALSE)
   expect_equal(is_date_format("[yellow]0%"),  FALSE)
+  expect_equal(is_date_format("0_M%"),  FALSE)
 })

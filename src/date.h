@@ -71,7 +71,9 @@ inline std::string formatDate(double& date, int& dateSystem, int& dateOffset) {
   return out;
 }
 
-// From @reviewher https://github.com/tidyverse/readxl/issues/388
+// Adapted from @reviewher https://github.com/tidyverse/readxl/issues/388
+// See also ECMA Part 1 page 1785 (actual page 1795) section 18.8.31 "numFmts
+// (Number Formats)"
 #define CASEI(c) case c: case (c | 0x20)
 #define CMPLC(j,n) if(x[i+j] | (0x20 == n))
 inline bool isDateFormat(std::string x) {
@@ -88,7 +90,10 @@ inline bool isDateFormat(std::string x) {
       break;
     case '"':
       escaped = 1 - escaped; break;
-    case '\\': ++i; break;
+    case '\\':
+    case '_':
+      ++i;
+      break;
     case '[': if(!escaped) bracket = 1; break;
     case ']': if(!escaped) bracket = 0; break;
     CASEI('G'):
