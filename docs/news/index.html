@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
       </span>
     </div>
 
@@ -126,12 +126,21 @@
     </div>
 
     <div class="contents">
+    <div id="tidyxl-1-0-2" class="section level1">
+<h1 class="page-header">
+<a href="#tidyxl-1-0-2" class="anchor"></a>tidyxl 1.0.2<small> Unreleased </small>
+</h1>
+<ul>
+<li>No longer misinterprets date formats that use underscores <code>_</code> as dates when the underscore is followed by a date-ish character like <code>M</code> (<a href='https://github.com/nacnudus/tidyxl/issues/24'>#24</a>).</li>
+</ul>
+</div>
     <div id="tidyxl-1-0-1" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-1-0-1" class="anchor"></a>tidyxl 1.0.1<small> Unreleased </small>
+<a href="#tidyxl-1-0-1" class="anchor"></a>tidyxl 1.0.1<small> 2018-03-26 </small>
 </h1>
 <ul>
 <li>Filetype checking is based on the <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">file signature</a> or “magic number”, rather than the filename extension. A new function <code><a href="../reference/maybe_xlsx.html">maybe_xlsx()</a></code> is provided for checking whether a file might be in the xlsx format. It is impossible to be sure from the magic number alone, because the magic numbers are either common to all zip files, or common to other Microsoft Office files (e.g. .doc, .ppt).</li>
+<li>Fixed a CRAN warning.</li>
 </ul>
 </div>
     <div id="tidyxl-1-0-0" class="section level1">
@@ -269,6 +278,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#tidyxl-1-0-2">1.0.2</a></li>
         <li><a href="#tidyxl-1-0-1">1.0.1</a></li>
         <li><a href="#tidyxl-1-0-0">1.0.0</a></li>
         <li><a href="#tidyxl-0-2-3">0.2.3</a></li>
