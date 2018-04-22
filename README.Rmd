@@ -43,6 +43,16 @@ The previous version can be installed as follows.
 devtools::install_version("tidyxl", version = "0.2.3", repos = "http://cran.us.r-project.org")
 ```
 
+## Getting started
+
+[Spreadsheet Munging
+Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies)
+is a free, online cookbook using
+[tidyxl](https://github.com/nacnudus/tidyxl) and
+[unpivotr](https://github.com/nacnudus/unpivotr) (in progress).
+
+Otherwise see examples below.
+
 ## Installation
 
 ```{r, echo = TRUE, eval = FALSE}
