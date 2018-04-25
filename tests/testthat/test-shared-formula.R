@@ -11,5 +11,5 @@ test_that("Shared formulas are propogated correctly", {
   expect_equal(formulas[239], "E09904.2!A3")
   formulas <- tidyxl::xlsx_cells("./formulas.xlsx")$formula
   expect_equal(formulas[3], "N($A2)")
+  expect_equal(formulas[12], "G4*H4")
 })
-

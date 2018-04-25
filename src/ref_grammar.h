@@ -23,6 +23,23 @@ namespace xlref
   struct openparen: one< '(' > {};
   struct closeparen: one< ')' > {};
 
+  // Operators
+  struct plusop : one< '+' > {};
+  struct minusop : one< '-' > {};
+  struct mulop : one< '*' > {};
+  struct divop : one< '/' > {};
+  struct expop : one< '^' > {};
+  struct concatop : one< '&' > {};
+  struct intersectop : one< ' ' > {};
+  struct rangeop : one< ':' > {};
+  struct percentop : one< '%' > {};
+  struct gtop : one< '>' > {};
+  struct eqop : one< '=' > {};
+  struct ltop : one< '<' > {};
+  struct neqop : string< '<', '>' > {};
+  struct gteop : string< '>', '=' > {};
+  struct lteop : string< '<', '=' > {};
+
   // Text matches two QuoteD (") and anything between, i.e. character and
   // the surrounding pair of double-quotes.
   struct QuoteD : one< '"' > {};
@@ -32,10 +49,27 @@ namespace xlref
   {};
   struct Text : seq< QuoteD, DoubleQuotedString, QuoteD > {};
 
+  struct Operator : sor< plusop,
+                         minusop,
+                         mulop,
+                         divop,
+                         expop,
+                         concatop,
+                         intersectop,
+                         rangeop,
+                         percentop,
+                         eqop,
+                         neqop, // Must precede lteop and ltop
+                         gteop, // Must precede gtop
+                         lteop, // Must precede ltop
+                         gtop,
+                         ltop >
+  {};
+
   // After attempting a Ref, attempt a Text, otherwise consume everything up to
-  // the next dollar, comma or parentheses, which are characters that separate
-  // other tokens.
-  struct sep: sor< dollar, comma, openparen, closeparen > {};
+  // the next operator, dollar, comma or parentheses, which are characters that
+  // separate other tokens.
+  struct sep: sor< Operator, dollar, comma, openparen, closeparen > {};
   struct notsep: if_then_else< at< sep >, failure, any > {};
   struct notseps: plus< notsep > {};
   struct Other: sor< sep, notseps > {};
