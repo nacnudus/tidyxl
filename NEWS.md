@@ -1,5 +1,7 @@
 # tidyxl 1.0.2
 
+* Correctly constructs formulas where references are preceded by operators, e.g.
+    `-F10` (#26 @cablegui).
 * No longer misinterprets date formats that use underscores `_` as dates when
     the underscore is followed by a date-ish character like `M` (#24).
 
