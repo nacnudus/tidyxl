@@ -35,7 +35,8 @@ class xlsxsheet {
     void cacheComments(Rcpp::String comments_path);
     void parseSheetData(
         rapidxml::xml_node<>* sheetData,
-        unsigned long long int& i);
+        unsigned long long int& i,
+        const bool& include_blank_cells);
     void appendComments(unsigned long long int& i);
 
 };

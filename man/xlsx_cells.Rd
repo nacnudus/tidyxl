@@ -4,7 +4,8 @@
 \alias{xlsx_cells}
 \title{Import xlsx (Excel) cell contents into a tidy structure.}
 \usage{
-xlsx_cells(path, sheets = NA, check_filetype = TRUE)
+xlsx_cells(path, sheets = NA, check_filetype = TRUE,
+  include_blank_cells = TRUE)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
@@ -16,6 +17,11 @@ sheets).}
 \item{check_filetype}{Logical. Whether to check that the filetype is xlsx (or
 xlsm) by looking at the file itself, rather than using the filename
 extension.}
+
+\item{include_blank_cells}{Logical. Whether to include cells that have no
+value or formula (but might have formatting or comments).  Useful when a
+whole column of cells has been formatted, but most are empty.  Try setting
+this to \code{FALSE} if a spreadsheet seems too large to load.}
 }
 \value{
 A data frame with the following columns.

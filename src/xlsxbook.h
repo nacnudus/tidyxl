@@ -57,7 +57,8 @@ class xlsxbook {
         const std::string& path,
         Rcpp::CharacterVector& sheet_names,
         Rcpp::CharacterVector& sheet_paths,
-        Rcpp::CharacterVector& comments_paths
+        Rcpp::CharacterVector& comments_paths,
+        const bool& include_blank_cells
         );
 
     void cacheStrings();
@@ -67,7 +68,7 @@ class xlsxbook {
     void countCells();
     void initializeColumns();
     void cacheCells();
-    void cacheInformation();
+    void cacheInformation(const bool& include_blank_cells);
 
 };
 

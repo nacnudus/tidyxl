@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // xlsx_cells_
-List xlsx_cells_(std::string path, CharacterVector sheet_paths, CharacterVector sheet_names, CharacterVector comments_paths);
-RcppExport SEXP _tidyxl_xlsx_cells_(SEXP pathSEXP, SEXP sheet_pathsSEXP, SEXP sheet_namesSEXP, SEXP comments_pathsSEXP) {
+List xlsx_cells_(std::string path, CharacterVector sheet_paths, CharacterVector sheet_names, CharacterVector comments_paths, bool include_blank_cells);
+RcppExport SEXP _tidyxl_xlsx_cells_(SEXP pathSEXP, SEXP sheet_pathsSEXP, SEXP sheet_namesSEXP, SEXP comments_pathsSEXP, SEXP include_blank_cellsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -15,7 +15,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type sheet_paths(sheet_pathsSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type sheet_names(sheet_namesSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type comments_paths(comments_pathsSEXP);
-    rcpp_result_gen = Rcpp::wrap(xlsx_cells_(path, sheet_paths, sheet_names, comments_paths));
+    Rcpp::traits::input_parameter< bool >::type include_blank_cells(include_blank_cellsSEXP);
+    rcpp_result_gen = Rcpp::wrap(xlsx_cells_(path, sheet_paths, sheet_names, comments_paths, include_blank_cells));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -100,7 +101,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tidyxl_xlsx_cells_", (DL_FUNC) &_tidyxl_xlsx_cells_, 4},
+    {"_tidyxl_xlsx_cells_", (DL_FUNC) &_tidyxl_xlsx_cells_, 5},
     {"_tidyxl_xlsx_formats_", (DL_FUNC) &_tidyxl_xlsx_formats_, 1},
     {"_tidyxl_xlsx_sheet_files_", (DL_FUNC) &_tidyxl_xlsx_sheet_files_, 1},
     {"_tidyxl_xlsx_validation_", (DL_FUNC) &_tidyxl_xlsx_validation_, 3},

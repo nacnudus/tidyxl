@@ -141,7 +141,8 @@ void xlsxsheet::cacheComments(String comments_path) {
 
 void xlsxsheet::parseSheetData(
     rapidxml::xml_node<>* sheetData,
-    unsigned long long int& i) {
+    unsigned long long int& i,
+    const bool& include_blank_cells) {
   // Iterate through rows and cells in sheetData.  Cell elements are children
   // of row elements.  Columns are described elswhere in cols->col.
   rowHeights_.assign(1048576, defaultRowHeight_); // cache rowHeight while here
@@ -160,19 +161,43 @@ void xlsxsheet::parseSheetData(
       rowHeights_[rowNumber - 1] = rowHeight;
     }
 
-    for (rapidxml::xml_node<>* c = row->first_node();
-        c; c = c->next_sibling()) {
-      xlsxcell cell(c, this, book_, i);
+    if (include_blank_cells) {
+      for (rapidxml::xml_node<>* c = row->first_node();
+          c; c = c->next_sibling()) {
+        xlsxcell cell(c, this, book_, i);
 
-      // Sheet name, row height and col width aren't really determined by the
-      // cell, so they're done in this sheet instance
-      book_.sheet_[i] = name_;
-      book_.height_[i] = rowHeight;
-      book_.width_[i] = colWidths_[book_.col_[i] - 1];
+        // Sheet name, row height and col width aren't really determined by
+        // the cell, so they're done in this sheet instance
+        book_.sheet_[i] = name_;
+        book_.height_[i] = rowHeight;
+        book_.width_[i] = colWidths_[book_.col_[i] - 1];
 
-      ++i;
-      if ((i + 1) % 1000 == 0)
-        checkUserInterrupt();
+        ++i;
+        if ((i + 1) % 1000 == 0)
+          checkUserInterrupt();
+      }
+    } else {
+      for (rapidxml::xml_node<>* c = row->first_node();
+          c; c = c->next_sibling()) {
+        // If cell has no child nodes then it is empty (no value or formula)
+        // besides maybe formatting (linked to via attributes not child nodes).
+        rapidxml::xml_node<>* first_child = c->first_node();
+        if (first_child != NULL) {
+          xlsxcell cell(c, this, book_, i);
+
+          // TODO: check readxl's method of importing ranges
+
+          // Sheet name, row height and col width aren't really determined by
+          // the cell, so they're done in this sheet instance
+          book_.sheet_[i] = name_;
+          book_.height_[i] = rowHeight;
+          book_.width_[i] = colWidths_[book_.col_[i] - 1];
+
+          ++i;
+          if ((i + 1) % 1000 == 0)
+            checkUserInterrupt();
+        }
+      }
     }
   }
 }
