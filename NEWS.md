@@ -2,6 +2,8 @@
 
 * No longer misinterprets date formats that use underscores `_` as dates when
     the underscore is followed by a date-ish character like `M` (#24).
+* Optionally omits blank cells with `include_blank_cells = FALSE` in
+    `xlsx_cells()` (#25).
 
 # tidyxl 1.0.1
 
