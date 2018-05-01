@@ -39,3 +39,11 @@ test_that("array formulas are detected as such", {
   expect_equal(cells$is_array[43], TRUE)
   expect_equal(cells$is_array[45], TRUE)
 })
+
+test_that("include_blank_cells works", {
+  cells <- xlsx_cells("./examples.xlsx", include_blank_cells = FALSE)
+  blanks <- cells[cells$is_blank, ]
+  non_blanks <- cells[!cells$is_blank, ]
+  expect_equal(nrow(blanks), 0L)
+  expect_gt(nrow(non_blanks), 0L)
+})

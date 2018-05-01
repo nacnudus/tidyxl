@@ -24,7 +24,8 @@ xlsxbook::xlsxbook(
     const std::string& path,
     CharacterVector& sheet_paths,
     CharacterVector& sheet_names,
-    CharacterVector& comments_paths):
+    CharacterVector& comments_paths,
+    const bool& include_blank_cells):
   path_(path),
   sheet_paths_(sheet_paths),
   sheet_names_(sheet_names),
@@ -43,7 +44,7 @@ xlsxbook::xlsxbook(
   createSheets();
   countCells();
   initializeColumns();
-  cacheInformation();
+  cacheInformation(include_blank_cells);
 }
 
 // Based on hadley/readxl
@@ -157,7 +158,7 @@ void xlsxbook::initializeColumns() {
   local_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
 }
 
-void xlsxbook::cacheInformation() {
+void xlsxbook::cacheInformation(const bool& include_blank_cells) {
   // Loop through sheets
   List sheet_list(sheet_paths_.size());
 
@@ -175,7 +176,7 @@ void xlsxbook::cacheInformation() {
     doc.parse<rapidxml::parse_strip_xml_namespaces>(&(*xml)[0]);
     rapidxml::xml_node<>* workbook = doc.first_node("worksheet");
     rapidxml::xml_node<>* sheetData = workbook->first_node("sheetData");
-    sheet->parseSheetData(sheetData, i);
+    sheet->parseSheetData(sheetData, i, include_blank_cells);
     sheet->appendComments(i);
   }
 

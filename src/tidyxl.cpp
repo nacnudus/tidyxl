@@ -21,9 +21,11 @@ List xlsx_cells_(
     std::string path,
     CharacterVector sheet_paths,
     CharacterVector sheet_names,
-    CharacterVector comments_paths
+    CharacterVector comments_paths,
+    bool include_blank_cells
     ) {
-  xlsxbook book(path, sheet_paths, sheet_names, comments_paths);
+  xlsxbook book(path, sheet_paths, sheet_names, comments_paths,
+      include_blank_cells);
   return book.information_;
 }
 

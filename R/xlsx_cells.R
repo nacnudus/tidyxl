@@ -13,6 +13,10 @@
 #' @param check_filetype Logical. Whether to check that the filetype is xlsx (or
 #' xlsm) by looking at the file itself, rather than using the filename
 #' extension.
+#' @param include_blank_cells Logical. Whether to include cells that have no
+#' value or formula (but might have formatting or comments).  Useful when a
+#' whole column of cells has been formatted, but most are empty.  Try setting
+#' this to `FALSE` if a spreadsheet seems too large to load.
 #'
 #' @return
 #' A data frame with the following columns.
@@ -138,11 +142,13 @@
 #' # In-cell formatting is available in the `character_formatted` column as a
 #' # data frame, one row per substring.
 #' xlsx_cells(examples)$character_formatted[77]
-xlsx_cells <- function(path, sheets = NA, check_filetype = TRUE) {
+xlsx_cells <- function(path, sheets = NA, check_filetype = TRUE,
+                       include_blank_cells = TRUE) {
   path <- check_file(path)
   sheets <- check_sheets(sheets, path)
   xlsx_cells_(path,
               sheets$sheet_path,
               sheets$name,
-              sheets$comments_path)
+              sheets$comments_path,
+              include_blank_cells)
 }
