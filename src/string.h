@@ -106,7 +106,7 @@ inline Rcpp::List parseFormattedString(
 
       SET_STRING_ELT(character, i, Rf_mkCharCE(node->value(), CE_UTF8));
 
-    } else {
+    } else if (node_name == "r") {
 
       SET_STRING_ELT(character, i, Rf_mkCharCE(node->first_node("t")->value(), CE_UTF8));
       rapidxml::xml_node<>* rPr = node->first_node("rPr");

@@ -8,3 +8,8 @@ test_that("can read sheets with inlineStr", {
   x <- xlsx_cells("inlineStr.xlsx")$character
   expect_equal(x[14], "RQ11610")
 })
+
+test_that("does not crash on phonetic strings", {
+  # https://github.com/nacnudus/tidyxl/issues/30
+  expect_error(xlsx_cells("phonetic.xlsx"), NA)
+})
