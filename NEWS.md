@@ -6,6 +6,7 @@
     the underscore is followed by a date-ish character like `M` (#24).
 * Optionally omits blank cells with `include_blank_cells = FALSE` in
     `xlsx_cells()` (#25).
+* Doesn't crash reading files with certain colour themes (#34 @dan-fahey).
 
 # tidyxl 1.0.1
 
