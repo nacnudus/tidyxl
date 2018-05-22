@@ -235,3 +235,7 @@ test_that("protections are parsed correctly", {
   expect_equal(locals$protection$hidden[local_id("A187")], FALSE)
   expect_equal(locals$protection$hidden[local_id("A188")], TRUE)
 })
+
+test_that("themes from an Excel 2016 file don't cause crashes", {
+  expect_error(xlsx_formats("themes-2016.xlsx"), NA)
+})
