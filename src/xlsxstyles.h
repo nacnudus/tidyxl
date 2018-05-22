@@ -68,6 +68,8 @@ class xlsxstyles {
     void applyFormats(); // Build each style on top of the normal style
     Rcpp::List zipFormats(std::vector<xf> styles, bool is_style); // Turn the formats inside-out to return to R
 
+    std::string rgb_string(rapidxml::xml_node<>* node); // Extract the RGB string from a node that references a colour
+
 };
 
 #endif

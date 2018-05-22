@@ -64,6 +64,18 @@ xlsxstyles::xlsxstyles(const std::string& path) {
   local_ = zipFormats(local_formats_, false);
 }
 
+std::string xlsxstyles::rgb_string(rapidxml::xml_node<>* node) {
+  rapidxml::xml_node<>* child = node->first_node();
+  std::string name = child->name();
+  std::string out;
+  if (name == "a:sysClr") {
+    out = child->first_attribute("lastClr")->value();
+  } else { // assume the name is "srgbClr"
+    out = child->first_attribute("val")->value();
+  }
+  return(out);
+}
+
 void xlsxstyles::cacheThemeRgb(const std::string& path) {
   theme_name_ =
     CharacterVector::create("background1",
@@ -88,24 +100,22 @@ void xlsxstyles::cacheThemeRgb(const std::string& path) {
     rapidxml::xml_node<>* themeElements = theme->first_node("a:themeElements");
     rapidxml::xml_node<>* clrScheme = themeElements->first_node("a:clrScheme");
 
-    // First, two sysClr nodes in the wrong order
+    // First, four nodes in the wrong order
     rapidxml::xml_node<>* color = clrScheme->first_node();
-    theme_[1] = FF + color->first_node()->first_attribute("lastClr")->value();
+    theme_[1] = FF + rgb_string(color);
     color = color->next_sibling();
-    theme_[0] = FF + color->first_node()->first_attribute("lastClr")->value();
+    theme_[0] = FF + rgb_string(color);
+    color = color->next_sibling();
+    theme_[3] = FF + rgb_string(color);
+    color = color->next_sibling();
+    theme_[2] = FF + rgb_string(color);
 
-    // Then, two srgbClr nodes in the wrong order
-    color = color->next_sibling();
-    theme_[3] = FF + color->first_node()->first_attribute("val")->value();
-    color = color->next_sibling();
-    theme_[2] = FF + color->first_node()->first_attribute("val")->value();
-
-    // Finally, eight more srgbClr nodes in the correct order
+    // Then, eight more nodes in the correct order
     // Can't reuse 'color' here, so use 'nextcolor'
     int i = 4;
     for (rapidxml::xml_node<>* nextcolor = color->next_sibling();
         nextcolor; nextcolor = nextcolor->next_sibling()) {
-      theme_[i] = FF + nextcolor->first_node()->first_attribute("val")->value();
+      theme_[i] = FF + rgb_string(nextcolor);
       i++;
     }
   }
