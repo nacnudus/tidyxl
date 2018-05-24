@@ -15,6 +15,7 @@ xlsxcell::xlsxcell(
     unsigned long long int& i
     ) {
     parseAddress(cell, sheet, book, i);
+    cacheComment(sheet, book, i);
     cacheValue  (cell, sheet, book, i); // Also caches format, as inextricable
     cacheFormula(cell, sheet, book, i);
 }
@@ -46,7 +47,13 @@ void xlsxcell::parseAddress(
   }
   book.col_[i] = col_;
   book.row_[i] = row_;
+}
 
+void xlsxcell::cacheComment(
+    xlsxsheet* sheet,
+    xlsxbook& book,
+    unsigned long long int& i
+    ) {
   // Look up any comment using the address, and delete it if found
   std::map<std::string, std::string>& comments = sheet->comments_;
   std::map<std::string, std::string>::iterator it = comments.find(address_);

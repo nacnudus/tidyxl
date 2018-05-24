@@ -42,6 +42,12 @@ class xlsxcell {
         unsigned long long int& i
         );
 
+    void cacheComment(
+        xlsxsheet* sheet,
+        xlsxbook& book,
+        unsigned long long int& i
+        );
+
 };
 
 #endif
