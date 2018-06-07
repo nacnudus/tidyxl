@@ -1,5 +1,7 @@
 # tidyxl 1.0.2.9000
 
+* Noticeably faster for large files.
+
 # tidyxl 1.0.2
 
 * Correctly constructs formulas where references are preceded by operators, e.g.

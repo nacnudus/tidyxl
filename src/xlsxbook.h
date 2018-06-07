@@ -15,7 +15,7 @@ class xlsxbook {
     Rcpp::CharacterVector sheet_names_;    // worksheet names
     Rcpp::CharacterVector comments_paths_; // comments files
     std::vector<std::string> strings_;     // strings table
-    std::vector<Rcpp::List> strings_formatted_; // strings with inline formatting
+    Rcpp::List strings_formatted_;         // strings with inline formatting
                                                 // list of data frames
     xlsxstyles styles_;
 
