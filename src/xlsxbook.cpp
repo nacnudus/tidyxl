@@ -57,13 +57,22 @@ void xlsxbook::cacheStrings() {
   sharedStrings.parse<rapidxml::parse_strip_xml_namespaces>(&xml[0]);
 
   rapidxml::xml_node<>* sst = sharedStrings.first_node("sst");
+
+  unsigned long int n = 0;
   rapidxml::xml_attribute<>* uniqueCount = sst->first_attribute("uniqueCount");
-  if (uniqueCount != NULL) {
-    unsigned long int n = strtol(uniqueCount->value(), NULL, 10);
-    strings_.reserve(n);
+  if (uniqueCount != NULL) { // The count is stored in the file
+    n = strtol(uniqueCount->value(), NULL, 10);
+  } else { // Count them manually
+    for (rapidxml::xml_node<>* string = sst->first_node();
+        string; string = string->next_sibling()) {
+      n += 1;
+    }
   }
+  strings_.reserve(n);
+  strings_formatted_ = Rcpp::List(n);
 
   // 18.4.8 si (String Item) [p1725]
+  unsigned long int i = 0;
   for (rapidxml::xml_node<>* string = sst->first_node();
       string; string = string->next_sibling()) {
     std::string out;
@@ -71,7 +80,8 @@ void xlsxbook::cacheStrings() {
     strings_.push_back(out);
 
     Rcpp::List out_df = parseFormattedString(string, styles_);
-    strings_formatted_.push_back(out_df);
+    strings_formatted_[i] = out_df;
+    i += 1;
   }
 }
 
