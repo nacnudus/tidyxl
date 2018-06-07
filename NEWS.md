@@ -1,3 +1,5 @@
+# tidyxl 1.0.2.9000
+
 # tidyxl 1.0.2
 
 * Correctly constructs formulas where references are preceded by operators, e.g.
