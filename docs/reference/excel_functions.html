@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Names of all Excel functions — excel_functions" />
 
 <meta property="og:description" content="A dataset containing the names of all functions available in Excel.  This is
@@ -42,16 +45,14 @@ xlex()." />
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45097885-4"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-45097885-4', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-45097885-4');
 </script>
 
   </head>
@@ -69,7 +70,7 @@ xlex()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
       </span>
     </div>
 
@@ -115,6 +116,7 @@ xlex()." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -122,18 +124,21 @@ xlex()." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Names of all Excel functions</h1>
-    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>excel_functions.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A dataset containing the names of all functions available in Excel.  This is
 useful for identifying user-defined functions in formulas tokenized by
 <code><a href='xlex.html'>xlex()</a></code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='no'>excel_functions</span></pre>
         
@@ -179,6 +184,8 @@ revision 8.0 2017-06-20.</p>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

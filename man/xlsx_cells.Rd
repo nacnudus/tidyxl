@@ -138,7 +138,7 @@ str(xlsx_cells(examples, "Sheet1"))
 
 # The formats of particular cells can be retrieved like this:
 
-Sheet1 <- xlsx_cells(examples)$Sheet1
+Sheet1 <- xlsx_cells(examples, "Sheet1")
 formats <- xlsx_formats(examples)
 
 formats$local$font$bold[Sheet1$local_format_id]

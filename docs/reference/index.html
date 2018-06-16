@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Function reference" />
 
 
@@ -37,16 +40,14 @@
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45097885-4"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-45097885-4', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-45097885-4');
 </script>
 
   </head>
@@ -64,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
       </span>
     </div>
 
@@ -110,6 +111,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -117,115 +119,113 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
       <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="excel_functions.html">excel_functions</a></code> </p>
-          </td>
-          <td><p>Names of all Excel functions</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="is_date_format.html">is_date_format()</a></code> </p>
-          </td>
-          <td><p>Test that Excel number formats are date formats</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="is_range.html">is_range()</a></code> </p>
-          </td>
-          <td><p>Test that Excel formulas are ranges</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="maybe_xlsx.html">maybe_xlsx()</a></code> </p>
-          </td>
-          <td><p>Determine file format</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="tidy_xlsx.html">tidy_xlsx()</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="tidyxl.html">tidyxl</a></code> </p>
-          </td>
-          <td><p>tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlex.html">xlex()</a></code> </p>
-          </td>
-          <td><p>Parse xlsx (Excel) formulas into tokens</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_cells.html">xlsx_cells()</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_color_standard.html">xlsx_color_standard</a></code> <code><a href="xlsx_color_standard.html">xlsx_colour_standard</a></code> </p>
-          </td>
-          <td><p>Names and RGB values of Excel standard colours</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_color_theme.html">xlsx_color_theme()</a></code> <code><a href="xlsx_color_theme.html">xlsx_colour_theme()</a></code> </p>
-          </td>
-          <td><p>Import theme color definitions from xlsx (Excel) files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_formats.html">xlsx_formats()</a></code> </p>
-          </td>
-          <td><p>Import xlsx (Excel) formatting definitions.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_names.html">xlsx_names()</a></code> </p>
-          </td>
-          <td><p>Import named formulas from xlsx (Excel) files</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_sheet_names.html">xlsx_sheet_names()</a></code> </p>
-          </td>
-          <td><p>List sheets in an xlsx (Excel) file</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="xlsx_validation.html">xlsx_validation()</a></code> </p>
-          </td>
-          <td><p>Import data validation rules of cells in xlsx (Excel) files</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        <!--  -->
+        <td>
+          <p><code><a href="excel_functions.html">excel_functions</a></code> </p>
+        </td>
+        <td><p>Names of all Excel functions</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="is_date_format.html">is_date_format()</a></code> </p>
+        </td>
+        <td><p>Test that Excel number formats are date formats</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="is_range.html">is_range()</a></code> </p>
+        </td>
+        <td><p>Test that Excel formulas are ranges</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="maybe_xlsx.html">maybe_xlsx()</a></code> </p>
+        </td>
+        <td><p>Determine file format</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="tidy_xlsx.html">tidy_xlsx()</a></code> </p>
+        </td>
+        <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="tidyxl.html">tidyxl</a></code> </p>
+        </td>
+        <td><p>tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlex.html">xlex()</a></code> </p>
+        </td>
+        <td><p>Parse xlsx (Excel) formulas into tokens</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_cells.html">xlsx_cells()</a></code> </p>
+        </td>
+        <td><p>Import xlsx (Excel) cell contents into a tidy structure.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_color_standard.html">xlsx_color_standard</a></code> <code><a href="xlsx_color_standard.html">xlsx_colour_standard</a></code> </p>
+        </td>
+        <td><p>Names and RGB values of Excel standard colours</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_color_theme.html">xlsx_color_theme()</a></code> <code><a href="xlsx_color_theme.html">xlsx_colour_theme()</a></code> </p>
+        </td>
+        <td><p>Import theme color definitions from xlsx (Excel) files</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_formats.html">xlsx_formats()</a></code> </p>
+        </td>
+        <td><p>Import xlsx (Excel) formatting definitions.</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_names.html">xlsx_names()</a></code> </p>
+        </td>
+        <td><p>Import named formulas from xlsx (Excel) files</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_sheet_names.html">xlsx_sheet_names()</a></code> </p>
+        </td>
+        <td><p>List sheets in an xlsx (Excel) file</p></td>
+      </tr><tr>
+        <!--  -->
+        <td>
+          <p><code><a href="xlsx_validation.html">xlsx_validation()</a></code> </p>
+        </td>
+        <td><p>Import data validation rules of cells in xlsx (Excel) files</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -247,6 +247,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

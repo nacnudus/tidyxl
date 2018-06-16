@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Import xlsx (Excel) cell contents into a tidy structure. — xlsx_cells" />
 
 <meta property="og:description" content="xlsx_cells() imports data from spreadsheets without coercing it into a
@@ -43,16 +46,14 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45097885-4"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-45097885-4', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-45097885-4');
 </script>
 
   </head>
@@ -70,7 +71,7 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
       </span>
     </div>
 
@@ -116,6 +117,7 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -123,21 +125,25 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import xlsx (Excel) cell contents into a tidy structure.</h1>
-    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_cells.R'><code>R/xlsx_cells.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_cells.R'><code>R/xlsx_cells.R</code></a></small>
+    <div class="hidden name"><code>xlsx_cells.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p><code>xlsx_cells()</code> imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
 cell's formatting in the return value of <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.</p>
     
+    </div>
 
-    <pre class="usage"><span class='fu'>xlsx_cells</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_cells</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>include_blank_cells</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,6 +163,13 @@ sheets).</p></td>
       <td><p>Logical. Whether to check that the filetype is xlsx (or
 xlsm) by looking at the file itself, rather than using the filename
 extension.</p></td>
+    </tr>
+    <tr>
+      <th>include_blank_cells</th>
+      <td><p>Logical. Whether to include cells that have no
+value or formula (but might have formatting or comments).  Useful when a
+whole column of cells has been formatted, but most are empty.  Try setting
+this to <code>FALSE</code> if a spreadsheet seems too large to load.</p></td>
     </tr>
     </table>
     
@@ -2538,35 +2551,176 @@ further processing you might need to filter out the <code>NULL</code>s first.
 #&gt;  $ local_format_id    : int  1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># The formats of particular cells can be retrieved like this:</span>
 
-<span class='no'>Sheet1</span> <span class='kw'>&lt;-</span> <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>Sheet1</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: 'Sheet1'.</span></div><div class='input'><span class='no'>formats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xlsx_formats.html'>xlsx_formats</a></span>(<span class='no'>examples</span>)
+<span class='no'>Sheet1</span> <span class='kw'>&lt;-</span> <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)
+<span class='no'>formats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xlsx_formats.html'>xlsx_formats</a></span>(<span class='no'>examples</span>)
 
-<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span>]</div><div class='output co'>#&gt; logical(0)</div><div class='input'><span class='no'>formats</span>$<span class='no'>style</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>style_format</span>]</div><div class='output co'>#&gt; named logical(0)</div><div class='input'>
+<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span>]</div><div class='output co'>#&gt;   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [49] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [61] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [73] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt;  [85] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+#&gt;  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [109] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [121] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [133] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [157] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [169] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [181] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [193] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [205] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [217] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [229] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [241] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [253] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [265] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [277] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [289] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [301] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [313] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [325] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [337] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [349] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [361] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [373] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#&gt; [385] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</div><div class='input'><span class='no'>formats</span>$<span class='no'>style</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>style_format</span>]</div><div class='output co'>#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal   Percent    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal       Bad    Normal       Bad    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt; styledate    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal styledate    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal  Normal 2    Normal  Normal 2 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;  Normal 2  Normal 2  Normal 2  Normal 2  Normal 2  Normal 2  Normal 2    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;  Normal 2    Normal  Normal 2    Normal  Normal 2    Normal  Normal 2    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;  Normal 2    Normal  Normal 2    Normal  Normal 2    Normal  Normal 2    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;  Normal 2 Hyperlink  Normal 2 Hyperlink  Normal 2    Normal  Normal 2    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal  Normal 2    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
+#&gt;    Normal    Normal    Normal 
+#&gt;     FALSE     FALSE     FALSE </div><div class='input'>
 <span class='co'># To filter for cells of a particular format, first filter the formats to get</span>
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
-<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; NULL</div><div class='input'>
+<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; # A tibble: 3 x 21
+#&gt;   sheet  address   row   col is_blank data_type error logical numeric
+#&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;
+#&gt; 1 Sheet1 A28        28     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 2 Sheet1 A32        32     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 3 Sheet1 A49        49     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; # ... with 12 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,
+#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,
+#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,
+#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</div><div class='input'>
 <span class='co'># In-cell formatting is available in the `character_formatted` column as a</span>
 <span class='co'># data frame, one row per substring.</span>
 <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]</div><div class='output co'>#&gt; [[1]]
 #&gt; # A tibble: 16 x 14
 #&gt;    character          bold  italic underline   strike vertAlign  size color_rgb
 #&gt;    &lt;chr&gt;              &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;       &lt;lgl&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    
-#&gt;  1 in-cell            FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. &lt;NA&gt;     
-#&gt;  2 bold               TRUE  FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FF000000 
-#&gt;  3 italic             FALSE TRUE   &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FF000000 
-#&gt;  4 underline          FALSE FALSE  single      FALSE  &lt;NA&gt;         0. FF000000 
-#&gt;  5 underlinedouble    FALSE FALSE  double      FALSE  &lt;NA&gt;         0. FF000000 
-#&gt;  6 singleaccounting   FALSE FALSE  singleAcco… FALSE  &lt;NA&gt;         0. FF000000 
-#&gt;  7 doubleaccounting   FALSE FALSE  doubleAcco… FALSE  &lt;NA&gt;         0. FF000000 
-#&gt;  8 strikethrough      FALSE FALSE  &lt;NA&gt;        TRUE   &lt;NA&gt;         0. FF000000 
-#&gt;  9 subscript          FALSE FALSE  &lt;NA&gt;        FALSE  subscript    0. FF000000 
-#&gt; 10 superscript        FALSE FALSE  &lt;NA&gt;        FALSE  superscr…    0. FF000000 
-#&gt; 11 red                FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
-#&gt; 12 theme              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFC0504D 
-#&gt; 13 tint               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFC0504D 
-#&gt; 14 size               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
-#&gt; 15 arial              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
-#&gt; 16 "UTF8Stéphane\nmu… FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;         0. FFFF0000 
+#&gt;  1 in-cell            FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 &lt;NA&gt;     
+#&gt;  2 bold               TRUE  FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FF000000 
+#&gt;  3 italic             FALSE TRUE   &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FF000000 
+#&gt;  4 underline          FALSE FALSE  single      FALSE  &lt;NA&gt;          0 FF000000 
+#&gt;  5 underlinedouble    FALSE FALSE  double      FALSE  &lt;NA&gt;          0 FF000000 
+#&gt;  6 singleaccounting   FALSE FALSE  singleAcco… FALSE  &lt;NA&gt;          0 FF000000 
+#&gt;  7 doubleaccounting   FALSE FALSE  doubleAcco… FALSE  &lt;NA&gt;          0 FF000000 
+#&gt;  8 strikethrough      FALSE FALSE  &lt;NA&gt;        TRUE   &lt;NA&gt;          0 FF000000 
+#&gt;  9 subscript          FALSE FALSE  &lt;NA&gt;        FALSE  subscript     0 FF000000 
+#&gt; 10 superscript        FALSE FALSE  &lt;NA&gt;        FALSE  superscr…     0 FF000000 
+#&gt; 11 red                FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
+#&gt; 12 theme              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFC0504D 
+#&gt; 13 tint               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFC0504D 
+#&gt; 14 size               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
+#&gt; 15 arial              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
+#&gt; 16 "UTF8Stéphane\nmu… FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
 #&gt; # ... with 6 more variables: color_theme &lt;int&gt;, color_indexed &lt;int&gt;,
 #&gt; #   color_tint &lt;dbl&gt;, font &lt;chr&gt;, family &lt;int&gt;, scheme &lt;chr&gt;
 #&gt; </div></pre>
@@ -2597,6 +2751,8 @@ further processing you might need to filter out the <code>NULL</code>s first.
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

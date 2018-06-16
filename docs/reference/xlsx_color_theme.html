@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Import theme color definitions from xlsx (Excel) files — xlsx_color_theme" />
 
 <meta property="og:description" content="xlsx_color_theme() (alias xlsx_colour_theme() returns the names and RGB
@@ -44,16 +47,14 @@ to comply with corporate standards." />
 <![endif]-->
 
 
-<!-- Google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-45097885-4"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  ga('create', 'UA-45097885-4', 'auto');
-  ga('send', 'pageview');
-
+  gtag('config', 'UA-45097885-4');
 </script>
 
   </head>
@@ -71,7 +72,7 @@ to comply with corporate standards." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
       </span>
     </div>
 
@@ -117,6 +118,7 @@ to comply with corporate standards." />
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -124,13 +126,15 @@ to comply with corporate standards." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Import theme color definitions from xlsx (Excel) files</h1>
-    <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_color_theme.R'><code>R/xlsx_color_theme.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/R/xlsx_color_theme.R'><code>R/xlsx_color_theme.R</code></a></small>
+    <div class="hidden name"><code>xlsx_color_theme.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p><code>xlsx_color_theme()</code> (alias <code>xlsx_colour_theme()</code> returns the names and RGB
 values of theme colours defined in xlsx (Excel) files.  For example,
@@ -138,6 +142,7 @@ values of theme colours defined in xlsx (Excel) files.  For example,
 any RGB colour defined by the author of the file.  Themes are often defined
 to comply with corporate standards.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>xlsx_color_theme</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
@@ -223,6 +228,8 @@ extension.</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>
