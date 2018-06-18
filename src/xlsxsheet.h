@@ -22,12 +22,14 @@ class xlsxsheet {
     std::map<int, shared_formula> shared_formulas_;
     xlsxbook& book_; // reference to parent workbook
     std::map<std::string, std::string> comments_; // lookup table of comments
+    bool include_blank_cells_; // whether to include cells with no value
 
     xlsxsheet(
         const std::string& name,
         std::string& sheet_xml,
         xlsxbook& book,
-        Rcpp::String comments_path);
+        Rcpp::String comments_path,
+        const bool& include_blank_cells);
 
     void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);
     void cacheColWidths(rapidxml::xml_node<>* worksheet);
@@ -35,8 +37,7 @@ class xlsxsheet {
     void cacheComments(Rcpp::String comments_path);
     void parseSheetData(
         rapidxml::xml_node<>* sheetData,
-        unsigned long long int& i,
-        const bool& include_blank_cells);
+        unsigned long long int& i);
     void appendComments(unsigned long long int& i);
 
 };

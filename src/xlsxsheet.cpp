@@ -12,9 +12,12 @@ xlsxsheet::xlsxsheet(
     const std::string& name,
     std::string& sheet_xml,
     xlsxbook& book,
-    String comments_path):
+    String comments_path,
+    const bool& include_blank_cells
+    ):
   name_(name),
-  book_(book) {
+  book_(book),
+  include_blank_cells_(include_blank_cells) {
   rapidxml::xml_document<> xml;
   xml.parse<rapidxml::parse_non_destructive>(&sheet_xml[0]);
 
@@ -81,7 +84,8 @@ void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
   }
 }
 
-unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData) {
+unsigned long long int xlsxsheet::cacheCellcount(
+    rapidxml::xml_node<>* sheetData) {
   // Iterate over all rows and cells to count.  The 'dimension' tag is no use
   // here because it describes a rectangle of cells, many of which may be blank.
   unsigned long long int cellcount = 0;
@@ -104,7 +108,9 @@ unsigned long long int xlsxsheet::cacheCellcount(rapidxml::xml_node<>* sheetData
       if(comment != comments_.end()) {
         ++commentcount;
       }
-      ++cellcount;
+      if (include_blank_cells_ || c->first_node() != NULL) {
+        ++cellcount;
+      }
       if ((cellcount + 1) % 1000 == 0) {
         checkUserInterrupt();
       }
@@ -141,8 +147,7 @@ void xlsxsheet::cacheComments(String comments_path) {
 
 void xlsxsheet::parseSheetData(
     rapidxml::xml_node<>* sheetData,
-    unsigned long long int& i,
-    const bool& include_blank_cells) {
+    unsigned long long int& i) {
   // Iterate through rows and cells in sheetData.  Cell elements are children
   // of row elements.  Columns are described elswhere in cols->col.
   rowHeights_.assign(1048576, defaultRowHeight_); // cache rowHeight while here
@@ -161,7 +166,7 @@ void xlsxsheet::parseSheetData(
       rowHeights_[rowNumber - 1] = rowHeight;
     }
 
-    if (include_blank_cells) {
+    if (include_blank_cells_) {
       for (rapidxml::xml_node<>* c = row->first_node();
           c; c = c->next_sibling()) {
         xlsxcell cell(c, this, book_, i);

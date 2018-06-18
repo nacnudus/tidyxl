@@ -1,6 +1,8 @@
 # tidyxl 1.0.2.9000
 
 * Noticeably faster for large files.
+* Omission of blank cells with `include_blank_cells = FALSE` had a bug that
+    returned blank cells as an empty row in the `xlsx_cells()` data frame.
 
 # tidyxl 1.0.2
 
