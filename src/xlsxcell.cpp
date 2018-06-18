@@ -75,7 +75,6 @@ void xlsxcell::cacheValue(
   if (v != NULL) {
     vvalue = v->value();
   } else {
-    // TODO: don't construct the cell
     book.is_blank_[i] = true;
   }
 

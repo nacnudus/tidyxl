@@ -28,6 +28,8 @@ class xlsxbook {
 
     Rcpp::List information_;             // dataframes of cells
 
+    bool include_blank_cells_; // whether to include cells with no value
+
     // Vectors of cell properties, to be wrapped in a data frame
     Rcpp::CharacterVector sheet_;     // The worksheet that a cell is in
     Rcpp::CharacterVector address_;   // Value of cell node r
@@ -68,7 +70,7 @@ class xlsxbook {
     void countCells();
     void initializeColumns();
     void cacheCells();
-    void cacheInformation(const bool& include_blank_cells);
+    void cacheInformation();
 
 };
 

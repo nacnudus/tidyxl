@@ -44,6 +44,8 @@ test_that("include_blank_cells works", {
   cells <- xlsx_cells("./examples.xlsx", include_blank_cells = FALSE)
   blanks <- cells[cells$is_blank, ]
   non_blanks <- cells[!cells$is_blank, ]
+  unpopulated_blanks <- cells[is.na(cells$row), ]
   expect_equal(nrow(blanks), 0L)
   expect_gt(nrow(non_blanks), 0L)
+  expect_equal(nrow(unpopulated_blanks), 0L)
 })
