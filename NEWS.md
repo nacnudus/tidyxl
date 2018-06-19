@@ -1,4 +1,4 @@
-# tidyxl 1.0.2.9000
+# tidyxl 1.0.3
 
 * Noticeably faster for large files.
 * Omission of blank cells with `include_blank_cells = FALSE` had a bug that
