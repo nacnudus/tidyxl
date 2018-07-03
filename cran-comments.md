@@ -5,7 +5,6 @@
 
 ### Win-builder
 * Windows Server 2008 (64-bit)           R-devel   2018-06-15 r74904
-* Windows Server 2008 (64-bit)           R-release 3.5.0
 
 ### Travis
 * Ubuntu Linux 12.04 LTS                 R-devel   2018-06-18 r74911
@@ -22,29 +21,7 @@
 * Ubuntu Linux 16.04 LTS GCC             R-release 3.4.4
 
 ## R CMD check results
-0 errors | 0 warnings | 3 notes
-
-> Found the following (possibly) invalid URLs:
->   URL: https://msdn.microsoft.com/en-us/library/dd922181(v=office.12).aspx
->     From: man/excel_functions.Rd
->     Status: Error
->     Message: libcurl error code 60:
->     	SSL certificate problem: unable to get local issuer certificate
->     	(Status without verification: OK)
-
-The URL is valid.
-
-> * checking installed package size ... NOTE
->   installed size is 11.6Mb
->   sub-directories of 1Mb or more:
->     libs  10.6Mb
-
-That is all compiled code in the libs/ directory.
-
-> Possibly mis-spelled words in DESCRIPTION:
->   Tokenizes (12:5)
-
-'tokenizes' is correct.
+0 errors | 0 warnings | 0 notes
 
 ## Downstream dependencies
 
