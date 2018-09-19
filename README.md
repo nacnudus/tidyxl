@@ -22,11 +22,26 @@ supports the xml-based file formats ‘.xlsx’ and ‘.xlsm’ via the embedded
 support the binary file formats ‘.xlsb’ or ‘.xls’.
 
 It also provides a function `xlex()` for tokenizing formulas. See the
-[vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
-details. It is useful for detecting ‘spreadsheet smells’ (poor practice
-such as embedding constants in formulas, or using deep levels of
-nesting), and for understanding the dependency structures within
-spreadsheets.
+[vignette](articles/smells.html) for details. It is useful for detecting
+‘spreadsheet smells’ (poor practice such as embedding constants in
+formulas, or using deep levels of nesting), and for understanding the
+dependency structures within spreadsheets.
+
+## Make cells tidy
+
+Tidyxl represents each cell as one row in a dataframe. Like this.
+
+![Gif of tidyxl converting cells into a tidy representation of one row
+per cell](./vignettes/tidy_xlsx.gif)
+
+What can you do with tidy cells? The best place to start is [Spreadsheet
+Munging
+Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies),
+a free, online cookbook using
+[tidyxl](https://github.com/nacnudus/tidyxl) and
+[unpivotr](https://github.com/nacnudus/unpivotr).
+
+Otherwise see examples below.
 
 ***Breaking changes***
 
@@ -37,16 +52,6 @@ follows.
 ``` r
 devtools::install_version("tidyxl", version = "0.2.3", repos = "http://cran.us.r-project.org")
 ```
-
-## Getting started
-
-[Spreadsheet Munging
-Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies)
-is a free, online cookbook using
-[tidyxl](https://github.com/nacnudus/tidyxl) and
-[unpivotr](https://github.com/nacnudus/unpivotr) (in progress).
-
-Otherwise see examples below.
 
 ## Installation
 
@@ -152,12 +157,12 @@ x[x$row == 4, c("address", "character", "numeric")]
 #> # A tibble: 6 x 3
 #>   address character numeric
 #>   <chr>   <chr>       <dbl>
-#> 1 A4      1st           NA 
-#> 2 B4      Male          NA 
-#> 3 D4      <NA>           0.
-#> 4 E4      <NA>           5.
-#> 5 F4      <NA>         118.
-#> 6 G4      <NA>          57.
+#> 1 A4      1st            NA
+#> 2 B4      Male           NA
+#> 3 D4      <NA>            0
+#> 4 E4      <NA>            5
+#> 5 F4      <NA>          118
+#> 6 G4      <NA>           57
 ```
 
 Specific sheets can be requested using `xlsx_cells(file, sheet)`, and
@@ -206,8 +211,8 @@ x[x$local_format_id %in%
 #> # A tibble: 2 x 2
 #>   address numeric
 #>   <chr>     <dbl>
-#> 1 F11          3.
-#> 2 G11         20.
+#> 1 F11           3
+#> 2 G11          20
 
 # Styles by name
 formats$style$font$name["Normal"]
@@ -230,24 +235,24 @@ examples <- system.file("/extdata/examples.xlsx", package = "tidyxl")
 xlsx_cells(examples)$character_formatted[77]
 #> [[1]]
 #> # A tibble: 16 x 14
-#>    character      bold  italic underline  strike vertAlign  size color_rgb
-#>    <chr>          <lgl> <lgl>  <chr>      <lgl>  <chr>     <dbl> <chr>    
-#>  1 in-cell        FALSE FALSE  <NA>       FALSE  <NA>         0. <NA>     
-#>  2 bold           TRUE  FALSE  <NA>       FALSE  <NA>         0. FF000000 
-#>  3 italic         FALSE TRUE   <NA>       FALSE  <NA>         0. FF000000 
-#>  4 underline      FALSE FALSE  single     FALSE  <NA>         0. FF000000 
-#>  5 underlinedoub… FALSE FALSE  double     FALSE  <NA>         0. FF000000 
-#>  6 singleaccount… FALSE FALSE  singleAcc… FALSE  <NA>         0. FF000000 
-#>  7 doubleaccount… FALSE FALSE  doubleAcc… FALSE  <NA>         0. FF000000 
-#>  8 strikethrough  FALSE FALSE  <NA>       TRUE   <NA>         0. FF000000 
-#>  9 subscript      FALSE FALSE  <NA>       FALSE  subscript    0. FF000000 
-#> 10 superscript    FALSE FALSE  <NA>       FALSE  superscr…    0. FF000000 
-#> 11 red            FALSE FALSE  <NA>       FALSE  <NA>         0. FFFF0000 
-#> 12 theme          FALSE FALSE  <NA>       FALSE  <NA>         0. FFC0504D 
-#> 13 tint           FALSE FALSE  <NA>       FALSE  <NA>         0. FFC0504D 
-#> 14 size           FALSE FALSE  <NA>       FALSE  <NA>         0. FFFF0000 
-#> 15 arial          FALSE FALSE  <NA>       FALSE  <NA>         0. FFFF0000 
-#> 16 "UTF8Stéphane… FALSE FALSE  <NA>       FALSE  <NA>         0. FFFF0000 
+#>    character bold  italic underline strike vertAlign  size color_rgb
+#>    <chr>     <lgl> <lgl>  <chr>     <lgl>  <chr>     <dbl> <chr>    
+#>  1 in-cell   FALSE FALSE  <NA>      FALSE  <NA>          0 <NA>     
+#>  2 bold      TRUE  FALSE  <NA>      FALSE  <NA>          0 FF000000 
+#>  3 italic    FALSE TRUE   <NA>      FALSE  <NA>          0 FF000000 
+#>  4 underline FALSE FALSE  single    FALSE  <NA>          0 FF000000 
+#>  5 underlin… FALSE FALSE  double    FALSE  <NA>          0 FF000000 
+#>  6 singleac… FALSE FALSE  singleAc… FALSE  <NA>          0 FF000000 
+#>  7 doubleac… FALSE FALSE  doubleAc… FALSE  <NA>          0 FF000000 
+#>  8 striketh… FALSE FALSE  <NA>      TRUE   <NA>          0 FF000000 
+#>  9 subscript FALSE FALSE  <NA>      FALSE  subscript     0 FF000000 
+#> 10 superscr… FALSE FALSE  <NA>      FALSE  superscr…     0 FF000000 
+#> 11 red       FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
+#> 12 theme     FALSE FALSE  <NA>      FALSE  <NA>          0 FFC0504D 
+#> 13 tint      FALSE FALSE  <NA>      FALSE  <NA>          0 FFC0504D 
+#> 14 size      FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
+#> 15 arial     FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
+#> 16 "UTF8Sté… FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
 #> # ... with 6 more variables: color_theme <int>, color_indexed <int>,
 #> #   color_tint <dbl>, font <chr>, family <int>, scheme <chr>
 ```
@@ -277,18 +282,18 @@ y[!is.na(y$formula),
   c("address", "formula", "is_array", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
 #> # A tibble: 32 x 10
-#>    address formula             is_array formula_ref formula_group error   logical numeric date                character
-#>    <chr>   <chr>               <lgl>    <chr>               <int> <chr>   <lgl>     <dbl> <dttm>              <chr>    
-#>  1 A1      1/0                 FALSE    <NA>                   NA #DIV/0! NA          NA  NA                  <NA>     
-#>  2 A14     1=1                 FALSE    <NA>                   NA <NA>    TRUE        NA  NA                  <NA>     
-#>  3 A15     A4+1                FALSE    <NA>                   NA <NA>    NA        1338. NA                  <NA>     
-#>  4 A16     DATE(2017,1,18)     FALSE    <NA>                   NA <NA>    NA          NA  2017-01-18 00:00:00 <NA>     
-#>  5 A17     "\"Hello, World!\"" FALSE    <NA>                   NA <NA>    NA          NA  NA                  Hello, W…
-#>  6 A19     $A$18+1             FALSE    <NA>                   NA <NA>    NA           2. NA                  <NA>     
-#>  7 B19     A18+2               FALSE    <NA>                   NA <NA>    NA           3. NA                  <NA>     
-#>  8 A20     $A$18+1             FALSE    A20:A21                 0 <NA>    NA           2. NA                  <NA>     
-#>  9 B20     A19+2               FALSE    B20:B21                 1 <NA>    NA           4. NA                  <NA>     
-#> 10 A21     $A$18+1             FALSE    <NA>                    0 <NA>    NA           2. NA                  <NA>     
+#>    address formula           is_array formula_ref formula_group error  logical numeric date                character   
+#>    <chr>   <chr>             <lgl>    <chr>               <int> <chr>  <lgl>     <dbl> <dttm>              <chr>       
+#>  1 A1      1/0               FALSE    <NA>                   NA #DIV/… NA           NA NA                  <NA>        
+#>  2 A14     1=1               FALSE    <NA>                   NA <NA>   TRUE         NA NA                  <NA>        
+#>  3 A15     A4+1              FALSE    <NA>                   NA <NA>   NA         1338 NA                  <NA>        
+#>  4 A16     DATE(2017,1,18)   FALSE    <NA>                   NA <NA>   NA           NA 2017-01-18 00:00:00 <NA>        
+#>  5 A17     "\"Hello, World!… FALSE    <NA>                   NA <NA>   NA           NA NA                  Hello, Worl…
+#>  6 A19     $A$18+1           FALSE    <NA>                   NA <NA>   NA            2 NA                  <NA>        
+#>  7 B19     A18+2             FALSE    <NA>                   NA <NA>   NA            3 NA                  <NA>        
+#>  8 A20     $A$18+1           FALSE    A20:A21                 0 <NA>   NA            2 NA                  <NA>        
+#>  9 B20     A19+2             FALSE    B20:B21                 1 <NA>   NA            4 NA                  <NA>        
+#> 10 A21     $A$18+1           FALSE    <NA>                    0 <NA>   NA            2 NA                  <NA>        
 #> # ... with 22 more rows
 ```
 
@@ -366,9 +371,7 @@ x
 #> °-- )           fun_close
 ```
 
-See the
-[vignette](file:///home/nacnudus/R/tidyxl/docs/articles/smells.html) for
-more examples and details.
+See the [vignette](articles/smells.html) for more examples and details.
 
 ### Named ranges
 
@@ -398,29 +401,28 @@ xlsx_names(examples)
 Data validation rules are imported with `xlsx_validation()`. These rules
 control what values may be entered into a cell, and are often used to
 create a drop-down list in a cell. Read the
-[vignette](file:///home/nacnudus/R/tidyxl/docs/articles/data-validation-rules.html)
-for details.
+[vignette](articles/data-validation-rules.html) for details.
 
 ``` r
 xlsx_validation(examples)
 #> # A tibble: 15 x 14
-#>    sheet  ref   type  operator formula1 formula2 allow_blank show_input_mess… prompt_title prompt_body show_error_mess…
-#>    <chr>  <chr> <chr> <chr>    <chr>    <chr>    <lgl>       <lgl>            <chr>        <chr>       <lgl>           
-#>  1 Sheet1 A106  whole between  0        9        TRUE        TRUE             message tit… message bo… TRUE            
-#>  2 Sheet1 A108  list  <NA>     $B$108   <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  3 Sheet1 A110  date  between  2017-01… 2017-01… TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  4 Sheet1 A111  time  between  00:00:00 09:00:00 TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  5 Sheet1 A112  text… between  0        9        TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  6 Sheet1 A114  whole notBetw… 0        9        TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  7 Sheet1 A115… whole equal    0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  8 Sheet1 A116  whole notEqual 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#>  9 Sheet1 A117  whole greater… 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#> 10 Sheet1 A119  whole greater… 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#> 11 Sheet1 A120  whole lessTha… 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#> 12 Sheet1 A118  whole lessThan 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#> 13 Sheet1 A107  deci… notBetw… 0        9        FALSE       FALSE            <NA>         <NA>        FALSE           
-#> 14 Sheet1 A113  cust… <NA>     A113<=L… <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#> 15 Sheet1 A109  list  <NA>     $B$108   <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#>    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess… prompt_title prompt_body show_error_mess…
+#>    <chr> <chr> <chr> <chr>    <chr>    <chr>    <lgl>       <lgl>            <chr>        <chr>       <lgl>           
+#>  1 Shee… A106  whole between  0        9        TRUE        TRUE             message tit… message bo… TRUE            
+#>  2 Shee… A108  list  <NA>     $B$108   <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  3 Shee… A110  date  between  2017-01… 2017-01… TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  4 Shee… A111  time  between  00:00:00 09:00:00 TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  5 Shee… A112  text… between  0        9        TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  6 Shee… A114  whole notBetw… 0        9        TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  7 Shee… A115… whole equal    0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  8 Shee… A116  whole notEqual 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#>  9 Shee… A117  whole greater… 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#> 10 Shee… A119  whole greater… 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#> 11 Shee… A120  whole lessTha… 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#> 12 Shee… A118  whole lessThan 0        <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#> 13 Shee… A107  deci… notBetw… 0        9        FALSE       FALSE            <NA>         <NA>        FALSE           
+#> 14 Shee… A113  cust… <NA>     A113<=L… <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
+#> 15 Shee… A109  list  <NA>     $B$108   <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
 #> # ... with 3 more variables: error_title <chr>, error_body <chr>, error_symbol <chr>
 ```
 

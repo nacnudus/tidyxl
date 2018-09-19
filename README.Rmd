@@ -38,7 +38,7 @@ understanding the dependency structures within spreadsheets.
 
 Tidyxl represents each cell as one row in a dataframe.  Like this.
 
-![Gif of tidyxl converting cells into a tidy representation of one row per cell](./articles/tidy_xlsx.gif)
+![Gif of tidyxl converting cells into a tidy representation of one row per cell](./vignettes/tidy_xlsx.gif)
 
 What can you do with tidy cells?  The best place to start is [Spreadsheet
 Munging Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies),
