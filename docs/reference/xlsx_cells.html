@@ -71,7 +71,7 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.3</span>
       </span>
     </div>
 
@@ -2690,11 +2690,11 @@ further processing you might need to filter out the <code>NULL</code>s first.
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
 <span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; # A tibble: 3 x 21
-#&gt;   sheet  address   row   col is_blank data_type error logical numeric
-#&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;
-#&gt; 1 Sheet1 A28        28     1 FALSE    character &lt;NA&gt;  NA           NA
-#&gt; 2 Sheet1 A32        32     1 FALSE    character &lt;NA&gt;  NA           NA
-#&gt; 3 Sheet1 A49        49     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt;   sheet address   row   col is_blank data_type error logical numeric
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;
+#&gt; 1 Shee… A28        28     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 2 Shee… A32        32     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 3 Shee… A49        49     1 FALSE    character &lt;NA&gt;  NA           NA
 #&gt; # ... with 12 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,
 #&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,
 #&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,
@@ -2703,26 +2703,26 @@ further processing you might need to filter out the <code>NULL</code>s first.
 <span class='co'># data frame, one row per substring.</span>
 <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]</div><div class='output co'>#&gt; [[1]]
 #&gt; # A tibble: 16 x 14
-#&gt;    character          bold  italic underline   strike vertAlign  size color_rgb
-#&gt;    &lt;chr&gt;              &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;       &lt;lgl&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    
-#&gt;  1 in-cell            FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 &lt;NA&gt;     
-#&gt;  2 bold               TRUE  FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FF000000 
-#&gt;  3 italic             FALSE TRUE   &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FF000000 
-#&gt;  4 underline          FALSE FALSE  single      FALSE  &lt;NA&gt;          0 FF000000 
-#&gt;  5 underlinedouble    FALSE FALSE  double      FALSE  &lt;NA&gt;          0 FF000000 
-#&gt;  6 singleaccounting   FALSE FALSE  singleAcco… FALSE  &lt;NA&gt;          0 FF000000 
-#&gt;  7 doubleaccounting   FALSE FALSE  doubleAcco… FALSE  &lt;NA&gt;          0 FF000000 
-#&gt;  8 strikethrough      FALSE FALSE  &lt;NA&gt;        TRUE   &lt;NA&gt;          0 FF000000 
-#&gt;  9 subscript          FALSE FALSE  &lt;NA&gt;        FALSE  subscript     0 FF000000 
-#&gt; 10 superscript        FALSE FALSE  &lt;NA&gt;        FALSE  superscr…     0 FF000000 
-#&gt; 11 red                FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
-#&gt; 12 theme              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFC0504D 
-#&gt; 13 tint               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFC0504D 
-#&gt; 14 size               FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
-#&gt; 15 arial              FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
-#&gt; 16 "UTF8Stéphane\nmu… FALSE FALSE  &lt;NA&gt;        FALSE  &lt;NA&gt;          0 FFFF0000 
-#&gt; # ... with 6 more variables: color_theme &lt;int&gt;, color_indexed &lt;int&gt;,
-#&gt; #   color_tint &lt;dbl&gt;, font &lt;chr&gt;, family &lt;int&gt;, scheme &lt;chr&gt;
+#&gt;    character bold  italic underline strike vertAlign  size color_rgb color_theme
+#&gt;    &lt;chr&gt;     &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;     &lt;lgl&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;int&gt;
+#&gt;  1 in-cell   FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 &lt;NA&gt;               NA
+#&gt;  2 bold      TRUE  FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FF000000            2
+#&gt;  3 italic    FALSE TRUE   &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FF000000            2
+#&gt;  4 underline FALSE FALSE  single    FALSE  &lt;NA&gt;          0 FF000000            2
+#&gt;  5 underlin… FALSE FALSE  double    FALSE  &lt;NA&gt;          0 FF000000            2
+#&gt;  6 singleac… FALSE FALSE  singleAc… FALSE  &lt;NA&gt;          0 FF000000            2
+#&gt;  7 doubleac… FALSE FALSE  doubleAc… FALSE  &lt;NA&gt;          0 FF000000            2
+#&gt;  8 striketh… FALSE FALSE  &lt;NA&gt;      TRUE   &lt;NA&gt;          0 FF000000            2
+#&gt;  9 subscript FALSE FALSE  &lt;NA&gt;      FALSE  subscript     0 FF000000            2
+#&gt; 10 superscr… FALSE FALSE  &lt;NA&gt;      FALSE  superscr…     0 FF000000            2
+#&gt; 11 red       FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA
+#&gt; 12 theme     FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFC0504D            6
+#&gt; 13 tint      FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFC0504D            6
+#&gt; 14 size      FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA
+#&gt; 15 arial     FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA
+#&gt; 16 "UTF8Sté… FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA
+#&gt; # ... with 5 more variables: color_indexed &lt;int&gt;, color_tint &lt;dbl&gt;, font &lt;chr&gt;,
+#&gt; #   family &lt;int&gt;, scheme &lt;chr&gt;
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

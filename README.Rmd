@@ -34,6 +34,19 @@ details.  It is useful for detecting 'spreadsheet smells' (poor practice such as
 embedding constants in formulas, or using deep levels of nesting), and for
 understanding the dependency structures within spreadsheets.
 
+## Make cells tidy
+
+Tidyxl represents each cell as one row in a dataframe.  Like this.
+
+![Gif of tidyxl converting cells into a tidy representation of one row per cell](./articles/tidy_xlsx.gif)
+
+What can you do with tidy cells?  The best place to start is [Spreadsheet
+Munging Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies),
+a free, online cookbook using [tidyxl](https://github.com/nacnudus/tidyxl) and
+[unpivotr](https://github.com/nacnudus/unpivotr).
+
+Otherwise see examples below.
+
 ***Breaking changes***
 
 The version 1.0.0 release has some breaking changes.  See `NEWS.md` for details.
@@ -42,16 +55,6 @@ The previous version can be installed as follows.
 ```r
 devtools::install_version("tidyxl", version = "0.2.3", repos = "http://cran.us.r-project.org")
 ```
-
-## Getting started
-
-[Spreadsheet Munging
-Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies)
-is a free, online cookbook using
-[tidyxl](https://github.com/nacnudus/tidyxl) and
-[unpivotr](https://github.com/nacnudus/unpivotr) (in progress).
-
-Otherwise see examples below.
 
 ## Installation
 

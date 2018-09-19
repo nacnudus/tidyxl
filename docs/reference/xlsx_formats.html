@@ -72,7 +72,7 @@ indexing the bottom-level vectors.  See 'Details' for examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.3</span>
       </span>
     </div>
 
@@ -754,11 +754,11 @@ hexadecimal string.</p>
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
 <span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'>which</span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
 <span class='no'>cells</span>[<span class='no'>cells</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; # A tibble: 3 x 21
-#&gt;   sheet  address   row   col is_blank data_type error logical numeric
-#&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;
-#&gt; 1 Sheet1 A28        28     1 FALSE    character &lt;NA&gt;  NA           NA
-#&gt; 2 Sheet1 A32        32     1 FALSE    character &lt;NA&gt;  NA           NA
-#&gt; 3 Sheet1 A49        49     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt;   sheet address   row   col is_blank data_type error logical numeric
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;
+#&gt; 1 Shee… A28        28     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 2 Shee… A32        32     1 FALSE    character &lt;NA&gt;  NA           NA
+#&gt; 3 Shee… A49        49     1 FALSE    character &lt;NA&gt;  NA           NA
 #&gt; # ... with 12 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,
 #&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,
 #&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,

@@ -71,7 +71,7 @@ values from another part of the spreadsheet." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.2.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.3</span>
       </span>
     </div>
 
@@ -200,63 +200,63 @@ the user enters a forbidden value.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
 <span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
-#&gt;    sheet  ref    type   operator formula1 formula2 allow_blank show_input_mess…
-#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
-#&gt;  1 Sheet1 A106   whole  between  0        9        TRUE        TRUE            
-#&gt;  2 Sheet1 A108   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
-#&gt;  3 Sheet1 A110   date   between  2017-01… 2017-01… TRUE        TRUE            
-#&gt;  4 Sheet1 A111   time   between  00:00:00 09:00:00 TRUE        TRUE            
-#&gt;  5 Sheet1 A112   textL… between  0        9        TRUE        TRUE            
-#&gt;  6 Sheet1 A114   whole  notBetw… 0        9        TRUE        TRUE            
-#&gt;  7 Sheet1 A115,… whole  equal    0        &lt;NA&gt;     TRUE        TRUE            
-#&gt;  8 Sheet1 A116   whole  notEqual 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt;  9 Sheet1 A117   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 10 Sheet1 A119   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 11 Sheet1 A120   whole  lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 12 Sheet1 A118   whole  lessThan 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 13 Sheet1 A107   decim… notBetw… 0        9        FALSE       FALSE           
-#&gt; 14 Sheet1 A113   custom &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
-#&gt; 15 Sheet1 A109   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…
+#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
+#&gt;  1 Shee… A106  whole between  0        9        TRUE        TRUE            
+#&gt;  2 Shee… A108  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;  3 Shee… A110  date  between  2017-01… 2017-01… TRUE        TRUE            
+#&gt;  4 Shee… A111  time  between  00:00:00 09:00:00 TRUE        TRUE            
+#&gt;  5 Shee… A112  text… between  0        9        TRUE        TRUE            
+#&gt;  6 Shee… A114  whole notBetw… 0        9        TRUE        TRUE            
+#&gt;  7 Shee… A115… whole equal    0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  8 Shee… A116  whole notEqual 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  9 Shee… A117  whole greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 10 Shee… A119  whole greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 11 Shee… A120  whole lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 12 Shee… A118  whole lessThan 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 13 Shee… A107  deci… notBetw… 0        9        FALSE       FALSE           
+#&gt; 14 Shee… A113  cust… &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
+#&gt; 15 Shee… A109  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
 #&gt; # ... with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,
 #&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,
 #&gt; #   error_symbol &lt;chr&gt;</div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
-#&gt;    sheet  ref    type   operator formula1 formula2 allow_blank show_input_mess…
-#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
-#&gt;  1 Sheet1 A106   whole  between  0        9        TRUE        TRUE            
-#&gt;  2 Sheet1 A108   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
-#&gt;  3 Sheet1 A110   date   between  2017-01… 2017-01… TRUE        TRUE            
-#&gt;  4 Sheet1 A111   time   between  00:00:00 09:00:00 TRUE        TRUE            
-#&gt;  5 Sheet1 A112   textL… between  0        9        TRUE        TRUE            
-#&gt;  6 Sheet1 A114   whole  notBetw… 0        9        TRUE        TRUE            
-#&gt;  7 Sheet1 A115,… whole  equal    0        &lt;NA&gt;     TRUE        TRUE            
-#&gt;  8 Sheet1 A116   whole  notEqual 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt;  9 Sheet1 A117   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 10 Sheet1 A119   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 11 Sheet1 A120   whole  lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 12 Sheet1 A118   whole  lessThan 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 13 Sheet1 A107   decim… notBetw… 0        9        FALSE       FALSE           
-#&gt; 14 Sheet1 A113   custom &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
-#&gt; 15 Sheet1 A109   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…
+#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
+#&gt;  1 Shee… A106  whole between  0        9        TRUE        TRUE            
+#&gt;  2 Shee… A108  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;  3 Shee… A110  date  between  2017-01… 2017-01… TRUE        TRUE            
+#&gt;  4 Shee… A111  time  between  00:00:00 09:00:00 TRUE        TRUE            
+#&gt;  5 Shee… A112  text… between  0        9        TRUE        TRUE            
+#&gt;  6 Shee… A114  whole notBetw… 0        9        TRUE        TRUE            
+#&gt;  7 Shee… A115… whole equal    0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  8 Shee… A116  whole notEqual 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  9 Shee… A117  whole greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 10 Shee… A119  whole greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 11 Shee… A120  whole lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 12 Shee… A118  whole lessThan 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 13 Shee… A107  deci… notBetw… 0        9        FALSE       FALSE           
+#&gt; 14 Shee… A113  cust… &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
+#&gt; 15 Shee… A109  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
 #&gt; # ... with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,
 #&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,
 #&gt; #   error_symbol &lt;chr&gt;</div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)</div><div class='output co'>#&gt; # A tibble: 15 x 14
-#&gt;    sheet  ref    type   operator formula1 formula2 allow_blank show_input_mess…
-#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
-#&gt;  1 Sheet1 A106   whole  between  0        9        TRUE        TRUE            
-#&gt;  2 Sheet1 A108   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
-#&gt;  3 Sheet1 A110   date   between  2017-01… 2017-01… TRUE        TRUE            
-#&gt;  4 Sheet1 A111   time   between  00:00:00 09:00:00 TRUE        TRUE            
-#&gt;  5 Sheet1 A112   textL… between  0        9        TRUE        TRUE            
-#&gt;  6 Sheet1 A114   whole  notBetw… 0        9        TRUE        TRUE            
-#&gt;  7 Sheet1 A115,… whole  equal    0        &lt;NA&gt;     TRUE        TRUE            
-#&gt;  8 Sheet1 A116   whole  notEqual 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt;  9 Sheet1 A117   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 10 Sheet1 A119   whole  greater… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 11 Sheet1 A120   whole  lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 12 Sheet1 A118   whole  lessThan 0        &lt;NA&gt;     TRUE        TRUE            
-#&gt; 13 Sheet1 A107   decim… notBetw… 0        9        FALSE       FALSE           
-#&gt; 14 Sheet1 A113   custom &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
-#&gt; 15 Sheet1 A109   list   &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…
+#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           
+#&gt;  1 Shee… A106  whole between  0        9        TRUE        TRUE            
+#&gt;  2 Shee… A108  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
+#&gt;  3 Shee… A110  date  between  2017-01… 2017-01… TRUE        TRUE            
+#&gt;  4 Shee… A111  time  between  00:00:00 09:00:00 TRUE        TRUE            
+#&gt;  5 Shee… A112  text… between  0        9        TRUE        TRUE            
+#&gt;  6 Shee… A114  whole notBetw… 0        9        TRUE        TRUE            
+#&gt;  7 Shee… A115… whole equal    0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  8 Shee… A116  whole notEqual 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt;  9 Shee… A117  whole greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 10 Shee… A119  whole greater… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 11 Shee… A120  whole lessTha… 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 12 Shee… A118  whole lessThan 0        &lt;NA&gt;     TRUE        TRUE            
+#&gt; 13 Shee… A107  deci… notBetw… 0        9        FALSE       FALSE           
+#&gt; 14 Shee… A113  cust… &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE            
+#&gt; 15 Shee… A109  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE            
 #&gt; # ... with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,
 #&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,
 #&gt; #   error_symbol &lt;chr&gt;</div></pre>
