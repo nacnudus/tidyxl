@@ -42,3 +42,7 @@ test_that("Missing styles don't cause crashes", {
   # map instead.
   expect_error(xlsx_formats("libreoffice-missing-styles.xlsx"), NA)
 })
+
+test_that("applyNumberFormat etc. are ignored when no format is provided", {
+  expect_error(xlsx_cells("EvaluacionCensal_Secundaria_SEGUNDO_14112018_160622.xlsx"), NA)
+})
