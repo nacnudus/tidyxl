@@ -78,13 +78,13 @@ List xlsx_sheet_files_(std::string path) {
   for (rapidxml::xml_node<>* relationship = relationships->first_node("Relationship");
       relationship; relationship = relationship->next_sibling()) {
     std::string target = relationship->first_attribute("Target")->value();
-    std::string target_type = target.substr(0, 10);
-    if (target_type == "worksheets" || target_type == "chartsheet") {
-       // Only store worksheets and chartsheets -- requests for chartsheets are
-       // handled in the R wrapper
+    if ((target.find("worksheet") != std::string::npos)
+        || (target.find("chartsheet") != std::string::npos))  {
+      // Only store worksheets and chartsheets -- requests for chartsheets are
+      // handled in the R wrapper
       id = relationship->first_attribute("Id")->value();
       ids.push_back(id);
-      sheet_paths.insert({id, "xl/" + target}) ;
+      sheet_paths.insert({id, target}) ;
       comments_paths.insert({id, comments_path_(path, target)});
     }
   }
