@@ -477,7 +477,7 @@ void xlsxstyles::applyFormats() {
     local_formats_.emplace_back(xf());
     int xfId = it->xfId_; // Use to look up the overall 'style', which is locally modified
 
-    if (it->applyNumberFormat_ == 1) {
+    if (it->applyNumberFormat_ == 1 && it->numFmtId_ != NA_INTEGER) {
       local_formats_[i].numFmtId_ = (it->numFmtId_);
     } else { // no known case
       local_formats_[i].numFmtId_ = (style_formats_[xfId].numFmtId_); // # nocov
