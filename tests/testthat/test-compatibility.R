@@ -43,6 +43,29 @@ test_that("Missing styles don't cause crashes", {
   expect_error(xlsx_formats("libreoffice-missing-styles.xlsx"), NA)
 })
 
+test_that("Data validation x14 and xm extensions to the xlsx spec work", {
+  # The problem was that, if not all styles in a range e.g. 1:36, were present,
+  # the name lookup went beyond the bounds of an array.  It should look up a
+  # map instead.
+  validations <-
+    tibble::tibble(sheet = c("Entry"),
+                     ref = c(NA_character_),
+                    type = c("list"),
+                operator = c(NA_character_),
+                formula1 = c("Values!$A$2:$A$4"),
+                formula2 = c(NA_character_),
+             allow_blank = c(TRUE),
+      show_input_message = c(TRUE),
+            prompt_title = c(NA_character_),
+             prompt_body = c(NA_character_),
+      show_error_message = c(TRUE),
+             error_title = c(NA_character_),
+              error_body = c(NA_character_),
+            error_symbol = c("stop")
+    )
+  expect_equal(tidyxl::xlsx_validation("./x14-extensions.xlsx"), validations)
+})
+
 test_that("Sheet paths like /xl/worksheets/sheet1.xml work", {
   expect_error(xlsx_cells("EvaluacionCensal_Secundaria_SEGUNDO_14112018_160622.xlsx"), NA)
 })

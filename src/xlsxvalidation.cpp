@@ -13,8 +13,21 @@ int count_validations(std::string& xml) {
   rapidxml::xml_document<> doc;
   doc.parse<rapidxml::parse_non_destructive>(&xml[0]);
   rapidxml::xml_node<>* worksheet = doc.first_node("worksheet");
-  rapidxml::xml_node<>* dataValidations =
-    worksheet->first_node("dataValidations");
+  rapidxml::xml_node<>* dataValidations;
+  dataValidations = worksheet->first_node("dataValidations");
+  if (dataValidations == NULL) { // See if it's in extLst
+    rapidxml::xml_node<>* extLst;
+    rapidxml::xml_node<>* ext;
+    extLst = worksheet->first_node("extLst");
+    if (extLst != NULL) {
+      ext = extLst->first_node("ext");
+      if (ext != NULL) {
+        dataValidations = ext->first_node("x14:dataValidations");
+      } else {
+      }
+    } else {
+    }
+  }
   if (dataValidations != NULL) {
     // Initialize the vectors to the number of rules, using the count attribute
     // if it exists, otherwise count the rules.
@@ -25,13 +38,14 @@ int count_validations(std::string& xml) {
     } else {
       // No known case, so # nocov start
       for (rapidxml::xml_node<>* dataValidation =
-             dataValidations->first_node("dataValidation");
-           dataValidation;
-           dataValidation = dataValidation->next_sibling("dataValidation")) {
-          ++n;
-      // # nocov end
+          dataValidations->first_node("dataValidation");
+          dataValidation;
+          dataValidation = dataValidation->next_sibling("dataValidation")) {
+        ++n;
+        // # nocov end
       }
     }
+  } else {
   }
   return n;
 }
@@ -43,11 +57,13 @@ void parseValidations(
     std::string& xml,
     int& i) {
   rapidxml::xml_document<> doc;
-  doc.parse<0>(&xml[0]);
+  doc.parse<rapidxml::parse_strip_xml_namespaces>(&xml[0]);
   rapidxml::xml_node<>* worksheet = doc.first_node("worksheet");
-  rapidxml::xml_node<>* dataValidations =
-    worksheet->first_node("dataValidations");
-
+  rapidxml::xml_node<>* dataValidations;
+  dataValidations = worksheet->first_node("dataValidations");
+  if (dataValidations == NULL) { // Get it from extLst
+    dataValidations = worksheet->first_node("extLst")->first_node("ext")->first_node("dataValidations");
+  }
   for (rapidxml::xml_node<>* dataValidation =
          dataValidations->first_node("dataValidation");
         dataValidation;
@@ -55,14 +71,22 @@ void parseValidations(
 
     validation.sheet_[i] = sheet_name;
 
+    std::string ref;
     rapidxml::xml_attribute<>* sqref = dataValidation->first_attribute("sqref");
     if (sqref != NULL) {
+      ref = std::string(sqref->value());
       // Replace spaces with commas.  For space-delimited 'sqref' attributes,
       // which ought to be comma-delimited for consistency with the union
       // operator ',' in formulas.  Modifies in-place.
-      std::string ref(sqref->value());
       std::replace(ref.begin(), ref.end(), ' ', ',');
       validation.ref_[i] = ref;
+    } else { // try x14 version
+      rapidxml::xml_node<>* sqref_node = dataValidation->first_node("xm:sqref");
+      if (sqref_node != NULL) {
+        ref = std::string(sqref->value());
+        std::replace(ref.begin(), ref.end(), ' ', ',');
+        validation.ref_[i] = ref;
+      }
     }
 
     std::string type_string;
@@ -82,24 +106,38 @@ void parseValidations(
       validation.operator_[i] = Operator->value();
 
     rapidxml::xml_node<>* formula1 = dataValidation->first_node("formula1");
+    std::string f1_string;
     if (formula1 != NULL) {
+      rapidxml::xml_node<>* f1 = formula1->first_node("f");
+      if (f1 != NULL) { // x14 extension
+        f1_string = f1->value();
+      } else {
+        f1_string = formula1->value();
+      }
       if (type_string == "date" || type_string == "time") {
-        double date_double = strtod(formula1->value(), NULL);
+        double date_double = strtod(f1_string.c_str(), NULL);
         validation.formula1_[i] =
           formatDate(date_double, book.dateSystem_, book.dateOffset_);
       } else {
-        validation.formula1_[i] = formula1->value();
+        validation.formula1_[i] = f1_string;
       }
     }
 
     rapidxml::xml_node<>* formula2 = dataValidation->first_node("formula2");
+    std::string f2_string;
     if (formula2 != NULL) {
+      rapidxml::xml_node<>* f2 = formula2->first_node("f");
+      if (f2 != NULL) { // x14 extension
+        f2_string = f2->value();
+      } else {
+        f2_string = formula2->value();
+      }
       if (type_string == "date" || type_string == "time") {
-        double date_double = strtod(formula2->value(), NULL);
+        double date_double = strtod(f2_string.c_str(), NULL);
         validation.formula2_[i] =
           formatDate(date_double, book.dateSystem_, book.dateOffset_);
       } else {
-        validation.formula2_[i] = formula2->value();
+        validation.formula2_[i] = f2_string;
       }
     }
 
