@@ -23,7 +23,7 @@ LinkingTo: Rcpp,
 Imports: Rcpp
 URL: https://github.com/nacnudus/tidyxl
 BugReports: https://github.com/nacnudus/tidyxl/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Suggests: testthat,
     here,
     knitr,

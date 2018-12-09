@@ -14,7 +14,7 @@ Logicial
 }
 \description{
 Whether a file may be be xlsx, xlsm, xltx or xltm (rather than xls or xlt),
-based on the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{filesignature} or "magic
+based on the \href{https://en.wikipedia.org/wiki/List_of_file_signatures}{file signature} or "magic
 number", rather than the filename extension.
 }
 \details{
