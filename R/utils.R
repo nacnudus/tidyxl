@@ -78,6 +78,10 @@ check_sheets <- function(sheets, path) {
 
 utils_xlsx_sheet_files <- function(path) {
   out <- xlsx_sheet_files_(path)
+  # Standardise /xl/worksheets/sheet1.xml and worksheets/sheet1.xml
+  out$sheet_path <- gsub("^/", "", out$sheet_path)
+  out$sheet_path <- gsub("^xl/", "", out$sheet_path)
+  out$sheet_path <- paste0("xl/", out$sheet_path)
   out$order <- order(out$rId)
   out <- out[out$order, ]
   # Omit chartsheets

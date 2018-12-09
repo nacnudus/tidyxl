@@ -65,3 +65,11 @@ test_that("Data validation x14 and xm extensions to the xlsx spec work", {
     )
   expect_equal(tidyxl::xlsx_validation("./x14-extensions.xlsx"), validations)
 })
+
+test_that("Sheet paths like /xl/worksheets/sheet1.xml work", {
+  expect_error(xlsx_cells("EvaluacionCensal_Secundaria_SEGUNDO_14112018_160622.xlsx"), NA)
+})
+
+test_that("applyNumberFormat etc. are ignored when no format is provided", {
+  expect_error(xlsx_cells("EvaluacionCensal_Secundaria_SEGUNDO_14112018_160622.xlsx"), NA)
+})
