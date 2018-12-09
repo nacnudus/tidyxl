@@ -1,5 +1,10 @@
 # tidyxl 1.0.3
 
+* Compatibility: imports cell data validation rules from files created by Office
+    365 (#46).
+
+# tidyxl 1.0.3
+
 * Noticeably faster for large files.
 * Omission of blank cells with `include_blank_cells = FALSE` had a bug that
     returned blank cells as an empty row in the `xlsx_cells()` data frame.
