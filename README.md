@@ -34,12 +34,16 @@ Tidyxl represents each cell as one row in a dataframe. Like this.
 ![Gif of tidyxl converting cells into a tidy representation of one row
 per cell](./vignettes/tidy_xlsx.gif)
 
-What can you do with tidy cells? The best place to start is [Spreadsheet
-Munging
-Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies),
-a free, online cookbook using
-[tidyxl](https://github.com/nacnudus/tidyxl) and
-[unpivotr](https://github.com/nacnudus/unpivotr).
+What can you do with tidy cells? The best places to start are:
+
+  - [Spreadsheet Munging
+    Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies),
+    a free, online cookbook using
+    [tidyxl](https://github.com/nacnudus/tidyxl) and
+    [unpivotr](https://github.com/nacnudus/unpivotr)
+  - [Screencasts](https://www.youtube.com/watch?v=1sinC7wsS5U) on
+    YouTube.
+  - [Worked examples](https://github.com/nacnudus/ukfarm) on GitHub.
 
 Otherwise see examples below.
 
@@ -87,8 +91,13 @@ observations.
 ``` r
 titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
 readxl::read_excel(titanic)
+#> New names:
+#> * `` -> `..1`
+#> * `` -> `..2`
+#> * `` -> `..5`
+#> * `` -> `..7`
 #> # A tibble: 10 x 7
-#>    X__1  X__2   Age      Child X__3  Adult X__4 
+#>    ..1   ..2    Age      Child ..5   Adult ..7  
 #>    <chr> <chr>  <chr>    <chr> <chr> <chr> <chr>
 #>  1 <NA>  <NA>   Survived No    Yes   No    Yes  
 #>  2 Class Sex    <NA>     <NA>  <NA>  <NA>  <NA> 
@@ -112,27 +121,27 @@ x <- xlsx_cells(titanic)
 dplyr::glimpse(x)
 #> Observations: 60
 #> Variables: 21
-#> $ sheet               <chr> "Sheet1", "Sheet1", "Sheet1", "Sheet1", "S...
-#> $ address             <chr> "C1", "D1", "E1", "F1", "G1", "C2", "D2", ...
-#> $ row                 <int> 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, ...
-#> $ col                 <int> 3, 4, 5, 6, 7, 3, 4, 5, 6, 7, 1, 2, 1, 2, ...
-#> $ is_blank            <lgl> FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FA...
-#> $ data_type           <chr> "character", "character", "blank", "charac...
-#> $ error               <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ logical             <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ numeric             <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ date                <dttm> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
-#> $ character           <chr> "Age", "Child", NA, "Adult", NA, "Survived...
-#> $ character_formatted <list> [<# A tibble: 1 x 14,   character bold  i...
-#> $ formula             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ is_array            <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, ...
-#> $ formula_ref         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ formula_group       <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ comment             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
-#> $ height              <dbl> 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15...
-#> $ width               <dbl> 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, ...
-#> $ style_format        <chr> "Normal", "Normal", "Normal", "Normal", "N...
-#> $ local_format_id     <int> 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, ...
+#> $ sheet               <chr> "Sheet1", "Sheet1", "Sheet1", "Sheet1", "She…
+#> $ address             <chr> "C1", "D1", "E1", "F1", "G1", "C2", "D2", "E…
+#> $ row                 <int> 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4,…
+#> $ col                 <int> 3, 4, 5, 6, 7, 3, 4, 5, 6, 7, 1, 2, 1, 2, 4,…
+#> $ is_blank            <lgl> FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALS…
+#> $ data_type           <chr> "character", "character", "blank", "characte…
+#> $ error               <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ logical             <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ numeric             <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ date                <dttm> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+#> $ character           <chr> "Age", "Child", NA, "Adult", NA, "Survived",…
+#> $ character_formatted <list> [<# A tibble: 1 x 14,   character bold  ita…
+#> $ formula             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ is_array            <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…
+#> $ formula_ref         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ formula_group       <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ comment             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ height              <dbl> 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, …
+#> $ width               <dbl> 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.…
+#> $ style_format        <chr> "Normal", "Normal", "Normal", "Normal", "Nor…
+#> $ local_format_id     <int> 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1,…
 ```
 
 In this structure, the cells can be found by filtering.
@@ -152,7 +161,7 @@ x[x$data_type == "character", c("address", "character")]
 #>  8 G2      Yes      
 #>  9 A3      Class    
 #> 10 B3      Sex      
-#> # ... with 12 more rows
+#> # … with 12 more rows
 x[x$row == 4, c("address", "character", "numeric")]
 #> # A tibble: 6 x 3
 #>   address character numeric
@@ -253,7 +262,7 @@ xlsx_cells(examples)$character_formatted[77]
 #> 14 size      FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
 #> 15 arial     FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
 #> 16 "UTF8Sté… FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
-#> # ... with 6 more variables: color_theme <int>, color_indexed <int>,
+#> # … with 6 more variables: color_theme <int>, color_indexed <int>,
 #> #   color_tint <dbl>, font <chr>, family <int>, scheme <chr>
 ```
 
@@ -282,19 +291,19 @@ y[!is.na(y$formula),
   c("address", "formula", "is_array", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
 #> # A tibble: 32 x 10
-#>    address formula           is_array formula_ref formula_group error  logical numeric date                character   
-#>    <chr>   <chr>             <lgl>    <chr>               <int> <chr>  <lgl>     <dbl> <dttm>              <chr>       
-#>  1 A1      1/0               FALSE    <NA>                   NA #DIV/… NA           NA NA                  <NA>        
-#>  2 A14     1=1               FALSE    <NA>                   NA <NA>   TRUE         NA NA                  <NA>        
-#>  3 A15     A4+1              FALSE    <NA>                   NA <NA>   NA         1338 NA                  <NA>        
-#>  4 A16     DATE(2017,1,18)   FALSE    <NA>                   NA <NA>   NA           NA 2017-01-18 00:00:00 <NA>        
-#>  5 A17     "\"Hello, World!… FALSE    <NA>                   NA <NA>   NA           NA NA                  Hello, Worl…
-#>  6 A19     $A$18+1           FALSE    <NA>                   NA <NA>   NA            2 NA                  <NA>        
-#>  7 B19     A18+2             FALSE    <NA>                   NA <NA>   NA            3 NA                  <NA>        
-#>  8 A20     $A$18+1           FALSE    A20:A21                 0 <NA>   NA            2 NA                  <NA>        
-#>  9 B20     A19+2             FALSE    B20:B21                 1 <NA>   NA            4 NA                  <NA>        
-#> 10 A21     $A$18+1           FALSE    <NA>                    0 <NA>   NA            2 NA                  <NA>        
-#> # ... with 22 more rows
+#>    address formula           is_array formula_ref formula_group error   logical numeric date                character   
+#>    <chr>   <chr>             <lgl>    <chr>               <int> <chr>   <lgl>     <dbl> <dttm>              <chr>       
+#>  1 A1      1/0               FALSE    <NA>                   NA #DIV/0! NA           NA NA                  <NA>        
+#>  2 A14     1=1               FALSE    <NA>                   NA <NA>    TRUE         NA NA                  <NA>        
+#>  3 A15     A4+1              FALSE    <NA>                   NA <NA>    NA         1338 NA                  <NA>        
+#>  4 A16     DATE(2017,1,18)   FALSE    <NA>                   NA <NA>    NA           NA 2017-01-18 00:00:00 <NA>        
+#>  5 A17     "\"Hello, World!… FALSE    <NA>                   NA <NA>    NA           NA NA                  Hello, Worl…
+#>  6 A19     $A$18+1           FALSE    <NA>                   NA <NA>    NA            2 NA                  <NA>        
+#>  7 B19     A18+2             FALSE    <NA>                   NA <NA>    NA            3 NA                  <NA>        
+#>  8 A20     $A$18+1           FALSE    A20:A21                 0 <NA>    NA            2 NA                  <NA>        
+#>  9 B20     A19+2             FALSE    B20:B21                 1 <NA>    NA            4 NA                  <NA>        
+#> 10 A21     $A$18+1           FALSE    <NA>                    0 <NA>    NA            2 NA                  <NA>        
+#> # … with 22 more rows
 ```
 
 The top five cells show that the results of formulas are available as
@@ -317,7 +326,7 @@ There are two kinds of array formulas: ones that compute over arrays,
 and ones whose output is an array (of cells).
 
 Both kinds are distinguished in spreadsheet programs by curly braces,
-e.g. `{SUM(A19:A21*B19:B21)}`. In `tidyxl`, the curly braces are
+e.g. `{SUM(A19:A21*B19:B21)}`. In `tidyxl`, the curly braces are
 ommitted (as they are from the file itself), and instead the `is_array`
 column has the value `TRUE`.
 
@@ -423,7 +432,7 @@ xlsx_validation(examples)
 #> 13 Shee… A107  deci… notBetw… 0        9        FALSE       FALSE            <NA>         <NA>        FALSE           
 #> 14 Shee… A113  cust… <NA>     A113<=L… <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
 #> 15 Shee… A109  list  <NA>     $B$108   <NA>     TRUE        TRUE             <NA>         <NA>        TRUE            
-#> # ... with 3 more variables: error_title <chr>, error_body <chr>, error_symbol <chr>
+#> # … with 3 more variables: error_title <chr>, error_body <chr>, error_symbol <chr>
 ```
 
 ## Philosophy
