@@ -1,4 +1,4 @@
-# tidyxl 1.0.3
+# tidyxl 1.0.4
 
 * Compatibility: imports cell data validation rules from files created by Office
     365 (#46).
