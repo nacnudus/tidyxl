@@ -36,13 +36,8 @@ namespace rapidxml
     //! This function cannot return. If it does, the results are undefined.
     //! <br><br>
     //! A very simple definition might look like that:
-    //! <pre>
-    //! void %rapidxml::%parse_error_handler(const char *what, void *where)
-    //! {
-    //!     std::cout << "Parse error: " << what << "\n";
-    //!     std::abort();
-    //! }
-    //! </pre>
+    //! [example omitted because even though it is in a comment it generates an
+    //!  R CMD CHECK warning on Fedora Linux, R-devel, clang, gfortran]
     //! \param what Human readable description of the error.
     //! \param where Pointer to character data where error was detected.
     void parse_error_handler(const char *what, void *where);
