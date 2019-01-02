@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.3</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.4</span>
       </span>
     </div>
 
@@ -126,18 +126,26 @@
       <small>Source: <a href='https://github.com/nacnudus/tidyxl/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="tidyxl-1-0-3" class="section level1">
+    <div id="tidyxl-104" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-1-0-3" class="anchor"></a>tidyxl 1.0.3<small> 2018-06-21 </small>
+<a href="#tidyxl-104" class="anchor"></a>tidyxl 1.0.4<small> 2019-01-02 </small>
+</h1>
+<ul>
+<li>Compatibility: imports cell data validation rules from files created by Office 365 (<a href='https://github.com/nacnudus/tidyxl/issues/46'>#46</a>).</li>
+</ul>
+</div>
+    <div id="tidyxl-103" class="section level1">
+<h1 class="page-header">
+<a href="#tidyxl-103" class="anchor"></a>tidyxl 1.0.3<small> 2018-06-21 </small>
 </h1>
 <ul>
 <li>Noticeably faster for large files.</li>
 <li>Omission of blank cells with <code>include_blank_cells = FALSE</code> had a bug that returned blank cells as an empty row in the <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code> data frame.</li>
 </ul>
 </div>
-    <div id="tidyxl-1-0-2" class="section level1">
+    <div id="tidyxl-102" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-1-0-2" class="anchor"></a>tidyxl 1.0.2<small> Unreleased </small>
+<a href="#tidyxl-102" class="anchor"></a>tidyxl 1.0.2<small> Unreleased </small>
 </h1>
 <ul>
 <li>Correctly constructs formulas where references are preceded by operators, e.g. <code>-F10</code> (<a href='https://github.com/nacnudus/tidyxl/issues/26'>#26</a> <a href='http://github.com/cablegui'>@cablegui</a>).</li>
@@ -146,18 +154,18 @@
 <li>Doesn’t crash reading files with certain colour themes (<a href='https://github.com/nacnudus/tidyxl/issues/34'>#34</a> <a href='http://github.com/dan'>@dan</a>-fahey).</li>
 </ul>
 </div>
-    <div id="tidyxl-1-0-1" class="section level1">
+    <div id="tidyxl-101" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-1-0-1" class="anchor"></a>tidyxl 1.0.1<small> 2018-03-26 </small>
+<a href="#tidyxl-101" class="anchor"></a>tidyxl 1.0.1<small> 2018-03-26 </small>
 </h1>
 <ul>
-<li>Filetype checking is based on the <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">file signature</a> or “magic number”, rather than the filename extension. A new function <code><a href="../reference/maybe_xlsx.html">maybe_xlsx()</a></code> is provided for checking whether a file might be in the xlsx format. It is impossible to be sure from the magic number alone, because the magic numbers are either common to all zip files, or common to other Microsoft Office files (e.g. .doc, .ppt).</li>
+<li>Filetype checking is based on the <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">file signature</a> or “magic number”, rather than the filename extension. A new function <code><a href="../reference/maybe_xlsx.html">maybe_xlsx()</a></code> is provided for checking whether a file might be in the xlsx format. It is impossible to be sure from the magic number alone, because the magic numbers are either common to all zip files, or common to other Microsoft Office files (e.g. .doc, .ppt).</li>
 <li>Fixed a CRAN warning.</li>
 </ul>
 </div>
-    <div id="tidyxl-1-0-0" class="section level1">
+    <div id="tidyxl-100" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-1-0-0" class="anchor"></a>tidyxl 1.0.0<small> 2017-11-25 </small>
+<a href="#tidyxl-100" class="anchor"></a>tidyxl 1.0.0<small> 2017-11-25 </small>
 </h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
@@ -198,14 +206,14 @@
 <li>The order of columns has been changed so that the more useful columns are visible in narrow consoles.</li>
 </ul>
 </li>
-<li>in <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> and <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code>, theme colours are given by name rather than by number, e.g. <code>"accent6"</code> instead of <code>4</code>.</li>
+<li>in <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> and <code><a href="../reference/tidy_xlsx.html">tidy_xlsx()</a></code>, theme colours are given by name rather than by number, e.g. <code>"accent6"</code> instead of <code>4</code>.</li>
 </ul>
 </div>
 <div id="minor-fixes-and-improvements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#minor-fixes-and-improvements" class="anchor"></a>Minor fixes and improvements</h2>
 <ul>
-<li>Certain unusual custom number formats that specify colours (e.g. <code>"[Cyan]0%"</code>) are no longer mis-detect as dates (<a href='https://github.com/nacnudus/tidyxl/issues/21'>#21</a>). <code><a href="../reference/is_date_format.html">is_date_format()</a></code> tests whether a number format is a date format.</li>
+<li>Certain unusual custom number formats that specify colours (e.g. <code>"[Cyan]0%"</code>) are no longer mis-detect as dates (<a href='https://github.com/nacnudus/tidyxl/issues/21'>#21</a>). <code><a href="../reference/is_date_format.html">is_date_format()</a></code> tests whether a number format is a date format.</li>
 <li>
 <code><a href="../reference/xlsx_formats.html">xlsx_formats()</a></code> is now thoroughly tested, and several relatively minor bugs fixed. For example, <code>xlsx_formats(path)$local$fill$patternFill$patternType</code> consistently returns <code>NA</code> and never <code>"none"</code> when a pattern fill has not been set, and escape-backslashes are consistently omitted from numFmts.</li>
 </ul>
@@ -216,9 +224,9 @@
 <p><code><a href="../reference/xlex.html">xlex()</a></code>, <code><a href="../reference/is_range.html">is_range()</a></code> and the handling of relative references in shared formulas requires a dependency on the <a href="https://cran.r-project.org/package=piton">piton</a> package, which wraps the <a href="https://github.com/taocpp/PEGTL">PEGTL</a> C++ parser generator.</p>
 </div>
 </div>
-    <div id="tidyxl-0-2-3" class="section level1">
+    <div id="tidyxl-023" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-0-2-3" class="anchor"></a>tidyxl 0.2.3<small> 2017-07-08 </small>
+<a href="#tidyxl-023" class="anchor"></a>tidyxl 0.2.3<small> 2017-07-08 </small>
 </h1>
 <ul>
 <li>Imports dates on or before 1900-02-28 dates correctly, and only warns on the impossible date 1900-02-29, returning NA (following <a href="https://github.com/tidyverse/readxl/commit/c9a54ae9ce0394808f6d22e8ef1a7a647b2d92bb">readxl</a>).</li>
@@ -229,9 +237,9 @@
 <li>Includes the sheet and cell address in warnings of impossible datetimes from 1900-02-29.</li>
 </ul>
 </div>
-    <div id="tidyxl-0-2-1-9000" class="section level1">
+    <div id="tidyxl-0219000" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-0-2-1-9000" class="anchor"></a>tidyxl 0.2.1.9000<small> Unreleased </small>
+<a href="#tidyxl-0219000" class="anchor"></a>tidyxl 0.2.1.9000<small> Unreleased </small>
 </h1>
 <ul>
 <li>Checks the value of the <code>date1904</code> attribute for <code>"false"</code> or <code>"1"</code> to support files created by the <code>openxlsx</code> package (<a href='https://github.com/nacnudus/tidyxl/issues/8'>#8</a>).</li>
@@ -243,9 +251,9 @@
 <li>Fixed the order of worksheets (<a href='https://github.com/nacnudus/tidyxl/issues/15'>#15</a>)</li>
 </ul>
 </div>
-    <div id="tidyxl-0-2-1" class="section level1">
+    <div id="tidyxl-021" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-0-2-1" class="anchor"></a>tidyxl 0.2.1<small> 2017-01-29 </small>
+<a href="#tidyxl-021" class="anchor"></a>tidyxl 0.2.1<small> 2017-01-29 </small>
 </h1>
 <ul>
 <li>Fixed a major bug: dates were parsed incorrectly because the offsets for the 1900 and 1904 systems were the wrong way around.</li>
@@ -257,27 +265,27 @@
 <li>Removed lots of redundant code.</li>
 </ul>
 </div>
-    <div id="tidyxl-0-2-0" class="section level1">
+    <div id="tidyxl-020" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-0-2-0" class="anchor"></a>tidyxl 0.2.0<small> Unreleased </small>
+<a href="#tidyxl-020" class="anchor"></a>tidyxl 0.2.0<small> Unreleased </small>
 </h1>
 <ul>
 <li>Breaking change: Look up style formats by style name (e.g. <code>"Normal"</code>) instead of by index integer. All the vectors under <code>x$formats$style</code> are named according to the style names. <code>x$data$sheet$style_format_id</code> has been renamed to <code>x$data$sheet$style_format</code> and its type changed from integer (index into style formats) to character (still an index, but looking up the named vectors by name). There are examples in the README and vignette.</li>
 <li>Simplified some variable names in the C++ code.</li>
 </ul>
 </div>
-    <div id="tidyxl-0-1-1" class="section level1">
+    <div id="tidyxl-011" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-0-1-1" class="anchor"></a>tidyxl 0.1.1<small> Unreleased </small>
+<a href="#tidyxl-011" class="anchor"></a>tidyxl 0.1.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>Fixed many compilation errors on Travis/AppVeyor/r-hub</li>
 <li>Many small non-breaking changes</li>
 </ul>
 </div>
-    <div id="tidyxl-0-1-0" class="section level1">
+    <div id="tidyxl-010" class="section level1">
 <h1 class="page-header">
-<a href="#tidyxl-0-1-0" class="anchor"></a>tidyxl 0.1.0<small> Unreleased </small>
+<a href="#tidyxl-010" class="anchor"></a>tidyxl 0.1.0<small> Unreleased </small>
 </h1>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
@@ -289,16 +297,17 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#tidyxl-1-0-3">1.0.3</a></li>
-        <li><a href="#tidyxl-1-0-2">1.0.2</a></li>
-        <li><a href="#tidyxl-1-0-1">1.0.1</a></li>
-        <li><a href="#tidyxl-1-0-0">1.0.0</a></li>
-        <li><a href="#tidyxl-0-2-3">0.2.3</a></li>
-        <li><a href="#tidyxl-0-2-1-9000">0.2.1.9000</a></li>
-        <li><a href="#tidyxl-0-2-1">0.2.1</a></li>
-        <li><a href="#tidyxl-0-2-0">0.2.0</a></li>
-        <li><a href="#tidyxl-0-1-1">0.1.1</a></li>
-        <li><a href="#tidyxl-0-1-0">0.1.0</a></li>
+        <li><a href="#tidyxl-104">1.0.4</a></li>
+        <li><a href="#tidyxl-103">1.0.3</a></li>
+        <li><a href="#tidyxl-102">1.0.2</a></li>
+        <li><a href="#tidyxl-101">1.0.1</a></li>
+        <li><a href="#tidyxl-100">1.0.0</a></li>
+        <li><a href="#tidyxl-023">0.2.3</a></li>
+        <li><a href="#tidyxl-0219000">0.2.1.9000</a></li>
+        <li><a href="#tidyxl-021">0.2.1</a></li>
+        <li><a href="#tidyxl-020">0.2.0</a></li>
+        <li><a href="#tidyxl-011">0.1.1</a></li>
+        <li><a href="#tidyxl-010">0.1.0</a></li>
       </ul>
     </div>
   </div>
