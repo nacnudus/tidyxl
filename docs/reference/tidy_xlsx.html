@@ -245,7 +245,10 @@ alpha channel in the first two characters.  The 'index' and the 'theme'
 name are still provided.  To filter by an RGB string, you could  look up
 the RGB values in a spreadsheet program (e.g. Excel, LibreOffice,
 Gnumeric), and use the <code><a href='http://www.rdocumentation.org/packages/grDevices/topics/rgb'>grDevices::rgb()</a></code> function to convert these to a
-hexadecimal string.
+hexadecimal string.  Put the alpha value in first, e.g.<pre>A &lt;- 1; R &lt;- 0.5; G &lt;- 0; B &lt;- 0
+rgb(A, R, G, B)
+# [1] "#FF800000"
+</pre>
 
 Strings can be formatted within a cell, so that a single cell can contain
 substrings with different formatting.  This in-cell formatting is available

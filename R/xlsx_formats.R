@@ -39,6 +39,12 @@
 #' Gnumeric), and use the [grDevices::rgb()] function to convert these to a
 #' hexadecimal string.
 #'
+#'   ```
+#'   A <- 1; R <- 0.5; G <- 0; B <- 0
+#'   rgb(A, R, G, B)
+#'   # [1] "#FF800000"
+#'   ```
+#'
 #' @export
 #' @examples
 #' examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
