@@ -1,5 +1,7 @@
 # tidyxl 1.0.5
 
+* Fix tests for `xlex()` (#57).
+
 # tidyxl 1.0.4
 
 * Compatibility: imports cell data validation rules from files created by Office
