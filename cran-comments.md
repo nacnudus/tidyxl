@@ -1,30 +1,29 @@
 ## Test environments
 
 ### Local
-* Arch Linux 4.19.8-arch1-1-ARCH     R-release 3.5.1
+* Arch Linux 4.19.8-arch1-1-ARCH     R-release 3.6.2
 
 ### Win-builder
-* Windows Server 2008 (64-bit)       R-devel   2018-12-28 r75917
+* Windows Server 2008 (64-bit)       R-devel   2020-03-11 r77925
 
 ### Travis
-* Ubuntu Linux 14.04.5 LTS x64       R-devel   2018-12-30 r75926
-* Ubuntu Linux 14.04.5 LTS x64       R-release 3.5.0
-* Ubuntu Linux 14.04.5 LTS x64       R-oldrel  3.4.4
+* Ubuntu Linux 16.04.6 LTS x64       R-devel   2020-03-13 r77948
+* Ubuntu Linux 16.04.6 LTS x64       R-release 3.6.2
+* Ubuntu Linux 16.04.6 LTS x64       R-oldrel  3.5.3
 
 ### AppVeyor
-* Windows Server 2012 R2 (x64) x64   R-release 3.5.2
-* Windows Server 2012 R2 (x64) i386  R-stable  3.5.2
-* Windows Server 2012 R2 (x64) i386  R-patched 2018-12-29 r75924
-* Windows Server 2012 R2 (x64) i386  R-oldrel  3.4.4
+* Windows Server 2012 R2 (x64) x64   R-release 3.6.3
+* Windows Server 2012 R2 (x64) i386  R-stable  3.6.3
+* Windows Server 2012 R2 (x64) i386  R-patched 2020-03-11 r78011
+* Windows Server 2012 R2 (x64) i386  R-oldrel  3.5.3
 
 ### Rhub
-* Ubuntu Linux 16.04 LTS GCC         R-release 3.4.4
-* Fedora Linux, clang, gfortran      R-devel   2018-12-22 r75884
-* Windows Server 2008 R2 SP1         R-devel   2018-12-26 r75909
+* Ubuntu Linux 16.04 LTS GCC         R-release 3.6.1
+* Windows Server 2008 R2 SP1         R-devel   2020-03-08 r77917
 * Debian Linux, GCC ASAN/UBSAN       R-devel   2018-06-20 r74924
 
 ## R CMD check results
-0 errors | 1 warnings | 2 notes
+0 errors | 0 warnings | 2 notes
 
 > * checking compiled code ... WARNING
 > File ‘tidyxl/libs/tidyxl.so’:
@@ -34,17 +33,17 @@
 This is a false positive. There is no `abort`.  This warning only appears on
 Fedora Linux with R-devel, clang and gfortran.
 
-> Possibly mis-spelled words in DESCRIPTION:
->   Tokenizes (13:5)
+> * checking compilation flags used ... NOTE
+>   Compilation used the following non-portable flag(s):
+>     ‘-march=x86-64’
 
-Tokenizes is not a mis-spelled word.
+I believe this is a local issue on Arch Linux 4.19.8-arch1-1-ARCH R-release
+3.6.2
 
-> * checking installed package size ... NOTE
->   installed size is 11.8Mb
->   sub-directories of 1Mb or more:
->     libs  10.8Mb
+> Found the following (possibly) invalid URLs:
+>   URL: https://duncan-garmonsway.shinyapps.io/xlex/
 
-The `libs` directory is compiled code.
+From winbuilder. The URL is valid.
 
 ## Downstream dependencies
 
