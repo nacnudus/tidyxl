@@ -43,7 +43,7 @@
 #' * `paren_open` An open parenthesis `(` indicating an increase in the level
 #'   of nesting, but not directly enclosing function arguments.
 #' * `paren_close` As `open`, but reducing the level of nesting.
-#' * `open_array` An open curly brace '\\{' indicating the start of an array
+#' * `open_array` An open curly brace '\{' indicating the start of an array
 #'   of constants, and an increase in the level of nesting.
 #' * `close_array` As `open_array`, but ending the array of constants
 #' * `fun_open` An open parenthesis `(` immediately after a function name,
