@@ -14,12 +14,12 @@ sheets), an integer vector (the positions of the sheets), or NA (default, all
 sheets).}
 }
 \value{
-A list of the data within each sheet (\code{$data}), and the formatting applied to
-each cell (\code{$formats}).
+A list of the data within each sheet (\verb{$data}), and the formatting applied to
+each cell (\verb{$formats}).
 
 Each sheet's data is returned as a data frames, one per sheet, by the sheet
 name.  For example, the data in a sheet named 'My Worksheet' is in
-x$data$\code{My Worksheet}.  Each data frame has the following
+x$data$\verb{My Worksheet}.  Each data frame has the following
 columns:
 \itemize{
 \item \code{address} The cell address in A1 notation.
@@ -68,7 +68,7 @@ the other cells in a group.  Unlike shared formulas, no changes to
 addresses in array formulas are necessary.
 
 Formulas that refer to other workbooks currently do not name the workbooks
-directly, instead via indices such as \code{[1]}.  It is planned to
+directly, instead via indices such as \verb{[1]}.  It is planned to
 dereference these.
 }
 
@@ -146,7 +146,7 @@ against one cell in the group.  Unlike ordinary formulas, \code{tidy_xlsx()}
 does not propagate these to the other cells in the group.
 
 Formulas that refer to other workbooks currently do not name the workbooks
-directly, instead via indices such as \code{[1]}.  It is planned to
+directly, instead via indices such as \verb{[1]}.  It is planned to
 dereference these.
 }
 

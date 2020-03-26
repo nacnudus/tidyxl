@@ -35,23 +35,23 @@ has been tested on millions of formulas in the Enron corpus.
 \details{
 The different types of tokens are:
 \itemize{
-\item \code{ref} A cell reference/address e.g. \code{A1} or \code{$B2:C$14}.
-\item \code{sheet}A sheet name, e.g. \code{Sheet1!} or \code{'My Sheet'!}.  If the sheet is
+\item \code{ref} A cell reference/address e.g. \code{A1} or \verb{$B2:C$14}.
+\item \code{sheet}A sheet name, e.g. \verb{Sheet1!} or \verb{'My Sheet'!}.  If the sheet is
 from a different file, then the file is included in this token -- usually
-it has been normalized to the form \code{[0]}.
+it has been normalized to the form \verb{[0]}.
 \item \code{name} A named range, or more properly a named formula.
 \item \code{function} An Excel or user-defined function, e.g. \code{MAX} or
-\code{_xll.MY_CUSTOM_FUNCTION}.  A complete list of official Excel functions is
+\verb{_xll.MY_CUSTOM_FUNCTION}.  A complete list of official Excel functions is
 available in the vector \code{\link{excel_functions}}.
-\item \code{error} An error, e.g. \code{#N/A} or \code{#REF!}.
+\item \code{error} An error, e.g. \verb{#N/A} or \verb{#REF!}.
 \item \code{bool} \code{TRUE} or \code{FALSE} -- note that there are also functions \code{TRUE()} and
 \code{FALSE()}.
 \item \code{number} All forms of numbers, e.g. \code{1}, \code{1.1}, \code{-1}, \code{1.2E3}.
 \item \code{text} Strings inside double quotes, e.g. \code{"Hello, World!"}.
 \item \code{operator} The usual infix operators, \code{+}, \code{-}, \code{*}, \code{/}, \code{^}, \code{<}, \code{<=},
-\code{<>}, etc.  and also the range operator \code{:} when it is used with ranges
+\verb{<>}, etc.  and also the range operator \code{:} when it is used with ranges
 that aren't cell addresses, e.g. \code{INDEX(something):A1}. The union operator
-\code{,} is the same symbol that is used to separate function arguments and
+\verb{,} is the same symbol that is used to separate function arguments and
 array columns, so it is only tagged \code{operator} when it is inside
 parentheses that are not function parentheses or array curly braces (see
 the examples).
@@ -65,11 +65,11 @@ of constants, and an increase in the level of nesting.
 directly enclosing the function arguments.
 \item \code{fun_close} As \code{fun_open} but immediately after the function
 arguments.
-\item \code{separator} A comma \code{,} separating function arguments or array
-columns, or a semicolon \code{;} separating array rows.
+\item \code{separator} A comma \verb{,} separating function arguments or array
+columns, or a semicolon \verb{;} separating array rows.
 \item \code{DDE} A call to a Dynamic Data Exchange server, usually normalized to
-the form \code{[1]!'DDE_parameter=1'}, but the full form is
-\code{'ABCD'|'EFGH'!'IJKL'}.
+the form \verb{[1]!'DDE_parameter=1'}, but the full form is
+\verb{'ABCD'|'EFGH'!'IJKL'}.
 \item \code{space} Some old files haven't stripped formulas of meaningless
 spaces. They are returned as \code{space} tokens so that the original formula
 can always be reconstructed by concatenating all tokens.
@@ -145,8 +145,8 @@ xlex("LOG()")    # Another log function
 xlex("A1.2!A1")  # A sheet called 'A1.2'
 
 # Text is surrounded by double-quotes.
-xlex("\\"Some text\\"")
-xlex("\\"Some \\"\\"text\\"\\"\\"") # Double-quotes within text are escaped by
+xlex("\"Some text\"")
+xlex("\"Some \"\"text\"\"\"") # Double-quotes within text are escaped by
 
 # Numbers are signed where it makes sense, and can be scientific
 xlex("1")
@@ -214,7 +214,7 @@ print(xlex("1*(2+3)"), pretty = FALSE)
 # both tagged 'separator'.  Arrays contain only constants, which are
 # booleans, numbers, text, and errors.
 xlex("MAX({1,2;3,4})")
-xlex("=MAX({-1E-2,TRUE;#N/A,\\"Hello, World!\\"})")
+xlex("=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})")
 
 # Structured references are surrounded by square brackets.  Subexpressions
 # may also be surrounded by square brackets, but xlex() returns the whole

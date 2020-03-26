@@ -4,8 +4,12 @@
 \alias{xlsx_cells}
 \title{Import xlsx (Excel) cell contents into a tidy structure.}
 \usage{
-xlsx_cells(path, sheets = NA, check_filetype = TRUE,
-  include_blank_cells = TRUE)
+xlsx_cells(
+  path,
+  sheets = NA,
+  check_filetype = TRUE,
+  include_blank_cells = TRUE
+)
 }
 \arguments{
 \item{path}{Path to the xlsx file.}
@@ -57,7 +61,7 @@ Cell formatting is returned in \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_for
 or scopes of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides particular
 elements of the style, e.g. by making it bold.  Both types are returned, in
-the \code{$style} and \code{$local} sublists of \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}, with
+the \verb{$style} and \verb{$local} sublists of \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}, with
 identical structures.  To look up the local formatting of a given cell, take
 the cell's 'local_format_id' value (\code{my_cells$data$Sheet1[1, "local_format_id"]}), and use it as an index into the format structure.  E.g.
 to look up the font size, \code{my_formats$local$font$size[local_format_id]}.  To
@@ -101,7 +105,7 @@ the other cells in a group.  Unlike shared formulas, no changes to
 addresses in array formulas are necessary.
 
 Formulas that refer to other workbooks currently do not name the workbooks
-directly, instead via indices such as \code{[1]}.  It is planned to
+directly, instead via indices such as \verb{[1]}.  It is planned to
 dereference these.
 }
 
@@ -109,7 +113,7 @@ dereference these.
 Cell formatting is returned by \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}.  There are two
 types of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides the style.
-These are returned in the \code{$style} and \code{$local} sublists of
+These are returned in the \verb{$style} and \verb{$local} sublists of
 \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}, with identical structures.
 
 To look up the local formatting of a given cell, take the cell's

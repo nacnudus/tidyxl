@@ -3,7 +3,6 @@
 \docType{package}
 \name{tidyxl}
 \alias{tidyxl}
-\alias{tidyxl-package}
 \title{tidyxl: Import xlsx (Excel) spreadsheet data and formatting into tidy structures.}
 \description{
 Tidyxl imports data from spreadsheets without coercing it into a rectangle,

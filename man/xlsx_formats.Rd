@@ -14,8 +14,8 @@ xlsm) by looking at the file itself, rather than using the filename
 extension.}
 }
 \value{
-A nested list of vectors, beginning at the top level with \code{$style} and
-\code{$local}, then drilling down to the vectors that hold the definitions.  E.g.
+A nested list of vectors, beginning at the top level with \verb{$style} and
+\verb{$local}, then drilling down to the vectors that hold the definitions.  E.g.
 \code{my_formats$local$font$size}.
 }
 \description{
@@ -28,7 +28,7 @@ indexing the bottom-level vectors.  See 'Details' for examples.
 \details{
 There are two types of formatting: 'style' formatting, such as Excel's
 built-in styles 'normal', 'bad', etc., and 'local' formatting, which
-overrides the style.  These are returned in the \code{$style} and \code{$local}
+overrides the style.  These are returned in the \verb{$style} and \verb{$local}
 sublists of \code{xlsx_formats()}, with identical structures.
 
 To look up the local formatting of a given cell, take the cell's

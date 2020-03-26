@@ -4,7 +4,9 @@
 \name{excel_functions}
 \alias{excel_functions}
 \title{Names of all Excel functions}
-\format{A character vector of length 600.}
+\format{
+A character vector of length 600.
+}
 \source{
 Pages 26--27 of Microsoft's document "Excel (.xlsx) extensions to the
 office openxml spreadsheetml file format p.24"

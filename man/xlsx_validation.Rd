@@ -19,7 +19,7 @@ A data frame with the following columns.
 \item \code{sheet} The worksheet that a validation rule cell is from.
 \item \code{ref} Comma-delimited cell addresses to which the rules apply,
 e.g. \code{A106} or A115,A121:A122`.
-\item \code{type Data type of input, one of }whole\code{, }decimal\code{, }list\code{, }date\code{, }time\code{, }textLength\code{, }custom\code{, and }whole`.
+\item \verb{type Data type of input, one of }whole\verb{, }decimal\verb{, }list\verb{, }date\verb{, }time\verb{, }textLength\verb{, }custom\verb{, and }whole`.
 \item \code{operator} Unless \code{type} is \code{list} or \code{custom}, then \code{operator} is one of
 \code{between}, \code{notBetween}, \code{equal}, \code{notEqual}, \code{greaterThan}, \code{lessThan},
 \code{greaterThanOrEqual}, \code{lessthanOrEqual}.

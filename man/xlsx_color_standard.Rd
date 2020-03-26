@@ -5,11 +5,15 @@
 \alias{xlsx_color_standard}
 \alias{xlsx_colour_standard}
 \title{Names and RGB values of Excel standard colours}
-\format{A data frame with 10 rows and 2 variables:
+\format{
+A data frame with 10 rows and 2 variables:
 \itemize{
 \item \code{name} Name of the colour
 \item \code{rgb}  RGB value of the colour
-}}
+}
+
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 10 rows and 2 columns.
+}
 \usage{
 xlsx_color_standard
 
