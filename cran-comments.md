@@ -1,3 +1,9 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Fixed broken URIs in the documentation.
+
 ## Test environments
 
 ### Local
