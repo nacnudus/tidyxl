@@ -384,7 +384,7 @@ See the [vignette](articles/smells.html) for more examples and details.
 
 ### Named ranges
 
-Names are imported with `xlex_names()`. AKA ‘named formulas’ and
+Names are imported with `xlsx_names()`. Also called ‘named formulas’ and
 ‘defined names’, these are usually used to name particular cells or
 ranges, making formulas that refer to them more readable. Ones that
 *are* ranges are identifed by the `is_range` column (using
