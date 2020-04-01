@@ -22,10 +22,11 @@ supports the xml-based file formats ‘.xlsx’ and ‘.xlsm’ via the embedded
 support the binary file formats ‘.xlsb’ or ‘.xls’.
 
 It also provides a function `xlex()` for tokenizing formulas. See the
-[vignette](articles/smells.html) for details. It is useful for detecting
-‘spreadsheet smells’ (poor practice such as embedding constants in
-formulas, or using deep levels of nesting), and for understanding the
-dependency structures within spreadsheets.
+[vignette](https://nacnudus.github.io/tidyxl/articles/smells.html) for
+details. It is useful for detecting ‘spreadsheet smells’ (poor practice
+such as embedding constants in formulas, or using deep levels of
+nesting), and for understanding the dependency structures within
+spreadsheets.
 
 ## Make cells tidy
 
@@ -380,7 +381,9 @@ x
 #> °-- )           fun_close
 ```
 
-See the [vignette](articles/smells.html) for more examples and details.
+See the
+[vignette](https://nacnudus.github.io/tidyxl/articles/smells.html) for
+more examples and details.
 
 ### Named ranges
 
@@ -410,7 +413,8 @@ xlsx_names(examples)
 Data validation rules are imported with `xlsx_validation()`. These rules
 control what values may be entered into a cell, and are often used to
 create a drop-down list in a cell. Read the
-[vignette](articles/data-validation-rules.html) for details.
+[vignette](https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html)
+for details.
 
 ``` r
 xlsx_validation(examples)
