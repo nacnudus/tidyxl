@@ -48,4 +48,4 @@ This is compiled C++ code.
 
 ## Downstream dependencies
 
-There is one downstream dependency, unpivotr, which passes.
+There are downstream dependencies, unpivotr and unheadr, which pass.
