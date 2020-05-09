@@ -1,5 +1,7 @@
 # tidyxl 1.0.6
 
+* Fix compiler warnings.
+
 # tidyxl 1.0.5
 
 * Fix tests for `xlex()` (#57).
