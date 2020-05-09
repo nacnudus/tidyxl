@@ -21,7 +21,7 @@ ref::ref(const std::string& text): text_(text) {
 
   if (*iter >= 'A' && *iter <= 'Z') { // If it's a column
     col1_ = 0;
-    for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+    for(; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
       col1_ = 26 * col1_ + (*iter - 'A' + 1); // Multiply existing col by 26 and add new col
     }
   }
@@ -32,7 +32,7 @@ ref::ref(const std::string& text): text_(text) {
 
   if (*iter >= '0' && *iter <= '9') { // If it's a row
     row1_ = 0;
-    for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+    for(; (*iter >= '0' && *iter <= '9'); ++iter) {
       row1_ = 10 * row1_ + (*iter - '0'); // Multiply existing row by 10 and add new row
     }
   }
@@ -47,7 +47,7 @@ ref::ref(const std::string& text): text_(text) {
 
     if (*iter >= 'A' && *iter <= 'Z') { // If it's a column
       col2_ = 0;
-      for(iter = iter; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
+      for(; (*iter >= 'A' && *iter <= 'Z'); ++iter) {
         col2_ = 26 * col2_ + (*iter - 'A' + 1); // Multiply existing col by 26 and add new col
       }
     }
@@ -58,7 +58,7 @@ ref::ref(const std::string& text): text_(text) {
 
     if (*iter >= '0' && *iter <= '9') { // If it's a row
       row2_ = 0;
-      for(iter = iter; (*iter >= '0' && *iter <= '9'); ++iter) {
+      for(; (*iter >= '0' && *iter <= '9'); ++iter) {
         row2_ = 10 * row2_ + (*iter - '0'); // Multiply existing row by 10 and add new row
       }
     }
