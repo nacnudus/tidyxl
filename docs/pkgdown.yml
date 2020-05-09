@@ -1,8 +1,9 @@
-pandoc: '2.5'
-pkgdown: 1.0.0
-pkgdown_sha: d43ca38c74827d1d6babc3a80d48cd3a8e8fad8c
+pandoc: 2.9.2.1
+pkgdown: 1.5.1
+pkgdown_sha: ~
 articles:
   data-validation-rules: data-validation-rules.html
   smells: smells.html
   tidyxl: tidyxl.html
+last_built: 2020-05-09T09:28Z
 
