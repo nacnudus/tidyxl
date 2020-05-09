@@ -1,3 +1,5 @@
+# tidyxl 1.0.6
+
 # tidyxl 1.0.5
 
 * Fix tests for `xlex()` (#57).
