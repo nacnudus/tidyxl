@@ -1,5 +1,8 @@
 # tidyxl (development version)
 
+* Update namespace in C++ code for compatibility with the latest version of
+    PEGTL, wrapped in the {piton} package.
+
 # tidyxl 1.0.6
 
 * Fix compiler warnings.

@@ -6,7 +6,7 @@
 #include <pegtl.hpp>
 #include "ref.h"
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+using namespace tao::TAO_PEGTL_NAMESPACE;
 
 namespace xlref
 {

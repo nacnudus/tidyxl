@@ -7,7 +7,7 @@
 #include <Rcpp.h>
 #include "paren_type.h"
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+using namespace tao::TAO_PEGTL_NAMESPACE;
 
 namespace xltoken
 {
