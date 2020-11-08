@@ -28,7 +28,7 @@ automatically by the spreadsheet application.
 \item \code{is_range} Whether or not the \code{formula} is a range of cells.  This is handy
 for joining to the set of cells referred to by a name.  In this context,
 commas between cell addresses are always regarded as union operators --
-this differs from \code{\link[tidyxl:xlex]{tidyxl::xlex()}}, see that help file for details.
+this differs from \code{\link[=xlex]{xlex()}}, see that help file for details.
 }
 }
 \description{
@@ -37,7 +37,7 @@ ranges) in xlsx (Excel) files.
 
 Most names refer to ranges of cells, but they can also be defined as
 formulas.  \code{xlsx_names()} tells you whether or not they are a range, using
-\code{\link[tidyxl:is_range]{tidyxl::is_range()}} to work this out.
+\code{\link[=is_range]{is_range()}} to work this out.
 
 Names are scoped either globally (used only once in the file), or locally to
 each sheet (can be reused with different definitions in different sheets).

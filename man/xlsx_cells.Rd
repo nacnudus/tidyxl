@@ -57,11 +57,11 @@ formula or shared formula applies (see 'Details').
 \code{x$formats$local} (see 'Details').
 }
 
-Cell formatting is returned in \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}.  There are two types
+Cell formatting is returned in \code{\link[=xlsx_formats]{xlsx_formats()}}.  There are two types
 or scopes of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides particular
 elements of the style, e.g. by making it bold.  Both types are returned, in
-the \verb{$style} and \verb{$local} sublists of \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}, with
+the \verb{$style} and \verb{$local} sublists of \code{\link[=xlsx_formats]{xlsx_formats()}}, with
 identical structures.  To look up the local formatting of a given cell, take
 the cell's 'local_format_id' value (\code{my_cells$data$Sheet1[1, "local_format_id"]}), and use it as an index into the format structure.  E.g.
 to look up the font size, \code{my_formats$local$font$size[local_format_id]}.  To
@@ -71,7 +71,7 @@ see all available formats, type \code{str(my_formats$local)}.
 \code{xlsx_cells()} imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
-cell's formatting in the return value of \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}.
+cell's formatting in the return value of \code{\link[=xlsx_formats]{xlsx_formats()}}.
 }
 \details{
 A cell has two 'values': its content, and sometimes also a formula.  It also
@@ -110,11 +110,11 @@ dereference these.
 }
 
 \subsection{Formatting}{
-Cell formatting is returned by \code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}.  There are two
+Cell formatting is returned by \code{\link[=xlsx_formats]{xlsx_formats()}}.  There are two
 types of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides the style.
 These are returned in the \verb{$style} and \verb{$local} sublists of
-\code{\link[tidyxl:xlsx_formats]{tidyxl::xlsx_formats()}}, with identical structures.
+\code{\link[=xlsx_formats]{xlsx_formats()}}, with identical structures.
 
 To look up the local formatting of a given cell, take the cell's
 \code{local_format_id} value (\code{my_cells$Sheet1[1, "local_format_id"]}), and use
