@@ -84,7 +84,7 @@ number&quot;, rather than the filename extension." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ based on the <a href='https://en.wikipedia.org/wiki/List_of_file_signatures'>fil
 number", rather than the filename extension.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>maybe_xlsx</span>(<span class='no'>path</span>)</pre>
+    <pre class="usage"><span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>path</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,14 +177,20 @@ files such as .doc and .ppt.</p>
 package.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples_xlsx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='no'>examples_xlsm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xlsm"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='no'>examples_xltx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xltx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='no'>examples_xltm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xltm"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='no'>examples_xlsb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xlsb"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='no'>examples_xls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xls"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+    <pre class="examples"><div class='input'><span class='va'>examples_xlsx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xlsx"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='va'>examples_xlsm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xlsm"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='va'>examples_xltx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xltx"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='va'>examples_xltm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xltm"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='va'>examples_xlsb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xlsb"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='va'>examples_xls</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xls"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
 
-<span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xlsx</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xlsm</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xltx</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xltm</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xlsb</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span>(<span class='no'>examples_xls</span>)</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+<span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>examples_xlsx</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>examples_xlsm</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>examples_xltx</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>examples_xltm</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>examples_xlsb</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>maybe_xlsx</span><span class='op'>(</span><span class='va'>examples_xls</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -200,7 +206,7 @@ package.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

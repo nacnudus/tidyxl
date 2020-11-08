@@ -20,7 +20,7 @@ xlsxcell::xlsxcell(
     cacheFormula(cell, sheet, book, i);
 }
 
-// Based on hadley/readxl
+// Based on tidyverse/readxl
 // Get the A1-style address, and parse it for the row and column numbers.
 // Simple parser: does not check that order of numbers and letters is correct
 // row_ and column_ are one-based

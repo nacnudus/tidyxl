@@ -48,7 +48,7 @@ xlsxbook::xlsxbook(
   cacheInformation();
 }
 
-// Based on hadley/readxl
+// Based on tidyverse/readxl
 void xlsxbook::cacheStrings() {
   if (!zip_has_file(path_, "xl/sharedStrings.xml"))
     return;

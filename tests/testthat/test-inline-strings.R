@@ -1,4 +1,4 @@
-# Tests adapted from hadley/readxl
+# Tests adapted from tidyverse/readxl
 
 context("Inline strings")
 

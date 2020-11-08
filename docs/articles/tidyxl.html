@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -91,13 +91,14 @@
 
       
 
-      </header><script src="tidyxl_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
+      </header><script src="tidyxl_files/header-attrs-2.5/header-attrs.js"></script><link href="tidyxl_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="tidyxl_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tidyxl</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2020-05-09</h4>
+            <h4 class="date">2020-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/master/vignettes/tidyxl.Rmd"><code>vignettes/tidyxl.Rmd</code></a></small>
       <div class="hidden name"><code>tidyxl.Rmd</code></div>
@@ -127,13 +128,15 @@ pre code, pre, code {
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"nacnudus/tidyxl"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"nacnudus/tidyxl"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
 <p>The package includes a spreadsheet, ‘titanic.xlsx’, which contains the following pivot table:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/ftable.html">ftable</a></span>(<span class="no">Titanic</span>, <span class="kw">row.vars</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/ftable.html">ftable</a></span><span class="op">(</span><span class="va">Titanic</span>, row.vars <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt;              Age      Child     Adult    </span>
 <span class="co">#&gt;              Survived    No Yes    No Yes</span>
 <span class="co">#&gt; Class Sex                                </span>
@@ -144,10 +147,11 @@ pre code, pre, code {
 <span class="co">#&gt; 3rd   Male               35  13   387  75</span>
 <span class="co">#&gt;       Female             17  14    89  76</span>
 <span class="co">#&gt; Crew  Male                0   0   670 192</span>
-<span class="co">#&gt;       Female              0   0     3  20</span></pre></body></html></div>
+<span class="co">#&gt;       Female              0   0     3  20</span></code></pre></div>
 <p>The multi-row column headers make this difficult to import. A popular package for importing spreadsheets coerces the pivot table into a dataframe. It treats the second header row as though it were observations.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">titanic</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/titanic.xlsx"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"tidyxl"</span>)
-<span class="kw pkg">readxl</span><span class="kw ns">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span>(<span class="no">titanic</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">titanic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/titanic.xlsx"</span>, package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>
+<span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span>
 <span class="co">#&gt; New names:</span>
 <span class="co">#&gt; * `` -&gt; ...1</span>
 <span class="co">#&gt; * `` -&gt; ...2</span>
@@ -165,11 +169,12 @@ pre code, pre, code {
 <span class="co">#&gt;  7 3rd   Male   &lt;NA&gt;     35    13    387   75   </span>
 <span class="co">#&gt;  8 &lt;NA&gt;  Female &lt;NA&gt;     17    14    89    76   </span>
 <span class="co">#&gt;  9 Crew  Male   &lt;NA&gt;     0     0     670   192  </span>
-<span class="co">#&gt; 10 &lt;NA&gt;  Female &lt;NA&gt;     0     0     3     20</span></pre></body></html></div>
+<span class="co">#&gt; 10 &lt;NA&gt;  Female &lt;NA&gt;     0     0     3     20</span></code></pre></div>
 <p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> doesn’t coerce the pivot table into a data frame. Instead, it represents each cell in its own row, where it describes the cell’s address, value and other properties.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyxl</span>)
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(<span class="no">titanic</span>)
-<span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="no">x</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nacnudus/tidyxl">tidyxl</a></span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span>
+<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 60</span>
 <span class="co">#&gt; Columns: 21</span>
 <span class="co">#&gt; $ sheet               &lt;chr&gt; "Sheet1", "Sheet1", "Sheet1", "Sheet1", "Sheet1",…</span>
@@ -192,9 +197,10 @@ pre code, pre, code {
 <span class="co">#&gt; $ height              &lt;dbl&gt; 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 1…</span>
 <span class="co">#&gt; $ width               &lt;dbl&gt; 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8…</span>
 <span class="co">#&gt; $ style_format        &lt;chr&gt; "Normal", "Normal", "Normal", "Normal", "Normal",…</span>
-<span class="co">#&gt; $ local_format_id     &lt;int&gt; 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1, 1, 1…</span></pre></body></html></div>
+<span class="co">#&gt; $ local_format_id     &lt;int&gt; 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1, 1, 1…</span></code></pre></div>
 <p>In this structure, the cells can be found by filtering.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">x</span>[<span class="no">x</span>$<span class="no">data_type</span> <span class="kw">==</span> <span class="st">"character"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"character"</span>)]
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">data_type</span> <span class="op">==</span> <span class="st">"character"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 22 x 2</span>
 <span class="co">#&gt;    address character</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;    </span>
@@ -209,7 +215,7 @@ pre code, pre, code {
 <span class="co">#&gt;  9 A3      Class    </span>
 <span class="co">#&gt; 10 B3      Sex      </span>
 <span class="co">#&gt; # … with 12 more rows</span>
-<span class="no">x</span>[<span class="no">x</span>$<span class="no">row</span> <span class="kw">==</span> <span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"character"</span>, <span class="st">"numeric"</span>)]
+<span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">row</span> <span class="op">==</span> <span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span>, <span class="st">"numeric"</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
 <span class="co">#&gt;   address character numeric</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;</span>
@@ -218,7 +224,7 @@ pre code, pre, code {
 <span class="co">#&gt; 3 D4      &lt;NA&gt;            0</span>
 <span class="co">#&gt; 4 E4      &lt;NA&gt;            5</span>
 <span class="co">#&gt; 5 F4      &lt;NA&gt;          118</span>
-<span class="co">#&gt; 6 G4      &lt;NA&gt;           57</span></pre></body></html></div>
+<span class="co">#&gt; 6 G4      &lt;NA&gt;           57</span></code></pre></div>
 <p>Specific sheets can be requested using <code><a href="../reference/xlsx_cells.html">xlsx_cells(file, sheet)</a></code>, and the names of all sheets in a file are given by <code><a href="../reference/xlsx_sheet_names.html">xlsx_sheet_names()</a></code>.</p>
 <div id="formatting" class="section level3">
 <h3 class="hasAnchor">
@@ -228,12 +234,13 @@ pre code, pre, code {
 <p>Formatting is available by using the columns <code>local_format_id</code> and <code>style_format</code> as indexes into a separate list-of-lists structure. ‘Local’ formatting is the most common kind, applied to individual cells. ‘Style’ formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.</p>
 <p><img src="styles-screenshot.png"></p>
 <p>Formatting can be looked up as follows.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># Bold</span>
-<span class="no">formats</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/xlsx_formats.html">xlsx_formats</a></span>(<span class="no">titanic</span>)
-<span class="no">formats</span>$<span class="no">local</span>$<span class="no">font</span>$<span class="no">bold</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Bold</span>
+<span class="va">formats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlsx_formats.html">xlsx_formats</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span>
+<span class="va">formats</span><span class="op">$</span><span class="va">local</span><span class="op">$</span><span class="va">font</span><span class="op">$</span><span class="va">bold</span>
 <span class="co">#&gt; [1] FALSE  TRUE FALSE FALSE</span>
-<span class="no">x</span>[<span class="no">x</span>$<span class="no">local_format_id</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="no">formats</span>$<span class="no">local</span>$<span class="no">font</span>$<span class="no">bold</span>),
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"character"</span>)]
+<span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">local_format_id</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">formats</span><span class="op">$</span><span class="va">local</span><span class="op">$</span><span class="va">font</span><span class="op">$</span><span class="va">bold</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   address character</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    </span>
@@ -243,11 +250,11 @@ pre code, pre, code {
 <span class="co">#&gt; 4 B3      Sex</span>
 
 <span class="co"># Yellow fill</span>
-<span class="no">formats</span>$<span class="no">local</span>$<span class="no">fill</span>$<span class="no">patternFill</span>$<span class="no">fgColor</span>$<span class="no">rgb</span>
+<span class="va">formats</span><span class="op">$</span><span class="va">local</span><span class="op">$</span><span class="va">fill</span><span class="op">$</span><span class="va">patternFill</span><span class="op">$</span><span class="va">fgColor</span><span class="op">$</span><span class="va">rgb</span>
 <span class="co">#&gt; [1] NA         NA         NA         "FFFFFF00"</span>
-<span class="no">x</span>[<span class="no">x</span>$<span class="no">local_format_id</span> <span class="kw">%in%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="no">formats</span>$<span class="no">local</span>$<span class="no">fill</span>$<span class="no">patternFill</span>$<span class="no">fgColor</span>$<span class="no">rgb</span> <span class="kw">==</span> <span class="st">"FFFFFF00"</span>),
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"numeric"</span>)]
+<span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">local_format_id</span> <span class="op">%in%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">formats</span><span class="op">$</span><span class="va">local</span><span class="op">$</span><span class="va">fill</span><span class="op">$</span><span class="va">patternFill</span><span class="op">$</span><span class="va">fgColor</span><span class="op">$</span><span class="va">rgb</span> <span class="op">==</span> <span class="st">"FFFFFF00"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"numeric"</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;   address numeric</span>
 <span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
@@ -255,10 +262,10 @@ pre code, pre, code {
 <span class="co">#&gt; 2 G11          20</span>
 
 <span class="co"># Styles by name</span>
-<span class="no">formats</span>$<span class="no">style</span>$<span class="no">font</span>$<span class="no">name</span>[<span class="st">"Normal"</span>]
+<span class="va">formats</span><span class="op">$</span><span class="va">style</span><span class="op">$</span><span class="va">font</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="st">"Normal"</span><span class="op">]</span>
 <span class="co">#&gt;    Normal </span>
 <span class="co">#&gt; "Calibri"</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">x</span>[<span class="no">x</span>$<span class="no">style_format</span> <span class="kw">==</span> <span class="st">"Normal"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"character"</span>)])
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">style_format</span> <span class="op">==</span> <span class="st">"Normal"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;   address character</span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    </span>
@@ -271,8 +278,8 @@ pre code, pre, code {
 
 <span class="co"># In-cell formatting is available in the `character_formatted` column as a data</span>
 <span class="co"># frame, one row per substring.</span>
-<span class="no">examples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"/extdata/examples.xlsx"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"tidyxl"</span>)
-<span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(<span class="no">examples</span>)$<span class="no">character_formatted</span>[<span class="fl">77</span>]
+<span class="va">examples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"/extdata/examples.xlsx"</span>, package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">$</span><span class="va">character_formatted</span><span class="op">[</span><span class="fl">77</span><span class="op">]</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; # A tibble: 16 x 14</span>
 <span class="co">#&gt;    character bold  italic underline strike vertAlign  size color_rgb color_theme</span>
@@ -294,28 +301,30 @@ pre code, pre, code {
 <span class="co">#&gt; 15 "arial"   FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA</span>
 <span class="co">#&gt; 16 "UTF8Sté… FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA</span>
 <span class="co">#&gt; # … with 5 more variables: color_indexed &lt;int&gt;, color_tint &lt;dbl&gt;, font &lt;chr&gt;,</span>
-<span class="co">#&gt; #   family &lt;int&gt;, scheme &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   family &lt;int&gt;, scheme &lt;chr&gt;</span></code></pre></div>
 <p>To see all the available kinds of formats, use <code><a href="https://rdrr.io/r/utils/str.html">str(formats)</a></code>.</p>
 </div>
 <div id="comments" class="section level3">
 <h3 class="hasAnchor">
 <a href="#comments" class="anchor"></a>Comments</h3>
 <p>Comments are available alongside cell values.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">x</span>[!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">x</span>$<span class="no">comment</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"comment"</span>)]
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">comment</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"comment"</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;   address comment                                                    </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;                                                      </span>
-<span class="co">#&gt; 1 G11     All women in the crew worked in the victualling department.</span></pre></body></html></div>
+<span class="co">#&gt; 1 G11     All women in the crew worked in the victualling department.</span></code></pre></div>
 </div>
 <div id="formulas" class="section level3">
 <h3 class="hasAnchor">
 <a href="#formulas" class="anchor"></a>Formulas</h3>
 <p>Formulas are available, but with a few quirks.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">120</span>)
-<span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(<span class="no">examples</span>, <span class="st">"Sheet1"</span>)
-<span class="no">y</span>[!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">y</span>$<span class="no">formula</span>),
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"address"</span>, <span class="st">"formula"</span>, <span class="st">"is_array"</span>, <span class="st">"formula_ref"</span>, <span class="st">"formula_group"</span>,
-    <span class="st">"error"</span>, <span class="st">"logical"</span>, <span class="st">"numeric"</span>, <span class="st">"date"</span>, <span class="st">"character"</span>)]
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">120</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">examples</span>, <span class="st">"Sheet1"</span><span class="op">)</span>
+<span class="va">y</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">formula</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"formula"</span>, <span class="st">"is_array"</span>, <span class="st">"formula_ref"</span>, <span class="st">"formula_group"</span>,
+    <span class="st">"error"</span>, <span class="st">"logical"</span>, <span class="st">"numeric"</span>, <span class="st">"date"</span>, <span class="st">"character"</span><span class="op">)</span><span class="op">]</span>
 <span class="co">#&gt; # A tibble: 32 x 10</span>
 <span class="co">#&gt;    address formula           is_array formula_ref formula_group error   logical numeric date                character   </span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;             &lt;lgl&gt;    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;   &lt;lgl&gt;     &lt;dbl&gt; &lt;dttm&gt;              &lt;chr&gt;       </span>
@@ -329,7 +338,7 @@ pre code, pre, code {
 <span class="co">#&gt;  8 A20     "$A$18+1"         FALSE    A20:A21                 0 &lt;NA&gt;    NA            2 NA                  &lt;NA&gt;        </span>
 <span class="co">#&gt;  9 B20     "A19+2"           FALSE    B20:B21                 1 &lt;NA&gt;    NA            4 NA                  &lt;NA&gt;        </span>
 <span class="co">#&gt; 10 A21     "$A$18+1"         FALSE    &lt;NA&gt;                    0 &lt;NA&gt;    NA            2 NA                  &lt;NA&gt;        </span>
-<span class="co">#&gt; # … with 22 more rows</span></pre></body></html></div>
+<span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
 <p>The top five cells show that the results of formulas are available as usual in the columns <code>error</code>, <code>logical</code>, <code>numeric</code>, <code>date</code>, and <code>character</code>.</p>
 <div id="shared-formulas" class="section level4">
 <h4 class="hasAnchor">
@@ -354,8 +363,9 @@ pre code, pre, code {
 <a href="#tokenizing-formulas" class="anchor"></a>Tokenizing formulas</h4>
 <p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or install the more experimental <a href="https://nacnudus.github.io/lexl">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
 <p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/xlex.html">xlex</a></span>(<span class="st">"MIN(3,MAX(2,A1))"</span>)
-<span class="no">x</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="st">"MIN(3,MAX(2,A1))"</span><span class="op">)</span>
+<span class="va">x</span>
 <span class="co">#&gt; root            </span>
 <span class="co">#&gt; ¦-- MIN         function</span>
 <span class="co">#&gt; °-- (           fun_open</span>
@@ -367,7 +377,7 @@ pre code, pre, code {
 <span class="co">#&gt;         ¦-- ,   separator</span>
 <span class="co">#&gt;         °-- A1  ref</span>
 <span class="co">#&gt;     °-- )       fun_close</span>
-<span class="co">#&gt; °-- )           fun_close</span></pre></body></html></div>
+<span class="co">#&gt; °-- )           fun_close</span></code></pre></div>
 <p>See the <a href="https://nacnudus.github.io/tidyxl/articles/smells.html">vignette</a> for more examples and details.</p>
 </div>
 </div>
@@ -376,19 +386,21 @@ pre code, pre, code {
 <a href="#named-ranges" class="anchor"></a>Named ranges</h3>
 <p>Names are imported with <code><a href="../reference/xlsx_names.html">xlsx_names()</a></code>. Also called ‘named formulas’ and ‘defined names’, these are usually used to name particular cells or ranges, making formulas that refer to them more readable. Ones that <em>are</em> ranges are identifed by the <code>is_range</code> column (using <code><a href="../reference/is_range.html">is_range()</a></code>), making it easier to match the names to the cells returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code> – e.g. by using the <a href="https://github.com/rsheets/cellranger"><code>cellranger</code></a> package.</p>
 <p>When the scope of the name is within a particular sheet, rather than global, the sheet name is given.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/xlsx_names.html">xlsx_names</a></span>(<span class="no">examples</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/xlsx_names.html">xlsx_names</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>
 <span class="co">#&gt;   rId    sheet                 name                     formula    comment hidden is_range</span>
 <span class="co">#&gt; 1   1   Sheet1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1       &lt;NA&gt;  FALSE    FALSE</span>
 <span class="co">#&gt; 2   4 E09904.2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1       &lt;NA&gt;  FALSE     TRUE</span>
 <span class="co">#&gt; 3  NA     &lt;NA&gt;         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;  FALSE     TRUE</span>
 <span class="co">#&gt; 4  NA     &lt;NA&gt; named_global_formula             Sheet1!$A$129-1       &lt;NA&gt;  FALSE    FALSE</span>
-<span class="co">#&gt; 5  NA     &lt;NA&gt;          named_range               Sheet1!$A$129 My comment  FALSE     TRUE</span></pre></body></html></div>
+<span class="co">#&gt; 5  NA     &lt;NA&gt;          named_range               Sheet1!$A$129 My comment  FALSE     TRUE</span></code></pre></div>
 </div>
 <div id="data-validation-rules" class="section level3">
 <h3 class="hasAnchor">
 <a href="#data-validation-rules" class="anchor"></a>Data validation rules</h3>
 <p>Data validation rules are imported with <code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code>. These rules control what values may be entered into a cell, and are often used to create a drop-down list in a cell. Read the <a href="https://nacnudus.github.io/tidyxl/articles/data-validation-rules.html">vignette</a> for details.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(<span class="no">examples</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 15 x 14</span>
 <span class="co">#&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess… prompt_title prompt_body show_error_mess…</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;            &lt;chr&gt;        &lt;chr&gt;       &lt;lgl&gt;           </span>
@@ -407,7 +419,7 @@ pre code, pre, code {
 <span class="co">#&gt; 13 Shee… A107  deci… notBetw… 0        9        FALSE       FALSE            &lt;NA&gt;         &lt;NA&gt;        FALSE           </span>
 <span class="co">#&gt; 14 Shee… A113  cust… &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span>
 <span class="co">#&gt; 15 Shee… A109  list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span>
-<span class="co">#&gt; # … with 3 more variables: error_title &lt;chr&gt;, error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; # … with 3 more variables: error_title &lt;chr&gt;, error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="philosophy" class="section level2">
@@ -437,9 +449,9 @@ pre code, pre, code {
 <div id="similar-projects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#similar-projects" class="anchor"></a>Similar projects</h2>
-<p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> was originally derived from <a href="https://github.com/hadley/readxl">readxl</a> and still contains some of the same code, hence it inherits the GPL-3 licence. <a href="https://github.com/hadley/readxl">readxl</a> is intended for importing tabular data with a single row of column headers, whereas <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> is more general, and less magic.</p>
+<p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> was originally derived from <a href="https://github.com/tidyverse/readxl">readxl</a> and still contains some of the same code, hence it inherits the GPL-3 licence. <a href="https://github.com/tidyverse/readxl">readxl</a> is intended for importing tabular data with a single row of column headers, whereas <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> is more general, and less magic.</p>
 <p>The <a href="https://github.com/rsheets">rsheets</a> project of several R packages is in the early stages of importing spreadsheet information from Excel and Google Sheets into R, manipulating it, and potentially parsing and processing formulas and writing out to spreadsheet files. In particular, <a href="https://github.com/rsheets/jailbreakr">jailbreaker</a> attempts to extract non-tabular data from spreadsheets into tabular structures automatically via some clever algorithms.</p>
-<p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> differs from <a href="https://github.com/rsheets">rsheets</a> in scope (<a href="https://github.com/nacnudus/tidyxl">tidyxl</a> will never import charts, for example), and implementation (<a href="https://github.com/nacnudus/tidyxl">tidyxl</a> is implemented mainly in C++ and is quite fast, only a little slower than <a href="https://github.com/hadley/readxl">readxl</a>). <a href="https://github.com/nacnudus/unpivotr">unpivotr</a> is a package related to <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> that provides tools for unpivoting complex and non-tabular data layouts using I not AI (intelligence, not artificial intelligence). In this way it corresponds to <a href="https://github.com/rsheets/jailbreakr">jailbreaker</a>, but with a different philosophy.</p>
+<p><a href="https://github.com/nacnudus/tidyxl">tidyxl</a> differs from <a href="https://github.com/rsheets">rsheets</a> in scope (<a href="https://github.com/nacnudus/tidyxl">tidyxl</a> will never import charts, for example), and implementation (<a href="https://github.com/nacnudus/tidyxl">tidyxl</a> is implemented mainly in C++ and is quite fast, only a little slower than <a href="https://github.com/tidyverse/readxl">readxl</a>). <a href="https://github.com/nacnudus/unpivotr">unpivotr</a> is a package related to <a href="https://github.com/nacnudus/tidyxl">tidyxl</a> that provides tools for unpivoting complex and non-tabular data layouts using I not AI (intelligence, not artificial intelligence). In this way it corresponds to <a href="https://github.com/rsheets/jailbreakr">jailbreaker</a>, but with a different philosophy.</p>
 </div>
 </div>
   </div>
@@ -459,7 +471,7 @@ pre code, pre, code {
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

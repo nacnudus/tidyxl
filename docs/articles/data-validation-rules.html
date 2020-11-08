@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -91,13 +91,14 @@
 
       
 
-      </header><script src="data-validation-rules_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
+      </header><script src="data-validation-rules_files/header-attrs-2.5/header-attrs.js"></script><link href="data-validation-rules_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="data-validation-rules_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data Validation Rules</h1>
                         <h4 class="author">Duncan Garmonsway</h4>
             
-            <h4 class="date">2020-05-09</h4>
+            <h4 class="date">2020-11-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/master/vignettes/data-validation-rules.Rmd"><code>vignettes/data-validation-rules.Rmd</code></a></small>
       <div class="hidden name"><code>data-validation-rules.Rmd</code></div>
@@ -112,8 +113,9 @@
 <p>Data validation rules control what constants can be entered into a cell, e.g. any whole number between 0 and 9, or one of several values from another part of the spreadsheet.</p>
 <p>‘xlsx_validation()’ returns each of the data validation rules in an xlsx file, and the ranges of cells to which each rule applies.</p>
 <p>Here is a rule that restricts input to integers between 0 and 9 inclusive, or no value (blank). If any other value is attempted, then an error message is displayed with the imaginative title “message title”, the informative body text “message body”, and a “stop” symbol.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyxl</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nacnudus/tidyxl">tidyxl</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
 <span class="co">#&gt; The following objects are masked from 'package:stats':</span>
@@ -122,9 +124,9 @@
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
-<span class="no">examples</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"extdata/examples.xlsx"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"tidyxl"</span>)
-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">glimpse</a></span>(<span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(<span class="no">examples</span>)[<span class="fl">1</span>, ])
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="va">examples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/examples.xlsx"</span>, package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 1</span>
 <span class="co">#&gt; Columns: 14</span>
 <span class="co">#&gt; $ sheet              &lt;chr&gt; "Sheet1"</span>
@@ -140,9 +142,10 @@
 <span class="co">#&gt; $ show_error_message &lt;lgl&gt; TRUE</span>
 <span class="co">#&gt; $ error_title        &lt;chr&gt; "error title"</span>
 <span class="co">#&gt; $ error_body         &lt;chr&gt; "error body"</span>
-<span class="co">#&gt; $ error_symbol       &lt;chr&gt; "stop"</span></pre></body></html></div>
+<span class="co">#&gt; $ error_symbol       &lt;chr&gt; "stop"</span></code></pre></div>
 <p>The gamut of possible rules is given in the examples for <code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code>.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(<span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(<span class="no">examples</span>))
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;     sheet            ref       type           operator            formula1</span>
 <span class="co">#&gt; 1  Sheet1           A106      whole            between                   0</span>
 <span class="co">#&gt; 2  Sheet1           A108       list               &lt;NA&gt;              $B$108</span>
@@ -190,7 +193,7 @@
 <span class="co">#&gt; 12         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
 <span class="co">#&gt; 13         &lt;NA&gt;              FALSE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
 <span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></pre></body></html></div>
+<span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></code></pre></div>
 </div>
 <div id="joining-rules-to-cells" class="section level2">
 <h2 class="hasAnchor">
@@ -199,10 +202,11 @@
 <p>There are no built-in functions for joining ranges like <code>A1:D5,G8</code> to single cells like <code>B3</code>. For now, use the snippets in this section. In future I might develop a dplyr-like join function (this is hard currently because dplyr doesn’t yet join on arbitrary functions, or even the standard inequalities like <code><a href="https://rdrr.io/r/base/Comparison.html">&gt;=</a></code>). Help and advice would be gratefully accepted!</p>
 </blockquote>
 <p>To join rules to cells, a naive method is to use the <code>sheet</code> and <code>ref</code> columns to match the <code>sheet</code> and <code>address</code> columns to the output of <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rules</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span>(<span class="no">examples</span>)
-<span class="no">cells</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span>(<span class="no">examples</span>), <span class="no">row</span> <span class="kw">&gt;=</span> <span class="fl">106</span>, <span class="no">col</span> <span class="kw">==</span> <span class="fl">1</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>
+<span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>, <span class="va">row</span> <span class="op">&gt;=</span> <span class="fl">106</span>, <span class="va">col</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
 
-<span class="no">rules</span>
+<span class="va">rules</span>
 <span class="co">#&gt; # A tibble: 15 x 14</span>
 <span class="co">#&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           </span>
@@ -224,7 +228,7 @@
 <span class="co">#&gt; # … with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   error_symbol &lt;chr&gt;</span>
-<span class="no">cells</span>
+<span class="va">cells</span>
 <span class="co">#&gt; # A tibble: 93 x 21</span>
 <span class="co">#&gt;    sheet address   row   col is_blank data_type error logical numeric</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;lgl&gt;    &lt;chr&gt;     &lt;chr&gt; &lt;lgl&gt;     &lt;dbl&gt;</span>
@@ -243,7 +247,7 @@
 <span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span>
 
-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span>(<span class="no">rules</span>, <span class="no">cells</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sheet"</span> <span class="kw">=</span> <span class="st">"sheet"</span>, <span class="st">"ref"</span> <span class="kw">=</span> <span class="st">"address"</span>))
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">rules</span>, <span class="va">cells</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sheet"</span> <span class="op">=</span> <span class="st">"sheet"</span>, <span class="st">"ref"</span> <span class="op">=</span> <span class="st">"address"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 33</span>
 <span class="co">#&gt;   sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           </span>
@@ -262,41 +266,43 @@
 <span class="co">#&gt; #   error &lt;chr&gt;, logical &lt;lgl&gt;, numeric &lt;dbl&gt;, date &lt;dttm&gt;, character &lt;chr&gt;,</span>
 <span class="co">#&gt; #   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span>
 <span class="co">#&gt; #   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   width &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></code></pre></div>
 <p>Notice that only 9 cells were joined, even though 15 rules were defined. Surely at least 15 cells ought to be joined? The reason why they are not is that the cells for the other 6 rules don’t exist – rules can be defined for cells that have no value, and cells with no value are not returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, otherwise all 17179869184 cells in a worksheet must be returned.</p>
 <p>A more subtle reason for certain cells not to have joined successfully is that the <code>ref</code> column of the rules sometimes refers to more than one cell, and can even refer to several, non-contiguous ranges of cells. Specifically, the seventh rule’s <code>ref</code> column has <code>A115,A121:A122</code>.</p>
 <p>Special treatment is needed here. Ideally, some kind of join function would be defined that can compare indidual cells with ranges. But I haven’t written one, so what follows is a workaround. First, the two ranges of cells must be <code>unnested</code> into <code>A115</code> and <code>A121:122</code>. Then the range <code>A121:122</code> must be ‘unranged’ into <code>A121</code> and <code>A122</code>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">unrange</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
-  <span class="no">limits</span> <span class="kw">&lt;-</span> <span class="kw pkg">cellranger</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_limits.html">as.cell_limits</a></span>(<span class="no">x</span>)
-  <span class="no">rows</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="no">limits</span>$<span class="no">ul</span>[<span class="fl">1</span>], <span class="no">limits</span>$<span class="no">lr</span>[<span class="fl">1</span>])
-  <span class="no">cols</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="no">limits</span>$<span class="no">ul</span>[<span class="fl">2</span>], <span class="no">limits</span>$<span class="no">lr</span>[<span class="fl">2</span>])
-  <span class="no">rowcol</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="no">rows</span>, <span class="no">cols</span>)
-  <span class="no">cell_addrs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cellranger</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_addr.html">cell_addr</a></span>(<span class="no">rowcol</span><span class="kw">[[</span><span class="fl">1</span>]], <span class="no">rowcol</span><span class="kw">[[</span><span class="fl">2</span>]])
-  <span class="kw pkg">cellranger</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/to_string.html">to_string</a></span>(<span class="no">cell_addrs</span>, <span class="kw">fo</span> <span class="kw">=</span> <span class="st">"A1"</span>, <span class="kw">strict</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-}
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">unrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_limits.html">as.cell_limits</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+  <span class="va">rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">limits</span><span class="op">$</span><span class="va">ul</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">limits</span><span class="op">$</span><span class="va">lr</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
+  <span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">limits</span><span class="op">$</span><span class="va">ul</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">limits</span><span class="op">$</span><span class="va">lr</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>
+  <span class="va">rowcol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span>
+  <span class="va">cell_addrs</span> <span class="op">&lt;-</span> <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_addr.html">cell_addr</a></span><span class="op">(</span><span class="va">rowcol</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">rowcol</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+  <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/to_string.html">to_string</a></span><span class="op">(</span><span class="va">cell_addrs</span>, fo <span class="op">=</span> <span class="st">"A1"</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">unnest_ref</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>, <span class="no">ref</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span>(<span class="st">"unnest_ref"</span>)
-}
+<span class="va">unnest_ref</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod</a></span><span class="op">(</span><span class="st">"unnest_ref"</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">unnest_ref.default</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>, <span class="no">ref_col</span> <span class="kw">=</span> <span class="no">ref</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span>(<span class="no">x</span>), <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">x</span>) <span class="kw">==</span> <span class="fl">1L</span>)
-  <span class="no">refs</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">x</span>, <span class="st">","</span>, <span class="kw">fixed</span> <span class="kw">=</span> <span class="fl">TRUE</span>))
-  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">refs</span>, <span class="no">unrange</span>))
-}
+<span class="va">unnest_ref.default</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref_col</span> <span class="op">=</span> <span class="va">ref</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1L</span><span class="op">)</span>
+  <span class="va">refs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">","</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">refs</span>, <span class="va">unrange</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="fu">unrange</span>(<span class="st">"A121:A122"</span>)
+<span class="fu">unrange</span><span class="op">(</span><span class="st">"A121:A122"</span><span class="op">)</span>
 <span class="co">#&gt; [1] "A121" "A122"</span>
-<span class="fu">unnest_ref</span>(<span class="st">"A115,A121:A122"</span>)
-<span class="co">#&gt; [1] "A115" "A121" "A122"</span></pre></body></html></div>
+<span class="fu">unnest_ref</span><span class="op">(</span><span class="st">"A115,A121:A122"</span><span class="op">)</span>
+<span class="co">#&gt; [1] "A115" "A121" "A122"</span></code></pre></div>
 <p>The <code>unnest_ref()</code> function can also be defined for whole data frames, unnesting them by a column of references.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">unnest_ref.data.frame</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>, <span class="no">ref_col</span>) {
-  <span class="no">ref</span> <span class="kw">&lt;-</span> <span class="kw pkg">rlang</span><span class="kw ns">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a></span>(<span class="no">ref_col</span>)
-  <span class="no">x</span><span class="kw">[[</span><span class="kw pkg">rlang</span><span class="kw ns">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html">quo_name</a></span>(<span class="no">ref</span>)]] <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">x</span><span class="kw">[[</span><span class="kw pkg">rlang</span><span class="kw ns">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html">quo_name</a></span>(<span class="no">ref</span>)]], <span class="no">unnest_ref</span>)
-  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>(<span class="no">x</span>, <span class="kw pkg">rlang</span><span class="kw ns">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/nse-force.html">UQ</a></span>(<span class="no">ref</span>))
-}
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">unnest_ref.data.frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref_col</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/nse-defuse.html">enquo</a></span><span class="op">(</span><span class="va">ref_col</span><span class="op">)</span>
+  <span class="va">x</span><span class="op">[[</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html">quo_name</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html">quo_name</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">]</span><span class="op">]</span>, <span class="va">unnest_ref</span><span class="op">)</span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/nse-force.html">UQ</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>
 
-(<span class="no">nested_rule</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="no">rules</span>, <span class="fl">7</span>))
+<span class="op">(</span><span class="va">nested_rule</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="va">rules</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 1 x 14</span>
 <span class="co">#&gt;   sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;           </span>
@@ -304,7 +310,7 @@
 <span class="co">#&gt; # … with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   error_symbol &lt;chr&gt;</span>
-<span class="fu">unnest_ref</span>(<span class="no">nested_rule</span>, <span class="no">ref</span>)
+<span class="fu">unnest_ref</span><span class="op">(</span><span class="va">nested_rule</span>, <span class="va">ref</span><span class="op">)</span>
 <span class="co">#&gt; Warning: Prefixing `UQ()` with the rlang namespace is deprecated as of rlang 0.3.0.</span>
 <span class="co">#&gt; Please use the non-prefixed form or `!!` instead.</span>
 <span class="co">#&gt; </span>
@@ -326,7 +332,7 @@
 <span class="co">#&gt; 3 Shee… A122  whole equal    0        &lt;NA&gt;     TRUE        TRUE            </span>
 <span class="co">#&gt; # … with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span>
 <span class="co">#&gt; #   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span>
-<span class="co">#&gt; #   error_symbol &lt;chr&gt;</span></pre></body></html></div>
+<span class="co">#&gt; #   error_symbol &lt;chr&gt;</span></code></pre></div>
 <p>Finally the new data frame of rules can be joined to a data frame of cells in any of the usual ways, via the <code>sheet</code> and <code>ref</code> columns.</p>
 <p>Problems with this approach occur with rules that are defined over large ranges of cells: the ‘unnesting’ of those ranges results in very long vectors of individual cell addresses, or (worse) huge data frames of rules. Such cases are commonplace, because rules are often defined for entire columns of a spreadsheet, and a column has 1048576 rows.</p>
 </div>
@@ -347,7 +353,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

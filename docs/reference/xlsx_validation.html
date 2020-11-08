@@ -85,7 +85,7 @@ values from another part of the spreadsheet." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -154,7 +154,7 @@ entered into a cell, e.g. any whole number between 0 and 9, or one of several
 values from another part of the spreadsheet.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xlsx_validation</span>(<span class='no'>path</span>, <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_validation</span><span class='op'>(</span><span class='va'>path</span>, sheets <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,8 +209,9 @@ the user enters a forbidden value.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 15 x 14</span><span>
+    <pre class="examples"><div class='input'><span class='va'>examples</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xlsx"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='fu'>xlsx_validation</span><span class='op'>(</span><span class='va'>examples</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 15 x 14</span><span>
 #&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>           
 #&gt; </span><span style='color: #555555;'> 1</span><span> Shee… A106  whole between  0        9        TRUE        TRUE            
@@ -230,7 +231,8 @@ the user enters a forbidden value.</p></li>
 #&gt; </span><span style='color: #555555;'>15</span><span> Shee… A109  list  </span><span style='color: #BB0000;'>NA</span><span>       $B$108   </span><span style='color: #BB0000;'>NA</span><span>       TRUE        TRUE            
 #&gt; </span><span style='color: #555555;'># … with 6 more variables: prompt_title </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, prompt_body </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   show_error_message </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #555555;'>, error_title </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, error_body </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   error_symbol </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='fl'>1</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 14</span><span>
+#&gt; </span><span style='color: #555555;'>#   error_symbol </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='fu'>xlsx_validation</span><span class='op'>(</span><span class='va'>examples</span>, <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 14</span><span>
 #&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>           
 #&gt; </span><span style='color: #555555;'> 1</span><span> Shee… A106  whole between  0        9        TRUE        TRUE            
@@ -250,7 +252,8 @@ the user enters a forbidden value.</p></li>
 #&gt; </span><span style='color: #555555;'>15</span><span> Shee… A109  list  </span><span style='color: #BB0000;'>NA</span><span>       $B$108   </span><span style='color: #BB0000;'>NA</span><span>       TRUE        TRUE            
 #&gt; </span><span style='color: #555555;'># … with 6 more variables: prompt_title </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, prompt_body </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   show_error_message </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span style='color: #555555;'>, error_title </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, error_body </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   error_symbol </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='fu'>xlsx_validation</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 14</span><span>
+#&gt; </span><span style='color: #555555;'>#   error_symbol </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='fu'>xlsx_validation</span><span class='op'>(</span><span class='va'>examples</span>, <span class='st'>"Sheet1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 15 x 14</span><span>
 #&gt;    sheet ref   type  operator formula1 formula2 allow_blank show_input_mess…
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>           
 #&gt; </span><span style='color: #555555;'> 1</span><span> Shee… A106  whole between  0        9        TRUE        TRUE            
@@ -286,7 +289,7 @@ the user enters a forbidden value.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

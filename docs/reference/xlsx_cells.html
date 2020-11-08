@@ -43,7 +43,7 @@
 <meta property="og:description" content="xlsx_cells() imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
-cell's formatting in the return value of tidyxl::xlsx_formats()." />
+cell's formatting in the return value of xlsx_formats()." />
 
 
 
@@ -85,7 +85,7 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -151,15 +151,15 @@ cell's formatting in the return value of tidyxl::xlsx_formats()." />
     <p><code>xlsx_cells()</code> imports data from spreadsheets without coercing it into a
 rectangle.  Each cell is represented by a row in a data frame, giving the
 cell's address, contents, formula, height, width, and keys to look up the
-cell's formatting in the return value of <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.</p>
+cell's formatting in the return value of <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xlsx_cells</span>(
-  <span class='no'>path</span>,
-  <span class='kw'>sheets</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>include_blank_cells</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>xlsx_cells</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  sheets <span class='op'>=</span> <span class='cn'>NA</span>,
+  check_filetype <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  include_blank_cells <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,11 +219,11 @@ formula or shared formula applies (see 'Details').</p></li>
 <code>x$formats$local</code> (see 'Details').</p></li>
 </ul>
 
-<p>Cell formatting is returned in <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.  There are two types
+<p>Cell formatting is returned in <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.  There are two types
 or scopes of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides particular
 elements of the style, e.g. by making it bold.  Both types are returned, in
-the <code>$style</code> and <code>$local</code> sublists of <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>, with
+the <code>$style</code> and <code>$local</code> sublists of <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>, with
 identical structures.  To look up the local formatting of a given cell, take
 the cell's 'local_format_id' value (<code>my_cells$data$Sheet1[1, "local_format_id"]</code>), and use it as an index into the format structure.  E.g.
 to look up the font size, <code>my_formats$local$font$size[local_format_id]</code>.  To
@@ -232,7 +232,7 @@ see all available formats, type <code><a href='https://rdrr.io/r/utils/str.html'
 
     <p>A cell has two 'values': its content, and sometimes also a formula.  It also
 has formatting applied at the 'style' level, which can be locally overridden.</p>
-<h3>Content</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Content</h3>
 <p>Depending on the cell, the content may be a numeric value such as 365 or
 365.25, it may represent a date/datetime in one of Excel's date/datetime
 systems, or it may be an index into an internal table of strings.
@@ -241,7 +241,7 @@ returning its value in the appropriate column (error, logical, numeric,
 date, character). In case this cleverness is unhelpful, the unparsed value
 and type information is available in the 'content' and 'type' columns.</p>
 
-<h3>Formula</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Formula</h3>
 <p>When a cell has a formula, the value in the 'content' column is the result
 of the formula the last time it was evaluated.</p>
 <p>Certain groups of cells may share a formula that differs only by addresses
@@ -259,12 +259,12 @@ addresses in array formulas are necessary.</p>
 directly, instead via indices such as <code>[1]</code>.  It is planned to
 dereference these.</p>
 
-<h3>Formatting</h3>
-<p>Cell formatting is returned by <code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>.  There are two
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Formatting</h3>
+<p>Cell formatting is returned by <code><a href='xlsx_formats.html'>xlsx_formats()</a></code>.  There are two
 types of formatting: 'style' formatting, such as Excel's built-in styles
 'normal', 'bad', etc., and 'local' formatting, which overrides the style.
 These are returned in the <code>$style</code> and <code>$local</code> sublists of
-<code><a href='xlsx_formats.html'>tidyxl::xlsx_formats()</a></code>, with identical structures.</p>
+<code><a href='xlsx_formats.html'>xlsx_formats()</a></code>, with identical structures.</p>
 <p>To look up the local formatting of a given cell, take the cell's
 <code>local_format_id</code> value (<code>my_cells$Sheet1[1, "local_format_id"]</code>), and use
 it as an index into the format structure.  E.g. to look up the font size,
@@ -279,10 +279,11 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
+    <pre class="examples"><div class='input'><span class='va'>examples</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xlsx"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
 
 <span class='co'># All sheets</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>))</div><div class='output co'>#&gt; tibble [586 × 21] (S3: tbl_df/tbl/data.frame)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>xlsx_cells</span><span class='op'>(</span><span class='va'>examples</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tibble [586 × 21] (S3: tbl_df/tbl/data.frame)
 #&gt;  $ sheet              : chr [1:586] "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #&gt;  $ address            : chr [1:586] "A1" "B1" "A2" "B2" ...
 #&gt;  $ row                : int [1:586] 1 1 2 2 3 3 4 4 5 5 ...
@@ -1399,7 +1400,8 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 #&gt;  $ style_format       : chr [1:586] "Normal" "Normal" "Normal" "Normal" ...
 #&gt;  $ local_format_id    : int [1:586] 1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># Specific sheet either by position or by name</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; tibble [2 × 21] (S3: tbl_df/tbl/data.frame)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>xlsx_cells</span><span class='op'>(</span><span class='va'>examples</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tibble [2 × 21] (S3: tbl_df/tbl/data.frame)
 #&gt;  $ sheet              : chr [1:2] "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;." "1~`!@#$%^&amp;()_-+={}|;\"'&lt;,&gt;."
 #&gt;  $ address            : chr [1:2] "B2" "B6"
 #&gt;  $ row                : int [1:2] 2 6
@@ -1450,7 +1452,8 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 #&gt;  $ height             : num [1:2] 14.2 14.2
 #&gt;  $ width              : num [1:2] 8.38 8.38
 #&gt;  $ style_format       : chr [1:2] "Normal" "Normal"
-#&gt;  $ local_format_id    : int [1:2] 1 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>))</div><div class='output co'>#&gt; tibble [395 × 21] (S3: tbl_df/tbl/data.frame)
+#&gt;  $ local_format_id    : int [1:2] 1 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>xlsx_cells</span><span class='op'>(</span><span class='va'>examples</span>, <span class='st'>"Sheet1"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tibble [395 × 21] (S3: tbl_df/tbl/data.frame)
 #&gt;  $ sheet              : chr [1:395] "Sheet1" "Sheet1" "Sheet1" "Sheet1" ...
 #&gt;  $ address            : chr [1:395] "A1" "B1" "A2" "B2" ...
 #&gt;  $ row                : int [1:395] 1 1 2 2 3 3 4 4 5 5 ...
@@ -2568,10 +2571,11 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 #&gt;  $ local_format_id    : int [1:395] 1 1 1 1 1 1 1 1 5 1 ...</div><div class='input'>
 <span class='co'># The formats of particular cells can be retrieved like this:</span>
 
-<span class='no'>Sheet1</span> <span class='kw'>&lt;-</span> <span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>, <span class='st'>"Sheet1"</span>)
-<span class='no'>formats</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='xlsx_formats.html'>xlsx_formats</a></span>(<span class='no'>examples</span>)
+<span class='va'>Sheet1</span> <span class='op'>&lt;-</span> <span class='fu'>xlsx_cells</span><span class='op'>(</span><span class='va'>examples</span>, <span class='st'>"Sheet1"</span><span class='op'>)</span>
+<span class='va'>formats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='xlsx_formats.html'>xlsx_formats</a></span><span class='op'>(</span><span class='va'>examples</span><span class='op'>)</span>
 
-<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span>]</div><div class='output co'>#&gt;   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+<span class='va'>formats</span><span class='op'>$</span><span class='va'>local</span><span class='op'>$</span><span class='va'>font</span><span class='op'>$</span><span class='va'>bold</span><span class='op'>[</span><span class='va'>Sheet1</span><span class='op'>$</span><span class='va'>local_format_id</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 #&gt;  [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 #&gt;  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 #&gt;  [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
@@ -2603,7 +2607,8 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 #&gt; [349] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 #&gt; [361] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 #&gt; [373] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-#&gt; [385] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</div><div class='input'><span class='no'>formats</span>$<span class='no'>style</span>$<span class='no'>font</span>$<span class='no'>bold</span>[<span class='no'>Sheet1</span>$<span class='no'>style_format</span>]</div><div class='output co'>#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
+#&gt; [385] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</div><div class='input'><span class='va'>formats</span><span class='op'>$</span><span class='va'>style</span><span class='op'>$</span><span class='va'>font</span><span class='op'>$</span><span class='va'>bold</span><span class='op'>[</span><span class='va'>Sheet1</span><span class='op'>$</span><span class='va'>style_format</span><span class='op'>]</span>
+</div><div class='output co'>#&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
 #&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
 #&gt;    Normal    Normal    Normal    Normal    Normal    Normal    Normal    Normal 
 #&gt;     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE     FALSE 
@@ -2705,8 +2710,9 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 #&gt;     FALSE     FALSE     FALSE </div><div class='input'>
 <span class='co'># To filter for cells of a particular format, first filter the formats to get</span>
 <span class='co'># the relevant indices, and then filter the cells by those indices.</span>
-<span class='no'>bold_indices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>formats</span>$<span class='no'>local</span>$<span class='no'>font</span>$<span class='no'>bold</span>)
-<span class='no'>Sheet1</span>[<span class='no'>Sheet1</span>$<span class='no'>local_format_id</span> <span class='kw'>%in%</span> <span class='no'>bold_indices</span>, ]</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 21</span><span>
+<span class='va'>bold_indices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>formats</span><span class='op'>$</span><span class='va'>local</span><span class='op'>$</span><span class='va'>font</span><span class='op'>$</span><span class='va'>bold</span><span class='op'>)</span>
+<span class='va'>Sheet1</span><span class='op'>[</span><span class='va'>Sheet1</span><span class='op'>$</span><span class='va'>local_format_id</span> <span class='op'>%in%</span> <span class='va'>bold_indices</span>, <span class='op'>]</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 21</span><span>
 #&gt;   sheet address   row   col is_blank data_type error logical numeric
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> Shee… A28        28     1 FALSE    character </span><span style='color: #BB0000;'>NA</span><span>    </span><span style='color: #BB0000;'>NA</span><span>           </span><span style='color: #BB0000;'>NA</span><span>
@@ -2718,7 +2724,8 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 #&gt; </span><span style='color: #555555;'>#   width </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, style_format </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, local_format_id </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span></div><div class='input'>
 <span class='co'># In-cell formatting is available in the `character_formatted` column as a</span>
 <span class='co'># data frame, one row per substring.</span>
-<span class='fu'>xlsx_cells</span>(<span class='no'>examples</span>)$<span class='no'>character_formatted</span>[<span class='fl'>77</span>]</div><div class='output co'>#&gt; [[1]]
+<span class='fu'>xlsx_cells</span><span class='op'>(</span><span class='va'>examples</span><span class='op'>)</span><span class='op'>$</span><span class='va'>character_formatted</span><span class='op'>[</span><span class='fl'>77</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; </span><span style='color: #555555;'># A tibble: 16 x 14</span><span>
 #&gt;    character bold  italic underline strike vertAlign  size color_rgb color_theme
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
@@ -2756,7 +2763,7 @@ further processing you might need to filter out the <code>NULL</code>s first.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

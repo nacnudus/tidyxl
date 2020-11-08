@@ -298,9 +298,9 @@ assist with that step.
 ## Similar projects
 
 [tidyxl](https://github.com/nacnudus/tidyxl) was originally derived from
-[readxl](https://github.com/hadley/readxl) and still contains some of the same
+[readxl](https://github.com/tidyverse/readxl) and still contains some of the same
 code, hence it inherits the GPL-3 licence.
-[readxl](https://github.com/hadley/readxl) is intended for importing tabular
+[readxl](https://github.com/tidyverse/readxl) is intended for importing tabular
 data with a single row of column headers, whereas
 [tidyxl](https://github.com/nacnudus/tidyxl) is more general, and less magic.
 
@@ -317,7 +317,7 @@ some clever algorithms.
 ([tidyxl](https://github.com/nacnudus/tidyxl) will never import charts, for
 example), and implementation ([tidyxl](https://github.com/nacnudus/tidyxl) is
 implemented mainly in C++ and is quite fast, only a little slower than
-[readxl](https://github.com/hadley/readxl)).
+[readxl](https://github.com/tidyverse/readxl)).
 [unpivotr](https://github.com/nacnudus/unpivotr) is a package related to
 [tidyxl](https://github.com/nacnudus/tidyxl) that provides tools for unpivoting
 complex and non-tabular data layouts using I not AI (intelligence, not

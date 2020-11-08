@@ -1,7 +1,7 @@
 ## Test environments
 
 ### Local
-* Arch Linux 4.19.8-arch1-1-ARCH     R-release 4.0.0 (2020-04-24)
+* Arch Linux 5.4.72-1-lts            R-release 4.0.3 (2020-10-10)
 
 ### Win-builder
 * Windows Server 2008 (64-bit)       R-devel   2020-05-08 r78391
@@ -24,15 +24,7 @@
 * Debian Linux, GCC ASAN/UBSAN       R-devel   2018-06-20 r74924
 
 ## R CMD check results
-0 errors | 2 warnings | 1 note
-
-> * checking compiled code ... WARNING
-> File ‘tidyxl/libs/tidyxl.so’:
->   Found ‘abort’, possibly from ‘abort’ (C)
->     Object: ‘xlex.o’
-
-This is a false positive. There is no `abort`.  This warning only appears on
-Fedora Linux with R-devel, clang and gfortran.
+0 errors | 1 warnings | 2 notes
 
 > Found the following (possibly) invalid URLs:
 >   URL: https://duncan-garmonsway.shinyapps.io/xlex/
@@ -45,6 +37,13 @@ From win-builder. The URL is valid.
 >     libs   9.2Mb
 
 This is compiled C++ code.
+
+> ❯ checking compilation flags used ... NOTE
+>   Compilation used the following non-portable flag(s):
+>    ‘-march=x86-64’
+
+I think this only occurs in the local development environment.  No such flag is
+used in `Makevars` or `Makevars.win`.
 
 ## Downstream dependencies
 

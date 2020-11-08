@@ -6,7 +6,7 @@
 #include "xlsxstyles.h"
 #include <R_ext/GraphicsDevice.h> // Rf_ucstoutf8 is exported in R_ext/GraphicsDevice.h
 
-// Based on hadley/readxl
+// Based on tidyverse/readxl
 // unescape an ST_Xstring. See 22.9.2.19 [p3786]
 inline std::string unescape(const std::string& s) {
   std::string out;
@@ -30,7 +30,7 @@ inline std::string unescape(const std::string& s) {
   return out;
 }
 
-// Based on hadley/readxl
+// Based on tidyverse/readxl
 // Parser for <si> and <is> inlineStr tags CT_Rst [p3893]
 // returns true if a string is found, false if missing.
 inline void parseString(const rapidxml::xml_node<>* string, std::string& out) {

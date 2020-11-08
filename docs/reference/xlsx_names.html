@@ -44,7 +44,7 @@
 ranges) in xlsx (Excel) files.
 Most names refer to ranges of cells, but they can also be defined as
 formulas.  xlsx_names() tells you whether or not they are a range, using
-tidyxl::is_range() to work this out.
+is_range() to work this out.
 Names are scoped either globally (used only once in the file), or locally to
 each sheet (can be reused with different definitions in different sheets).
 For sheet-scoped names, xlsx_names() provides the name of the sheet." />
@@ -89,7 +89,7 @@ For sheet-scoped names, xlsx_names() provides the name of the sheet." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -156,13 +156,13 @@ For sheet-scoped names, xlsx_names() provides the name of the sheet." />
 ranges) in xlsx (Excel) files.</p>
 <p>Most names refer to ranges of cells, but they can also be defined as
 formulas.  <code>xlsx_names()</code> tells you whether or not they are a range, using
-<code><a href='is_range.html'>tidyxl::is_range()</a></code> to work this out.</p>
+<code><a href='is_range.html'>is_range()</a></code> to work this out.</p>
 <p>Names are scoped either globally (used only once in the file), or locally to
 each sheet (can be reused with different definitions in different sheets).
 For sheet-scoped names, <code>xlsx_names()</code> provides the name of the sheet.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xlsx_names</span>(<span class='no'>path</span>, <span class='kw'>check_filetype</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>xlsx_names</span><span class='op'>(</span><span class='va'>path</span>, check_filetype <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,13 +194,14 @@ automatically by the spreadsheet application.</p></li>
 <li><p><code>is_range</code> Whether or not the <code>formula</code> is a range of cells.  This is handy
 for joining to the set of cells referred to by a name.  In this context,
 commas between cell addresses are always regarded as union operators --
-this differs from <code><a href='xlex.html'>tidyxl::xlex()</a></code>, see that help file for details.</p></li>
+this differs from <code><a href='xlex.html'>xlex()</a></code>, see that help file for details.</p></li>
 </ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"extdata/examples.xlsx"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyxl"</span>)
-<span class='fu'>xlsx_names</span>(<span class='no'>examples</span>)</div><div class='output co'>#&gt;   rId    sheet                 name                     formula    comment
+    <pre class="examples"><div class='input'><span class='va'>examples</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata/examples.xlsx"</span>, package <span class='op'>=</span> <span class='st'>"tidyxl"</span><span class='op'>)</span>
+<span class='fu'>xlsx_names</span><span class='op'>(</span><span class='va'>examples</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   rId    sheet                 name                     formula    comment
 #&gt; 1   1   Sheet1  named_local_formula MAX(Sheet1!$A$129:$A$130)+1       &lt;NA&gt;
 #&gt; 2   4 E09904.2   sheet_beyond_chart E09904.2!$A$1,E09904.2!$C$1       &lt;NA&gt;
 #&gt; 3  NA     &lt;NA&gt;         intersection   Sheet1!$B:$B Sheet1!$8:$8       &lt;NA&gt;
@@ -227,7 +228,7 @@ this differs from <code><a href='xlex.html'>tidyxl::xlex()</a></code>, see that 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -92,7 +92,7 @@ has been tested on millions of formulas in the Enron corpus." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
       </span>
     </div>
 
@@ -168,7 +168,7 @@ it is enough to investigate the structure of formulas and spreadsheets.  It
 has been tested on millions of formulas in the Enron corpus.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>xlex</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>xlex</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,8 +202,8 @@ available in the vector <code><a href='excel_functions.html'>excel_functions</a>
 <code>FALSE()</code>.</p></li>
 <li><p><code>number</code> All forms of numbers, e.g. <code>1</code>, <code>1.1</code>, <code>-1</code>, <code>1.2E3</code>.</p></li>
 <li><p><code>text</code> Strings inside double quotes, e.g. <code>"Hello, World!"</code>.</p></li>
-<li><p><code>operator</code> The usual infix operators, <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>, <code>&lt;</code>, <code>&lt;=</code>,
-<code>&lt;&gt;</code>, etc.  and also the range operator <code>:</code> when it is used with ranges
+<li><p><code>operator</code> The usual infix operators, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>+</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>-</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>*</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>/</a></code>, <code><a href='https://rdrr.io/r/base/Arithmetic.html'>^</a></code>, <code>&lt;</code>, <code>&lt;=</code>,
+<code>&lt;&gt;</code>, etc.  and also the range operator <code><a href='https://rdrr.io/r/base/Colon.html'>:</a></code> when it is used with ranges
 that aren't cell addresses, e.g. <code>INDEX(something):A1</code>. The union operator
 <code>,</code> is the same symbol that is used to separate function arguments and
 array columns, so it is only tagged <code>operator</code> when it is inside
@@ -241,159 +241,218 @@ https://github.com/spreadsheetlab/XLParser.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># All explicit cell references/addresses are returned as a single 'ref' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"A1"</span>)</div><div class='output co'>#&gt; root    
-#&gt; °-- A1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A$1"</span>)</div><div class='output co'>#&gt; root     
-#&gt; °-- A$1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"$A1"</span>)</div><div class='output co'>#&gt; root     
-#&gt; °-- $A1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"$A$1"</span>)</div><div class='output co'>#&gt; root      
-#&gt; °-- $A$1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1:B2"</span>)</div><div class='output co'>#&gt; root       
-#&gt; °-- A1:B2  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1:1"</span>) <span class='co'># Whole row</span></div><div class='output co'>#&gt; root     
-#&gt; °-- 1:1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A:B"</span>) <span class='co'># Whole column</span></div><div class='output co'>#&gt; root     
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root    
+#&gt; °-- A1  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A$1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root     
+#&gt; °-- A$1  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"$A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root     
+#&gt; °-- $A1  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"$A$1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root      
+#&gt; °-- $A$1  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1:B2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
+#&gt; °-- A1:B2  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1:1"</span><span class='op'>)</span> <span class='co'># Whole row</span>
+</div><div class='output co'>#&gt; root     
+#&gt; °-- 1:1  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A:B"</span><span class='op'>)</span> <span class='co'># Whole column</span>
+</div><div class='output co'>#&gt; root     
 #&gt; °-- A:B  ref </div><div class='input'>
 <span class='co'># If one part of an address is a name or a function, then the colon ':' is</span>
 <span class='co'># regarded as a 'range operator', so is tagged 'operator'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"A1:SOME.NAME"</span>)</div><div class='output co'>#&gt; root           
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1:SOME.NAME"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root           
 #&gt; ¦-- A1         ref
 #&gt; ¦-- :          operator
-#&gt; °-- SOME.NAME  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SOME_FUNCTION():B2"</span>)</div><div class='output co'>#&gt; root               
+#&gt; °-- SOME.NAME  name </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"SOME_FUNCTION():B2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root               
 #&gt; ¦-- SOME_FUNCTION  function
 #&gt; ¦-- (              fun_open
 #&gt; ¦-- )              fun_close
 #&gt; ¦-- :              operator
-#&gt; °-- B2             ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SOME_FUNCTION():SOME.NAME"</span>)</div><div class='output co'>#&gt; root               
+#&gt; °-- B2             ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"SOME_FUNCTION():SOME.NAME"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root               
 #&gt; ¦-- SOME_FUNCTION  function
 #&gt; ¦-- (              fun_open
 #&gt; ¦-- )              fun_close
 #&gt; ¦-- :              operator
 #&gt; °-- SOME.NAME      name </div><div class='input'>
 <span class='co'># Sheet names are recognised by the terminal exclamation mark '!'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"Sheet1!A1"</span>)</div><div class='output co'>#&gt; root         
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Sheet1!A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root         
 #&gt; ¦-- Sheet1!  sheet
-#&gt; °-- A1       ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Sheet 1'!A1"</span>)       <span class='co'># Quoted names may contain some punctuation</span></div><div class='output co'>#&gt; root            
+#&gt; °-- A1       ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"'Sheet 1'!A1"</span><span class='op'>)</span>       <span class='co'># Quoted names may contain some punctuation</span>
+</div><div class='output co'>#&gt; root            
 #&gt; ¦-- 'Sheet 1'!  sheet
-#&gt; °-- A1          ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'It''s a sheet'!A1"</span>) <span class='co'># Quotes are escaped by doubling</span></div><div class='output co'>#&gt; root                  
+#&gt; °-- A1          ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"'It''s a sheet'!A1"</span><span class='op'>)</span> <span class='co'># Quotes are escaped by doubling</span>
+</div><div class='output co'>#&gt; root                  
 #&gt; ¦-- 'It''s a sheet'!  sheet
 #&gt; °-- A1                ref </div><div class='input'>
 <span class='co'># Sheets can be ranged together in so-called 'three-dimensional formulas'.</span>
 <span class='co'># Both sheets are returned in a single 'sheet' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"Sheet1:Sheet2!A1"</span>)</div><div class='output co'>#&gt; root                
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Sheet1:Sheet2!A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                
 #&gt; ¦-- Sheet1:Sheet2!  sheet
-#&gt; °-- A1              ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Sheet 1:Sheet 2'!A1"</span>) <span class='co'># Quotes surround both (rather than each) sheet</span></div><div class='output co'>#&gt; root                    
+#&gt; °-- A1              ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"'Sheet 1:Sheet 2'!A1"</span><span class='op'>)</span> <span class='co'># Quotes surround both (rather than each) sheet</span>
+</div><div class='output co'>#&gt; root                    
 #&gt; ¦-- 'Sheet 1:Sheet 2'!  sheet
 #&gt; °-- A1                  ref </div><div class='input'>
 <span class='co'># Sheets from other files are prefixed by the filename, which Excel</span>
 <span class='co'># normalizes the filenames into indexes.  Either way, xlex() includes the</span>
 <span class='co'># file/index in the 'sheet' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"[1]Sheet1!A1"</span>)</div><div class='output co'>#&gt; root            
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"[1]Sheet1!A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root            
 #&gt; ¦-- [1]Sheet1!  sheet
-#&gt; °-- A1          ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'[1]Sheet 1'!A1"</span>) <span class='co'># Quotes surround both the file index and the sheet</span></div><div class='output co'>#&gt; root               
+#&gt; °-- A1          ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"'[1]Sheet 1'!A1"</span><span class='op'>)</span> <span class='co'># Quotes surround both the file index and the sheet</span>
+</div><div class='output co'>#&gt; root               
 #&gt; ¦-- '[1]Sheet 1'!  sheet
-#&gt; °-- A1             ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'C:\\My Documents\\[file.xlsx]Sheet1'!A1"</span>)</div><div class='output co'>#&gt; root                                      
+#&gt; °-- A1             ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"'C:\\My Documents\\[file.xlsx]Sheet1'!A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                                      
 #&gt; ¦-- 'C:\My Documents\[file.xlsx]Sheet1'!  sheet
 #&gt; °-- A1                                    ref </div><div class='input'>
 <span class='co'># Function names are recognised by the terminal open-parenthesis '('.  There</span>
 <span class='co'># is no distinction between custom functions and built-in Excel functions.</span>
 <span class='co'># The open-parenthesis is tagged 'fun_open', and the corresponding</span>
 <span class='co'># close-parenthesis at the end of the arguments is tagged 'fun_close'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX(1,2)"</span>)</div><div class='output co'>#&gt; root       
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MAX(1,2)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- MAX    function
 #&gt; °-- (      fun_open
 #&gt;     ¦-- 1  number
 #&gt;     ¦-- ,  separator
 #&gt;     °-- 2  number
-#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"_xll.MY_CUSTOM_FUNCTION()"</span>)</div><div class='output co'>#&gt; root                         
+#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"_xll.MY_CUSTOM_FUNCTION()"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                         
 #&gt; ¦-- _xll.MY_CUSTOM_FUNCTION  function
 #&gt; ¦-- (                        fun_open
 #&gt; °-- )                        fun_close </div><div class='input'>
 <span class='co'># Named ranges (properly called 'named formulas') are a last resort after</span>
 <span class='co'># attempting to match a function (ending in an open parenthesis '(') or a</span>
 <span class='co'># sheet (ending in an exclamation mark '!')</span>
-<span class='fu'>xlex</span>(<span class='st'>"MY_NAMED_RANGE"</span>)</div><div class='output co'>#&gt; root                
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MY_NAMED_RANGE"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                
 #&gt; °-- MY_NAMED_RANGE  name </div><div class='input'>
 <span class='co'># Some cell addresses/references, functions and names can look alike, but</span>
 <span class='co'># xlex() should always make the right choice.</span>
-<span class='fu'>xlex</span>(<span class='st'>"XFD1"</span>)     <span class='co'># A cell in the maximum column in Excel</span></div><div class='output co'>#&gt; root      
-#&gt; °-- XFD1  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"XFE1"</span>)     <span class='co'># Beyond the maximum column, must be a named range/formula</span></div><div class='output co'>#&gt; root      
-#&gt; °-- XFE1  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1048576"</span>) <span class='co'># A cell in the maximum row in Excel</span></div><div class='output co'>#&gt; root          
-#&gt; °-- A1048576  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1048577"</span>) <span class='co'># Beyond the maximum row, must be a named range/formula</span></div><div class='output co'>#&gt; root          
-#&gt; °-- A1048577  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG10"</span>)    <span class='co'># A cell address</span></div><div class='output co'>#&gt; root       
-#&gt; °-- LOG10  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG10()"</span>)  <span class='co'># A log function</span></div><div class='output co'>#&gt; root       
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"XFD1"</span><span class='op'>)</span>     <span class='co'># A cell in the maximum column in Excel</span>
+</div><div class='output co'>#&gt; root      
+#&gt; °-- XFD1  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"XFE1"</span><span class='op'>)</span>     <span class='co'># Beyond the maximum column, must be a named range/formula</span>
+</div><div class='output co'>#&gt; root      
+#&gt; °-- XFE1  name </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1048576"</span><span class='op'>)</span> <span class='co'># A cell in the maximum row in Excel</span>
+</div><div class='output co'>#&gt; root          
+#&gt; °-- A1048576  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1048577"</span><span class='op'>)</span> <span class='co'># Beyond the maximum row, must be a named range/formula</span>
+</div><div class='output co'>#&gt; root          
+#&gt; °-- A1048577  name </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"LOG10"</span><span class='op'>)</span>    <span class='co'># A cell address</span>
+</div><div class='output co'>#&gt; root       
+#&gt; °-- LOG10  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"LOG10()"</span><span class='op'>)</span>  <span class='co'># A log function</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- LOG10  function
 #&gt; ¦-- (      fun_open
-#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG:LOG"</span>)  <span class='co'># The whole column 'LOG'</span></div><div class='output co'>#&gt; root         
-#&gt; °-- LOG:LOG  ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG"</span>)      <span class='co'># Not a cell address, must be a named range/formula</span></div><div class='output co'>#&gt; root     
-#&gt; °-- LOG  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"LOG()"</span>)    <span class='co'># Another log function</span></div><div class='output co'>#&gt; root     
+#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"LOG:LOG"</span><span class='op'>)</span>  <span class='co'># The whole column 'LOG'</span>
+</div><div class='output co'>#&gt; root         
+#&gt; °-- LOG:LOG  ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"LOG"</span><span class='op'>)</span>      <span class='co'># Not a cell address, must be a named range/formula</span>
+</div><div class='output co'>#&gt; root     
+#&gt; °-- LOG  name </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"LOG()"</span><span class='op'>)</span>    <span class='co'># Another log function</span>
+</div><div class='output co'>#&gt; root     
 #&gt; ¦-- LOG  function
 #&gt; ¦-- (    fun_open
-#&gt; °-- )    fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"A1.2!A1"</span>)  <span class='co'># A sheet called 'A1.2'</span></div><div class='output co'>#&gt; root       
+#&gt; °-- )    fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1.2!A1"</span><span class='op'>)</span>  <span class='co'># A sheet called 'A1.2'</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- A1.2!  sheet
 #&gt; °-- A1     ref </div><div class='input'>
 <span class='co'># Text is surrounded by double-quotes.</span>
-<span class='fu'>xlex</span>(<span class='st'>"\"Some text\""</span>)</div><div class='output co'>#&gt; root             
-#&gt; °-- "Some text"  text </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"\"Some \"\"text\"\"\""</span>) <span class='co'># Double-quotes within text are escaped by</span></div><div class='output co'>#&gt; root                 
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"\"Some text\""</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root             
+#&gt; °-- "Some text"  text </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"\"Some \"\"text\"\"\""</span><span class='op'>)</span> <span class='co'># Double-quotes within text are escaped by</span>
+</div><div class='output co'>#&gt; root                 
 #&gt; °-- "Some ""text"""  text </div><div class='input'>
 <span class='co'># Numbers are signed where it makes sense, and can be scientific</span>
-<span class='fu'>xlex</span>(<span class='st'>"1"</span>)</div><div class='output co'>#&gt; root   
-#&gt; °-- 1  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1.2"</span>)</div><div class='output co'>#&gt; root     
-#&gt; °-- 1.2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1"</span>)</div><div class='output co'>#&gt; root    
-#&gt; °-- -1  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1-1"</span>)</div><div class='output co'>#&gt; root    
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root   
+#&gt; °-- 1  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1.2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root     
+#&gt; °-- 1.2  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"-1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root    
+#&gt; °-- -1  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"-1-1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root    
 #&gt; ¦-- -1  number
 #&gt; ¦-- -   operator
-#&gt; °-- 1   number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1+-1"</span>)</div><div class='output co'>#&gt; root    
+#&gt; °-- 1   number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"-1+-1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root    
 #&gt; ¦-- -1  number
 #&gt; ¦-- +   operator
-#&gt; °-- -1  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"MAX(-1-1)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- -1  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MAX(-1-1)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- MAX    function
 #&gt; °-- (      fun_open
 #&gt;     ¦-- -  operator
 #&gt;     ¦-- 1  number
 #&gt;     ¦-- -  operator
 #&gt;     °-- 1  number
-#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"-1.2E-3"</span>)</div><div class='output co'>#&gt; root         
+#&gt; °-- )      fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"-1.2E-3"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root         
 #&gt; °-- -1.2E-3  number </div><div class='input'>
 <span class='co'># Booleans can be constants or functions, and names can look like booleans,</span>
 <span class='co'># but xlex() should always make the right choice.</span>
-<span class='fu'>xlex</span>(<span class='st'>"TRUE"</span>)</div><div class='output co'>#&gt; root      
-#&gt; °-- TRUE  bool </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUEISH"</span>)</div><div class='output co'>#&gt; root         
-#&gt; °-- TRUEISH  name </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUE!A1"</span>)</div><div class='output co'>#&gt; root       
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"TRUE"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root      
+#&gt; °-- TRUE  bool </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"TRUEISH"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root         
+#&gt; °-- TRUEISH  name </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"TRUE!A1"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- TRUE!  sheet
-#&gt; °-- A1     ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"TRUE()"</span>)</div><div class='output co'>#&gt; root      
+#&gt; °-- A1     ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"TRUE()"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root      
 #&gt; ¦-- TRUE  function
 #&gt; ¦-- (     fun_open
 #&gt; °-- )     fun_close </div><div class='input'>
 <span class='co'># Errors are tagged 'error'</span>
-<span class='fu'>xlex</span>(<span class='st'>"#DIV/0!"</span>)</div><div class='output co'>#&gt; root         
-#&gt; °-- #DIV/0!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#N/A"</span>)</div><div class='output co'>#&gt; root      
-#&gt; °-- #N/A  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NAME?"</span>)</div><div class='output co'>#&gt; root        
-#&gt; °-- #NAME?  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NULL!"</span>)</div><div class='output co'>#&gt; root        
-#&gt; °-- #NULL!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#NUM!"</span>)</div><div class='output co'>#&gt; root       
-#&gt; °-- #NUM!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#REF!"</span>)</div><div class='output co'>#&gt; root       
-#&gt; °-- #REF!  error </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"#VALUE!"</span>)</div><div class='output co'>#&gt; root         
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#DIV/0!"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root         
+#&gt; °-- #DIV/0!  error </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#N/A"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root      
+#&gt; °-- #N/A  error </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#NAME?"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root        
+#&gt; °-- #NAME?  error </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#NULL!"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root        
+#&gt; °-- #NULL!  error </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#NUM!"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
+#&gt; °-- #NUM!  error </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#REF!"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
+#&gt; °-- #REF!  error </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"#VALUE!"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root         
 #&gt; °-- #VALUE!  error </div><div class='input'>
 <span class='co'># Operators with more than one character are treated as single tokens</span>
-<span class='fu'>xlex</span>(<span class='st'>"1&lt;&gt;2"</span>)</div><div class='output co'>#&gt; root    
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1&lt;&gt;2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root    
 #&gt; ¦-- 1   number
 #&gt; ¦-- &lt;&gt;  operator
-#&gt; °-- 2   number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&lt;=2"</span>)</div><div class='output co'>#&gt; root    
+#&gt; °-- 2   number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1&lt;=2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root    
 #&gt; ¦-- 1   number
 #&gt; ¦-- &lt;=  operator
-#&gt; °-- 2   number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&lt;2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; °-- 2   number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1&lt;2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root   
 #&gt; ¦-- 1  number
 #&gt; ¦-- &lt;  operator
-#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1=2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1=2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root   
 #&gt; ¦-- 1  number
 #&gt; ¦-- =  operator
-#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1&amp;2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1&amp;2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root   
 #&gt; ¦-- 1  number
 #&gt; ¦-- &amp;  operator
-#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1 2"</span>)</div><div class='output co'>#&gt; root   
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1 2"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root   
 #&gt; ¦-- 1  number
 #&gt; ¦--    operator
-#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"(1,2)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- 2  number </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"(1,2)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; °-- (      paren_open
 #&gt;     ¦-- 1  number
 #&gt;     ¦-- ,  operator
 #&gt;     °-- 2  number
-#&gt; °-- )      paren_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1%"</span>)   <span class='co'># postfix operator</span></div><div class='output co'>#&gt; root   
+#&gt; °-- )      paren_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1%"</span><span class='op'>)</span>   <span class='co'># postfix operator</span>
+</div><div class='output co'>#&gt; root   
 #&gt; ¦-- 1  number
 #&gt; °-- %  operator </div><div class='input'>
 <span class='co'># The union operator is a comma ',', which is the same symbol that is used</span>
@@ -401,21 +460,25 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class='co'># only when it is inside parentheses that are not function parentheses or</span>
 <span class='co'># array curly braces.  The curly braces are tagged 'array_open' and</span>
 <span class='co'># 'array_close'.</span>
-<span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'>xlex</span>(<span class='st'>"A1,B2"</span>) <span class='co'># invalid formula, defaults to 'union' to avoid a crash</span></div><div class='output co'>#&gt; root    
+<span class='fu'>tidyxl</span><span class='fu'>::</span><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"A1,B2"</span><span class='op'>)</span> <span class='co'># invalid formula, defaults to 'union' to avoid a crash</span>
+</div><div class='output co'>#&gt; root    
 #&gt; ¦-- A1  ref
 #&gt; ¦-- ,   operator
-#&gt; °-- B2  ref </div><div class='input'><span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'>xlex</span>(<span class='st'>"(A1,B2)"</span>)</div><div class='output co'>#&gt; root        
+#&gt; °-- B2  ref </div><div class='input'><span class='fu'>tidyxl</span><span class='fu'>::</span><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"(A1,B2)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root        
 #&gt; °-- (       paren_open
 #&gt;     ¦-- A1  ref
 #&gt;     ¦-- ,   operator
 #&gt;     °-- B2  ref
-#&gt; °-- )       paren_close </div><div class='input'><span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'>xlex</span>(<span class='st'>"MAX(A1,B2)"</span>)</div><div class='output co'>#&gt; root        
+#&gt; °-- )       paren_close </div><div class='input'><span class='fu'>tidyxl</span><span class='fu'>::</span><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MAX(A1,B2)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root        
 #&gt; ¦-- MAX     function
 #&gt; °-- (       fun_open
 #&gt;     ¦-- A1  ref
 #&gt;     ¦-- ,   separator
 #&gt;     °-- B2  ref
-#&gt; °-- )       fun_close </div><div class='input'><span class='kw pkg'>tidyxl</span><span class='kw ns'>::</span><span class='fu'>xlex</span>(<span class='st'>"SMALL((A1,B2),1)"</span>)</div><div class='output co'>#&gt; root            
+#&gt; °-- )       fun_close </div><div class='input'><span class='fu'>tidyxl</span><span class='fu'>::</span><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"SMALL((A1,B2),1)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root            
 #&gt; ¦-- SMALL       function
 #&gt; °-- (           fun_open
 #&gt;     °-- (       paren_open
@@ -428,7 +491,8 @@ https://github.com/spreadsheetlab/XLParser.</p>
 #&gt; °-- )           fun_close </div><div class='input'>
 <span class='co'># Function arguments are separated by commas ',', which are tagged</span>
 <span class='co'># 'separator'.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX(1,2)"</span>)</div><div class='output co'>#&gt; root       
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MAX(1,2)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- MAX    function
 #&gt; °-- (      fun_open
 #&gt;     ¦-- 1  number
@@ -442,7 +506,8 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class='co'># levels explicitly (rather than by the pretty printing), print as a normal</span>
 <span class='co'># data frame or tibble by specifying `pretty = FALSE`.</span>
 <span class='co'># class with as.data.frame.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX(MIN(1,2),3)"</span>)</div><div class='output co'>#&gt; root           
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MAX(MIN(1,2),3)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root           
 #&gt; ¦-- MAX        function
 #&gt; °-- (          fun_open
 #&gt;     ¦-- MIN    function
@@ -453,7 +518,8 @@ https://github.com/spreadsheetlab/XLParser.</p>
 #&gt;     ¦-- )      fun_close
 #&gt;     ¦-- ,      separator
 #&gt;     °-- 3      number
-#&gt; °-- )          fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"{1,2;3,4}"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- )          fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"{1,2;3,4}"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; °-- {      open_array
 #&gt;     ¦-- 1  number
 #&gt;     ¦-- ,  separator
@@ -462,14 +528,16 @@ https://github.com/spreadsheetlab/XLParser.</p>
 #&gt;     ¦-- 3  number
 #&gt;     ¦-- ,  separator
 #&gt;     °-- 4  number
-#&gt; °-- }      close_array </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"1*(2+3)"</span>)</div><div class='output co'>#&gt; root       
+#&gt; °-- }      close_array </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1*(2+3)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root       
 #&gt; ¦-- 1      number
 #&gt; ¦-- *      operator
 #&gt; °-- (      paren_open
 #&gt;     ¦-- 2  number
 #&gt;     ¦-- +  operator
 #&gt;     °-- 3  number
-#&gt; °-- )      paren_close </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'>xlex</span>(<span class='st'>"1*(2+3)"</span>), <span class='kw'>pretty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 3</span><span>
+#&gt; °-- )      paren_close </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"1*(2+3)"</span><span class='op'>)</span>, pretty <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 3</span><span>
 #&gt;   level type        token
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>     0 number      1    
@@ -483,7 +551,8 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class='co'># between columns, and semicolons ';' between rows  Commas and semicolons are</span>
 <span class='co'># both tagged 'separator'.  Arrays contain only constants, which are</span>
 <span class='co'># booleans, numbers, text, and errors.</span>
-<span class='fu'>xlex</span>(<span class='st'>"MAX({1,2;3,4})"</span>)</div><div class='output co'>#&gt; root           
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"MAX({1,2;3,4})"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root           
 #&gt; ¦-- MAX        function
 #&gt; °-- (          fun_open
 #&gt;     °-- {      open_array
@@ -495,7 +564,8 @@ https://github.com/spreadsheetlab/XLParser.</p>
 #&gt;         ¦-- ,  separator
 #&gt;         °-- 4  number
 #&gt;     °-- }      close_array
-#&gt; °-- )          fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})"</span>)</div><div class='output co'>#&gt; root                         
+#&gt; °-- )          fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                         
 #&gt; ¦-- =                        operator
 #&gt; ¦-- MAX                      function
 #&gt; °-- (                        fun_open
@@ -512,26 +582,36 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class='co'># Structured references are surrounded by square brackets.  Subexpressions</span>
 <span class='co'># may also be surrounded by square brackets, but xlex() returns the whole</span>
 <span class='co'># expression in a single 'structured_ref' token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"[@col2]"</span>)</div><div class='output co'>#&gt; root         
-#&gt; °-- [@col2]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"SUM([col22])"</span>)</div><div class='output co'>#&gt; root             
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"[@col2]"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root         
+#&gt; °-- [@col2]  structured_ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"SUM([col22])"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root             
 #&gt; ¦-- SUM          function
 #&gt; °-- (            fun_open
 #&gt;     °-- [col22]  structured_ref
-#&gt; °-- )            fun_close </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[col1]"</span>)</div><div class='output co'>#&gt; root              
-#&gt; °-- Table1[col1]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[col1]:[col2]]"</span>)</div><div class='output co'>#&gt; root                       
-#&gt; °-- Table1[[col1]:[col2]]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[#Headers]"</span>)</div><div class='output co'>#&gt; root                  
-#&gt; °-- Table1[#Headers]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[#Headers],[col1]]"</span>)</div><div class='output co'>#&gt; root                           
-#&gt; °-- Table1[[#Headers],[col1]]  structured_ref </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"Table1[[#Headers],[col1]:[col2]]"</span>)</div><div class='output co'>#&gt; root                                  
+#&gt; °-- )            fun_close </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Table1[col1]"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root              
+#&gt; °-- Table1[col1]  structured_ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Table1[[col1]:[col2]]"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                       
+#&gt; °-- Table1[[col1]:[col2]]  structured_ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Table1[#Headers]"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                  
+#&gt; °-- Table1[#Headers]  structured_ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Table1[[#Headers],[col1]]"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                           
+#&gt; °-- Table1[[#Headers],[col1]]  structured_ref </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"Table1[[#Headers],[col1]:[col2]]"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                                  
 #&gt; °-- Table1[[#Headers],[col1]:[col2]]  structured_ref </div><div class='input'>
 <span class='co'># DDE calls (Dynamic Data Exchange) are normalized by Excel into indexes.</span>
 <span class='co'># Either way, xlex() includes everything in one token.</span>
-<span class='fu'>xlex</span>(<span class='st'>"[1]!'DDE_parameter=1'"</span>)</div><div class='output co'>#&gt; root                       
-#&gt; °-- [1]!'DDE_parameter=1'  DDE </div><div class='input'><span class='fu'>xlex</span>(<span class='st'>"'Quote'|'NYSE'!ZAXX"</span>)</div><div class='output co'>#&gt; root                     
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"[1]!'DDE_parameter=1'"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                       
+#&gt; °-- [1]!'DDE_parameter=1'  DDE </div><div class='input'><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"'Quote'|'NYSE'!ZAXX"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root                     
 #&gt; °-- 'Quote'|'NYSE'!ZAXX  DDE </div><div class='input'><span class='co'># Meaningless spaces that appear in some old files are returned as 'space'</span>
 <span class='co'># tokens, so that the original formula can still be recovered by</span>
 <span class='co'># concatenating all the tokens.  Spaces between function names and their open</span>
 <span class='co'># parenthesis have not been observed, so are not permitted.</span>
-<span class='fu'>xlex</span>(<span class='st'>" MAX( A1 ) "</span>)</div><div class='output co'>#&gt; root        
+<span class='fu'>xlex</span><span class='op'>(</span><span class='st'>" MAX( A1 ) "</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root        
 #&gt; ¦--         operator
 #&gt; ¦-- MAX     function
 #&gt; °-- (       fun_open
@@ -542,7 +622,8 @@ https://github.com/spreadsheetlab/XLParser.</p>
 #&gt; °--         operator </div><div class='input'>
 <span class='co'># print.xlex() invisibly returns the original argument, so that it can be</span>
 <span class='co'># used in magrittr pipelines.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'>xlex</span>(<span class='st'>"ROUND(A1*2"</span>)))</div><div class='output co'>#&gt; root        
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>xlex</span><span class='op'>(</span><span class='st'>"ROUND(A1*2"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; root        
 #&gt; ¦-- ROUND   function
 #&gt; °-- (       fun_open
 #&gt;     ¦-- A1  ref
@@ -567,7 +648,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

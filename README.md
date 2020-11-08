@@ -37,22 +37,21 @@ per cell](./vignettes/tidy_xlsx.gif)
 
 What can you do with tidy cells? The best places to start are:
 
-  - [Spreadsheet Munging
+-   [Spreadsheet Munging
     Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies),
     a free, online cookbook using
     [tidyxl](https://github.com/nacnudus/tidyxl) and
     [unpivotr](https://github.com/nacnudus/unpivotr)
-  - [Screencasts](https://www.youtube.com/watch?v=1sinC7wsS5U) on
+-   [Screencasts](https://www.youtube.com/watch?v=1sinC7wsS5U) on
     YouTube.
-  - [Worked examples](https://github.com/nacnudus/ukfarm) on GitHub.
+-   [Worked examples](https://github.com/nacnudus/ukfarm) on GitHub.
 
 Otherwise see examples below.
 
 ***Breaking changes***
 
 The version 1.0.0 release has some breaking changes. See `NEWS.md` for
-details. The previous version can be installed as
-follows.
+details. The previous version can be installed as follows.
 
 ``` r
 devtools::install_version("tidyxl", version = "0.2.3", repos = "http://cran.us.r-project.org")
@@ -93,12 +92,12 @@ observations.
 titanic <- system.file("extdata/titanic.xlsx", package = "tidyxl")
 readxl::read_excel(titanic)
 #> New names:
-#> * `` -> `..1`
-#> * `` -> `..2`
-#> * `` -> `..5`
-#> * `` -> `..7`
+#> * `` -> ...1
+#> * `` -> ...2
+#> * `` -> ...5
+#> * `` -> ...7
 #> # A tibble: 10 x 7
-#>    ..1   ..2    Age      Child ..5   Adult ..7  
+#>    ...1  ...2   Age      Child ...5  Adult ...7 
 #>    <chr> <chr>  <chr>    <chr> <chr> <chr> <chr>
 #>  1 <NA>  <NA>   Survived No    Yes   No    Yes  
 #>  2 Class Sex    <NA>     <NA>  <NA>  <NA>  <NA> 
@@ -120,29 +119,29 @@ row, where it describes the cell’s address, value and other properties.
 library(tidyxl)
 x <- xlsx_cells(titanic)
 dplyr::glimpse(x)
-#> Observations: 60
-#> Variables: 21
-#> $ sheet               <chr> "Sheet1", "Sheet1", "Sheet1", "Sheet1", "She…
-#> $ address             <chr> "C1", "D1", "E1", "F1", "G1", "C2", "D2", "E…
-#> $ row                 <int> 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4,…
-#> $ col                 <int> 3, 4, 5, 6, 7, 3, 4, 5, 6, 7, 1, 2, 1, 2, 4,…
-#> $ is_blank            <lgl> FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALS…
-#> $ data_type           <chr> "character", "character", "blank", "characte…
-#> $ error               <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ logical             <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ numeric             <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ date                <dttm> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-#> $ character           <chr> "Age", "Child", NA, "Adult", NA, "Survived",…
-#> $ character_formatted <list> [<# A tibble: 1 x 14,   character bold  ita…
-#> $ formula             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ is_array            <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FA…
-#> $ formula_ref         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ formula_group       <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ comment             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ height              <dbl> 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, …
-#> $ width               <dbl> 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.…
-#> $ style_format        <chr> "Normal", "Normal", "Normal", "Normal", "Nor…
-#> $ local_format_id     <int> 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1,…
+#> Rows: 60
+#> Columns: 21
+#> $ sheet               <chr> "Sheet1", "Sheet1", "Sheet1", "Sheet1", "Sheet1",…
+#> $ address             <chr> "C1", "D1", "E1", "F1", "G1", "C2", "D2", "E2", "…
+#> $ row                 <int> 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4…
+#> $ col                 <int> 3, 4, 5, 6, 7, 3, 4, 5, 6, 7, 1, 2, 1, 2, 4, 5, 6…
+#> $ is_blank            <lgl> FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FA…
+#> $ data_type           <chr> "character", "character", "blank", "character", "…
+#> $ error               <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ logical             <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ numeric             <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ date                <dttm> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+#> $ character           <chr> "Age", "Child", NA, "Adult", NA, "Survived", "No"…
+#> $ character_formatted <list> [<tbl_df[1 x 14]>, <tbl_df[1 x 14]>, NULL, <tbl_…
+#> $ formula             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ is_array            <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+#> $ formula_ref         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ formula_group       <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ comment             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+#> $ height              <dbl> 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 1…
+#> $ width               <dbl> 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8…
+#> $ style_format        <chr> "Normal", "Normal", "Normal", "Normal", "Normal",…
+#> $ local_format_id     <int> 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1, 1, 1…
 ```
 
 In this structure, the cells can be found by filtering.
@@ -188,10 +187,10 @@ with the `xlsx_formats()` function.
 
 Formatting is available by using the columns `local_format_id` and
 `style_format` as indexes into a separate list-of-lists structure.
-‘Local’ formatting is the most common kind, applied to individual
-cells. ‘Style’ formatting is usually applied to blocks of cells, and
-defines several formats at once. Here is a screenshot of the styles
-buttons in Excel.
+‘Local’ formatting is the most common kind, applied to individual cells.
+‘Style’ formatting is usually applied to blocks of cells, and defines
+several formats at once. Here is a screenshot of the styles buttons in
+Excel.
 
 ![](./vignettes/styles-screenshot.png)
 
@@ -245,26 +244,26 @@ examples <- system.file("/extdata/examples.xlsx", package = "tidyxl")
 xlsx_cells(examples)$character_formatted[77]
 #> [[1]]
 #> # A tibble: 16 x 14
-#>    character bold  italic underline strike vertAlign  size color_rgb
-#>    <chr>     <lgl> <lgl>  <chr>     <lgl>  <chr>     <dbl> <chr>    
-#>  1 in-cell   FALSE FALSE  <NA>      FALSE  <NA>          0 <NA>     
-#>  2 bold      TRUE  FALSE  <NA>      FALSE  <NA>          0 FF000000 
-#>  3 italic    FALSE TRUE   <NA>      FALSE  <NA>          0 FF000000 
-#>  4 underline FALSE FALSE  single    FALSE  <NA>          0 FF000000 
-#>  5 underlin… FALSE FALSE  double    FALSE  <NA>          0 FF000000 
-#>  6 singleac… FALSE FALSE  singleAc… FALSE  <NA>          0 FF000000 
-#>  7 doubleac… FALSE FALSE  doubleAc… FALSE  <NA>          0 FF000000 
-#>  8 striketh… FALSE FALSE  <NA>      TRUE   <NA>          0 FF000000 
-#>  9 subscript FALSE FALSE  <NA>      FALSE  subscript     0 FF000000 
-#> 10 superscr… FALSE FALSE  <NA>      FALSE  superscr…     0 FF000000 
-#> 11 red       FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
-#> 12 theme     FALSE FALSE  <NA>      FALSE  <NA>          0 FFC0504D 
-#> 13 tint      FALSE FALSE  <NA>      FALSE  <NA>          0 FFC0504D 
-#> 14 size      FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
-#> 15 arial     FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
-#> 16 "UTF8Sté… FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000 
-#> # … with 6 more variables: color_theme <int>, color_indexed <int>,
-#> #   color_tint <dbl>, font <chr>, family <int>, scheme <chr>
+#>    character bold  italic underline strike vertAlign  size color_rgb color_theme
+#>    <chr>     <lgl> <lgl>  <chr>     <lgl>  <chr>     <dbl> <chr>           <int>
+#>  1 "in-cell" FALSE FALSE  <NA>      FALSE  <NA>          0 <NA>               NA
+#>  2 "bold"    TRUE  FALSE  <NA>      FALSE  <NA>          0 FF000000            2
+#>  3 "italic"  FALSE TRUE   <NA>      FALSE  <NA>          0 FF000000            2
+#>  4 "underli… FALSE FALSE  single    FALSE  <NA>          0 FF000000            2
+#>  5 "underli… FALSE FALSE  double    FALSE  <NA>          0 FF000000            2
+#>  6 "singlea… FALSE FALSE  singleAc… FALSE  <NA>          0 FF000000            2
+#>  7 "doublea… FALSE FALSE  doubleAc… FALSE  <NA>          0 FF000000            2
+#>  8 "striket… FALSE FALSE  <NA>      TRUE   <NA>          0 FF000000            2
+#>  9 "subscri… FALSE FALSE  <NA>      FALSE  subscript     0 FF000000            2
+#> 10 "supersc… FALSE FALSE  <NA>      FALSE  superscr…     0 FF000000            2
+#> 11 "red"     FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000           NA
+#> 12 "theme"   FALSE FALSE  <NA>      FALSE  <NA>          0 FFC0504D            6
+#> 13 "tint"    FALSE FALSE  <NA>      FALSE  <NA>          0 FFC0504D            6
+#> 14 "size"    FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000           NA
+#> 15 "arial"   FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000           NA
+#> 16 "UTF8Sté… FALSE FALSE  <NA>      FALSE  <NA>          0 FFFF0000           NA
+#> # … with 5 more variables: color_indexed <int>, color_tint <dbl>, font <chr>,
+#> #   family <int>, scheme <chr>
 ```
 
 To see all the available kinds of formats, use `str(formats)`.
@@ -294,16 +293,16 @@ y[!is.na(y$formula),
 #> # A tibble: 32 x 10
 #>    address formula           is_array formula_ref formula_group error   logical numeric date                character   
 #>    <chr>   <chr>             <lgl>    <chr>               <int> <chr>   <lgl>     <dbl> <dttm>              <chr>       
-#>  1 A1      1/0               FALSE    <NA>                   NA #DIV/0! NA           NA NA                  <NA>        
-#>  2 A14     1=1               FALSE    <NA>                   NA <NA>    TRUE         NA NA                  <NA>        
-#>  3 A15     A4+1              FALSE    <NA>                   NA <NA>    NA         1338 NA                  <NA>        
-#>  4 A16     DATE(2017,1,18)   FALSE    <NA>                   NA <NA>    NA           NA 2017-01-18 00:00:00 <NA>        
+#>  1 A1      "1/0"             FALSE    <NA>                   NA #DIV/0! NA           NA NA                  <NA>        
+#>  2 A14     "1=1"             FALSE    <NA>                   NA <NA>    TRUE         NA NA                  <NA>        
+#>  3 A15     "A4+1"            FALSE    <NA>                   NA <NA>    NA         1338 NA                  <NA>        
+#>  4 A16     "DATE(2017,1,18)" FALSE    <NA>                   NA <NA>    NA           NA 2017-01-18 00:00:00 <NA>        
 #>  5 A17     "\"Hello, World!… FALSE    <NA>                   NA <NA>    NA           NA NA                  Hello, Worl…
-#>  6 A19     $A$18+1           FALSE    <NA>                   NA <NA>    NA            2 NA                  <NA>        
-#>  7 B19     A18+2             FALSE    <NA>                   NA <NA>    NA            3 NA                  <NA>        
-#>  8 A20     $A$18+1           FALSE    A20:A21                 0 <NA>    NA            2 NA                  <NA>        
-#>  9 B20     A19+2             FALSE    B20:B21                 1 <NA>    NA            4 NA                  <NA>        
-#> 10 A21     $A$18+1           FALSE    <NA>                    0 <NA>    NA            2 NA                  <NA>        
+#>  6 A19     "$A$18+1"         FALSE    <NA>                   NA <NA>    NA            2 NA                  <NA>        
+#>  7 B19     "A18+2"           FALSE    <NA>                   NA <NA>    NA            3 NA                  <NA>        
+#>  8 A20     "$A$18+1"         FALSE    A20:A21                 0 <NA>    NA            2 NA                  <NA>        
+#>  9 B20     "A19+2"           FALSE    B20:B21                 1 <NA>    NA            4 NA                  <NA>        
+#> 10 A21     "$A$18+1"         FALSE    <NA>                    0 <NA>    NA            2 NA                  <NA>        
 #> # … with 22 more rows
 ```
 
@@ -448,26 +447,26 @@ Most R packages that import spreadsheets have difficulty unless the
 layout of the spreadsheet conforms to a strict definition of a ‘table’,
 e.g.:
 
-  - observations in rows
-  - variables in columns
-  - a single header row
-  - all information represented by characters, whether textual, logical,
+-   observations in rows
+-   variables in columns
+-   a single header row
+-   all information represented by characters, whether textual, logical,
     or numeric
 
 These rules are designed to eliminate ambiguity in the interpretation of
 the information. But most spreadsheeting software relaxes these rules in
 a trade of ambiguity for expression via other media:
 
-  - proximity (other than headers, i.e. other than being the first value
+-   proximity (other than headers, i.e. other than being the first value
     at the top of a column)
-  - formatting (colours and borders)
+-   formatting (colours and borders)
 
 Humans can usually resolve the ambiguities with contextual knowledge,
 but computers are limited by their ignorance. Programmers are hampered
 by:
 
-  - their language’s expressiveness
-  - loss of information in transfer from spreadsheet to programming
+-   their language’s expressiveness
+-   loss of information in transfer from spreadsheet to programming
     library
 
 Information is lost when software discards it in order to force the data
@@ -484,9 +483,9 @@ package has been developed to assist with that step.
 ## Similar projects
 
 [tidyxl](https://github.com/nacnudus/tidyxl) was originally derived from
-[readxl](https://github.com/hadley/readxl) and still contains some of
+[readxl](https://github.com/tidyverse/readxl) and still contains some of
 the same code, hence it inherits the GPL-3 licence.
-[readxl](https://github.com/hadley/readxl) is intended for importing
+[readxl](https://github.com/tidyverse/readxl) is intended for importing
 tabular data with a single row of column headers, whereas
 [tidyxl](https://github.com/nacnudus/tidyxl) is more general, and less
 magic.
@@ -505,7 +504,7 @@ via some clever algorithms.
 for example), and implementation
 ([tidyxl](https://github.com/nacnudus/tidyxl) is implemented mainly in
 C++ and is quite fast, only a little slower than
-[readxl](https://github.com/hadley/readxl)).
+[readxl](https://github.com/tidyverse/readxl)).
 [unpivotr](https://github.com/nacnudus/unpivotr) is a package related to
 [tidyxl](https://github.com/nacnudus/tidyxl) that provides tools for
 unpivoting complex and non-tabular data layouts using I not AI
