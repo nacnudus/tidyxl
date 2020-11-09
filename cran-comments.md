@@ -1,24 +1,8 @@
 **Resubmission**
 
-I have fixed the following URLs:
-
-> Found the following (possibly) invalid URLs:
->   URL: http://www.felienne.com/archives/3634 (moved to https://www.felienne.com/archives/3634)
->     From: inst/doc/smells.html
->     Status: 200
->     Message: OK
->   URL: https://nacnudus.github.io/lexl (moved to https://nacnudus.github.io/lexl/)
->     From: NEWS.md
->     Status: 200
->     Message: OK
->   URL: https://nacnudus.github.io/spreadsheet-munging-strategies (moved to https://nacnudus.github.io/spreadsheet-munging-strategies/)
->     From: README.md
->     Status: 200
->     Message: OK
-
-The package failed to install on winbuilder, but the error message does not say
-why.  I expect it is because of the dependency on an updated version of the
-package "piton" (explained below).
+The failure on winbuilder is because of the dependency on an updated version of
+the package "piton" (explained below).  I have specified the version in the
+DESCRIPTION file.
 
 ## Dependence on {piton}
 
