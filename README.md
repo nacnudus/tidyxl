@@ -356,7 +356,7 @@ The function `xlex()` separates formulas into tokens of different types,
 and gives their depth within a nested formula. Its name is a bad pun on
 ‘Excel’ and ‘lexer’. Try the [online
 demo](https://duncan-garmonsway.shinyapps.io/xlex/), or install the more
-experimental [lexl](https://nacnudus.github.io/lexl) package to run
+experimental [lexl](https://nacnudus.github.io/lexl/) package to run
 `demo_lexl()` locally.
 
 It is useful for detecting spreadsheet smells, which are poor practices

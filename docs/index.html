@@ -360,7 +360,7 @@
 <div id="tokenizing-formulas" class="section level4">
 <h4 class="hasAnchor">
 <a href="#tokenizing-formulas" class="anchor"></a>Tokenizing formulas</h4>
-<p>The function <code><a href="reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a>, or install the more experimental <a href="https://nacnudus.github.io/lexl">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
+<p>The function <code><a href="reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a>, or install the more experimental <a href="https://nacnudus.github.io/lexl/">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
 <p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xlex.html">xlex</a></span><span class="op">(</span><span class="st">"MIN(3,MAX(2,A1))"</span><span class="op">)</span>
