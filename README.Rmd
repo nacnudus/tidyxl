@@ -43,7 +43,7 @@ Tidyxl represents each cell as one row in a dataframe.  Like this.
 What can you do with tidy cells?  The best places to start are:
 
 * [Spreadsheet Munging
-  Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies), a
+  Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies/), a
   free, online cookbook using [tidyxl](https://github.com/nacnudus/tidyxl) and
   [unpivotr](https://github.com/nacnudus/unpivotr)
 * [Screencasts](https://www.youtube.com/watch?v=1sinC7wsS5U) on YouTube.

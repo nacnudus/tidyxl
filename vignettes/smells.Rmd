@@ -35,7 +35,7 @@ x
 
 A smelly spreadsheet is distributed with the `tidyxl` package.  It comes from
 the famous Enron subpoena, made available by [Felienne
-Hermans](http://www.felienne.com/archives/3634).
+Hermans](https://www.felienne.com/archives/3634).
 
 How does it look at a glance?  Here's a screenshot of part of one sheet, showing
 the formulas rather than the cell values.  It's a financial plan, using formulas

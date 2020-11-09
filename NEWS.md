@@ -71,7 +71,7 @@
     `vignette("smells", package = "tidyxl")`.  A vector of Excel function names
     `excel_functions` can be used to separated built-in functions from custom
     functions.  More experimental features will be implemented in the off-CRAN
-    package [lexl](https://nacnudus.github.io/lexl) before becoming part of
+    package [lexl](https://nacnudus.github.io/lexl/) before becoming part of
     tidyxl.
 * `xlsx_cells()$character_formatted` is a new column for the in-cell formatting
     of text (#5).  This is for when different parts of text in a single cell
