@@ -1,5 +1,7 @@
 # tidyxl (development version)
 
+* tidyxl is now licensed as MIT (#63).
+
 # tidyxl 1.0.7
 
 * Update namespace in C++ code for compatibility with the latest version of
@@ -187,6 +189,3 @@ formulas requires a dependency on the
 # tidyxl 0.1.0
 
 * Added a `NEWS.md` file to track changes to the package.
-
-
-
