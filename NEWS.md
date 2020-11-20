@@ -1,3 +1,5 @@
+# tidyxl (development version)
+
 # tidyxl 1.0.7
 
 * Update namespace in C++ code for compatibility with the latest version of
