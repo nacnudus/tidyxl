@@ -34,7 +34,7 @@ xlsxstyles::xlsxstyles(const std::string& path) {
   // then use a default file
   std::string styles1 = zip_buffer(path, "xl/styles.xml");
   rapidxml::xml_document<> styles_xml1;
-  styles_xml1.parse<0>(&styles1[0]);
+  styles_xml1.parse<rapidxml::parse_strip_xml_namespaces>(&styles1[0]);
   rapidxml::xml_node<>* styleSheet1 = styles_xml1.first_node("styleSheet");
   rapidxml::xml_node<>* cellStyleXfs = styleSheet1->first_node("cellStyleXfs");
   if (cellStyleXfs != NULL) {
