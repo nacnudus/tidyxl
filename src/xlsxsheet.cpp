@@ -19,7 +19,7 @@ xlsxsheet::xlsxsheet(
   book_(book),
   include_blank_cells_(include_blank_cells) {
   rapidxml::xml_document<> xml;
-  xml.parse<rapidxml::parse_non_destructive>(&sheet_xml[0]);
+  xml.parse<rapidxml::parse_strip_xml_namespaces | rapidxml::parse_non_destructive | rapidxml::parse_no_string_terminators | rapidxml::parse_no_entity_translation>(&sheet_xml[0]);
 
   rapidxml::xml_node<>* worksheet = xml.first_node("worksheet");
   rapidxml::xml_node<>* sheetData = worksheet->first_node("sheetData");
@@ -252,4 +252,3 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
   }
   // Iterate though the A1-style address string character by character
 }
-
