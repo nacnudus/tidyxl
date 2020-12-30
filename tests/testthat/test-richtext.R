@@ -40,3 +40,8 @@ test_that("Text is encoded as UTF-8", {
   expect_equal(Encoding(x$comment), "UTF-8")
   expect_equal(Encoding(x$character), "UTF-8")
 })
+
+test_that("Unicode in values of formulas is UTF-8", {
+  x <- xlsx_cells("german_umlaute_utf8.xlsx")
+  expect_equal(Encoding(x$character[-1]), rep("UTF-8", 9))
+})
