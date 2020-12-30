@@ -151,7 +151,7 @@ void xlsxcell::cacheValue(
   } else if (tvalue == "str") {
     // Formula, which could have evaluated to anything, so only a string is safe
     book.data_type_[i] = "character";
-    book.character_[i] = vvalue;
+    SET_STRING_ELT(book.character_, i, Rf_mkCharCE(vvalue.c_str(), CE_UTF8));
     return;
   } else if (tvalue == "b"){
     book.data_type_[i] = "logical";
