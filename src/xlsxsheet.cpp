@@ -243,7 +243,7 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
     book_.is_array_[i] = false;
     book_.formula_ref_[i] = NA_STRING;
     book_.formula_group_[i] = NA_INTEGER;
-    book_.comment_[i] = it->second.c_str();
+    SET_STRING_ELT(book_.comment_, i, Rf_mkCharCE(it->second.c_str(), CE_UTF8));
     book_.height_[i] = rowHeights_[row - 1];
     book_.width_[i] = colWidths_[col - 1];
     book_.style_format_[i] = "Normal";
