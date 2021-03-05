@@ -174,6 +174,7 @@ void xlsxsheet::parseSheetData(
         // Sheet name, row height and col width aren't really determined by
         // the cell, so they're done in this sheet instance
         book_.sheet_[i] = name_;
+        SET_STRING_ELT(book_.sheet_, i, Rf_mkCharCE(name_.c_str(), CE_UTF8));
         book_.height_[i] = rowHeight;
         book_.width_[i] = colWidths_[book_.col_[i] - 1];
 
@@ -195,6 +196,7 @@ void xlsxsheet::parseSheetData(
           // Sheet name, row height and col width aren't really determined by
           // the cell, so they're done in this sheet instance
           book_.sheet_[i] = name_;
+          SET_STRING_ELT(book_.sheet_, i, Rf_mkCharCE(name_.c_str(), CE_UTF8));
           book_.height_[i] = rowHeight;
           book_.width_[i] = colWidths_[book_.col_[i] - 1];
 
@@ -228,7 +230,7 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
         col = 26 * col + (*iter - 'A' + 1); // Then do similarly with columns
       }
     }
-    book_.sheet_[i] = name_;
+    SET_STRING_ELT(book_.sheet_, i, Rf_mkCharCE(name_.c_str(), CE_UTF8));
     book_.address_[i] = address;
     book_.row_[i] = row;
     book_.col_[i] = col;
