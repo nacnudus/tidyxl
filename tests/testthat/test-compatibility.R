@@ -26,11 +26,6 @@ test_that("gives informative error for a JMP export", {
   expect_error(xlsx_cells("jmp.xlsx"), "Invalid row or cell: lacks 'r' attribute")
 })
 
-test_that("warns about default styles when no cellStyleXfs defined", {
-  expect_warning(xlsx_cells("haskell.xlsx"),
-                 "Default styles used \\(cellStyleXfs is not defined\\)")
-})
-
 test_that("libreoffice 'true' and 'false' are interpreted as bool", {
   expect_equal(xlsx_formats("libreoffice-bool.xlsx")$local$font$bold,
                c(FALSE, TRUE))

@@ -36,26 +36,61 @@ xlsxstyles::xlsxstyles(const std::string& path) {
   rapidxml::xml_document<> styles_xml1;
   styles_xml1.parse<rapidxml::parse_strip_xml_namespaces>(&styles1[0]);
   rapidxml::xml_node<>* styleSheet1 = styles_xml1.first_node("styleSheet");
+
+  // Find elements of the stylesheet, if they exist
+  rapidxml::xml_node<>* numFmts = styleSheet1->first_node("numFmts");
+  rapidxml::xml_node<>* cellXfs = styleSheet1->first_node("cellXfs");
   rapidxml::xml_node<>* cellStyleXfs = styleSheet1->first_node("cellStyleXfs");
-  if (cellStyleXfs != NULL) {
-    rapidxml::xml_node<>* styleSheet1 = styles_xml1.first_node("styleSheet");
+  rapidxml::xml_node<>* fonts = styleSheet1->first_node("fonts");
+  rapidxml::xml_node<>* fills = styleSheet1->first_node("fills");
+  rapidxml::xml_node<>* borders = styleSheet1->first_node("borders");
+
+  // Prepare to parse default styles
+  std::string styles2 = zip_buffer(extdata() + "/default.xlsx", "xl/styles.xml");
+  rapidxml::xml_document<> styles_xml2;
+  styles_xml2.parse<0>(&styles2[0]);
+  rapidxml::xml_node<>* styleSheet2 = styles_xml2.first_node("styleSheet");
+
+  // Parse styles from either the given stylesheet or the default stylesheet
+  if (numFmts != NULL) {
     cacheNumFmts(styleSheet1);
+  } else {
+    warning("Default styles used (numFmts is not defined)");
+    cacheNumFmts(styleSheet2);
+  }
+
+  if (cellXfs != NULL) {
     cacheCellXfs(styleSheet1);
+  } else {
+    warning("Default styles used (cellXfs is not defined)");
+    cacheCellXfs(styleSheet2);
+  }
+
+  if (cellStyleXfs != NULL) {
     cacheCellStyleXfs(styleSheet1);
-    cacheFonts(styleSheet1);
-    cacheFills(styleSheet1);
-    cacheBorders(styleSheet1);
   } else {
     warning("Default styles used (cellStyleXfs is not defined)");
-    std::string styles2 = zip_buffer(extdata() + "/default.xlsx", "xl/styles.xml");
-    rapidxml::xml_document<> styles_xml2;
-    styles_xml2.parse<0>(&styles2[0]);
-    rapidxml::xml_node<>* styleSheet2 = styles_xml2.first_node("styleSheet");
-    cacheNumFmts(styleSheet2);
-    cacheCellXfs(styleSheet2);
     cacheCellStyleXfs(styleSheet2);
+  }
+
+  if (fonts != NULL) {
+    cacheFonts(styleSheet1);
+  } else {
+    warning("Default styles used (fonts is not defined)");
     cacheFonts(styleSheet2);
+  }
+
+  if (fills != NULL) {
+    cacheFills(styleSheet1);
+  } else {
+    warning("Default styles used (fills is not defined)");
     cacheFills(styleSheet2);
+  }
+
+  if (borders != NULL) {
+    cacheBorders(styleSheet1);
+  } else {
+    warning("Default styles used (borders is not defined)");
     cacheBorders(styleSheet2);
   }
 
