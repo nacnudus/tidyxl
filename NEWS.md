@@ -2,6 +2,7 @@
 
 * tidyxl is now licensed as MIT (#63).
 * Fixed a unicode bug (#64)
+* Fixed two crashes (#71, #73)
 
 # tidyxl 1.0.7
 
