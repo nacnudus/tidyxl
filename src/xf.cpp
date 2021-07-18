@@ -9,10 +9,10 @@ xf::xf() {} // Default constructor
 xf::xf(rapidxml::xml_node<>* xf):
   readingOrderChr_{"context", "left-to-right", "right-to-left"}
 {
-  numFmtId_          = int_value(xf, "numFmtId", NA_INTEGER);
-  fontId_            = int_value(xf, "fontId", NA_INTEGER);
-  fillId_            = int_value(xf, "fillId", NA_INTEGER);
-  borderId_          = int_value(xf, "borderId", NA_INTEGER);
+  numFmtId_          = int_value(xf, "numFmtId", 0);
+  fontId_            = int_value(xf, "fontId", 0);
+  fillId_            = int_value(xf, "fillId", 0);
+  borderId_          = int_value(xf, "borderId", 0);
 
   applyNumberFormat_ = bool_value(xf, "applyNumberFormat", true);
   applyFont_         = bool_value(xf, "applyFont", true);

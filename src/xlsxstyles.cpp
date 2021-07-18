@@ -55,42 +55,36 @@ xlsxstyles::xlsxstyles(const std::string& path) {
   if (numFmts != NULL) {
     cacheNumFmts(styleSheet1);
   } else {
-    warning("Default styles used (numFmts is not defined)");
     cacheNumFmts(styleSheet2);
   }
 
   if (cellXfs != NULL) {
     cacheCellXfs(styleSheet1);
   } else {
-    warning("Default styles used (cellXfs is not defined)");
     cacheCellXfs(styleSheet2);
   }
 
   if (cellStyleXfs != NULL) {
     cacheCellStyleXfs(styleSheet1);
   } else {
-    warning("Default styles used (cellStyleXfs is not defined)");
     cacheCellStyleXfs(styleSheet2);
   }
 
   if (fonts != NULL) {
     cacheFonts(styleSheet1);
   } else {
-    warning("Default styles used (fonts is not defined)");
     cacheFonts(styleSheet2);
   }
 
   if (fills != NULL) {
     cacheFills(styleSheet1);
   } else {
-    warning("Default styles used (fills is not defined)");
     cacheFills(styleSheet2);
   }
 
   if (borders != NULL) {
     cacheBorders(styleSheet1);
   } else {
-    warning("Default styles used (borders is not defined)");
     cacheBorders(styleSheet2);
   }
 
