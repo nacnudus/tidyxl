@@ -81,7 +81,6 @@ inline bool isDateFormat(std::string x) {
   char bracket = 0;
   for (size_t i = 0; i < x.size(); ++i) switch (x[i]) {
     CASEI('D'):
-    CASEI('E'):
     CASEI('H'):
     CASEI('M'):
     CASEI('S'):
