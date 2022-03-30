@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // xlsx_cells_
 List xlsx_cells_(std::string path, CharacterVector sheet_paths, CharacterVector sheet_names, CharacterVector comments_paths, bool include_blank_cells);
 RcppExport SEXP _tidyxl_xlsx_cells_(SEXP pathSEXP, SEXP sheet_pathsSEXP, SEXP sheet_namesSEXP, SEXP comments_pathsSEXP, SEXP include_blank_cellsSEXP) {
