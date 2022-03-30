@@ -55,16 +55,6 @@ void xlsxsheet::cacheDefaultRowColAttributes(rapidxml::xml_node<>* worksheet) {
       sheetFormatPr_->first_attribute("defaultColWidth");
     if (defaultColWidth != NULL)
       defaultColWidth_ = strtod(defaultColWidth->value(), NULL);
-
-    rapidxml::xml_attribute<>*outlineLevelRow =
-      sheetFormatPr_->first_attribute("outlineLevelRow");
-    if (outlineLevelRow != NULL)
-      defaultRowOutlineLevel_ = strtol(outlineLevelRow->value(), NULL, 10);
-
-    rapidxml::xml_attribute<>*outlineLevelCol =
-      sheetFormatPr_->first_attribute("outlineLevelCol");
-    if (outlineLevelCol != NULL)
-      defaultColOutlineLevel_ = strtol(outlineLevelCol->value(), NULL, 10);
   }
 }
 
