@@ -211,8 +211,8 @@ void xlsxsheet::parseSheetData(
         SET_STRING_ELT(book_.sheet_, i, Rf_mkCharCE(name_.c_str(), CE_UTF8));
         book_.height_[i] = rowHeight;
         book_.width_[i] = colWidths_[book_.col_[i] - 1];
-        book_.rowOutlineLevel_[i] = colOutlineLevels_[book_.col_[i] - 1];
-        book_.colOutlineLevel_[i] = rowOutlineLevel;
+        book_.rowOutlineLevel_[i] = rowOutlineLevel;
+        book_.colOutlineLevel_[i] = colOutlineLevels_[book_.col_[i] - 1];
 
         ++i;
         if ((i + 1) % 1000 == 0)
