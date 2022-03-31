@@ -31,8 +31,8 @@ xlsxsheet::xlsxsheet(
   defaultColWidth_ = 8.38;
   defaultRowHeight_ = 15;
 
-  defaultColOutlineLevel_ = 0;
-  defaultRowOutlineLevel_ = 0;
+  defaultColOutlineLevel_ = 1;
+  defaultRowOutlineLevel_ = 1;
 
   cacheDefaultRowColAttributes(worksheet);
   cacheColAttributes(worksheet);
@@ -92,7 +92,7 @@ void xlsxsheet::cacheColAttributes(rapidxml::xml_node<>* worksheet) {
     rapidxml::xml_attribute<>* outlineLevel = col->first_attribute("outlineLevel");
     int outlineLevelValue = defaultColOutlineLevel_;
     if (outlineLevel != NULL) {
-      outlineLevelValue = strtol(outlineLevel->value(), NULL, 10);
+      outlineLevelValue = strtol(outlineLevel->value(), NULL, 10) + 1;
       for (unsigned int column = min; column <= max; ++column) {
         colOutlineLevels_[column - 1] = outlineLevelValue;
       }
@@ -186,7 +186,7 @@ void xlsxsheet::parseSheetData(
     unsigned int rowOutlineLevel = defaultRowOutlineLevel_;
     rapidxml::xml_attribute<>* outlineLevel = row->first_attribute("outlineLevel");
     if (outlineLevel != NULL) {
-      rowOutlineLevel = strtol(outlineLevel->value(), NULL, 10);
+      rowOutlineLevel = strtol(outlineLevel->value(), NULL, 10) + 1;
       rowOutlineLevels_[rowNumber - 1] = rowOutlineLevel;
     }
 
