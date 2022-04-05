@@ -24,16 +24,23 @@ xlsxsheet::xlsxsheet(
   rapidxml::xml_node<>* worksheet = xml.first_node("worksheet");
   rapidxml::xml_node<>* sheetData = worksheet->first_node("sheetData");
 
+  // If defaultColWidth not given, ECMA says you can work it out based on
+  // baseColWidth, but that isn't necessarily given either, and the formula
+  // is wrong because the reality is so complicated, see
+  // https://support.microsoft.com/en-gb/kb/214123.
+  defaultColWidth_ = 8.38;
   defaultRowHeight_ = 15;
-  defaultColWidth_ = 8.47;
 
-  cacheDefaultRowColDims(worksheet);
-  cacheColWidths(worksheet);
+  defaultColOutlineLevel_ = 1;
+  defaultRowOutlineLevel_ = 1;
+
+  cacheDefaultRowColAttributes(worksheet);
+  cacheColAttributes(worksheet);
   cacheComments(comments_path);
   cacheCellcount(sheetData);
 }
 
-void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
+void xlsxsheet::cacheDefaultRowColAttributes(rapidxml::xml_node<>* worksheet) {
   rapidxml::xml_node<>* sheetFormatPr_ = worksheet->first_node("sheetFormatPr");
 
   if (sheetFormatPr_ != NULL) {
@@ -46,30 +53,25 @@ void xlsxsheet::cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet) {
 
     rapidxml::xml_attribute<>*defaultColWidth =
       sheetFormatPr_->first_attribute("defaultColWidth");
-    if (defaultColWidth != NULL) {
+    if (defaultColWidth != NULL)
       defaultColWidth_ = strtod(defaultColWidth->value(), NULL);
-    } else {
-      // If defaultColWidth not given, ECMA says you can work it out based on
-      // baseColWidth, but that isn't necessarily given either, and the formula
-      // is wrong because the reality is so complicated, see
-      // https://support.microsoft.com/en-gb/kb/214123.
-      defaultColWidth_ = 8.38;
-    }
   }
 }
 
-void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
-  // Having done cacheDefaultRowColDims(), initilize vector to default width,
-  // then update with custom widths.  The number of columns might be available
-  // by parsing <dimension><ref>, but if not then only by parsing the address of
-  // all the cells.  I think it's better just to use the maximum possible number
-  // of columns, 16834.
+void xlsxsheet::cacheColAttributes(rapidxml::xml_node<>* worksheet) {
+  // Having done cacheDefaultRowColDims(), initilize vectors to default width
+  // and undefined outlineLevel, then update with custom widths and actual
+  // outlineLevels.  The number of columns might be available by parsing
+  // <dimension><ref>, but if not then only by parsing the address of all the
+  // cells.  I think it's better just to use the maximum possible number of
+  // columns, 16834.
 
   colWidths_.assign(16384, defaultColWidth_);
+  colOutlineLevels_.assign(16384, defaultColOutlineLevel_);
 
   rapidxml::xml_node<>* cols = worksheet->first_node("cols");
   if (cols == NULL)
-    return; // No custom widths
+    return; // No custom widths or outline levelsk
 
   for (rapidxml::xml_node<>* col = cols->first_node("col");
       col; col = col->next_sibling("col")) {
@@ -77,10 +79,24 @@ void xlsxsheet::cacheColWidths(rapidxml::xml_node<>* worksheet) {
     // <col> applies to columns from a min to a max, which must be iterated over
     unsigned int min  = strtol(col->first_attribute("min")->value(), NULL, 10);
     unsigned int max  = strtol(col->first_attribute("max")->value(), NULL, 10);
-    double width = strtod(col->first_attribute("width")->value(), NULL);
 
-    for (unsigned int column = min; column <= max; ++column)
-      colWidths_[column - 1] = width;
+    rapidxml::xml_attribute<>* width = col->first_attribute("width");
+    double width_value = defaultColWidth_;
+    if (width != NULL) {
+      width_value = strtod(width->value(), NULL);
+      for (unsigned int column = min; column <= max; ++column) {
+        colWidths_[column - 1] = width_value;
+      }
+    }
+
+    rapidxml::xml_attribute<>* outlineLevel = col->first_attribute("outlineLevel");
+    int outlineLevelValue = defaultColOutlineLevel_;
+    if (outlineLevel != NULL) {
+      outlineLevelValue = strtol(outlineLevel->value(), NULL, 10) + 1;
+      for (unsigned int column = min; column <= max; ++column) {
+        colOutlineLevels_[column - 1] = outlineLevelValue;
+      }
+    }
   }
 }
 
@@ -151,6 +167,7 @@ void xlsxsheet::parseSheetData(
   // Iterate through rows and cells in sheetData.  Cell elements are children
   // of row elements.  Columns are described elswhere in cols->col.
   rowHeights_.assign(1048576, defaultRowHeight_); // cache rowHeight while here
+  rowOutlineLevels_.assign(1048576, defaultRowOutlineLevel_); // cache rowOutlineLevel while here
   unsigned long int rowNumber;
   for (rapidxml::xml_node<>* row = sheetData->first_node();
       row; row = row->next_sibling()) {
@@ -165,6 +182,13 @@ void xlsxsheet::parseSheetData(
       rowHeight = strtod(ht->value(), NULL);
       rowHeights_[rowNumber - 1] = rowHeight;
     }
+    // Check for row outline level
+    unsigned int rowOutlineLevel = defaultRowOutlineLevel_;
+    rapidxml::xml_attribute<>* outlineLevel = row->first_attribute("outlineLevel");
+    if (outlineLevel != NULL) {
+      rowOutlineLevel = strtol(outlineLevel->value(), NULL, 10) + 1;
+      rowOutlineLevels_[rowNumber - 1] = rowOutlineLevel;
+    }
 
     if (include_blank_cells_) {
       for (rapidxml::xml_node<>* c = row->first_node();
@@ -177,6 +201,8 @@ void xlsxsheet::parseSheetData(
         SET_STRING_ELT(book_.sheet_, i, Rf_mkCharCE(name_.c_str(), CE_UTF8));
         book_.height_[i] = rowHeight;
         book_.width_[i] = colWidths_[book_.col_[i] - 1];
+        book_.rowOutlineLevel_[i] = rowOutlineLevel;
+        book_.colOutlineLevel_[i] = colOutlineLevels_[book_.col_[i] - 1];
 
         ++i;
         if ((i + 1) % 1000 == 0)
@@ -199,6 +225,8 @@ void xlsxsheet::parseSheetData(
           SET_STRING_ELT(book_.sheet_, i, Rf_mkCharCE(name_.c_str(), CE_UTF8));
           book_.height_[i] = rowHeight;
           book_.width_[i] = colWidths_[book_.col_[i] - 1];
+          book_.rowOutlineLevel_[i] = colOutlineLevels_[book_.col_[i] - 1];
+          book_.colOutlineLevel_[i] = rowOutlineLevel;
 
           ++i;
           if ((i + 1) % 1000 == 0)
@@ -248,6 +276,8 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
     SET_STRING_ELT(book_.comment_, i, Rf_mkCharCE(it->second.c_str(), CE_UTF8));
     book_.height_[i] = rowHeights_[row - 1];
     book_.width_[i] = colWidths_[col - 1];
+    book_.rowOutlineLevel_[i] = rowOutlineLevels_[row - 1];
+    book_.colOutlineLevel_[i] = colOutlineLevels_[col - 1];
     book_.style_format_[i] = "Normal";
     book_.local_format_id_[i] = 1;
     ++i;

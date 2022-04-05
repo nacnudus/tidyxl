@@ -51,6 +51,8 @@ formula or shared formula applies (see 'Details').
 \item \code{comment} The text of a comment attached to a cell.
 \item \code{height} The height of a cell's row, in Excel's units.
 \item \code{width} The width of a cell's column, in Excel's units.
+\item \code{row_outline_level} The outline level of a cells's row.
+\item \code{col_outline_level} The outline level of a cells's column.
 \item \code{style_format} An index into a table of style formats
 \code{x$formats$style} (see 'Details').
 \item \code{local_format_id} An index into a table of local cell formats
