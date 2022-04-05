@@ -21,9 +21,10 @@ LazyData: true
 LinkingTo: Rcpp,
     piton (>= 1.0.0)
 Imports: Rcpp
-URL: https://github.com/nacnudus/tidyxl
+URL: https://github.com/nacnudus/tidyxl,
+    https://nacnudus.github.io/tidyxl/
 BugReports: https://github.com/nacnudus/tidyxl/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: testthat,
     here,
     knitr,

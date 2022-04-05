@@ -4,6 +4,7 @@
 * Fixed a unicode bug (#64)
 * Fixed two crashes (#71, #73)
 * Fixed a rare bug in number formats (#52, #75, @da11an)
+* New feature: Import outline levels of rows and columns (#77, #78)
 
 # tidyxl 1.0.7
 

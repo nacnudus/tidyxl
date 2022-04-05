@@ -17,8 +17,13 @@ class xlsxsheet {
     unsigned long long int cellcount_; // allowing for comments on blank cells
     double defaultRowHeight_;
     double defaultColWidth_;
+    int defaultColOutlineLevel_;
+    int defaultRowOutlineLevel_;
+    // TODO: Should the below vectors should be unsigned?
     std::vector<double> colWidths_;
     std::vector<double> rowHeights_;
+    std::vector<int> colOutlineLevels_;
+    std::vector<int> rowOutlineLevels_;
     std::map<int, shared_formula> shared_formulas_;
     xlsxbook& book_; // reference to parent workbook
     std::map<std::string, std::string> comments_; // lookup table of comments
@@ -31,8 +36,8 @@ class xlsxsheet {
         Rcpp::String comments_path,
         const bool& include_blank_cells);
 
-    void cacheDefaultRowColDims(rapidxml::xml_node<>* worksheet);
-    void cacheColWidths(rapidxml::xml_node<>* worksheet);
+    void cacheDefaultRowColAttributes(rapidxml::xml_node<>* worksheet);
+    void cacheColAttributes(rapidxml::xml_node<>* worksheet);
     unsigned long long int cacheCellcount(rapidxml::xml_node<>* sheetData);
     void cacheComments(Rcpp::String comments_path);
     void parseSheetData(

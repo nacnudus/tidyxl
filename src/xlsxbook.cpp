@@ -172,6 +172,8 @@ void xlsxbook::initializeColumns() {
   character_formatted_ = List(cellcount_);
   height_          = NumericVector(cellcount_,   NA_REAL);
   width_           = NumericVector(cellcount_,   NA_REAL);
+  rowOutlineLevel_ = NumericVector(cellcount_,   NA_REAL);
+  colOutlineLevel_ = NumericVector(cellcount_,   NA_REAL);
   style_format_    = CharacterVector(cellcount_, NA_STRING);
   local_format_id_ = IntegerVector(cellcount_,   NA_INTEGER);
 }
@@ -201,7 +203,7 @@ void xlsxbook::cacheInformation() {
   // Returns a nested data frame of everything, the data frame itself wrapped in
   // a list.
 
-  information_ = List(21);
+  information_ = List(23);
   information_[0] = sheet_;
   information_[1] = address_;
   information_[2] = row_;
@@ -221,10 +223,12 @@ void xlsxbook::cacheInformation() {
   information_[16] = comment_;
   information_[17] = height_;
   information_[18] = width_;
-  information_[19] = style_format_;
-  information_[20] = local_format_id_;
+  information_[19] = rowOutlineLevel_;
+  information_[20] = colOutlineLevel_;
+  information_[21] = style_format_;
+  information_[22] = local_format_id_;
 
-  std::vector<std::string> names(21);
+  std::vector<std::string> names(23);
   names[0]  = "sheet";
   names[1]  = "address";
   names[2]  = "row";
@@ -244,8 +248,10 @@ void xlsxbook::cacheInformation() {
   names[16] = "comment";
   names[17] = "height";
   names[18] = "width";
-  names[19] = "style_format";
-  names[20] = "local_format_id";
+  names[19] = "row_outline_level";
+  names[20] = "col_outline_level";
+  names[21] = "style_format";
+  names[22] = "local_format_id";
 
   information_.attr("names") = names;
 
