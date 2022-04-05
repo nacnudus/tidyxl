@@ -21,3 +21,5 @@
 ^issues$
 ^LICENSE\.md$
 ^\.github$
+^_pkgdown\.yml$
+^pkgdown$
