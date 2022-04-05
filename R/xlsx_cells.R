@@ -42,6 +42,8 @@
 #' * `comment` The text of a comment attached to a cell.
 #' * `height` The height of a cell's row, in Excel's units.
 #' * `width` The width of a cell's column, in Excel's units.
+#' * `row_outline_level` The outline level of a cells's row.
+#' * `col_outline_level` The outline level of a cells's column.
 #' * `style_format` An index into a table of style formats
 #'     `x$formats$style` (see 'Details').
 #' * `local_format_id` An index into a table of local cell formats
