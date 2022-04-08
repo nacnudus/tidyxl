@@ -74,6 +74,7 @@ void xlsxcell::cacheValue(
   std::string vvalue;
   if (v != NULL) {
     vvalue = v->value();
+    SET_STRING_ELT(book.content_, i, Rf_mkCharCE(vvalue.c_str(), CE_UTF8));
   } else {
     book.is_blank_[i] = true;
   }
