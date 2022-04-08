@@ -26,6 +26,7 @@
 #' * `row` The row number of a cell address (integer).
 #' * `col` The column number of a cell address (integer).
 #' * `is_blank` Whether or not the cell has a value
+#' * `content` Raw cell value before type conversion, useful for debugging.
 #' * `data_type` The type of a cell, referring to the following columns:
 #'     error, logical, numeric, date, character, blank.
 #' * `error` The error value of a cell.
@@ -71,7 +72,7 @@
 #'   `xlsx_cells()` attempts to infer the correct data type of each cell,
 #'   returning its value in the appropriate column (error, logical, numeric,
 #'   date, character). In case this cleverness is unhelpful, the unparsed value
-#'   and type information is available in the 'content' and 'type' columns.
+#'   and type information is available in the 'content' and 'data_type' columns.
 #' }
 #'
 #' \subsection{Formula}{

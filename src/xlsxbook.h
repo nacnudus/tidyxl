@@ -36,6 +36,7 @@ class xlsxbook {
     Rcpp::IntegerVector   row_;       // Parsed address_ (one-based)
     Rcpp::IntegerVector   col_;       // Parsed address_ (one-based)
     Rcpp::LogicalVector   is_blank_;
+    Rcpp::CharacterVector content_;   // Raw cell value before type conversion
     Rcpp::CharacterVector data_type_; // Type of the parsed value
     Rcpp::CharacterVector error_;     // Parsed value
     Rcpp::LogicalVector   logical_;   // Parsed value

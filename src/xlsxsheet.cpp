@@ -263,6 +263,7 @@ void xlsxsheet::appendComments(unsigned long long int& i) {
     book_.row_[i] = row;
     book_.col_[i] = col;
     book_.is_blank_[i] = true;
+    book_.content_[i] = NA_STRING;
     book_.data_type_[i] = "blank";
     book_.error_[i] = NA_STRING;
     book_.logical_[i] = NA_LOGICAL;

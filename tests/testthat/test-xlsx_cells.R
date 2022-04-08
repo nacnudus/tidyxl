@@ -49,3 +49,9 @@ test_that("include_blank_cells works", {
   expect_gt(nrow(non_blanks), 0L)
   expect_equal(nrow(unpopulated_blanks), 0L)
 })
+
+test_that("raw cell values are returned", {
+  cells <- xlsx_cells("./examples.xlsx", sheet = "Sheet1")
+  cells <- cells[cells$col == 1 & cells$row %in% c(1, 2, 4, 6, 9), ]
+  expect_equal(cells$content, c("#DIV/0!", "1", "1337", "42046", "106"))
+})

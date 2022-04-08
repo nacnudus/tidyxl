@@ -35,6 +35,7 @@ A data frame with the following columns.
 \item \code{row} The row number of a cell address (integer).
 \item \code{col} The column number of a cell address (integer).
 \item \code{is_blank} Whether or not the cell has a value
+\item \code{content} Raw cell value before type conversion, useful for debugging.
 \item \code{data_type} The type of a cell, referring to the following columns:
 error, logical, numeric, date, character, blank.
 \item \code{error} The error value of a cell.
@@ -86,7 +87,7 @@ systems, or it may be an index into an internal table of strings.
 \code{xlsx_cells()} attempts to infer the correct data type of each cell,
 returning its value in the appropriate column (error, logical, numeric,
 date, character). In case this cleverness is unhelpful, the unparsed value
-and type information is available in the 'content' and 'type' columns.
+and type information is available in the 'content' and 'data_type' columns.
 }
 
 \subsection{Formula}{
