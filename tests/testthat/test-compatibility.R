@@ -73,3 +73,11 @@ test_that("Sheet paths like /xl/worksheets/sheet1.xml work", {
 test_that("applyNumberFormat etc. are ignored when no format is provided", {
   expect_error(xlsx_cells("EvaluacionCensal_Secundaria_SEGUNDO_14112018_160622.xlsx"), NA)
 })
+
+test_that("Filenames with special characters work", {
+  examples <- system.file("extdata/examples.xlsx", package = "tidyxl")
+  path_with_special_char <- file.path(tempdir(), "é")
+  dir.create(path_with_special_char)
+  file.copy(examples, path_with_special_char)
+  expect_error(tidyxl:::xlsx_sheet_files_(file.path(path_with_special_char, "examples.xlsx")), NA)
+})
