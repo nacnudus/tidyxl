@@ -11,6 +11,6 @@ test_that("non-xlsx files are detected", {
   expect_error(xlsx_cells("examples.xlsm", check_filetype = FALSE), NA)
   expect_error(xlsx_cells("examples.xltx", check_filetype = FALSE), NA)
   expect_error(xlsx_cells("examples.xltm", check_filetype = FALSE), NA)
-  expect_error(xlsx_cells("examples.xlsb", check_filetype = FALSE), "Evaluation.*")
+  expect_error(xlsx_cells("examples.xlsb", check_filetype = FALSE), "Couldn't find.*")
   expect_error(xlsx_cells("examples.xls"), "The file format*")
 })
