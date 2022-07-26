@@ -9,7 +9,7 @@ Tokens A3 and A4 are at level 2.  The token IF is at level 0, which is
 the outermost level.
 The output isn't enough to enable computation or validation of formulas, but
 it is enough to investigate the structure of formulas and spreadsheets.  It
-has been tested on millions of formulas in the Enron corpus."><title>Parse xlsx (Excel) formulas into tokens — xlex • tidyxl</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Parse xlsx (Excel) formulas into tokens — xlex"><meta property="og:description" content="xlex takes an Excel formula and separates it into tokens.  The name is
+has been tested on millions of formulas in the Enron corpus."><title>Parse xlsx (Excel) formulas into tokens — xlex • tidyxl</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Parse xlsx (Excel) formulas into tokens — xlex"><meta property="og:description" content="xlex takes an Excel formula and separates it into tokens.  The name is
 a bad pun on 'Excel' and 'lexer'.  It returns a dataframe, one row per token,
 giving the token itself, its type (e.g.  number, or error), and its
 level.
@@ -97,20 +97,25 @@ has been tested on millions of formulas in the Enron corpus.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">xlex</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">xlex</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>Character vector of length 1, giving the formula.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame (a tibble, if you use the tidyverse) one row per token,
+    
+
+<p>A data frame (a tibble, if you use the tidyverse) one row per token,
 giving the token itself, its type (e.g.  <code>number</code>, or <code>error</code>), and its
-level.
-A class attribute <code>xlex</code> is added, so that the <code><a href="https://rdrr.io/r/base/print.html" class="external-link">base::print()</a></code> generic can be
+level.</p>
+
+
+<p>A class attribute <code>xlex</code> is added, so that the <code><a href="https://rdrr.io/r/base/print.html" class="external-link">base::print()</a></code> generic can be
 specialised to print the tree prettily.</p>
     </div>
     <div class="section level2">
@@ -166,97 +171,97 @@ https://github.com/spreadsheetlab/XLParser.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># All explicit cell references/addresses are returned as a single 'ref' token.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># All explicit cell references/addresses are returned as a single 'ref' token.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A$1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A$1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A$1  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"$A1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"$A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- $A1  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"$A$1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"$A$1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- $A$1  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1:B2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1:B2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1:B2  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1:1"</span><span class="op">)</span> <span class="co"># Whole row</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1:1"</span><span class="op">)</span> <span class="co"># Whole row</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 1:1  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A:B"</span><span class="op">)</span> <span class="co"># Whole column</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A:B"</span><span class="op">)</span> <span class="co"># Whole column</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A:B  ref </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># If one part of an address is a name or a function, then the colon ':' is</span></span>
-<span class="r-in"><span class="co"># regarded as a 'range operator', so is tagged 'operator'.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1:SOME.NAME"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># If one part of an address is a name or a function, then the colon ':' is</span></span></span>
+<span class="r-in"><span><span class="co"># regarded as a 'range operator', so is tagged 'operator'.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1:SOME.NAME"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- A1         ref</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- :          operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- SOME.NAME  name </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"SOME_FUNCTION():B2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"SOME_FUNCTION():B2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- SOME_FUNCTION  function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- (              fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- )              fun_close</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- :              operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- B2             ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"SOME_FUNCTION():SOME.NAME"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"SOME_FUNCTION():SOME.NAME"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- SOME_FUNCTION  function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- (              fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- )              fun_close</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- :              operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- SOME.NAME      name </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Sheet names are recognised by the terminal exclamation mark '!'.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Sheet1!A1"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Sheet names are recognised by the terminal exclamation mark '!'.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Sheet1!A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- Sheet1!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1       ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"'Sheet 1'!A1"</span><span class="op">)</span>       <span class="co"># Quoted names may contain some punctuation</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"'Sheet 1'!A1"</span><span class="op">)</span>       <span class="co"># Quoted names may contain some punctuation</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 'Sheet 1'!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1          ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"'It''s a sheet'!A1"</span><span class="op">)</span> <span class="co"># Quotes are escaped by doubling</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"'It''s a sheet'!A1"</span><span class="op">)</span> <span class="co"># Quotes are escaped by doubling</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 'It''s a sheet'!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1                ref </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Sheets can be ranged together in so-called 'three-dimensional formulas'.</span></span>
-<span class="r-in"><span class="co"># Both sheets are returned in a single 'sheet' token.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Sheet1:Sheet2!A1"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Sheets can be ranged together in so-called 'three-dimensional formulas'.</span></span></span>
+<span class="r-in"><span><span class="co"># Both sheets are returned in a single 'sheet' token.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Sheet1:Sheet2!A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- Sheet1:Sheet2!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1              ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"'Sheet 1:Sheet 2'!A1"</span><span class="op">)</span> <span class="co"># Quotes surround both (rather than each) sheet</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"'Sheet 1:Sheet 2'!A1"</span><span class="op">)</span> <span class="co"># Quotes surround both (rather than each) sheet</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 'Sheet 1:Sheet 2'!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1                  ref </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Sheets from other files are prefixed by the filename, which Excel</span></span>
-<span class="r-in"><span class="co"># normalizes the filenames into indexes.  Either way, xlex() includes the</span></span>
-<span class="r-in"><span class="co"># file/index in the 'sheet' token.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"[1]Sheet1!A1"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Sheets from other files are prefixed by the filename, which Excel</span></span></span>
+<span class="r-in"><span><span class="co"># normalizes the filenames into indexes.  Either way, xlex() includes the</span></span></span>
+<span class="r-in"><span><span class="co"># file/index in the 'sheet' token.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"[1]Sheet1!A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- [1]Sheet1!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1          ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"'[1]Sheet 1'!A1"</span><span class="op">)</span> <span class="co"># Quotes surround both the file index and the sheet</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"'[1]Sheet 1'!A1"</span><span class="op">)</span> <span class="co"># Quotes surround both the file index and the sheet</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- '[1]Sheet 1'!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1             ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"'C:\\My Documents\\[file.xlsx]Sheet1'!A1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"'C:\\My Documents\\[file.xlsx]Sheet1'!A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 'C:\My Documents\[file.xlsx]Sheet1'!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1                                    ref </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Function names are recognised by the terminal open-parenthesis '('.  There</span></span>
-<span class="r-in"><span class="co"># is no distinction between custom functions and built-in Excel functions.</span></span>
-<span class="r-in"><span class="co"># The open-parenthesis is tagged 'fun_open', and the corresponding</span></span>
-<span class="r-in"><span class="co"># close-parenthesis at the end of the arguments is tagged 'fun_close'.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(1,2)"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Function names are recognised by the terminal open-parenthesis '('.  There</span></span></span>
+<span class="r-in"><span><span class="co"># is no distinction between custom functions and built-in Excel functions.</span></span></span>
+<span class="r-in"><span><span class="co"># The open-parenthesis is tagged 'fun_open', and the corresponding</span></span></span>
+<span class="r-in"><span><span class="co"># close-parenthesis at the end of the arguments is tagged 'fun_close'.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(1,2)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX    function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (      fun_open</span>
@@ -264,86 +269,86 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,  separator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 2  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )      fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"_xll.MY_CUSTOM_FUNCTION()"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"_xll.MY_CUSTOM_FUNCTION()"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- _xll.MY_CUSTOM_FUNCTION  function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- (                        fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )                        fun_close </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Named ranges (properly called 'named formulas') are a last resort after</span></span>
-<span class="r-in"><span class="co"># attempting to match a function (ending in an open parenthesis '(') or a</span></span>
-<span class="r-in"><span class="co"># sheet (ending in an exclamation mark '!')</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"MY_NAMED_RANGE"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Named ranges (properly called 'named formulas') are a last resort after</span></span></span>
+<span class="r-in"><span><span class="co"># attempting to match a function (ending in an open parenthesis '(') or a</span></span></span>
+<span class="r-in"><span><span class="co"># sheet (ending in an exclamation mark '!')</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MY_NAMED_RANGE"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- MY_NAMED_RANGE  name </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Some cell addresses/references, functions and names can look alike, but</span></span>
-<span class="r-in"><span class="co"># xlex() should always make the right choice.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"XFD1"</span><span class="op">)</span>     <span class="co"># A cell in the maximum column in Excel</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Some cell addresses/references, functions and names can look alike, but</span></span></span>
+<span class="r-in"><span><span class="co"># xlex() should always make the right choice.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"XFD1"</span><span class="op">)</span>     <span class="co"># A cell in the maximum column in Excel</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- XFD1  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"XFE1"</span><span class="op">)</span>     <span class="co"># Beyond the maximum column, must be a named range/formula</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"XFE1"</span><span class="op">)</span>     <span class="co"># Beyond the maximum column, must be a named range/formula</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- XFE1  name </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1048576"</span><span class="op">)</span> <span class="co"># A cell in the maximum row in Excel</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1048576"</span><span class="op">)</span> <span class="co"># A cell in the maximum row in Excel</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1048576  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1048577"</span><span class="op">)</span> <span class="co"># Beyond the maximum row, must be a named range/formula</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1048577"</span><span class="op">)</span> <span class="co"># Beyond the maximum row, must be a named range/formula</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1048577  name </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG10"</span><span class="op">)</span>    <span class="co"># A cell address</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG10"</span><span class="op">)</span>    <span class="co"># A cell address</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- LOG10  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG10()"</span><span class="op">)</span>  <span class="co"># A log function</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG10()"</span><span class="op">)</span>  <span class="co"># A log function</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- LOG10  function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- (      fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )      fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG:LOG"</span><span class="op">)</span>  <span class="co"># The whole column 'LOG'</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG:LOG"</span><span class="op">)</span>  <span class="co"># The whole column 'LOG'</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- LOG:LOG  ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG"</span><span class="op">)</span>      <span class="co"># Not a cell address, must be a named range/formula</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG"</span><span class="op">)</span>      <span class="co"># Not a cell address, must be a named range/formula</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- LOG  name </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG()"</span><span class="op">)</span>    <span class="co"># Another log function</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"LOG()"</span><span class="op">)</span>    <span class="co"># Another log function</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- LOG  function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- (    fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )    fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1.2!A1"</span><span class="op">)</span>  <span class="co"># A sheet called 'A1.2'</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1.2!A1"</span><span class="op">)</span>  <span class="co"># A sheet called 'A1.2'</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- A1.2!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1     ref </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Text is surrounded by double-quotes.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"\"Some text\""</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Text is surrounded by double-quotes.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"\"Some text\""</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- "Some text"  text </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"\"Some \"\"text\"\"\""</span><span class="op">)</span> <span class="co"># Double-quotes within text are escaped by</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"\"Some \"\"text\"\"\""</span><span class="op">)</span> <span class="co"># Double-quotes within text are escaped by</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- "Some ""text"""  text </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Numbers are signed where it makes sense, and can be scientific</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Numbers are signed where it makes sense, and can be scientific</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 1  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1.2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1.2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 1.2  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- -1  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1-1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1-1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- -1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- -   operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 1   number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1+-1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1+-1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- -1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- +   operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- -1  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(-1-1)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(-1-1)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX    function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (      fun_open</span>
@@ -352,112 +357,112 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- -  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )      fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1.2E-3"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"-1.2E-3"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- -1.2E-3  number </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Booleans can be constants or functions, and names can look like booleans,</span></span>
-<span class="r-in"><span class="co"># but xlex() should always make the right choice.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUE"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Booleans can be constants or functions, and names can look like booleans,</span></span></span>
+<span class="r-in"><span><span class="co"># but xlex() should always make the right choice.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUE"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- TRUE  bool </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUEISH"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUEISH"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- TRUEISH  name </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUE!A1"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUE!A1"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- TRUE!  sheet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- A1     ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUE()"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"TRUE()"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- TRUE  function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- (     fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )     fun_close </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Errors are tagged 'error'</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#DIV/0!"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Errors are tagged 'error'</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#DIV/0!"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #DIV/0!  error </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#N/A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#N/A"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #N/A  error </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#NAME?"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#NAME?"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #NAME?  error </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#NULL!"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#NULL!"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #NULL!  error </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#NUM!"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#NUM!"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #NUM!  error </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#REF!"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#REF!"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #REF!  error </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"#VALUE!"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"#VALUE!"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- #VALUE!  error </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Operators with more than one character are treated as single tokens</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&lt;&gt;2"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Operators with more than one character are treated as single tokens</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&lt;&gt;2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1   number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- &lt;&gt;  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 2   number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&lt;=2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&lt;=2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1   number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- &lt;=  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 2   number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&lt;2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&lt;2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- &lt;  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 2  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1=2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1=2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- =  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 2  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&amp;2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1&amp;2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- &amp;  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 2  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1 2"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1 2"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦--    operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 2  number </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"(1,2)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"(1,2)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (      paren_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 2  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )      paren_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1%"</span><span class="op">)</span>   <span class="co"># postfix operator</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1%"</span><span class="op">)</span>   <span class="co"># postfix operator</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- %  operator </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The union operator is a comma ',', which is the same symbol that is used</span></span>
-<span class="r-in"><span class="co"># to separate function arguments or array columns.  It is tagged 'operator'</span></span>
-<span class="r-in"><span class="co"># only when it is inside parentheses that are not function parentheses or</span></span>
-<span class="r-in"><span class="co"># array curly braces.  The curly braces are tagged 'array_open' and</span></span>
-<span class="r-in"><span class="co"># 'array_close'.</span></span>
-<span class="r-in"><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1,B2"</span><span class="op">)</span> <span class="co"># invalid formula, defaults to 'union' to avoid a crash</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The union operator is a comma ',', which is the same symbol that is used</span></span></span>
+<span class="r-in"><span><span class="co"># to separate function arguments or array columns.  It is tagged 'operator'</span></span></span>
+<span class="r-in"><span><span class="co"># only when it is inside parentheses that are not function parentheses or</span></span></span>
+<span class="r-in"><span><span class="co"># array curly braces.  The curly braces are tagged 'array_open' and</span></span></span>
+<span class="r-in"><span><span class="co"># 'array_close'.</span></span></span>
+<span class="r-in"><span><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"A1,B2"</span><span class="op">)</span> <span class="co"># invalid formula, defaults to 'union' to avoid a crash</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- A1  ref</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- ,   operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- B2  ref </span>
-<span class="r-in"><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"(A1,B2)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"(A1,B2)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (       paren_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- A1  ref</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,   operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- B2  ref</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )       paren_close </span>
-<span class="r-in"><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(A1,B2)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(A1,B2)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX     function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (       fun_open</span>
@@ -465,7 +470,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,   separator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- B2  ref</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )       fun_close </span>
-<span class="r-in"><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"SMALL((A1,B2),1)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">tidyxl</span><span class="fu">::</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"SMALL((A1,B2),1)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root            </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- SMALL       function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (           fun_open</span>
@@ -477,10 +482,10 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,       separator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 1       number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )           fun_close </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Function arguments are separated by commas ',', which are tagged</span></span>
-<span class="r-in"><span class="co"># 'separator'.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(1,2)"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Function arguments are separated by commas ',', which are tagged</span></span></span>
+<span class="r-in"><span><span class="co"># 'separator'.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(1,2)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX    function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (      fun_open</span>
@@ -488,15 +493,15 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,  separator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 2  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )      fun_close </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Nested functions are marked by an increase in the 'level'.  The level</span></span>
-<span class="r-in"><span class="co"># increases inside parentheses, rather than at the parentheses.  Curly</span></span>
-<span class="r-in"><span class="co"># braces, for arrays, have the same behaviour, as do subexpressions inside</span></span>
-<span class="r-in"><span class="co"># ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the</span></span>
-<span class="r-in"><span class="co"># levels explicitly (rather than by the pretty printing), print as a normal</span></span>
-<span class="r-in"><span class="co"># data frame or tibble by specifying `pretty = FALSE`.</span></span>
-<span class="r-in"><span class="co"># class with as.data.frame.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(MIN(1,2),3)"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Nested functions are marked by an increase in the 'level'.  The level</span></span></span>
+<span class="r-in"><span><span class="co"># increases inside parentheses, rather than at the parentheses.  Curly</span></span></span>
+<span class="r-in"><span><span class="co"># braces, for arrays, have the same behaviour, as do subexpressions inside</span></span></span>
+<span class="r-in"><span><span class="co"># ordinary parenthesis, tagged 'paren_open' and 'paren_close'.  To see the</span></span></span>
+<span class="r-in"><span><span class="co"># levels explicitly (rather than by the pretty printing), print as a normal</span></span></span>
+<span class="r-in"><span><span class="co"># data frame or tibble by specifying `pretty = FALSE`.</span></span></span>
+<span class="r-in"><span><span class="co"># class with as.data.frame.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX(MIN(1,2),3)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX        function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (          fun_open</span>
@@ -509,7 +514,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,      separator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 3      number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )          fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"{1,2;3,4}"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"{1,2;3,4}"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- {      open_array</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- 1  number</span>
@@ -520,7 +525,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- ,  separator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 4  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- }      close_array </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"1*(2+3)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1*(2+3)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- 1      number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- *      operator</span>
@@ -529,7 +534,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ¦-- +  operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- 3  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )      paren_close </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1*(2+3)"</span><span class="op">)</span>, pretty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"1*(2+3)"</span><span class="op">)</span>, pretty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 7 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   level type        token</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
@@ -540,12 +545,12 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     1 operator    +    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     1 number      3    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span>     0 paren_close )    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Arrays are marked by opening and closing curly braces, with comma ','</span></span>
-<span class="r-in"><span class="co"># between columns, and semicolons ';' between rows  Commas and semicolons are</span></span>
-<span class="r-in"><span class="co"># both tagged 'separator'.  Arrays contain only constants, which are</span></span>
-<span class="r-in"><span class="co"># booleans, numbers, text, and errors.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX({1,2;3,4})"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Arrays are marked by opening and closing curly braces, with comma ','</span></span></span>
+<span class="r-in"><span><span class="co"># between columns, and semicolons ';' between rows  Commas and semicolons are</span></span></span>
+<span class="r-in"><span><span class="co"># both tagged 'separator'.  Arrays contain only constants, which are</span></span></span>
+<span class="r-in"><span><span class="co"># booleans, numbers, text, and errors.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"MAX({1,2;3,4})"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX        function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (          fun_open</span>
@@ -559,7 +564,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         °-- 4  number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- }      close_array</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )          fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"=MAX({-1E-2,TRUE;#N/A,\"Hello, World!\"})"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- =                        operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX                      function</span>
@@ -574,48 +579,48 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         °-- "Hello, World!"  text</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- }                    close_array</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )                        fun_close </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Structured references are surrounded by square brackets.  Subexpressions</span></span>
-<span class="r-in"><span class="co"># may also be surrounded by square brackets, but xlex() returns the whole</span></span>
-<span class="r-in"><span class="co"># expression in a single 'structured_ref' token.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"[@col2]"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Structured references are surrounded by square brackets.  Subexpressions</span></span></span>
+<span class="r-in"><span><span class="co"># may also be surrounded by square brackets, but xlex() returns the whole</span></span></span>
+<span class="r-in"><span><span class="co"># expression in a single 'structured_ref' token.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"[@col2]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- [@col2]  structured_ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"SUM([col22])"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"SUM([col22])"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- SUM          function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (            fun_open</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °-- [col22]  structured_ref</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- )            fun_close </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[col1]"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[col1]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- Table1[col1]  structured_ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[[col1]:[col2]]"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[[col1]:[col2]]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- Table1[[col1]:[col2]]  structured_ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[#Headers]"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[#Headers]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- Table1[#Headers]  structured_ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[[#Headers],[col1]]"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[[#Headers],[col1]]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- Table1[[#Headers],[col1]]  structured_ref </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[[#Headers],[col1]:[col2]]"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"Table1[[#Headers],[col1]:[col2]]"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- Table1[[#Headers],[col1]:[col2]]  structured_ref </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># DDE calls (Dynamic Data Exchange) are normalized by Excel into indexes.</span></span>
-<span class="r-in"><span class="co"># Either way, xlex() includes everything in one token.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"[1]!'DDE_parameter=1'"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># DDE calls (Dynamic Data Exchange) are normalized by Excel into indexes.</span></span></span>
+<span class="r-in"><span><span class="co"># Either way, xlex() includes everything in one token.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"[1]!'DDE_parameter=1'"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- [1]!'DDE_parameter=1'  DDE </span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">"'Quote'|'NYSE'!ZAXX"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">"'Quote'|'NYSE'!ZAXX"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- 'Quote'|'NYSE'!ZAXX  DDE </span>
-<span class="r-in"><span class="co"># Meaningless spaces that appear in some old files are returned as 'space'</span></span>
-<span class="r-in"><span class="co"># tokens, so that the original formula can still be recovered by</span></span>
-<span class="r-in"><span class="co"># concatenating all the tokens.  Spaces between function names and their open</span></span>
-<span class="r-in"><span class="co"># parenthesis have not been observed, so are not permitted.</span></span>
-<span class="r-in"><span class="fu">xlex</span><span class="op">(</span><span class="st">" MAX( A1 ) "</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Meaningless spaces that appear in some old files are returned as 'space'</span></span></span>
+<span class="r-in"><span><span class="co"># tokens, so that the original formula can still be recovered by</span></span></span>
+<span class="r-in"><span><span class="co"># concatenating all the tokens.  Spaces between function names and their open</span></span></span>
+<span class="r-in"><span><span class="co"># parenthesis have not been observed, so are not permitted.</span></span></span>
+<span class="r-in"><span><span class="fu">xlex</span><span class="op">(</span><span class="st">" MAX( A1 ) "</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦--         operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- MAX     function</span>
@@ -625,10 +630,10 @@ https://github.com/spreadsheetlab/XLParser.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     °--     operator</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- )       fun_close</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °--         operator </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># print.xlex() invisibly returns the original argument, so that it can be</span></span>
-<span class="r-in"><span class="co"># used in magrittr pipelines.</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"ROUND(A1*2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># print.xlex() invisibly returns the original argument, so that it can be</span></span></span>
+<span class="r-in"><span><span class="co"># used in magrittr pipelines.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">xlex</span><span class="op">(</span><span class="st">"ROUND(A1*2"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> root        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ¦-- ROUND   function</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> °-- (       fun_open</span>
@@ -650,7 +655,7 @@ https://github.com/spreadsheetlab/XLParser.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>

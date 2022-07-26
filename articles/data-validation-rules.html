@@ -8,8 +8,8 @@
 <meta name="description" content="tidyxl">
 <title>Data Validation Rules • tidyxl</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Data Validation Rules">
 <meta property="og:description" content="tidyxl">
@@ -79,11 +79,11 @@
 
 
 <script src="data-validation-rules_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Data Validation Rules</h1>
                         <h4 data-toc-skip class="author">Duncan Garmonsway</h4>
             
-            <h4 data-toc-skip class="date">2022-04-08</h4>
+            <h4 data-toc-skip class="date">2022-07-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/HEAD/vignettes/data-validation-rules.Rmd" class="external-link"><code>vignettes/data-validation-rules.Rmd</code></a></small>
       <div class="d-none name"><code>data-validation-rules.Rmd</code></div>
@@ -98,86 +98,86 @@
 <p>‘xlsx_validation()’ returns each of the data validation rules in an xlsx file, and the ranges of cells to which each rule applies.</p>
 <p>Here is a rule that restricts input to integers between 0 and 9 inclusive, or no value (blank). If any other value is attempted, then an error message is displayed with the imaginative title “message title”, the informative body text “message body”, and a “stop” symbol.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nacnudus/tidyxl" class="external-link">tidyxl</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span>
-<span class="va">examples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/examples.xlsx"</span>, package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>
-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 1</span>
-<span class="co">#&gt; Columns: 14</span>
-<span class="co">#&gt; $ sheet              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sheet1"</span>
-<span class="co">#&gt; $ ref                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A106"</span>
-<span class="co">#&gt; $ type               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "whole"</span>
-<span class="co">#&gt; $ operator           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "between"</span>
-<span class="co">#&gt; $ formula1           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "0"</span>
-<span class="co">#&gt; $ formula2           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "9"</span>
-<span class="co">#&gt; $ allow_blank        <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> TRUE</span>
-<span class="co">#&gt; $ show_input_message <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> TRUE</span>
-<span class="co">#&gt; $ prompt_title       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "message title"</span>
-<span class="co">#&gt; $ prompt_body        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "message body"</span>
-<span class="co">#&gt; $ show_error_message <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> TRUE</span>
-<span class="co">#&gt; $ error_title        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "error title"</span>
-<span class="co">#&gt; $ error_body         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "error body"</span>
-<span class="co">#&gt; $ error_symbol       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "stop"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nacnudus/tidyxl" class="external-link">tidyxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="va">examples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/examples.xlsx"</span>, package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 1</span></span>
+<span><span class="co">#&gt; Columns: 14</span></span>
+<span><span class="co">#&gt; $ sheet              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Sheet1"</span></span>
+<span><span class="co">#&gt; $ ref                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A106"</span></span>
+<span><span class="co">#&gt; $ type               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "whole"</span></span>
+<span><span class="co">#&gt; $ operator           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "between"</span></span>
+<span><span class="co">#&gt; $ formula1           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "0"</span></span>
+<span><span class="co">#&gt; $ formula2           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "9"</span></span>
+<span><span class="co">#&gt; $ allow_blank        <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> TRUE</span></span>
+<span><span class="co">#&gt; $ show_input_message <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> TRUE</span></span>
+<span><span class="co">#&gt; $ prompt_title       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "message title"</span></span>
+<span><span class="co">#&gt; $ prompt_body        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "message body"</span></span>
+<span><span class="co">#&gt; $ show_error_message <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> TRUE</span></span>
+<span><span class="co">#&gt; $ error_title        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "error title"</span></span>
+<span><span class="co">#&gt; $ error_body         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "error body"</span></span>
+<span><span class="co">#&gt; $ error_symbol       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "stop"</span></span></code></pre></div>
 <p>The gamut of possible rules is given in the examples for <code><a href="../reference/xlsx_validation.html">xlsx_validation()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;     sheet            ref       type           operator            formula1</span>
-<span class="co">#&gt; 1  Sheet1           A106      whole            between                   0</span>
-<span class="co">#&gt; 2  Sheet1           A108       list               &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt; 3  Sheet1           A110       date            between 2017-01-01 00:00:00</span>
-<span class="co">#&gt; 4  Sheet1           A111       time            between            00:00:00</span>
-<span class="co">#&gt; 5  Sheet1           A112 textLength            between                   0</span>
-<span class="co">#&gt; 6  Sheet1           A114      whole         notBetween                   0</span>
-<span class="co">#&gt; 7  Sheet1 A115,A121:A122      whole              equal                   0</span>
-<span class="co">#&gt; 8  Sheet1           A116      whole           notEqual                   0</span>
-<span class="co">#&gt; 9  Sheet1           A117      whole        greaterThan                   0</span>
-<span class="co">#&gt; 10 Sheet1           A119      whole greaterThanOrEqual                   0</span>
-<span class="co">#&gt; 11 Sheet1           A120      whole    lessThanOrEqual                   0</span>
-<span class="co">#&gt; 12 Sheet1           A118      whole           lessThan                   0</span>
-<span class="co">#&gt; 13 Sheet1           A107    decimal         notBetween                   0</span>
-<span class="co">#&gt; 14 Sheet1           A113     custom               &lt;NA&gt;     A113&lt;=LEN(B113)</span>
-<span class="co">#&gt; 15 Sheet1           A109       list               &lt;NA&gt;              $B$108</span>
-<span class="co">#&gt;               formula2 allow_blank show_input_message  prompt_title</span>
-<span class="co">#&gt; 1                    9        TRUE               TRUE message title</span>
-<span class="co">#&gt; 2                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 3  2017-01-09 09:00:00        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 4             09:00:00        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 5                    9        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 6                    9        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 7                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 8                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 9                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 10                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 11                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 12                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 13                   9       FALSE              FALSE          &lt;NA&gt;</span>
-<span class="co">#&gt; 14                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt; 15                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span>
-<span class="co">#&gt;     prompt_body show_error_message error_title error_body error_symbol</span>
-<span class="co">#&gt; 1  message body               TRUE error title error body         stop</span>
-<span class="co">#&gt; 2          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;      warning</span>
-<span class="co">#&gt; 3          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 4          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 5          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 6          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 7          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 8          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 9          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 10         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 11         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 12         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 13         &lt;NA&gt;              FALSE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span>
-<span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     sheet            ref       type           operator            formula1</span></span>
+<span><span class="co">#&gt; 1  Sheet1           A106      whole            between                   0</span></span>
+<span><span class="co">#&gt; 2  Sheet1           A108       list               &lt;NA&gt;              $B$108</span></span>
+<span><span class="co">#&gt; 3  Sheet1           A110       date            between 2017-01-01 00:00:00</span></span>
+<span><span class="co">#&gt; 4  Sheet1           A111       time            between            00:00:00</span></span>
+<span><span class="co">#&gt; 5  Sheet1           A112 textLength            between                   0</span></span>
+<span><span class="co">#&gt; 6  Sheet1           A114      whole         notBetween                   0</span></span>
+<span><span class="co">#&gt; 7  Sheet1 A115,A121:A122      whole              equal                   0</span></span>
+<span><span class="co">#&gt; 8  Sheet1           A116      whole           notEqual                   0</span></span>
+<span><span class="co">#&gt; 9  Sheet1           A117      whole        greaterThan                   0</span></span>
+<span><span class="co">#&gt; 10 Sheet1           A119      whole greaterThanOrEqual                   0</span></span>
+<span><span class="co">#&gt; 11 Sheet1           A120      whole    lessThanOrEqual                   0</span></span>
+<span><span class="co">#&gt; 12 Sheet1           A118      whole           lessThan                   0</span></span>
+<span><span class="co">#&gt; 13 Sheet1           A107    decimal         notBetween                   0</span></span>
+<span><span class="co">#&gt; 14 Sheet1           A113     custom               &lt;NA&gt;     A113&lt;=LEN(B113)</span></span>
+<span><span class="co">#&gt; 15 Sheet1           A109       list               &lt;NA&gt;              $B$108</span></span>
+<span><span class="co">#&gt;               formula2 allow_blank show_input_message  prompt_title</span></span>
+<span><span class="co">#&gt; 1                    9        TRUE               TRUE message title</span></span>
+<span><span class="co">#&gt; 2                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3  2017-01-09 09:00:00        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4             09:00:00        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5                    9        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6                    9        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                 &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 11                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 12                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 13                   9       FALSE              FALSE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 14                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 15                &lt;NA&gt;        TRUE               TRUE          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;     prompt_body show_error_message error_title error_body error_symbol</span></span>
+<span><span class="co">#&gt; 1  message body               TRUE error title error body         stop</span></span>
+<span><span class="co">#&gt; 2          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;      warning</span></span>
+<span><span class="co">#&gt; 3          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 4          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 5          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 6          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 7          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 8          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 9          &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 10         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 11         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 12         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 13         &lt;NA&gt;              FALSE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 14         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;         stop</span></span>
+<span><span class="co">#&gt; 15         &lt;NA&gt;               TRUE        &lt;NA&gt;       &lt;NA&gt;  information</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="joining-rules-to-cells">Joining rules to cells<a class="anchor" aria-label="anchor" href="#joining-rules-to-cells"></a>
@@ -187,137 +187,145 @@
 </blockquote>
 <p>To join rules to cells, a naive method is to use the <code>sheet</code> and <code>ref</code> columns to match the <code>sheet</code> and <code>address</code> columns to the output of <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>
-<span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>, <span class="va">row</span> <span class="op">&gt;=</span> <span class="fl">106</span>, <span class="va">col</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>
-
-<span class="va">rules</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 14</span></span>
-<span class="co">#&gt;    sheet  ref      type  operator formula1 formula2 allow_blank show_input_mess…</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>           </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Sheet1 A106     whole between  0        9        TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Sheet1 A108     list  <span style="color: #BB0000;">NA</span>       $B$108   <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Sheet1 A110     date  between  2017-01… 2017-01… TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Sheet1 A111     time  between  00:00:00 09:00:00 TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sheet1 A112     text… between  0        9        TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Sheet1 A114     whole notBetw… 0        9        TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Sheet1 A115,A1… whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sheet1 A116     whole notEqual 0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Sheet1 A117     whole greater… 0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Sheet1 A119     whole greater… 0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Sheet1 A120     whole lessTha… 0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Sheet1 A118     whole lessThan 0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Sheet1 A107     deci… notBetw… 0        9        FALSE       FALSE           </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Sheet1 A113     cust… <span style="color: #BB0000;">NA</span>       A113&lt;=L… <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Sheet1 A109     list  <span style="color: #BB0000;">NA</span>       $B$108   <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   error_symbol &lt;chr&gt;</span></span>
-<span class="va">cells</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 93 × 24</span></span>
-<span class="co">#&gt;    sheet  address   row   col is_blank content   data_type error logical numeric</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Sheet1 A106      106     1 FALSE    0         numeric   <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          0  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Sheet1 A107      107     1 FALSE    0.1       numeric   <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          0.1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Sheet1 A108      108     1 FALSE    137       character <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Sheet1 A109      109     1 FALSE    137       character <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sheet1 A110      110     1 FALSE    42736     date      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Sheet1 A111      111     1 FALSE    0.354166… date      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Sheet1 A112      112     1 FALSE    149       character <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sheet1 A113      113     1 FALSE    10        numeric   <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         10  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Sheet1 A114      114     1 FALSE    -1        numeric   <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Sheet1 A115      115     1 FALSE    0         numeric   <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          0  </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, and 14 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   width &lt;dbl&gt;, row_outline_level &lt;dbl&gt;, col_outline_level &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   style_format &lt;chr&gt;, local_format_id &lt;int&gt;</span></span>
-
-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">rules</span>, <span class="va">cells</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sheet"</span> <span class="op">=</span> <span class="st">"sheet"</span>, <span class="st">"ref"</span> <span class="op">=</span> <span class="st">"address"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 36</span></span>
-<span class="co">#&gt;   sheet  ref   type      operator formula1 formula2 allow_blank show_input_mess…</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>           </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sheet1 A106  whole     between  0        9        TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Sheet1 A108  list      <span style="color: #BB0000;">NA</span>       $B$108   <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Sheet1 A110  date      between  2017-01… 2017-01… TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Sheet1 A111  time      between  00:00:00 09:00:00 TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Sheet1 A112  textLeng… between  0        9        TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Sheet1 A114  whole     notBetw… 0        9        TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Sheet1 A107  decimal   notBetw… 0        9        FALSE       FALSE           </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Sheet1 A113  custom    <span style="color: #BB0000;">NA</span>       A113&lt;=L… <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">9</span> Sheet1 A109  list      <span style="color: #BB0000;">NA</span>       $B$108   <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 28 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   error_symbol &lt;chr&gt;, row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;, content &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   data_type &lt;chr&gt;, error &lt;chr&gt;, logical &lt;lgl&gt;, numeric &lt;dbl&gt;, date &lt;dttm&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   character &lt;chr&gt;, character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   width &lt;dbl&gt;, row_outline_level &lt;dbl&gt;, col_outline_level &lt;dbl&gt;, …</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span></span>
+<span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span>, <span class="va">row</span> <span class="op">&gt;=</span> <span class="fl">106</span>, <span class="va">col</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rules</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 14</span></span></span>
+<span><span class="co">#&gt;    sheet  ref      type  opera…¹ formu…² formu…³ allow…⁴ show_…⁵ promp…⁶ promp…⁷</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Sheet1 A106     whole between 0       9       TRUE    TRUE    messag… messag…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Sheet1 A108     list  <span style="color: #BB0000;">NA</span>      $B$108  <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Sheet1 A110     date  between 2017-0… 2017-0… TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Sheet1 A111     time  between 00:00:… 09:00:… TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sheet1 A112     text… between 0       9       TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Sheet1 A114     whole notBet… 0       9       TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Sheet1 A115,A1… whole equal   0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sheet1 A116     whole notEqu… 0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Sheet1 A117     whole greate… 0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Sheet1 A119     whole greate… 0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Sheet1 A120     whole lessTh… 0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Sheet1 A118     whole lessTh… 0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Sheet1 A107     deci… notBet… 0       9       FALSE   FALSE   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Sheet1 A113     cust… <span style="color: #BB0000;">NA</span>      A113&lt;=… <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Sheet1 A109     list  <span style="color: #BB0000;">NA</span>      $B$108  <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​operator, ²​formula1, ³​formula2, ⁴​allow_blank, ⁵​show_input_message,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁶​prompt_title, ⁷​prompt_body</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
+<span><span class="va">cells</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 93 × 24</span></span></span>
+<span><span class="co">#&gt;    sheet  address   row   col is_blank content     data_…¹ error logical numeric</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Sheet1 A106      106     1 FALSE    0           numeric <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          0  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Sheet1 A107      107     1 FALSE    0.1         numeric <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          0.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Sheet1 A108      108     1 FALSE    137         charac… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Sheet1 A109      109     1 FALSE    137         charac… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Sheet1 A110      110     1 FALSE    42736       date    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Sheet1 A111      111     1 FALSE    0.35416666… date    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Sheet1 A112      112     1 FALSE    149         charac… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Sheet1 A113      113     1 FALSE    10          numeric <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         10  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Sheet1 A114      114     1 FALSE    -1          numeric <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Sheet1 A115      115     1 FALSE    0           numeric <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>          0  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 83 more rows, 14 more variables: date &lt;dttm&gt;, character &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   character_formatted &lt;list&gt;, formula &lt;chr&gt;, is_array &lt;lgl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;, height &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   width &lt;dbl&gt;, row_outline_level &lt;dbl&gt;, col_outline_level &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   style_format &lt;chr&gt;, local_format_id &lt;int&gt;, and abbreviated variable name</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​data_type</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">rules</span>, <span class="va">cells</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sheet"</span> <span class="op">=</span> <span class="st">"sheet"</span>, <span class="st">"ref"</span> <span class="op">=</span> <span class="st">"address"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 36</span></span></span>
+<span><span class="co">#&gt;   sheet  ref   type      opera…¹ formu…² formu…³ allow…⁴ show_…⁵ promp…⁶ promp…⁷</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sheet1 A106  whole     between 0       9       TRUE    TRUE    messag… messag…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Sheet1 A108  list      <span style="color: #BB0000;">NA</span>      $B$108  <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Sheet1 A110  date      between 2017-0… 2017-0… TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Sheet1 A111  time      between 00:00:… 09:00:… TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Sheet1 A112  textLeng… between 0       9       TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> Sheet1 A114  whole     notBet… 0       9       TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> Sheet1 A107  decimal   notBet… 0       9       FALSE   FALSE   <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> Sheet1 A113  custom    <span style="color: #BB0000;">NA</span>      A113&lt;=… <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> Sheet1 A109  list      <span style="color: #BB0000;">NA</span>      $B$108  <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 26 more variables: show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, row &lt;int&gt;, col &lt;int&gt;, is_blank &lt;lgl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   content &lt;chr&gt;, data_type &lt;chr&gt;, error &lt;chr&gt;, logical &lt;lgl&gt;, numeric &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   date &lt;dttm&gt;, character &lt;chr&gt;, character_formatted &lt;list&gt;, formula &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   height &lt;dbl&gt;, width &lt;dbl&gt;, row_outline_level &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   col_outline_level &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;, and …</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Notice that only 9 cells were joined, even though 15 rules were defined. Surely at least 15 cells ought to be joined? The reason why they are not is that the cells for the other 6 rules don’t exist – rules can be defined for cells that have no value, and cells with no value are not returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, otherwise all 17179869184 cells in a worksheet must be returned.</p>
 <p>A more subtle reason for certain cells not to have joined successfully is that the <code>ref</code> column of the rules sometimes refers to more than one cell, and can even refer to several, non-contiguous ranges of cells. Specifically, the seventh rule’s <code>ref</code> column has <code>A115,A121:A122</code>.</p>
 <p>Special treatment is needed here. Ideally, some kind of join function would be defined that can compare indidual cells with ranges. But I haven’t written one, so what follows is a workaround. First, the two ranges of cells must be <code>unnested</code> into <code>A115</code> and <code>A121:122</code>. Then the range <code>A121:122</code> must be ‘unranged’ into <code>A121</code> and <code>A122</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">unrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_limits.html" class="external-link">as.cell_limits</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-  <span class="va">rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">limits</span><span class="op">$</span><span class="va">ul</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">limits</span><span class="op">$</span><span class="va">lr</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>
-  <span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">limits</span><span class="op">$</span><span class="va">ul</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">limits</span><span class="op">$</span><span class="va">lr</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>
-  <span class="va">rowcol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span>
-  <span class="va">cell_addrs</span> <span class="op">&lt;-</span> <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_addr.html" class="external-link">cell_addr</a></span><span class="op">(</span><span class="va">rowcol</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">rowcol</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-  <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/to_string.html" class="external-link">to_string</a></span><span class="op">(</span><span class="va">cell_addrs</span>, fo <span class="op">=</span> <span class="st">"A1"</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">unnest_ref</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">UseMethod</a></span><span class="op">(</span><span class="st">"unnest_ref"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">unnest_ref.default</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref_col</span> <span class="op">=</span> <span class="va">ref</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1L</span><span class="op">)</span>
-  <span class="va">refs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">","</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">refs</span>, <span class="va">unrange</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">unrange</span><span class="op">(</span><span class="st">"A121:A122"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "A121" "A122"</span>
-<span class="fu">unnest_ref</span><span class="op">(</span><span class="st">"A115,A121:A122"</span><span class="op">)</span>
-<span class="co">#&gt; [1] "A115" "A121" "A122"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">unrange</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_limits.html" class="external-link">as.cell_limits</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">limits</span><span class="op">$</span><span class="va">ul</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">limits</span><span class="op">$</span><span class="va">lr</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="va">limits</span><span class="op">$</span><span class="va">ul</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">limits</span><span class="op">$</span><span class="va">lr</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">rowcol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span>
+<span>  <span class="va">cell_addrs</span> <span class="op">&lt;-</span> <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/cell_addr.html" class="external-link">cell_addr</a></span><span class="op">(</span><span class="va">rowcol</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">rowcol</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu">cellranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cellranger/man/to_string.html" class="external-link">to_string</a></span><span class="op">(</span><span class="va">cell_addrs</span>, fo <span class="op">=</span> <span class="st">"A1"</span>, strict <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">unnest_ref</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">UseMethod</a></span><span class="op">(</span><span class="st">"unnest_ref"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">unnest_ref.default</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref_col</span> <span class="op">=</span> <span class="va">ref</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">is.character</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1L</span><span class="op">)</span></span>
+<span>  <span class="va">refs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">","</span>, fixed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">refs</span>, <span class="va">unrange</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">unrange</span><span class="op">(</span><span class="st">"A121:A122"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "A121" "A122"</span></span>
+<span><span class="fu">unnest_ref</span><span class="op">(</span><span class="st">"A115,A121:A122"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "A115" "A121" "A122"</span></span></code></pre></div>
 <p>The <code>unnest_ref()</code> function can also be defined for whole data frames, unnesting them by a column of references.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">unnest_ref.data.frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref_col</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/enquo.html" class="external-link">enquo</a></span><span class="op">(</span><span class="va">ref_col</span><span class="op">)</span>
-  <span class="va">x</span><span class="op">[[</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html" class="external-link">quo_name</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html" class="external-link">quo_name</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">]</span><span class="op">]</span>, <span class="va">unnest_ref</span><span class="op">)</span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/UQ.html" class="external-link">UQ</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="op">(</span><span class="va">nested_rule</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="va">rules</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span>
-<span class="co">#&gt;   sheet  ref       type  operator formula1 formula2 allow_blank show_input_mess…</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>           </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sheet1 A115,A12… whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE            </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   error_symbol &lt;chr&gt;</span></span>
-<span class="fu">unnest_ref</span><span class="op">(</span><span class="va">nested_rule</span>, <span class="va">ref</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Prefixing `UQ()` with the rlang namespace is deprecated as of rlang 0.3.0.</span>
-<span class="co">#&gt; Please use the non-prefixed form or `!!` instead.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Bad:</span>
-<span class="co">#&gt;   rlang::expr(mean(rlang::UQ(var) * 100))</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Ok:</span>
-<span class="co">#&gt;   rlang::expr(mean(UQ(var) * 100))</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Good:</span>
-<span class="co">#&gt;   rlang::expr(mean(!!var * 100))</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span>
-<span class="co">#&gt;   sheet  ref   type  operator formula1 formula2 allow_blank show_input_message</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>             </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sheet1 A115  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE              </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Sheet1 A121  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE              </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Sheet1 A122  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE        TRUE              </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: prompt_title &lt;chr&gt;, prompt_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;, error_body &lt;chr&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   error_symbol &lt;chr&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">unnest_ref.data.frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref_col</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/enquo.html" class="external-link">enquo</a></span><span class="op">(</span><span class="va">ref_col</span><span class="op">)</span></span>
+<span>  <span class="va">x</span><span class="op">[[</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html" class="external-link">quo_name</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/quo_label.html" class="external-link">quo_name</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">]</span><span class="op">]</span>, <span class="va">unnest_ref</span><span class="op">)</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/UQ.html" class="external-link">UQ</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">nested_rule</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="va">rules</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<span><span class="co">#&gt;   sheet  ref       type  opera…¹ formu…² formu…³ allow…⁴ show_…⁵ promp…⁶ promp…⁷</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sheet1 A115,A12… whole equal   0       <span style="color: #BB0000;">NA</span>      TRUE    TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​operator, ²​formula1, ³​formula2, ⁴​allow_blank, ⁵​show_input_message,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁶​prompt_title, ⁷​prompt_body</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
+<span><span class="fu">unnest_ref</span><span class="op">(</span><span class="va">nested_rule</span>, <span class="va">ref</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Prefixing `UQ()` with the rlang namespace is deprecated as of rlang 0.3.0.</span></span>
+<span><span class="co">#&gt; Please use the non-prefixed form or `!!` instead.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   # Bad:</span></span>
+<span><span class="co">#&gt;   rlang::expr(mean(rlang::UQ(var) * 100))</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   # Ok:</span></span>
+<span><span class="co">#&gt;   rlang::expr(mean(UQ(var) * 100))</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   # Good:</span></span>
+<span><span class="co">#&gt;   rlang::expr(mean(!!var * 100))</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
+<span><span class="co">#&gt;   sheet  ref   type  operator formula1 formula2 allow_…¹ show_…² promp…³ promp…⁴</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sheet1 A115  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE     TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Sheet1 A121  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE     TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Sheet1 A122  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE     TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, and abbreviated variable names</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​allow_blank, ²​show_input_message, ³​prompt_title, ⁴​prompt_body</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Finally the new data frame of rules can be joined to a data frame of cells in any of the usual ways, via the <code>sheet</code> and <code>ref</code> columns.</p>
 <p>Problems with this approach occur with rules that are defined over large ranges of cells: the ‘unnesting’ of those ranges results in very long vectors of individual cell addresses, or (worse) huge data frames of rules. Such cases are commonplace, because rules are often defined for entire columns of a spreadsheet, and a column has 1048576 rows.</p>
 </div>
@@ -334,7 +342,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
