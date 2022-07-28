@@ -1,4 +1,4 @@
-# tidyxl (development version)
+# tidyxl 1.0.8
 
 * tidyxl is now licensed as MIT (#63).
 * Fixed a unicode bug (#64)
