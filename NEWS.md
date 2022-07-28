@@ -6,6 +6,7 @@
 * Fixed a rare bug in number formats (#52, #75, @da11an)
 * New feature: Import outline levels of rows and columns (#77, #78)
 * New feature: Import raw cell value into `content` column (#80)
+* Compatibility with upcoming Rcpp release (#86, @Enchufa2)
 
 # tidyxl 1.0.7
 
