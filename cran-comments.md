@@ -1,44 +1,26 @@
-**Resubmission**
-
-The failure on winbuilder is because of the dependency on an updated version of
-the package "piton" (explained below).  I have specified the version in the
-DESCRIPTION file.
-
-## Dependence on {piton}
-
-This update is for compatibility with the newest version of the package "piton",
-which has been submitted to CRAN, but has not yet been accepted because it
-breaks this package.
-
-The required change in tidyxl is trivial (the name of a C++
-namespace), so I believe that tidyxl will pass on all platforms.  I have
-tested it locally on Linux and Mac.  Until piton is accepted, I can't test
-tidyxl with winbuilder.
-
-The update to piton fixes the apparent warning in tidyxl on some platforms:
-
-> Version: 1.0.6
-> Check: compiled code
-> Result: WARN
->     File 'tidyxl/libs/tidyxl.so':
->      Found 'abort', possibly from 'abort' (C)
->      Object: 'xlex.o'
-
 ## Test environments
 
 ### Local
-* Arch Linux 5.4.72-1-lts            R-release 4.0.3 (2020-10-10)
-* MacOSX Darwin                      R-release 4.0.3 (2020-10-10)
+* Arch Linux 5.15.63-1-lts, R-release 4.2.1 (2022-06-23)
+
+### Rhub
+* Windows Server 2022, R-devel, 64 bit
+* Ubuntu Linux 20.04.1 LTS, R-release, GCC
+* Fedora Linux, R-devel, clang, gfortran
+* Debian Linux, R-devel, GCC ASAN/UBSAN
+
+### Winbuilder
+* R Under development (unstable) (2022-08-31 r82783 ucrt)
 
 ## R CMD check results
 0 errors | 0 warnings | 1 note
 
-> ❯ checking compilation flags used ... NOTE
->   Compilation used the following non-portable flag(s):
->    ‘-march=x86-64’
+> * checking installed package size ... NOTE
+>  installed size is 23.5Mb
+>  sub-directories of 1Mb or more:
+>    libs  22.5Mb
 
-I think this only occurs in the local development environment on Linux.  No such
-flag is used in `Makevars` or `Makevars.win`.
+This is compiled C++ code.
 
 ## Downstream dependencies
 
