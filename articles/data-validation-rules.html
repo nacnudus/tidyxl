@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidyxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@
       <img src="" class="logo" alt=""><h1>Data Validation Rules</h1>
                         <h4 data-toc-skip class="author">Duncan Garmonsway</h4>
             
-            <h4 data-toc-skip class="date">2022-07-26</h4>
+            <h4 data-toc-skip class="date">2022-09-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/HEAD/vignettes/data-validation-rules.Rmd" class="external-link"><code>vignettes/data-validation-rules.Rmd</code></a></small>
       <div class="d-none name"><code>data-validation-rules.Rmd</code></div>
@@ -213,7 +213,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​operator, ²​formula1, ³​formula2, ⁴​allow_blank, ⁵​show_input_message,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ⁶​prompt_title, ⁷​prompt_body</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="va">cells</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 93 × 24</span></span></span>
 <span><span class="co">#&gt;    sheet  address   row   col is_blank content     data_…¹ error logical numeric</span></span>
@@ -234,7 +233,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   width &lt;dbl&gt;, row_outline_level &lt;dbl&gt;, col_outline_level &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   style_format &lt;chr&gt;, local_format_id &lt;int&gt;, and abbreviated variable name</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​data_type</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">inner_join</a></span><span class="op">(</span><span class="va">rules</span>, <span class="va">cells</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sheet"</span> <span class="op">=</span> <span class="st">"sheet"</span>, <span class="st">"ref"</span> <span class="op">=</span> <span class="st">"address"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 36</span></span></span>
@@ -255,8 +253,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   date &lt;dttm&gt;, character &lt;chr&gt;, character_formatted &lt;list&gt;, formula &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   is_array &lt;lgl&gt;, formula_ref &lt;chr&gt;, formula_group &lt;int&gt;, comment &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   height &lt;dbl&gt;, width &lt;dbl&gt;, row_outline_level &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   col_outline_level &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;, and …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   col_outline_level &lt;dbl&gt;, style_format &lt;chr&gt;, local_format_id &lt;int&gt;, and …</span></span></span></code></pre></div>
 <p>Notice that only 9 cells were joined, even though 15 rules were defined. Surely at least 15 cells ought to be joined? The reason why they are not is that the cells for the other 6 rules don’t exist – rules can be defined for cells that have no value, and cells with no value are not returned by <code><a href="../reference/xlsx_cells.html">xlsx_cells()</a></code>, otherwise all 17179869184 cells in a worksheet must be returned.</p>
 <p>A more subtle reason for certain cells not to have joined successfully is that the <code>ref</code> column of the rules sometimes refers to more than one cell, and can even refer to several, non-contiguous ranges of cells. Specifically, the seventh rule’s <code>ref</code> column has <code>A115,A121:A122</code>.</p>
 <p>Special treatment is needed here. Ideally, some kind of join function would be defined that can compare indidual cells with ranges. But I haven’t written one, so what follows is a workaround. First, the two ranges of cells must be <code>unnested</code> into <code>A115</code> and <code>A121:122</code>. Then the range <code>A121:122</code> must be ‘unranged’ into <code>A121</code> and <code>A122</code>.</p>
@@ -301,7 +298,6 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ¹​operator, ²​formula1, ³​formula2, ⁴​allow_blank, ⁵​show_input_message,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ⁶​prompt_title, ⁷​prompt_body</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span>
 <span><span class="fu">unnest_ref</span><span class="op">(</span><span class="va">nested_rule</span>, <span class="va">ref</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Prefixing `UQ()` with the rlang namespace is deprecated as of rlang 0.3.0.</span></span>
 <span><span class="co">#&gt; Please use the non-prefixed form or `!!` instead.</span></span>
@@ -324,8 +320,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Sheet1 A122  whole equal    0        <span style="color: #BB0000;">NA</span>       TRUE     TRUE    <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>     </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: show_error_message &lt;lgl&gt;, error_title &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   error_body &lt;chr&gt;, error_symbol &lt;chr&gt;, and abbreviated variable names</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​allow_blank, ²​show_input_message, ³​prompt_title, ⁴​prompt_body</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ¹​allow_blank, ²​show_input_message, ³​prompt_title, ⁴​prompt_body</span></span></span></code></pre></div>
 <p>Finally the new data frame of rules can be joined to a data frame of cells in any of the usual ways, via the <code>sheet</code> and <code>ref</code> columns.</p>
 <p>Problems with this approach occur with rules that are defined over large ranges of cells: the ‘unnesting’ of those ranges results in very long vectors of individual cell addresses, or (worse) huge data frames of rules. Such cases are commonplace, because rules are often defined for entire columns of a spreadsheet, and a column has 1048576 rows.</p>
 </div>

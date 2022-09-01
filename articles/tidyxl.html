@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidyxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@
       <img src="" class="logo" alt=""><h1>Tidyxl</h1>
                         <h4 data-toc-skip class="author">Duncan Garmonsway</h4>
             
-            <h4 data-toc-skip class="date">2022-07-26</h4>
+            <h4 data-toc-skip class="date">2022-09-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/HEAD/vignettes/tidyxl.Rmd" class="external-link"><code>vignettes/tidyxl.Rmd</code></a></small>
       <div class="d-none name"><code>tidyxl.Rmd</code></div>
@@ -202,7 +202,6 @@ pre code, pre, code {
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> A3      Class    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> B3      Sex      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 12 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">row</span> <span class="op">==</span> <span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span>, <span class="st">"numeric"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;   address character numeric</span></span>
@@ -290,8 +289,7 @@ pre code, pre, code {
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> <span style="color: #949494;">"</span>UTF8Stéph… FALSE FALSE  <span style="color: #BB0000;">NA</span>      FALSE  <span style="color: #BB0000;">NA</span>          0 FFFF00…      <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: color_tint &lt;dbl&gt;, font &lt;chr&gt;, family &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   scheme &lt;chr&gt;, and abbreviated variable names ¹​underline, ²​vertAlign,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ³​color_rgb, ⁴​color_theme, ⁵​color_indexed</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ³​color_rgb, ⁴​color_theme, ⁵​color_indexed</span></span></span></code></pre></div>
 <p>To see all the available kinds of formats, use <code>str(formats)</code>.</p>
 </div>
 <div class="section level4">
@@ -328,8 +326,7 @@ pre code, pre, code {
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> A20     <span style="color: #949494;">"</span>$A$18+1<span style="color: #949494;">"</span>           FALSE    A20:A21                 0 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            2 <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> B20     <span style="color: #949494;">"</span>A19+2<span style="color: #949494;">"</span>             FALSE    B20:B21                 1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            4 <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> A21     <span style="color: #949494;">"</span>$A$18+1<span style="color: #949494;">"</span>           FALSE    <span style="color: #BB0000;">NA</span>                      0 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            2 <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span></code></pre></div>
 <p>The top five cells show that the results of formulas are available as usual in the columns <code>error</code>, <code>logical</code>, <code>numeric</code>, <code>date</code>, and <code>character</code>.</p>
 <div class="section level5">
 <h5 id="shared-formulas">Shared formulas<a class="anchor" aria-label="anchor" href="#shared-formulas"></a>

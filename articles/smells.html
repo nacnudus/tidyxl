@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidyxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@
       <img src="" class="logo" alt=""><h1>Detecting Spreadsheet Smells with xlex()</h1>
                         <h4 data-toc-skip class="author">Duncan Garmonsway</h4>
             
-            <h4 data-toc-skip class="date">2022-07-26</h4>
+            <h4 data-toc-skip class="date">2022-09-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/HEAD/vignettes/smells.Rmd" class="external-link"><code>vignettes/smells.Rmd</code></a></small>
       <div class="d-none name"><code>smells.Rmd</code></div>
@@ -190,8 +190,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>    14     5 <span style="color: #949494;">&lt;xlex [4 × 3]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>    14     6 <span style="color: #949494;">&lt;xlex [4 × 3]&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>    17     4 <span style="color: #949494;">&lt;xlex [7 × 3]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 144 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 144 more rows</span></span></span></code></pre>
 <p>Then we can unnest the data frames and filter for tokens that are constants, to find out which cells have constants in their formulas.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">constants</span> <span class="op">&lt;-</span></span>
@@ -212,8 +211,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>    12     4     1 number 7    </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>    12     4     0 number 12   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>    13     4     1 number 7    </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 191 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 191 more rows</span></span></span></code></pre>
 <p>Which constants are most common? Unsurprisingly, 12 and 7 are almost equally abundant, but there are also lots of 6s and 9s – two- and three-quarterly figures? Then there are some 150000s and the familiar 48000s, followed by some fractions that look like percentages, and then several one-offs.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">constants</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -275,8 +273,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>    18     4 TRUE        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>    19     4 TRUE        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>    20     4 TRUE        </span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 402 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 402 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">has_constants</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># filter(row &lt;= 28) %&gt;%</span></span>
@@ -337,8 +334,7 @@
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   171     9     7</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   171    10     7</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>   171    11     7</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 38 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># … with 38 more rows</span></span></span></code></pre>
 <p>Do you wonder what those formulas look like?</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sheet</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>

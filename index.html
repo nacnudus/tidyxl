@@ -40,7 +40,7 @@
     
     <a class="navbar-brand me-2" href="index.html">tidyxl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,10 +141,10 @@
 <code class="sourceCode R"><span><span class="va">titanic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/titanic.xlsx"</span>, package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span></span>
 <span><span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">read_excel</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span></span>
 <span><span class="co">#&gt; New names:</span></span>
-<span><span class="co">#&gt; * `` -&gt; ...1</span></span>
-<span><span class="co">#&gt; * `` -&gt; ...2</span></span>
-<span><span class="co">#&gt; * `` -&gt; ...5</span></span>
-<span><span class="co">#&gt; * `` -&gt; ...7</span></span>
+<span><span class="co">#&gt; • `` -&gt; `...1`</span></span>
+<span><span class="co">#&gt; • `` -&gt; `...2`</span></span>
+<span><span class="co">#&gt; • `` -&gt; `...5`</span></span>
+<span><span class="co">#&gt; • `` -&gt; `...7`</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 7</span></span>
 <span><span class="co">#&gt;    ...1  ...2   Age      Child ...5  Adult ...7 </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
@@ -164,30 +164,31 @@
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">titanic</span><span class="op">)</span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 60</span></span>
-<span><span class="co">#&gt; Columns: 23</span></span>
-<span><span class="co">#&gt; $ sheet               &lt;chr&gt; "Sheet1", "Sheet1", "Sheet1", "Sheet1", "Sheet1", "Sheet1", "Sheet1"…</span></span>
-<span><span class="co">#&gt; $ address             &lt;chr&gt; "C1", "D1", "E1", "F1", "G1", "C2", "D2", "E2", "F2", "G2", "A3", "B…</span></span>
-<span><span class="co">#&gt; $ row                 &lt;int&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5,…</span></span>
-<span><span class="co">#&gt; $ col                 &lt;int&gt; 3, 4, 5, 6, 7, 3, 4, 5, 6, 7, 1, 2, 1, 2, 4, 5, 6, 7, 1, 2, 4, 5, 6,…</span></span>
-<span><span class="co">#&gt; $ is_blank            &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, …</span></span>
-<span><span class="co">#&gt; $ data_type           &lt;chr&gt; "character", "character", "blank", "character", "blank", "character"…</span></span>
-<span><span class="co">#&gt; $ error               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ logical             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ numeric             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, 5, 118, 5…</span></span>
-<span><span class="co">#&gt; $ date                &lt;dttm&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…</span></span>
-<span><span class="co">#&gt; $ character           &lt;chr&gt; "Age", "Child", NA, "Adult", NA, "Survived", "No", "Yes", "No", "Yes…</span></span>
-<span><span class="co">#&gt; $ character_formatted &lt;list&gt; [&lt;tbl_df[1 x 14]&gt;], [&lt;tbl_df[1 x 14]&gt;], &lt;NULL&gt;, [&lt;tbl_df[1 x 14]&gt;],…</span></span>
-<span><span class="co">#&gt; $ formula             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ is_array            &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE…</span></span>
-<span><span class="co">#&gt; $ formula_ref         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ formula_group       &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ comment             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</span></span>
-<span><span class="co">#&gt; $ height              &lt;dbl&gt; 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, …</span></span>
-<span><span class="co">#&gt; $ width               &lt;dbl&gt; 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.…</span></span>
-<span><span class="co">#&gt; $ row_outline_level   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ col_outline_level   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
-<span><span class="co">#&gt; $ style_format        &lt;chr&gt; "Normal", "Normal", "Normal", "Normal", "Normal", "Normal", "Normal"…</span></span>
-<span><span class="co">#&gt; $ local_format_id     &lt;int&gt; 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1, 1, 1, 1, 3, 3, 1, 1, 1,…</span></span></code></pre></div>
+<span><span class="co">#&gt; Columns: 24</span></span>
+<span><span class="co">#&gt; $ sheet               &lt;chr&gt; "Sheet1", "Sheet1", "Sheet1", "Sheet1", "Sheet1", …</span></span>
+<span><span class="co">#&gt; $ address             &lt;chr&gt; "C1", "D1", "E1", "F1", "G1", "C2", "D2", "E2", "F…</span></span>
+<span><span class="co">#&gt; $ row                 &lt;int&gt; 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4,…</span></span>
+<span><span class="co">#&gt; $ col                 &lt;int&gt; 3, 4, 5, 6, 7, 3, 4, 5, 6, 7, 1, 2, 1, 2, 4, 5, 6,…</span></span>
+<span><span class="co">#&gt; $ is_blank            &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FAL…</span></span>
+<span><span class="co">#&gt; $ content             &lt;chr&gt; "0", "1", NA, "2", NA, "3", "4", "5", "4", "5", "6…</span></span>
+<span><span class="co">#&gt; $ data_type           &lt;chr&gt; "character", "character", "blank", "character", "b…</span></span>
+<span><span class="co">#&gt; $ error               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ logical             &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ numeric             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ date                &lt;dttm&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span><span class="co">#&gt; $ character           &lt;chr&gt; "Age", "Child", NA, "Adult", NA, "Survived", "No",…</span></span>
+<span><span class="co">#&gt; $ character_formatted &lt;list&gt; [&lt;tbl_df[1 x 14]&gt;], [&lt;tbl_df[1 x 14]&gt;], &lt;NULL&gt;, […</span></span>
+<span><span class="co">#&gt; $ formula             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ is_array            &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, F…</span></span>
+<span><span class="co">#&gt; $ formula_ref         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ formula_group       &lt;int&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ comment             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ height              &lt;dbl&gt; 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15…</span></span>
+<span><span class="co">#&gt; $ width               &lt;dbl&gt; 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.38, 8.…</span></span>
+<span><span class="co">#&gt; $ row_outline_level   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
+<span><span class="co">#&gt; $ col_outline_level   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
+<span><span class="co">#&gt; $ style_format        &lt;chr&gt; "Normal", "Normal", "Normal", "Normal", "Normal", …</span></span>
+<span><span class="co">#&gt; $ local_format_id     &lt;int&gt; 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 3, 3, 1, 1, 1,…</span></span></code></pre></div>
 <p>In this structure, the cells can be found by filtering.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">data_type</span> <span class="op">==</span> <span class="st">"character"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span><span class="op">)</span><span class="op">]</span></span>
@@ -205,6 +206,7 @@
 <span><span class="co">#&gt;  9 A3      Class    </span></span>
 <span><span class="co">#&gt; 10 B3      Sex      </span></span>
 <span><span class="co">#&gt; # … with 12 more rows</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span>
 <span><span class="va">x</span><span class="op">[</span><span class="va">x</span><span class="op">$</span><span class="va">row</span> <span class="op">==</span> <span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"address"</span>, <span class="st">"character"</span>, <span class="st">"numeric"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; # A tibble: 6 × 3</span></span>
 <span><span class="co">#&gt;   address character numeric</span></span>
@@ -272,25 +274,28 @@
 <span><span class="fu"><a href="reference/xlsx_cells.html">xlsx_cells</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span><span class="op">$</span><span class="va">character_formatted</span><span class="op">[</span><span class="fl">77</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; # A tibble: 16 × 14</span></span>
-<span><span class="co">#&gt;    character     bold  italic underline strike vertAlign  size color_rgb color_theme color_indexed</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;         &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;     &lt;lgl&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;int&gt;         &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 "in-cell"     FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 &lt;NA&gt;               NA            NA</span></span>
-<span><span class="co">#&gt;  2 "bold"        TRUE  FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  3 "italic"      FALSE TRUE   &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  4 "underline"   FALSE FALSE  single    FALSE  &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  5 "underlinedo… FALSE FALSE  double    FALSE  &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  6 "singleaccou… FALSE FALSE  singleAc… FALSE  &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  7 "doubleaccou… FALSE FALSE  doubleAc… FALSE  &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  8 "strikethrou… FALSE FALSE  &lt;NA&gt;      TRUE   &lt;NA&gt;          0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt;  9 "subscript"   FALSE FALSE  &lt;NA&gt;      FALSE  subscript     0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt; 10 "superscript" FALSE FALSE  &lt;NA&gt;      FALSE  superscr…     0 FF000000            2            NA</span></span>
-<span><span class="co">#&gt; 11 "red"         FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA            NA</span></span>
-<span><span class="co">#&gt; 12 "theme"       FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFC0504D            6            NA</span></span>
-<span><span class="co">#&gt; 13 "tint"        FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFC0504D            6            NA</span></span>
-<span><span class="co">#&gt; 14 "size"        FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA            NA</span></span>
-<span><span class="co">#&gt; 15 "arial"       FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA            NA</span></span>
-<span><span class="co">#&gt; 16 "UTF8Stéphan… FALSE FALSE  &lt;NA&gt;      FALSE  &lt;NA&gt;          0 FFFF0000           NA            NA</span></span>
-<span><span class="co">#&gt; # … with 4 more variables: color_tint &lt;dbl&gt;, font &lt;chr&gt;, family &lt;int&gt;, scheme &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt;    character   bold  italic under…¹ strike vertA…²  size color…³ color…⁴ color…⁵</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;       &lt;lgl&gt; &lt;lgl&gt;  &lt;chr&gt;   &lt;lgl&gt;  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 "in-cell"   FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 &lt;NA&gt;         NA      NA</span></span>
+<span><span class="co">#&gt;  2 "bold"      TRUE  FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  3 "italic"    FALSE TRUE   &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  4 "underline" FALSE FALSE  single  FALSE  &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  5 "underline… FALSE FALSE  double  FALSE  &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  6 "singleacc… FALSE FALSE  single… FALSE  &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  7 "doubleacc… FALSE FALSE  double… FALSE  &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  8 "strikethr… FALSE FALSE  &lt;NA&gt;    TRUE   &lt;NA&gt;        0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt;  9 "subscript" FALSE FALSE  &lt;NA&gt;    FALSE  subscr…     0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt; 10 "superscri… FALSE FALSE  &lt;NA&gt;    FALSE  supers…     0 FF0000…       2      NA</span></span>
+<span><span class="co">#&gt; 11 "red"       FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FFFF00…      NA      NA</span></span>
+<span><span class="co">#&gt; 12 "theme"     FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FFC050…       6      NA</span></span>
+<span><span class="co">#&gt; 13 "tint"      FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FFC050…       6      NA</span></span>
+<span><span class="co">#&gt; 14 "size"      FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FFFF00…      NA      NA</span></span>
+<span><span class="co">#&gt; 15 "arial"     FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FFFF00…      NA      NA</span></span>
+<span><span class="co">#&gt; 16 "UTF8Stéph… FALSE FALSE  &lt;NA&gt;    FALSE  &lt;NA&gt;        0 FFFF00…      NA      NA</span></span>
+<span><span class="co">#&gt; # … with 4 more variables: color_tint &lt;dbl&gt;, font &lt;chr&gt;, family &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   scheme &lt;chr&gt;, and abbreviated variable names ¹​underline, ²​vertAlign,</span></span>
+<span><span class="co">#&gt; #   ³​color_rgb, ⁴​color_theme, ⁵​color_indexed</span></span>
+<span><span class="co">#&gt; # ℹ Use `colnames()` to see all variable names</span></span></code></pre></div>
 <p>To see all the available kinds of formats, use <code>str(formats)</code>.</p>
 </div>
 <div class="section level3">
@@ -327,12 +332,13 @@
 <span><span class="co">#&gt;  8 A20     "$A$18+1"           FALSE    A20:A21                 0 &lt;NA&gt;    NA            2 NA                  &lt;NA&gt;      </span></span>
 <span><span class="co">#&gt;  9 B20     "A19+2"             FALSE    B20:B21                 1 &lt;NA&gt;    NA            4 NA                  &lt;NA&gt;      </span></span>
 <span><span class="co">#&gt; 10 A21     "$A$18+1"           FALSE    &lt;NA&gt;                    0 &lt;NA&gt;    NA            2 NA                  &lt;NA&gt;      </span></span>
-<span><span class="co">#&gt; # … with 22 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # … with 22 more rows</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
 <p>The top five cells show that the results of formulas are available as usual in the columns <code>error</code>, <code>logical</code>, <code>numeric</code>, <code>date</code>, and <code>character</code>.</p>
 <div class="section level4">
 <h4 id="shared-formulas">Shared formulas<a class="anchor" aria-label="anchor" href="#shared-formulas"></a>
 </h4>
-<p>Cells <code>A20</code> and <code>A21</code> illustrate how formulas are normalised before being written to file, using the <code>formula_ref</code> and <code>formula_group</code> columns. When there is a group of cells whose formulas only differ by cell reference (e.g. “=A1+1”, “=A2+1”, “=A3+1”, etc.), only one formula in each group is written to the file, so <code>tidyxl</code> infers what the formulas in the other cells in the group must be, from their relative positions.</p>
+<p>Cells <code>A20</code> and <code>A21</code> illustrate how formulas are normalised before being written to file, using the <code>formula_ref</code> and <code>formula_group</code> columns. When there is a group of cells whose formulas only differ by cell reference (e.g. “=A1+1”, “=A2+1”, “=A3+1”, etc.), only one formula in each group is written to the file, so <code>tidyxl</code> infers what the formulas in the other cells in the group must be, from their relative positions.</p>
 </div>
 <div class="section level4">
 <h4 id="array-formulas">Array formulas<a class="anchor" aria-label="anchor" href="#array-formulas"></a>
@@ -391,24 +397,25 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/xlsx_validation.html">xlsx_validation</a></span><span class="op">(</span><span class="va">examples</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 15 × 14</span></span>
-<span><span class="co">#&gt;    sheet  ref    type  operator formula1 formula2 allow_blank show_input_mess… prompt_title prompt_body show_error_mess…</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;lgl&gt;       &lt;lgl&gt;            &lt;chr&gt;        &lt;chr&gt;       &lt;lgl&gt;           </span></span>
-<span><span class="co">#&gt;  1 Sheet1 A106   whole between  0        9        TRUE        TRUE             message tit… message bo… TRUE            </span></span>
-<span><span class="co">#&gt;  2 Sheet1 A108   list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  3 Sheet1 A110   date  between  2017-01… 2017-01… TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  4 Sheet1 A111   time  between  00:00:00 09:00:00 TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  5 Sheet1 A112   text… between  0        9        TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  6 Sheet1 A114   whole notBetw… 0        9        TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  7 Sheet1 A115,… whole equal    0        &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  8 Sheet1 A116   whole notEqual 0        &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt;  9 Sheet1 A117   whole greater… 0        &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt; 10 Sheet1 A119   whole greater… 0        &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt; 11 Sheet1 A120   whole lessTha… 0        &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt; 12 Sheet1 A118   whole lessThan 0        &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt; 13 Sheet1 A107   deci… notBetw… 0        9        FALSE       FALSE            &lt;NA&gt;         &lt;NA&gt;        FALSE           </span></span>
-<span><span class="co">#&gt; 14 Sheet1 A113   cust… &lt;NA&gt;     A113&lt;=L… &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt; 15 Sheet1 A109   list  &lt;NA&gt;     $B$108   &lt;NA&gt;     TRUE        TRUE             &lt;NA&gt;         &lt;NA&gt;        TRUE            </span></span>
-<span><span class="co">#&gt; # … with 3 more variables: error_title &lt;chr&gt;, error_body &lt;chr&gt;, error_symbol &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt;    sheet  ref            type    opera…¹ formu…² formu…³ allow…⁴ show_…⁵ promp…⁶ promp…⁷ show_…⁸ error…⁹ error…˟ error…˟</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;   &lt;lgl&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt;  1 Sheet1 A106           whole   between 0       9       TRUE    TRUE    messag… messag… TRUE    error … error … stop   </span></span>
+<span><span class="co">#&gt;  2 Sheet1 A108           list    &lt;NA&gt;    $B$108  &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    warning</span></span>
+<span><span class="co">#&gt;  3 Sheet1 A110           date    between 2017-0… 2017-0… TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt;  4 Sheet1 A111           time    between 00:00:… 09:00:… TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt;  5 Sheet1 A112           textLe… between 0       9       TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt;  6 Sheet1 A114           whole   notBet… 0       9       TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt;  7 Sheet1 A115,A121:A122 whole   equal   0       &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt;  8 Sheet1 A116           whole   notEqu… 0       &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt;  9 Sheet1 A117           whole   greate… 0       &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt; 10 Sheet1 A119           whole   greate… 0       &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt; 11 Sheet1 A120           whole   lessTh… 0       &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt; 12 Sheet1 A118           whole   lessTh… 0       &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt; 13 Sheet1 A107           decimal notBet… 0       9       FALSE   FALSE   &lt;NA&gt;    &lt;NA&gt;    FALSE   &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt; 14 Sheet1 A113           custom  &lt;NA&gt;    A113&lt;=… &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    stop   </span></span>
+<span><span class="co">#&gt; 15 Sheet1 A109           list    &lt;NA&gt;    $B$108  &lt;NA&gt;    TRUE    TRUE    &lt;NA&gt;    &lt;NA&gt;    TRUE    &lt;NA&gt;    &lt;NA&gt;    inform…</span></span>
+<span><span class="co">#&gt; # … with abbreviated variable names ¹​operator, ²​formula1, ³​formula2, ⁴​allow_blank, ⁵​show_input_message, ⁶​prompt_title,</span></span>
+<span><span class="co">#&gt; #   ⁷​prompt_body, ⁸​show_error_message, ⁹​error_title, ˟​error_body, ˟​error_symbol</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -487,7 +494,7 @@
 <li><a href="https://github.com/nacnudus/tidyxl/actions" class="external-link"><img src="https://github.com/nacnudus/tidyxl/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://cran.r-project.org/package=tidyxl" class="external-link"><img src="http://www.r-pkg.org/badges/version/tidyxl" alt="Cran Status"></a></li>
 <li><a href="https://www.r-pkg.org/pkg/tidyxl" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/tidyxl" alt="Cran Downloads"></a></li>
-<li><a href="https://codecov.io/gh/nacnudus/tidyxl" class="external-link"><img src="https://codecov.io/github/nacnudus/tidyxl/coverage.svg?branch=master" alt="codecov"></a></li>
+<li><a href="https://codecov.io/gh/nacnudus/tidyxl" class="external-link"><img src="https://app.codecov.io/gh/nacnudus/tidyxl/coverage.svg?branch=master" alt="codecov"></a></li>
 </ul>
 </div>
 
