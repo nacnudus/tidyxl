@@ -10,7 +10,7 @@
 Status](http://www.r-pkg.org/badges/version/tidyxl)](https://cran.r-project.org/package=tidyxl)
 [![Cran
 Downloads](https://cranlogs.r-pkg.org/badges/tidyxl)](https://www.r-pkg.org/pkg/tidyxl)
-[![codecov](https://app.codecov.io/gh/nacnudus/tidyxl/coverage.svg?branch=master)](https://codecov.io/gh/nacnudus/tidyxl)
+[![codecov](https://app.codecov.io/gh/nacnudus/tidyxl/coverage.svg?branch=master)](https://app.codecov.io/gh/nacnudus/tidyxl)
 <!-- badges: end -->
 
 [tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular data
@@ -164,7 +164,6 @@ x[x$data_type == "character", c("address", "character")]
 #>  9 A3      Class    
 #> 10 B3      Sex      
 #> # … with 12 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 x[x$row == 4, c("address", "character", "numeric")]
 #> # A tibble: 6 × 3
 #>   address character numeric
@@ -268,7 +267,6 @@ xlsx_cells(examples)$character_formatted[77]
 #> # … with 4 more variables: color_tint <dbl>, font <chr>, family <int>,
 #> #   scheme <chr>, and abbreviated variable names ¹​underline, ²​vertAlign,
 #> #   ³​color_rgb, ⁴​color_theme, ⁵​color_indexed
-#> # ℹ Use `colnames()` to see all variable names
 ```
 
 To see all the available kinds of formats, use `str(formats)`.
@@ -309,7 +307,6 @@ y[!is.na(y$formula),
 #>  9 B20     "A19+2"             FALSE    B20:B21                 1 <NA>    NA            4 NA                  <NA>      
 #> 10 A21     "$A$18+1"           FALSE    <NA>                    0 <NA>    NA            2 NA                  <NA>      
 #> # … with 22 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
 The top five cells show that the results of formulas are available as
