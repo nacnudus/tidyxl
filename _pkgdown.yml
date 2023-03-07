@@ -1,5 +1,4 @@
 url: https://nacnudus.github.io/tidyxl/
 template:
   bootstrap: 5
-  params:
-    ganalytics: UA-45097885-4
+

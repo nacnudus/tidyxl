@@ -40,3 +40,4 @@ Suggests: testthat,
     rlang
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Config/Needs/website: tidyverse/tidytemplate
