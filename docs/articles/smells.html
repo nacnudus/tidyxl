@@ -4,14 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="tidyxl">
 <title>Detecting Spreadsheet Smells with xlex() • tidyxl</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Detecting Spreadsheet Smells with xlex()">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Detecting Spreadsheet Smells with xlex()">
 <meta property="og:description" content="tidyxl">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -24,365 +24,397 @@
   gtag('config', 'UA-45097885-4');
 </script>
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">tidyxl</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.7</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">tidyxl</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.8</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../articles/tidyxl.html">Get started</a>
 </li>
-<li>
-  <a href="../articles/tidyxl.html">Get started</a>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/data-validation-rules.html">Data Validation Rules</a>
+    <a class="dropdown-item" href="../articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/data-validation-rules.html">Data Validation Rules</a>
-    </li>
-    <li>
-      <a href="../articles/smells.html">Detecting Spreadsheet Smells with xlex()</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/nacnudus/tidyxl/">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nacnudus/tidyxl/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="smells_files/header-attrs-2.5/header-attrs.js"></script><link href="smells_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="smells_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Detecting Spreadsheet Smells with xlex()</h1>
-                        <h4 class="author">Duncan Garmonsway</h4>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="" class="logo" alt=""><h1>Detecting Spreadsheet Smells with xlex()</h1>
+                        <h4 data-toc-skip class="author">Duncan
+Garmonsway</h4>
             
-            <h4 class="date">2020-11-08</h4>
+            <h4 data-toc-skip class="date">2023-03-07</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/master/vignettes/smells.Rmd"><code>vignettes/smells.Rmd</code></a></small>
-      <div class="hidden name"><code>smells.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/nacnudus/tidyxl/blob/HEAD/vignettes/smells.Rmd" class="external-link"><code>vignettes/smells.Rmd</code></a></small>
+      <div class="d-none name"><code>smells.Rmd</code></div>
     </div>
 
     
     
-<p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of different types, and gives their depth within a nested formula. Its name is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/">online demo</a> or install the more experimental <a href="https://nacnudus.github.io/lexl/">lexl</a> package to run <code>demo_lexl()</code> locally.</p>
-<p>It is useful for detecting spreadsheet smells, which are poor practices in spreadsheet design, such as deep nests of functions, or embedding constants in formulas.</p>
-<div id="inspecting-the-parse-tree" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inspecting-the-parse-tree" class="anchor"></a>Inspecting the parse tree</h2>
-<p>Here’s an example with a simple formula <code>MIN(3,MAX(2,A1))</code> (the <code><a href="https://rdrr.io/r/base/assignOps.html">=</a></code> symbol at the beginning of the formula is implied, because Excel doesn’t write it to the file).</p>
+<p>The function <code><a href="../reference/xlex.html">xlex()</a></code> separates formulas into tokens of
+different types, and gives their depth within a nested formula. Its name
+is a bad pun on ‘Excel’ and ‘lexer’. Try the <a href="https://duncan-garmonsway.shinyapps.io/xlex/" class="external-link">online demo</a> or
+install the more experimental <a href="https://nacnudus.github.io/lexl/" class="external-link">lexl</a> package to run
+<code>demo_lexl()</code> locally.</p>
+<p>It is useful for detecting spreadsheet smells, which are poor
+practices in spreadsheet design, such as deep nests of functions, or
+embedding constants in formulas.</p>
+<div class="section level2">
+<h2 id="inspecting-the-parse-tree">Inspecting the parse tree<a class="anchor" aria-label="anchor" href="#inspecting-the-parse-tree"></a>
+</h2>
+<p>Here’s an example with a simple formula <code>MIN(3,MAX(2,A1))</code>
+(the <code>=</code> symbol at the beginning of the formula is implied,
+because Excel doesn’t write it to the file).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nacnudus/tidyxl">tidyxl</a></span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="st">"MIN(3,MAX(2,A1))"</span><span class="op">)</span>
-<span class="va">x</span></code></pre></div>
-<pre><code>## root            
-## ¦-- MIN         function
-## °-- (           fun_open
-##     ¦-- 3       number
-##     ¦-- ,       separator
-##     ¦-- MAX     function
-##     °-- (       fun_open
-##         ¦-- 2   number
-##         ¦-- ,   separator
-##         °-- A1  ref
-##     °-- )       fun_close
-## °-- )           fun_close</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nacnudus/tidyxl" class="external-link">tidyxl</a></span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="st">"MIN(3,MAX(2,A1))"</span><span class="op">)</span></span>
+<span><span class="va">x</span></span></code></pre></div>
+<pre><code><span><span class="co">## root            </span></span>
+<span><span class="co">## ¦-- MIN         function</span></span>
+<span><span class="co">## °-- (           fun_open</span></span>
+<span><span class="co">##     ¦-- 3       number</span></span>
+<span><span class="co">##     ¦-- ,       separator</span></span>
+<span><span class="co">##     ¦-- MAX     function</span></span>
+<span><span class="co">##     °-- (       fun_open</span></span>
+<span><span class="co">##         ¦-- 2   number</span></span>
+<span><span class="co">##         ¦-- ,   separator</span></span>
+<span><span class="co">##         °-- A1  ref</span></span>
+<span><span class="co">##     °-- )       fun_close</span></span>
+<span><span class="co">## °-- )           fun_close</span></span></code></pre>
 </div>
-<div id="detecting-constants-inside-formulas" class="section level2">
-<h2 class="hasAnchor">
-<a href="#detecting-constants-inside-formulas" class="anchor"></a>Detecting constants inside formulas</h2>
-<p>A smelly spreadsheet is distributed with the <code>tidyxl</code> package. It comes from the famous Enron subpoena, made available by <a href="http://www.felienne.com/archives/3634">Felienne Hermans</a>.</p>
-<p>How does it look at a glance? Here’s a screenshot of part of one sheet, showing the formulas rather than the cell values. It’s a financial plan, using formulas to forecast the rest of the year, and the plan for the following year.</p>
-<p>What we want to see is whether the formulas have any embedded constants; ones that are hidden from our attention, but that are driving the forecasts. While we could read each formula, one by one, it would be a lot easier to visualise the ones containing constants. We can do this with <code><a href="../reference/xlex.html">xlex()</a></code> and a graph plotting library like <code>ggplot2</code>.</p>
-<p>The first step, after importing the spreadsheet, is to tokenize the formulas, using <code>xlsx()</code>. Let’s tokenize one formula to see what it looks like.</p>
-<div id="one-formula" class="section level3">
-<h3 class="hasAnchor">
-<a href="#one-formula" class="anchor"></a>One formula</h3>
+<div class="section level2">
+<h2 id="detecting-constants-inside-formulas">Detecting constants inside formulas<a class="anchor" aria-label="anchor" href="#detecting-constants-inside-formulas"></a>
+</h2>
+<p>A smelly spreadsheet is distributed with the <code>tidyxl</code>
+package. It comes from the famous Enron subpoena, made available by <a href="https://www.felienne.com/archives/3634" class="external-link">Felienne Hermans</a>.</p>
+<p>How does it look at a glance? Here’s a screenshot of part of one
+sheet, showing the formulas rather than the cell values. It’s a
+financial plan, using formulas to forecast the rest of the year, and the
+plan for the following year.</p>
+<p>What we want to see is whether the formulas have any embedded
+constants; ones that are hidden from our attention, but that are driving
+the forecasts. While we could read each formula, one by one, it would be
+a lot easier to visualise the ones containing constants. We can do this
+with <code><a href="../reference/xlex.html">xlex()</a></code> and a graph plotting library like
+<code>ggplot2</code>.</p>
+<p>The first step, after importing the spreadsheet, is to tokenize the
+formulas, using <code>xlsx()</code>. Let’s tokenize one formula to see
+what it looks like.</p>
+<div class="section level3">
+<h3 id="one-formula">One formula<a class="anchor" aria-label="anchor" href="#one-formula"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'dplyr'</span></span></code></pre>
+<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     filter, lag</span></span></code></pre>
+<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     intersect, setdiff, setequal, union</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-
-<span class="co"># The original filename was "barry_tycholiz__848__2002 Plan Worksheet CC107322.xlsx"</span>
-<span class="va">sheet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/enron-constants.xlsx"</span>,
-                               package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>,
-                   <span class="st">"Detail Breakdown"</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## Warning: 'tidy_xlsx()' is deprecated.
-## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The original filename was "barry_tycholiz__848__2002 Plan Worksheet CC107322.xlsx"</span></span>
+<span><span class="va">sheet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/enron-constants.xlsx"</span>,</span>
+<span>                               package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>,</span>
+<span>                   <span class="st">"Detail Breakdown"</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: 'tidy_xlsx()' is deprecated.</span></span>
+<span><span class="co">## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sheet</span><span class="op">$</span><span class="va">formula</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] "(C8/7)*12-48000"</code></pre>
+<code class="sourceCode R"><span><span class="va">sheet</span><span class="op">$</span><span class="va">formula</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "(C8/7)*12-48000"</span></span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="va">sheet</span><span class="op">$</span><span class="va">formula</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## root        
-## °-- (       paren_open
-##     ¦-- C8  ref
-##     ¦-- /   operator
-##     °-- 7   number
-## ¦-- )       paren_close
-## ¦-- *       operator
-## ¦-- 12      number
-## ¦-- -       operator
-## °-- 48000   number</code></pre>
-<p>The formula is <code>(C8/7)*12-48000</code>, and <code><a href="../reference/xlex.html">xlex()</a></code> separates it into its components. There are the parentheses, the operators (division, multiplication, subtraction), a reference to another cell (<code>C8</code>), and a few numeric constants: 7, 12, and 48000. What could they be?</p>
-<p>The 7 is probably the 7th month, July, because of the column header “July YTD”. A year-to-date figure is being divided by 7, then multiplied by 12 to forecast the year-end figure. The 48000 is more mysterious – perhaps a future payment is expected.</p>
-<p>Embedding these constants inside a formula is bad practice. Better practice would be to put the constants into their own cells, where they could be annotated with their meaning, and perhaps even named. Then formulas could refer to them, by name, e.g.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="va">sheet</span><span class="op">$</span><span class="va">formula</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## root        </span></span>
+<span><span class="co">## °-- (       paren_open</span></span>
+<span><span class="co">##     ¦-- C8  ref</span></span>
+<span><span class="co">##     ¦-- /   operator</span></span>
+<span><span class="co">##     °-- 7   number</span></span>
+<span><span class="co">## ¦-- )       paren_close</span></span>
+<span><span class="co">## ¦-- *       operator</span></span>
+<span><span class="co">## ¦-- 12      number</span></span>
+<span><span class="co">## ¦-- -       operator</span></span>
+<span><span class="co">## °-- 48000   number</span></span></code></pre>
+<p>The formula is <code>(C8/7)*12-48000</code>, and <code><a href="../reference/xlex.html">xlex()</a></code>
+separates it into its components. There are the parentheses, the
+operators (division, multiplication, subtraction), a reference to
+another cell (<code>C8</code>), and a few numeric constants: 7, 12, and
+48000. What could they be?</p>
+<p>The 7 is probably the 7th month, July, because of the column header
+“July YTD”. A year-to-date figure is being divided by 7, then multiplied
+by 12 to forecast the year-end figure. The 48000 is more mysterious –
+perhaps a future payment is expected.</p>
+<p>Embedding these constants inside a formula is bad practice. Better
+practice would be to put the constants into their own cells, where they
+could be annotated with their meaning, and perhaps even named. Then
+formulas could refer to them, by name, e.g.</p>
 <pre><code>(Compensation/MonthsToDate)*12Months-FuturePayments</code></pre>
 </div>
-<div id="many-formulas" class="section level3">
-<h3 class="hasAnchor">
-<a href="#many-formulas" class="anchor"></a>Many formulas</h3>
-<p>The <code><a href="../reference/xlex.html">xlex()</a></code> function isn’t vectorized (because it returns a data frame), so we map it over each of the formulas to create a ‘nest’ column of individual data frames.</p>
+<div class="section level3">
+<h3 id="many-formulas">Many formulas<a class="anchor" aria-label="anchor" href="#many-formulas"></a>
+</h3>
+<p>The <code><a href="../reference/xlex.html">xlex()</a></code> function isn’t vectorized (because it returns
+a data frame), so we map it over each of the formulas to create a ‘nest’
+column of individual data frames.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tokens</span> <span class="op">&lt;-</span>
-  <span class="va">sheet</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">formula</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>tokens <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">xlex</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">formula</span><span class="op">)</span>
-<span class="va">tokens</span></code></pre></div>
-<pre><code>## # A tibble: 154 x 3
-##      row   col tokens          
-##    &lt;int&gt; &lt;int&gt; &lt;list&gt;          
-##  1     8     4 &lt;tibble [9 × 3]&gt;
-##  2     9     4 &lt;tibble [7 × 3]&gt;
-##  3    10     4 &lt;tibble [7 × 3]&gt;
-##  4    12     4 &lt;tibble [7 × 3]&gt;
-##  5    13     4 &lt;tibble [7 × 3]&gt;
-##  6    14     3 &lt;tibble [4 × 3]&gt;
-##  7    14     4 &lt;tibble [4 × 3]&gt;
-##  8    14     5 &lt;tibble [4 × 3]&gt;
-##  9    14     6 &lt;tibble [4 × 3]&gt;
-## 10    17     4 &lt;tibble [7 × 3]&gt;
-## # … with 144 more rows</code></pre>
-<p>Then we can unnest the data frames and filter for tokens that are constants, to find out which cells have constants in their formulas.</p>
+<code class="sourceCode R"><span><span class="va">tokens</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">sheet</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">formula</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>tokens <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">xlex</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">formula</span><span class="op">)</span></span>
+<span><span class="va">tokens</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 154 × 3</span></span></span>
+<span><span class="co">##      row   col tokens        </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>     8     4 <span style="color: #949494;">&lt;xlex [9 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     9     4 <span style="color: #949494;">&lt;xlex [7 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>    10     4 <span style="color: #949494;">&lt;xlex [7 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>    12     4 <span style="color: #949494;">&lt;xlex [7 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>    13     4 <span style="color: #949494;">&lt;xlex [7 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>    14     3 <span style="color: #949494;">&lt;xlex [4 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>    14     4 <span style="color: #949494;">&lt;xlex [4 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>    14     5 <span style="color: #949494;">&lt;xlex [4 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>    14     6 <span style="color: #949494;">&lt;xlex [4 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>    17     4 <span style="color: #949494;">&lt;xlex [7 × 3]&gt;</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 144 more rows</span></span></span></code></pre>
+<p>Then we can unnest the data frames and filter for tokens that are
+constants, to find out which cells have constants in their formulas.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">constants</span> <span class="op">&lt;-</span>
-  <span class="va">tokens</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">tokens</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">constants</span></code></pre></div>
-<pre><code>## # A tibble: 201 x 5
-##      row   col level type   token
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
-##  1     8     4     1 number 7    
-##  2     8     4     0 number 12   
-##  3     8     4     0 number 48000
-##  4     9     4     1 number 7    
-##  5     9     4     0 number 12   
-##  6    10     4     1 number 7    
-##  7    10     4     0 number 12   
-##  8    12     4     1 number 7    
-##  9    12     4     0 number 12   
-## 10    13     4     1 number 7    
-## # … with 191 more rows</code></pre>
-<p>Which constants are most common? Unsurprisingly, 12 and 7 are almost equally abundant, but there are also lots of 6s and 9s – two- and three-quarterly figures? Then there are some 150000s and the familiar 48000s, followed by some fractions that look like percentages, and then several one-offs.</p>
+<code class="sourceCode R"><span><span class="va">constants</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">tokens</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">tokens</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">type</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"error"</span>, <span class="st">"bool"</span>, <span class="st">"number"</span>, <span class="st">"text"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">constants</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 201 × 5</span></span></span>
+<span><span class="co">##      row   col level type   token</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>     8     4     1 number 7    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     8     4     0 number 12   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>     8     4     0 number 48000</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>     9     4     1 number 7    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>     9     4     0 number 12   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>    10     4     1 number 7    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>    10     4     0 number 12   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>    12     4     1 number 7    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>    12     4     0 number 12   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>    13     4     1 number 7    </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 191 more rows</span></span></span></code></pre>
+<p>Which constants are most common? Unsurprisingly, 12 and 7 are almost
+equally abundant, but there are also lots of 6s and 9s – two- and
+three-quarterly figures? Then there are some 150000s and the familiar
+48000s, followed by some fractions that look like percentages, and then
+several one-offs.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">constants</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">token</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 24 x 2
-##    token      n
-##    &lt;chr&gt;  &lt;int&gt;
-##  1 12        59
-##  2 7         58
-##  3 6         30
-##  4 9         30
-##  5 150000     4
-##  6 48000      2
-##  7 0.05       1
-##  8 0.1        1
-##  9 0.35       1
-## 10 0.5        1
-## 11 1.05       1
-## 12 10         1
-## 13 10000      1
-## 14 12000      1
-## 15 13000      1
-## 16 15000      1
-## 17 2000       1
-## 18 25000      1
-## 19 5000       1
-## 20 5320       1
-## 21 7314       1
-## 22 7800       1
-## 23 866        1
-## 24 95000      1</code></pre>
+<code class="sourceCode R"><span><span class="va">constants</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">token</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 24 × 2</span></span></span>
+<span><span class="co">##    token      n</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 12        59</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 7         58</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 6         30</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 9         30</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 150000     4</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 48000      2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 0.05       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 0.1        1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 0.35       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 0.5        1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">11</span> 1.05       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">12</span> 10         1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">13</span> 10000      1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">14</span> 12000      1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">15</span> 13000      1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">16</span> 15000      1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">17</span> 2000       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">18</span> 25000      1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">19</span> 5000       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">20</span> 5320       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">21</span> 7314       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">22</span> 7800       1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">23</span> 866        1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">24</span> 95000      1</span></span></code></pre>
 </div>
-<div id="visualising-constants" class="section level3">
-<h3 class="hasAnchor">
-<a href="#visualising-constants" class="anchor"></a>Visualising constants</h3>
-<p>A final step is to visualize the spreadsheet, highlighting cells that hide constants in their formulas. We already have a data frame of cells with constants, so we join it back to the full dataset, and pass the result into <code>ggplot</code>.</p>
-<p>This time there doesn’t seem to be any particular pattern, which is perhaps suspicious in itself.</p>
+<div class="section level3">
+<h3 id="visualising-constants">Visualising constants<a class="anchor" aria-label="anchor" href="#visualising-constants"></a>
+</h3>
+<p>A final step is to visualize the spreadsheet, highlighting cells that
+hide constants in their formulas. We already have a data frame of cells
+with constants, so we join it back to the full dataset, and pass the
+result into <code>ggplot</code>.</p>
+<p>This time there doesn’t seem to be any particular pattern, which is
+perhaps suspicious in itself.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">has_constants</span> <span class="op">&lt;-</span>
-  <span class="va">constants</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>has_constant <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join</a></span><span class="op">(</span><span class="va">sheet</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">is_blank</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">has_constant</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>has_constant <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
-<span class="va">has_constants</span></code></pre></div>
-<pre><code>## # A tibble: 412 x 3
-##      row   col has_constant
-##    &lt;int&gt; &lt;int&gt; &lt;lgl&gt;       
-##  1     8     4 TRUE        
-##  2     9     4 TRUE        
-##  3    10     4 TRUE        
-##  4    12     4 TRUE        
-##  5    13     4 TRUE        
-##  6    17     4 TRUE        
-##  7    17     6 TRUE        
-##  8    18     4 TRUE        
-##  9    19     4 TRUE        
-## 10    20     4 TRUE        
-## # … with 402 more rows</code></pre>
+<code class="sourceCode R"><span><span class="va">has_constants</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">constants</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>has_constant <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">right_join</a></span><span class="op">(</span><span class="va">sheet</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row"</span>, <span class="st">"col"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">is_blank</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">has_constant</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/replace_na.html" class="external-link">replace_na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>has_constant <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">has_constants</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 412 × 3</span></span></span>
+<span><span class="co">##      row   col has_constant</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>     8     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>     9     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>    10     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>    12     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>    13     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>    17     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>    17     6 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>    18     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>    19     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>    20     4 TRUE        </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 402 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">has_constants</span> <span class="op">%&gt;%</span>
-  <span class="co"># filter(row &lt;= 28) %&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">col</span>, <span class="va">row</span>, fill <span class="op">=</span> <span class="va">has_constant</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">has_constants</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="co"># filter(row &lt;= 28) %&gt;%</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">col</span>, <span class="va">row</span>, fill <span class="op">=</span> <span class="va">has_constant</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="smells_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 </div>
-<div id="detecting-deeply-nested-formulas" class="section level2">
-<h2 class="hasAnchor">
-<a href="#detecting-deeply-nested-formulas" class="anchor"></a>Detecting deeply nested formulas</h2>
-<p>Using the same techniques as for detecting constants, we map <code><a href="../reference/xlex.html">xlex()</a></code> over the formulas in a spreadsheet, unnest the result, and filter for tokens with particular properties. In this case, we are interested in the <code>level</code> of each token, which tells how deeply a token is nested in other functions and expressions.</p>
-<p>This time, we use another spreadsheet from the Enron corpus. First, an illustration. Notice that inside the first function, the level increases to 1. Inside the second function, the level increases to 2.</p>
+<div class="section level2">
+<h2 id="detecting-deeply-nested-formulas">Detecting deeply nested formulas<a class="anchor" aria-label="anchor" href="#detecting-deeply-nested-formulas"></a>
+</h2>
+<p>Using the same techniques as for detecting constants, we map
+<code><a href="../reference/xlex.html">xlex()</a></code> over the formulas in a spreadsheet, unnest the
+result, and filter for tokens with particular properties. In this case,
+we are interested in the <code>level</code> of each token, which tells
+how deeply a token is nested in other functions and expressions.</p>
+<p>This time, we use another spreadsheet from the Enron corpus. First,
+an illustration. Notice that inside the first function, the level
+increases to 1. Inside the second function, the level increases to
+2.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="st">"MAX(3,MIN(2,4))"</span><span class="op">)</span></code></pre></div>
-<pre><code>## root           
-## ¦-- MAX        function
-## °-- (          fun_open
-##     ¦-- 3      number
-##     ¦-- ,      separator
-##     ¦-- MIN    function
-##     °-- (      fun_open
-##         ¦-- 2  number
-##         ¦-- ,  separator
-##         °-- 4  number
-##     °-- )      fun_close
-## °-- )          fun_close</code></pre>
-<p>Now let’s apply the same test to all the formulas in a sheet. The deepest level of nesting turns out to be 7, and is seen in all the cells in row 171.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/xlex.html">xlex</a></span><span class="op">(</span><span class="st">"MAX(3,MIN(2,4))"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## root           </span></span>
+<span><span class="co">## ¦-- MAX        function</span></span>
+<span><span class="co">## °-- (          fun_open</span></span>
+<span><span class="co">##     ¦-- 3      number</span></span>
+<span><span class="co">##     ¦-- ,      separator</span></span>
+<span><span class="co">##     ¦-- MIN    function</span></span>
+<span><span class="co">##     °-- (      fun_open</span></span>
+<span><span class="co">##         ¦-- 2  number</span></span>
+<span><span class="co">##         ¦-- ,  separator</span></span>
+<span><span class="co">##         °-- 4  number</span></span>
+<span><span class="co">##     °-- )      fun_close</span></span>
+<span><span class="co">## °-- )          fun_close</span></span></code></pre>
+<p>Now let’s apply the same test to all the formulas in a sheet. The
+deepest level of nesting turns out to be 7, and is seen in all the cells
+in row 171.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The original filename was "albert_meyers__1__1-25act.xlsx"</span>
-<span class="va">sheet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata/enron-nested.xlsx"</span>,
-                               package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>,
-                   <span class="st">"Preschedule"</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## Warning: 'tidy_xlsx()' is deprecated.
-## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</code></pre>
+<code class="sourceCode R"><span><span class="co"># The original filename was "albert_meyers__1__1-25act.xlsx"</span></span>
+<span><span class="va">sheet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_xlsx.html">tidy_xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/enron-nested.xlsx"</span>,</span>
+<span>                               package <span class="op">=</span> <span class="st">"tidyxl"</span><span class="op">)</span>,</span>
+<span>                   <span class="st">"Preschedule"</span><span class="op">)</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: 'tidy_xlsx()' is deprecated.</span></span>
+<span><span class="co">## Use 'xlsx_cells()' or 'xlsx_formats()' instead.</span></span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">deepest</span> <span class="op">&lt;-</span>
-  <span class="va">sheet</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>tokens <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">xlex</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">tokens</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span><span class="va">tokens</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">level</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">level</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">level</span><span class="op">)</span>
-<span class="va">deepest</span></code></pre></div>
-<pre><code>## # A tibble: 48 x 3
-##      row   col level
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1   171     2     7
-##  2   171     3     7
-##  3   171     4     7
-##  4   171     5     7
-##  5   171     6     7
-##  6   171     7     7
-##  7   171     8     7
-##  8   171     9     7
-##  9   171    10     7
-## 10   171    11     7
-## # … with 38 more rows</code></pre>
+<code class="sourceCode R"><span><span class="va">deepest</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">sheet</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>tokens <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">xlex</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">tokens</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">tokens</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">level</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">level</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">row</span>, <span class="va">col</span>, <span class="va">level</span><span class="op">)</span></span>
+<span><span class="va">deepest</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 48 × 3</span></span></span>
+<span><span class="co">##      row   col level</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   171     2     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   171     3     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   171     4     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   171     5     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   171     6     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   171     7     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   171     8     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   171     9     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   171    10     7</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   171    11     7</span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 38 more rows</span></span></span></code></pre>
 <p>Do you wonder what those formulas look like?</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sheet</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">row</span> <span class="op">==</span> <span class="fl">171</span>, <span class="va">col</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span> <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></code></pre></div>
-<pre><code>## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</code></pre>
+<code class="sourceCode R"><span><span class="va">sheet</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">row</span> <span class="op">==</span> <span class="fl">171</span>, <span class="va">col</span> <span class="op">==</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">formula</span><span class="op">)</span> <span class="co"># Aaaaaaaaaaarghhhhhhhh!</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "((IF((103-B$89)=103,0,(103-B$89)))+(IF((200-B$95)=200,0,(200-B$95)))+(IF((196-B$98)=196,0,(196-B$98)))+(IF((200-B$101)=200,0,(200-B$101)))+(IF((70-B$104)=70,0,(MIN(40,(70-B$104))))+(IF((78-B$109)=78,0,(MIN(50,(78-B$109)))))+(IF((103-B$114)=103,0,(MIN(66,(103-B$114)))))+(IF((195-B$119-B$124-B$129-B$134-B$139)=195,0,(MIN(70,(195-B$119-B$124-B$129-B$134-B$139)))))+(IF((64-B$144)=64,0,(MIN(50,(64-B$144)))))+(IF((48-B$149)=48,0,(MIN(20,(48-B$149)))))+(IF((44-B$154)=44,0,(MIN(20,(44-B$154)))))+(IF((130-B$159)=130,0,(MIN(20,(130-B$159)))))))"</span></span></code></pre>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by Duncan Garmonsway.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Duncan Garmonsway.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
