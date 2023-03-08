@@ -40,7 +40,9 @@ understanding the dependency structures within spreadsheets.
 
 Tidyxl represents each cell as one row in a dataframe.  Like this.
 
-![Gif of tidyxl converting cells into a tidy representation of one row per cell](./vignettes/tidy_xlsx.gif)
+```{r, echo = FALSE, fig.alt = "Gif of tidyxl converting cells into a tidy representation of one row per cell"}
+knitr::include_graphics("./vignettes/tidy_xlsx.gif")
+```
 
 What can you do with tidy cells?  The best places to start are:
 

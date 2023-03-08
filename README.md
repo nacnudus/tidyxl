@@ -11,6 +11,7 @@ Status](http://www.r-pkg.org/badges/version/tidyxl)](https://cran.r-project.org/
 [![Cran
 Downloads](https://cranlogs.r-pkg.org/badges/tidyxl)](https://www.r-pkg.org/pkg/tidyxl)
 [![codecov](https://app.codecov.io/gh/nacnudus/tidyxl/coverage.svg?branch=master)](https://app.codecov.io/gh/nacnudus/tidyxl)
+[![R-CMD-check](https://github.com/nacnudus/tidyxl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nacnudus/tidyxl/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 [tidyxl](https://github.com/nacnudus/tidyxl) imports non-tabular data
@@ -32,8 +33,7 @@ spreadsheets.
 
 Tidyxl represents each cell as one row in a dataframe. Like this.
 
-![Gif of tidyxl converting cells into a tidy representation of one row
-per cell](./vignettes/tidy_xlsx.gif)
+<img src="./vignettes/tidy_xlsx.gif" alt="Gif of tidyxl converting cells into a tidy representation of one row per cell"  />
 
 What can you do with tidy cells? The best places to start are:
 
