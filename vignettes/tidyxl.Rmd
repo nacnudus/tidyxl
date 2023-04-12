@@ -101,7 +101,9 @@ The original spreadsheet has formatting applied to the cells.  This can also be
 retrieved using [tidyxl](https://github.com/nacnudus/tidyxl), with the
 `xlsx_formats()` function.
 
-![](./titanic-screenshot.png)
+```{r, echo = FALSE, fig.alt = "Screenshot of a spreadsheet with meaningful formatting"}
+knitr::include_graphics("titanic-screenshot.png")
+```
 
 Formatting is available by using the columns `local_format_id` and
 `style_format` as indexes into a separate list-of-lists structure.  'Local'
@@ -109,7 +111,9 @@ formatting is the most common kind, applied to individual cells.  'Style'
 formatting is usually applied to blocks of cells, and defines several formats at
 once.  Here is a screenshot of the styles buttons in Excel.
 
-![](./styles-screenshot.png)
+```{r, echo = FALSE, fig.alt = "Screenshot of a formatting options available in Excel"}
+knitr::include_graphics("styles-screenshot.png")
+```
 
 Formatting can be looked up as follows.
 

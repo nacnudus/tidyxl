@@ -33,7 +33,7 @@ spreadsheets.
 
 Tidyxl represents each cell as one row in a dataframe. Like this.
 
-<img src="./vignettes/tidy_xlsx.gif" alt="Gif of tidyxl converting cells into a tidy representation of one row per cell"  />
+<img src="man/figures/tidy_xlsx.gif" alt="Gif of tidyxl converting cells into a tidy representation of one row per cell"  />
 
 What can you do with tidy cells? The best places to start are:
 
@@ -185,7 +185,7 @@ The original spreadsheet has formatting applied to the cells. This can
 also be retrieved using [tidyxl](https://github.com/nacnudus/tidyxl),
 with the `xlsx_formats()` function.
 
-![](./vignettes/titanic-screenshot.png)
+<img src="vignettes/titanic-screenshot.png" alt="Screenshot of a spreadsheet with meaningful formatting"  />
 
 Formatting is available by using the columns `local_format_id` and
 `style_format` as indexes into a separate list-of-lists structure.
@@ -194,7 +194,7 @@ Formatting is available by using the columns `local_format_id` and
 several formats at once. Here is a screenshot of the styles buttons in
 Excel.
 
-![](./vignettes/styles-screenshot.png)
+<img src="vignettes/styles-screenshot.png" alt="Screenshot of a formatting options available in Excel"  />
 
 Formatting can be looked up as follows.
 

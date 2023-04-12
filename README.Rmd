@@ -41,7 +41,7 @@ understanding the dependency structures within spreadsheets.
 Tidyxl represents each cell as one row in a dataframe.  Like this.
 
 ```{r, echo = FALSE, fig.alt = "Gif of tidyxl converting cells into a tidy representation of one row per cell"}
-knitr::include_graphics("./vignettes/tidy_xlsx.gif")
+knitr::include_graphics("man/figures/tidy_xlsx.gif")
 ```
 
 What can you do with tidy cells?  The best places to start are:
@@ -115,7 +115,9 @@ The original spreadsheet has formatting applied to the cells.  This can also be
 retrieved using [tidyxl](https://github.com/nacnudus/tidyxl), with the
 `xlsx_formats()` function.
 
-![](./vignettes/titanic-screenshot.png)
+```{r, echo = FALSE, fig.alt = "Screenshot of a spreadsheet with meaningful formatting"}
+knitr::include_graphics("vignettes/titanic-screenshot.png")
+```
 
 Formatting is available by using the columns `local_format_id` and
 `style_format` as indexes into a separate list-of-lists structure.  'Local'
@@ -123,7 +125,9 @@ formatting is the most common kind, applied to individual cells.  'Style'
 formatting is usually applied to blocks of cells, and defines several formats at
 once.  Here is a screenshot of the styles buttons in Excel.
 
-![](./vignettes/styles-screenshot.png)
+```{r, echo = FALSE, fig.alt = "Screenshot of a formatting options available in Excel"}
+knitr::include_graphics("vignettes/styles-screenshot.png")
+```
 
 Formatting can be looked up as follows.
 
