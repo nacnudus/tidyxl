@@ -89,7 +89,7 @@
 <h2 id="make-cells-tidy">Make cells tidy<a class="anchor" aria-label="anchor" href="#make-cells-tidy"></a>
 </h2>
 <p>Tidyxl represents each cell as one row in a dataframe. Like this.</p>
-<p><img src="./articles/tidy_xlsx.gif" alt="Gif of tidyxl converting cells into a tidy representation of one row per cell"></p>
+<p><img src="reference/figures/tidy_xlsx.gif" alt="Gif of tidyxl converting cells into a tidy representation of one row per cell"></p>
 <p>What can you do with tidy cells? The best places to start are:</p>
 <ul>
 <li>
@@ -214,9 +214,9 @@
 <h3 id="formatting">Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a>
 </h3>
 <p>The original spreadsheet has formatting applied to the cells. This can also be retrieved using <a href="https://github.com/nacnudus/tidyxl" class="external-link">tidyxl</a>, with the <code><a href="reference/xlsx_formats.html">xlsx_formats()</a></code> function.</p>
-<p><img src="./articles/titanic-screenshot.png"></p>
+<p><img src="articles/titanic-screenshot.png" alt="Screenshot of a spreadsheet with meaningful formatting"></p>
 <p>Formatting is available by using the columns <code>local_format_id</code> and <code>style_format</code> as indexes into a separate list-of-lists structure. ‘Local’ formatting is the most common kind, applied to individual cells. ‘Style’ formatting is usually applied to blocks of cells, and defines several formats at once. Here is a screenshot of the styles buttons in Excel.</p>
-<p><img src="./articles/styles-screenshot.png"></p>
+<p><img src="articles/styles-screenshot.png" alt="Screenshot of a formatting options available in Excel"></p>
 <p>Formatting can be looked up as follows.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Bold</span></span>
