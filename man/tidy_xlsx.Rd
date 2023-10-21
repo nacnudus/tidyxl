@@ -92,10 +92,12 @@ alpha channel in the first two characters.  The 'index' and the 'theme'
 name are still provided.  To filter by an RGB string, you could  look up
 the RGB values in a spreadsheet program (e.g. Excel, LibreOffice,
 Gnumeric), and use the \code{\link[grDevices:rgb]{grDevices::rgb()}} function to convert these to a
-hexadecimal string.  Put the alpha value in first, e.g.\preformatted{A <- 1; R <- 0.5; G <- 0; B <- 0
+hexadecimal string.  Put the alpha value in first, e.g.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{A <- 1; R <- 0.5; G <- 0; B <- 0
 rgb(A, R, G, B)
 # [1] "#FF800000"
-}
+}\if{html}{\out{</div>}}
 
 Strings can be formatted within a cell, so that a single cell can contain
 substrings with different formatting.  This in-cell formatting is available

@@ -24,7 +24,8 @@ NULL
 #' * [tidyxl::xlsx_colour_theme()] Imports a data frame of theme colour names
 #'   and their RGB values from an xlsx file.
 #' * [tidyxl::xlex()] Tokenise (lex) an Excel formula.
-#'
-#' @docType package
-#' @name tidyxl
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
 NULL
