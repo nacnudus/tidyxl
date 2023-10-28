@@ -1,3 +1,5 @@
+# tidyxl 1.0.9
+
 # tidyxl 1.0.8
 
 * tidyxl is now licensed as MIT (#63).
