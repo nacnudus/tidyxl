@@ -19,7 +19,7 @@ from Excel files into R. It exposes cell content, position, formatting
 and comments in a tidy structure for further manipulation, especially by
 the [unpivotr](https://github.com/nacnudus/unpivotr) package. It
 supports the xml-based file formats ‘.xlsx’ and ‘.xlsm’ via the embedded
-[RapidXML](http://rapidxml.sourceforge.net) C++ library. It does not
+[RapidXML](https://rapidxml.sourceforge.net) C++ library. It does not
 support the binary file formats ‘.xlsb’ or ‘.xls’.
 
 It also provides a function `xlex()` for tokenizing formulas. See the
@@ -69,9 +69,9 @@ following pivot table:
 
 ``` r
 ftable(Titanic, row.vars = 1:2)
-#>              Age      Child     Adult    
+#>              Age      Child     Adult
 #>              Survived    No Yes    No Yes
-#> Class Sex                                
+#> Class Sex
 #> 1st   Male                0   5   118  57
 #>       Female              0   1     4 140
 #> 2nd   Male                0  11   154  14
@@ -96,17 +96,17 @@ readxl::read_excel(titanic)
 #> • `` -> `...5`
 #> • `` -> `...7`
 #> # A tibble: 10 × 7
-#>    ...1  ...2   Age      Child ...5  Adult ...7 
+#>    ...1  ...2   Age      Child ...5  Adult ...7
 #>    <chr> <chr>  <chr>    <chr> <chr> <chr> <chr>
-#>  1 <NA>  <NA>   Survived No    Yes   No    Yes  
-#>  2 Class Sex    <NA>     <NA>  <NA>  <NA>  <NA> 
-#>  3 1st   Male   <NA>     0     5     118   57   
-#>  4 <NA>  Female <NA>     0     1     4     140  
-#>  5 2nd   Male   <NA>     0     11    154   14   
-#>  6 <NA>  Female <NA>     0     13    13    80   
-#>  7 3rd   Male   <NA>     35    13    387   75   
-#>  8 <NA>  Female <NA>     17    14    89    76   
-#>  9 Crew  Male   <NA>     0     0     670   192  
+#>  1 <NA>  <NA>   Survived No    Yes   No    Yes
+#>  2 Class Sex    <NA>     <NA>  <NA>  <NA>  <NA>
+#>  3 1st   Male   <NA>     0     5     118   57
+#>  4 <NA>  Female <NA>     0     1     4     140
+#>  5 2nd   Male   <NA>     0     11    154   14
+#>  6 <NA>  Female <NA>     0     13    13    80
+#>  7 3rd   Male   <NA>     35    13    387   75
+#>  8 <NA>  Female <NA>     17    14    89    76
+#>  9 Crew  Male   <NA>     0     0     670   192
 #> 10 <NA>  Female <NA>     0     0     3     20
 ```
 
@@ -152,17 +152,17 @@ In this structure, the cells can be found by filtering.
 x[x$data_type == "character", c("address", "character")]
 #> # A tibble: 22 × 2
 #>    address character
-#>    <chr>   <chr>    
-#>  1 C1      Age      
-#>  2 D1      Child    
-#>  3 F1      Adult    
-#>  4 C2      Survived 
-#>  5 D2      No       
-#>  6 E2      Yes      
-#>  7 F2      No       
-#>  8 G2      Yes      
-#>  9 A3      Class    
-#> 10 B3      Sex      
+#>    <chr>   <chr>
+#>  1 C1      Age
+#>  2 D1      Child
+#>  3 F1      Adult
+#>  4 C2      Survived
+#>  5 D2      No
+#>  6 E2      Yes
+#>  7 F2      No
+#>  8 G2      Yes
+#>  9 A3      Class
+#> 10 B3      Sex
 #> # … with 12 more rows
 x[x$row == 4, c("address", "character", "numeric")]
 #> # A tibble: 6 × 3
@@ -207,10 +207,10 @@ x[x$local_format_id %in% which(formats$local$font$bold),
   c("address", "character")]
 #> # A tibble: 4 × 2
 #>   address character
-#>   <chr>   <chr>    
-#> 1 C1      Age      
-#> 2 C2      Survived 
-#> 3 A3      Class    
+#>   <chr>   <chr>
+#> 1 C1      Age
+#> 2 C2      Survived
+#> 3 A3      Class
 #> 4 B3      Sex
 
 # Yellow fill
@@ -227,17 +227,17 @@ x[x$local_format_id %in%
 
 # Styles by name
 formats$style$font$name["Normal"]
-#>    Normal 
+#>    Normal
 #> "Calibri"
 head(x[x$style_format == "Normal", c("address", "character")])
 #> # A tibble: 6 × 2
 #>   address character
-#>   <chr>   <chr>    
-#> 1 C1      Age      
-#> 2 D1      Child    
-#> 3 E1      <NA>     
-#> 4 F1      Adult    
-#> 5 G1      <NA>     
+#>   <chr>   <chr>
+#> 1 C1      Age
+#> 2 D1      Child
+#> 3 E1      <NA>
+#> 4 F1      Adult
+#> 5 G1      <NA>
 #> 6 C2      Survived
 
 # In-cell formatting is available in the `character_formatted` column as a data
@@ -278,8 +278,8 @@ Comments are available alongside cell values.
 ``` r
 x[!is.na(x$comment), c("address", "comment")]
 #> # A tibble: 1 × 2
-#>   address comment                                                    
-#>   <chr>   <chr>                                                      
+#>   address comment
+#>   <chr>   <chr>
 #> 1 G11     All women in the crew worked in the victualling department.
 ```
 
@@ -294,18 +294,18 @@ y[!is.na(y$formula),
   c("address", "formula", "is_array", "formula_ref", "formula_group",
     "error", "logical", "numeric", "date", "character")]
 #> # A tibble: 32 × 10
-#>    address formula             is_array formula_ref formula_group error   logical numeric date                character 
-#>    <chr>   <chr>               <lgl>    <chr>               <int> <chr>   <lgl>     <dbl> <dttm>              <chr>     
-#>  1 A1      "1/0"               FALSE    <NA>                   NA #DIV/0! NA           NA NA                  <NA>      
-#>  2 A14     "1=1"               FALSE    <NA>                   NA <NA>    TRUE         NA NA                  <NA>      
-#>  3 A15     "A4+1"              FALSE    <NA>                   NA <NA>    NA         1338 NA                  <NA>      
-#>  4 A16     "DATE(2017,1,18)"   FALSE    <NA>                   NA <NA>    NA           NA 2017-01-18 00:00:00 <NA>      
+#>    address formula             is_array formula_ref formula_group error   logical numeric date                character
+#>    <chr>   <chr>               <lgl>    <chr>               <int> <chr>   <lgl>     <dbl> <dttm>              <chr>
+#>  1 A1      "1/0"               FALSE    <NA>                   NA #DIV/0! NA           NA NA                  <NA>
+#>  2 A14     "1=1"               FALSE    <NA>                   NA <NA>    TRUE         NA NA                  <NA>
+#>  3 A15     "A4+1"              FALSE    <NA>                   NA <NA>    NA         1338 NA                  <NA>
+#>  4 A16     "DATE(2017,1,18)"   FALSE    <NA>                   NA <NA>    NA           NA 2017-01-18 00:00:00 <NA>
 #>  5 A17     "\"Hello, World!\"" FALSE    <NA>                   NA <NA>    NA           NA NA                  Hello, Wo…
-#>  6 A19     "$A$18+1"           FALSE    <NA>                   NA <NA>    NA            2 NA                  <NA>      
-#>  7 B19     "A18+2"             FALSE    <NA>                   NA <NA>    NA            3 NA                  <NA>      
-#>  8 A20     "$A$18+1"           FALSE    A20:A21                 0 <NA>    NA            2 NA                  <NA>      
-#>  9 B20     "A19+2"             FALSE    B20:B21                 1 <NA>    NA            4 NA                  <NA>      
-#> 10 A21     "$A$18+1"           FALSE    <NA>                    0 <NA>    NA            2 NA                  <NA>      
+#>  6 A19     "$A$18+1"           FALSE    <NA>                   NA <NA>    NA            2 NA                  <NA>
+#>  7 B19     "A18+2"             FALSE    <NA>                   NA <NA>    NA            3 NA                  <NA>
+#>  8 A20     "$A$18+1"           FALSE    A20:A21                 0 <NA>    NA            2 NA                  <NA>
+#>  9 B20     "A19+2"             FALSE    B20:B21                 1 <NA>    NA            4 NA                  <NA>
+#> 10 A21     "$A$18+1"           FALSE    <NA>                    0 <NA>    NA            2 NA                  <NA>
 #> # … with 22 more rows
 ```
 
@@ -369,7 +369,7 @@ constants in formulas.
 ``` r
 x <- xlex("MIN(3,MAX(2,A1))")
 x
-#> root            
+#> root
 #> ¦-- MIN         function
 #> °-- (           fun_open
 #>     ¦-- 3       number
@@ -422,21 +422,21 @@ for details.
 xlsx_validation(examples)
 #> # A tibble: 15 × 14
 #>    sheet  ref            type    opera…¹ formu…² formu…³ allow…⁴ show_…⁵ promp…⁶ promp…⁷ show_…⁸ error…⁹ error…˟ error…˟
-#>    <chr>  <chr>          <chr>   <chr>   <chr>   <chr>   <lgl>   <lgl>   <chr>   <chr>   <lgl>   <chr>   <chr>   <chr>  
-#>  1 Sheet1 A106           whole   between 0       9       TRUE    TRUE    messag… messag… TRUE    error … error … stop   
+#>    <chr>  <chr>          <chr>   <chr>   <chr>   <chr>   <lgl>   <lgl>   <chr>   <chr>   <lgl>   <chr>   <chr>   <chr>
+#>  1 Sheet1 A106           whole   between 0       9       TRUE    TRUE    messag… messag… TRUE    error … error … stop
 #>  2 Sheet1 A108           list    <NA>    $B$108  <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    warning
-#>  3 Sheet1 A110           date    between 2017-0… 2017-0… TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#>  4 Sheet1 A111           time    between 00:00:… 09:00:… TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#>  5 Sheet1 A112           textLe… between 0       9       TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#>  6 Sheet1 A114           whole   notBet… 0       9       TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#>  7 Sheet1 A115,A121:A122 whole   equal   0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#>  8 Sheet1 A116           whole   notEqu… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#>  9 Sheet1 A117           whole   greate… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#> 10 Sheet1 A119           whole   greate… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#> 11 Sheet1 A120           whole   lessTh… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#> 12 Sheet1 A118           whole   lessTh… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
-#> 13 Sheet1 A107           decimal notBet… 0       9       FALSE   FALSE   <NA>    <NA>    FALSE   <NA>    <NA>    stop   
-#> 14 Sheet1 A113           custom  <NA>    A113<=… <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop   
+#>  3 Sheet1 A110           date    between 2017-0… 2017-0… TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#>  4 Sheet1 A111           time    between 00:00:… 09:00:… TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#>  5 Sheet1 A112           textLe… between 0       9       TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#>  6 Sheet1 A114           whole   notBet… 0       9       TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#>  7 Sheet1 A115,A121:A122 whole   equal   0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#>  8 Sheet1 A116           whole   notEqu… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#>  9 Sheet1 A117           whole   greate… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#> 10 Sheet1 A119           whole   greate… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#> 11 Sheet1 A120           whole   lessTh… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#> 12 Sheet1 A118           whole   lessTh… 0       <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
+#> 13 Sheet1 A107           decimal notBet… 0       9       FALSE   FALSE   <NA>    <NA>    FALSE   <NA>    <NA>    stop
+#> 14 Sheet1 A113           custom  <NA>    A113<=… <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    stop
 #> 15 Sheet1 A109           list    <NA>    $B$108  <NA>    TRUE    TRUE    <NA>    <NA>    TRUE    <NA>    <NA>    inform…
 #> # … with abbreviated variable names ¹​operator, ²​formula1, ³​formula2, ⁴​allow_blank, ⁵​show_input_message, ⁶​prompt_title,
 #> #   ⁷​prompt_body, ⁸​show_error_message, ⁹​error_title, ˟​error_body, ˟​error_symbol
