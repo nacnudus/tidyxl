@@ -9,7 +9,7 @@
 #' @format A character vector of length 600.
 #' @source Pages 26--27 of Microsoft's document "Excel (.xlsx) extensions to the
 #' office openxml spreadsheetml file format p.24"
-#' \url{https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/2c5dee00-eff2-4b22-92b6-0738acd4475e},
+#' \url{https://learn.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/2c5dee00-eff2-4b22-92b6-0738acd4475e},
 #' revision 8.0 2017-06-20.
 "excel_functions"
 
