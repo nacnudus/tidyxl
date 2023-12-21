@@ -71,12 +71,12 @@ void xlsxcell::cacheValue(
     ) {
   // 'v' for 'value' is either literal (numeric) or an index into a string table
   rapidxml::xml_node<>* v = cell->first_node("v");
+  rapidxml::xml_node<>* is = cell->first_node("is");
+
   std::string vvalue;
   if (v != NULL) {
     vvalue = v->value();
     SET_STRING_ELT(book.content_, i, Rf_mkCharCE(vvalue.c_str(), CE_UTF8));
-  } else {
-    book.is_blank_[i] = true;
   }
 
   // 't' for 'type' defines the meaning of 'v' for value
@@ -100,15 +100,18 @@ void xlsxcell::cacheValue(
 
   if (t != NULL && tvalue == "inlineStr") {
     book.data_type_[i] = "character";
-    rapidxml::xml_node<>* is = cell->first_node("is");
     if (is != NULL) { // Get the inline string if it's really there
+      // Parse it as though it's a simple string
       std::string inlineString;
       parseString(is, inlineString); // value is modified in place
+      // Also parse it as though it's a formatted string
       SET_STRING_ELT(book.character_, i, Rf_mkCharCE(inlineString.c_str(), CE_UTF8));
+      book.character_formatted_[i] = parseFormattedString(is, book.styles_);
     }
     return;
   } else if (v == NULL) {
     // Can't now be an inline string (tested above)
+    book.is_blank_[i] = true;
     book.data_type_[i] = "blank";
     return;
   } else if (t == NULL || tvalue == "n") {
