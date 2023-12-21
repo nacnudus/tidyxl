@@ -1,3 +1,5 @@
+# tidyxl 1.0.10
+
 # tidyxl 1.0.9
 
 * CRAN fixes
