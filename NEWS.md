@@ -1,5 +1,8 @@
 # tidyxl 1.0.10
 
+* Fixed a bug in the support for formatted strings, which sometimes weren't
+  being imported (#92)
+
 # tidyxl 1.0.9
 
 * CRAN fixes
