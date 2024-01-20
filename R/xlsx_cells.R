@@ -14,9 +14,13 @@
 #' xlsm) by looking at the file itself, rather than using the filename
 #' extension.
 #' @param include_blank_cells Logical. Whether to include cells that have no
-#' value or formula (but might have formatting or comments).  Useful when a
-#' whole column of cells has been formatted, but most are empty.  Try setting
-#' this to `FALSE` if a spreadsheet seems too large to load.
+#' value or formula (but might have formatting or comments). Useful when a
+#' whole column of cells has been formatted, but most are empty. Try setting
+#' this to `FALSE` if a spreadsheet seems too large to load. Cells that are not
+#' included in the Excel file because they do not contain a value, a formula, a
+#' comment or some formatting still won't be included even if
+#' `include_blank_cells` is set to `TRUE`. If rows for these cells are required
+#' in the output, `tidyr::complete` may be useful.
 #'
 #' @return
 #' A data frame with the following columns.
